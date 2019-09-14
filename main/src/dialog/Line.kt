@@ -1,0 +1,5 @@
+package dialog
+
+class Line {
+
+}
