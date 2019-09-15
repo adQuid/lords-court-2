@@ -7,9 +7,13 @@ class GameCase {
     val probability: Double
 
     constructor(game: Game, potentialActions: PotentialActions){
-        this.game = game
+        this.game = Game(game)
         this.game.actionsByPlayer[potentialActions.player] = potentialActions.actions
         probability = potentialActions.probability
     }
 
+    override fun toString(): String {
+        return game.actionsByPlayer.keys.fold("ACTIONS: ", {acc,
+                                                              key -> acc + " for player "+ key.name + ": " + game.actionsByPlayer[key]!!.fold("", {acc2, action -> acc2 + action.type.toString()})})
+    }
 }

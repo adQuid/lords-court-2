@@ -17,4 +17,8 @@ class Player {
         }
         return false
     }
+
+    override fun hashCode(): Int {
+        return name.hashCode()
+    }
 }

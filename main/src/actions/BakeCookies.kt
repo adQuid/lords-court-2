@@ -6,7 +6,11 @@ import game.Player
 
 class BakeCookies: Action.ActionType() {
     override fun doAction(game: Game, player: Player) {
-        game.deliciousness = game.deliciousness++
+        println("delicious cookies baked")
+        game.deliciousness++
     }
 
+    override fun toString(): String {
+        return "bake tasty cookies!"
+    }
 }

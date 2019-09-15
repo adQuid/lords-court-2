@@ -17,7 +17,7 @@ class Brain {
         this.player = player
     }
 
-    fun determineIdealPlan(game: Game): Plan{
+    fun plansOfConcern(game: Game): Map<GameCase, Double>{
         val topPlayers = safeSublist(mostSignificantPlayersToMe(game),0,maxPlayersToThinkAbout)
 
         var cases = mutableListOf<GameCase>()
@@ -30,10 +30,13 @@ class Brain {
 
         cases.sortBy { case -> -case.probability }
         var importantCases = safeSublist(cases,0, maxPlansToThinkAbout)
+        var retval = HashMap<GameCase, Double>()
 
+        importantCases.forEach{
+            retval[it] = supposeCase(it)
+        }
 
-
-        return Plan(ArrayList<Map<Player,Action>>())
+        return retval
     }
 
     fun mostSignificantPlayersToMe(game: Game): List<Player>{
