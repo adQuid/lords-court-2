@@ -1,19 +1,21 @@
 package aibrain
 
+import action.Effect
 import game.Game
 
 class GameCase {
     val game: Game
-    val probability: Double
+    val plan: Plan
 
-    constructor(game: Game, potentialActions: PotentialActions){
+    constructor(game: Game, plan: Plan, effects: List<Effect>){
         this.game = Game(game)
-        this.game.actionsByPlayer[potentialActions.player] = potentialActions.actions
-        probability = potentialActions.probability
+        this.plan = plan
+        effects.forEach { it.apply(this.game) }
+        this.game.commitActionsForPlayer(plan.player, plan.actions)
+        this.game.endTurn()
     }
 
     override fun toString(): String {
-        return game.actionsByPlayer.keys.fold("ACTIONS: ", {acc,
-                                                              key -> acc + " for player "+ key.name + ": " + game.actionsByPlayer[key]!!.fold("", {acc2, action -> acc2 + action.type.toString()})})
+        return plan.actions.fold("ACTIONS: ", {acc, action -> "$acc $action" })
     }
 }

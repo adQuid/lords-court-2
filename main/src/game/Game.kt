@@ -1,6 +1,6 @@
 package game
 
-import java.util.function.Consumer
+import action.Action
 
 class Game {
     var turn = 1
@@ -11,12 +11,9 @@ class Game {
     var deliciousness = 0
 
     constructor(){
-        players.add(Player("player"))
-        players.add(Player("npc"))
-
-        players.forEach{
-            actionsByPlayer[it] = listOf()
-        }
+        players.add(Player("player", false))
+        players.add(Player("npc", true))
+        
     }
 
     constructor(other: Game){
@@ -25,7 +22,7 @@ class Game {
         }
     }
 
-    fun image(): Game{
+    fun imageFor(player: Player): Game{
         var retval = Game(this)
 
         players.forEach{
@@ -34,11 +31,32 @@ class Game {
         return retval
     }
 
+    fun commitActionsForPlayer(player: Player, actions: List<Action>){
+        actionsByPlayer[player] = actions
+        if(actionsByPlayer.keys.size == players.size){
+            endTurn()
+        }
+    }
+
     fun endTurn(){
         players.forEach{ player ->
             actionsByPlayer[player]?.forEach{
-                it.type.doAction(this, player)
+                it.type.doAction(this, player).forEach{
+                    it.apply(this)
+                }
             }
         }
+
+        actionsByPlayer.clear()
+    }
+    
+     @Synchronized fun nextPlayerWithoutActions(): Player?{
+         for (player in players) {
+                 if (player.brain.lastIdea != null && !(player.npc)) {
+                     return player
+                 }
+         }
+
+        return null
     }
 }

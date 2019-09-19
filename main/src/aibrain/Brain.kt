@@ -1,11 +1,11 @@
 package aibrain
 
-import actions.BakeCookies
-import game.Action
+import actionTypes.BakeCookies
+import action.Action
+import action.Effect
 import game.Game
 import game.Player
 import util.safeSublist
-import java.math.BigDecimal
 
 class Brain {
     var player: Player
@@ -13,27 +13,45 @@ class Brain {
     var maxPlayersToThinkAbout = 3
     var maxPlansToThinkAbout = 9
 
+    var lastIdea: Map<GameCase, Double>? = null
+
     constructor(player: Player){
         this.player = player
     }
 
-    fun plansOfConcern(game: Game): Map<GameCase, Double>{
-        val topPlayers = safeSublist(mostSignificantPlayersToMe(game),0,maxPlayersToThinkAbout)
+    fun casesOfConcern(game: Game): Map<GameCase, Double>{
+        var myGame = game.imageFor(player)
+
+        val topPlayers = safeSublist(mostSignificantPlayersToMe(myGame),0,maxPlayersToThinkAbout)
+
+        val likelyPlans = HashMap<Player, List<Plan>>()
+        topPlayers.forEach{player ->
+            likelyPlans[player] = possibleActionsForPlayer(myGame, player)
+        }
 
         var cases = mutableListOf<GameCase>()
+        var retval = HashMap<GameCase,Double>()
+        for(player in likelyPlans.keys){
+            var effects = mutableListOf<Effect>()
+            for(otherPlayer in likelyPlans.keys) {
+                if(otherPlayer != player) {
+                    for (plan in likelyPlans[otherPlayer]!!) {
+                        for (action in plan.actions) {
+                            effects.addAll(
+                                action.type.doAction(myGame,plan.player).map { effect -> effect.layerProbability(plan.probability) })
+                        }
+                    }
+                }
+            }
 
-        topPlayers.forEach{player ->
-            possibleActionsForPlayer(game, player).forEach{actions ->
-               cases.add(GameCase(game, actions))
+            likelyPlans[player]!!.forEach {
+                val toAdd = GameCase(myGame, it, effects)
+                retval[toAdd] = evaluateGame(toAdd.game) * it.probability
             }
         }
 
-        cases.sortBy { case -> -case.probability }
-        var importantCases = safeSublist(cases,0, maxPlansToThinkAbout)
-        var retval = HashMap<GameCase, Double>()
-
-        importantCases.forEach{
-            retval[it] = supposeCase(it)
+        cases.forEach{
+            retval.put(it, evaluateGame(it.game))
         }
 
         return retval
@@ -50,18 +68,13 @@ class Brain {
         return retval
     }
 
-    private fun possibleActionsForPlayer(game: Game, player: Player): List<PotentialActions>{
-        var retval = ArrayList<PotentialActions>()
-        retval.add(PotentialActions(player, listOf<Action>(), 0.5))
+    private fun possibleActionsForPlayer(game: Game, player: Player): List<Plan>{
+        var retval = ArrayList<Plan>()
+        retval.add(Plan(player, listOf<Action>(), 0.5))
         if(player.name == "player"){
-            retval.add(PotentialActions(player,listOf(Action(BakeCookies())), 0.5))
+            retval.add(Plan(player,listOf(Action(BakeCookies())), 0.5))
         }
         return retval
-    }
-
-    private fun supposeCase(gameCase: GameCase): Double{
-        gameCase.game.endTurn()
-        return evaluateGame(gameCase.game) * gameCase.probability
     }
 
     private fun evaluateGame(game: Game): Double {
