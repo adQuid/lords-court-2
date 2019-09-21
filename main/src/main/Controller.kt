@@ -1,19 +1,22 @@
 package main
 
-import aibrain.Brain
 import aibrain.BrainThread
 import game.Game
+
+var singleton: Controller? = null
 
 class Controller {
 
     var game: Game? = null
 
-    val brainThread1 = Thread(BrainThread(this))
+    private val brainThread1 = Thread(BrainThread(this))
 
+    constructor(){
+        game = Game()
+        brainThread1.start()
+    }
 }
 
 fun main() {
-    var game = Game()
-    var testBrain = Brain(game.players[1])
-    println(testBrain.casesOfConcern(game))
+    singleton = Controller()
 }

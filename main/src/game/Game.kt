@@ -11,7 +11,7 @@ class Game {
     var deliciousness = 0
 
     constructor(){
-        players.add(Player("player", false))
+        players.add(Player("Melkar the Magnificant", false))
         players.add(Player("npc", true))
         
     }
@@ -26,7 +26,7 @@ class Game {
         var retval = Game(this)
 
         players.forEach{
-            actionsByPlayer[it] = listOf()
+            retval.actionsByPlayer[it] = listOf()
         }
         return retval
     }
@@ -52,7 +52,7 @@ class Game {
     
      @Synchronized fun nextPlayerWithoutActions(): Player?{
          for (player in players) {
-                 if (player.brain.lastIdea != null && !(player.npc)) {
+                 if (actionsByPlayer[player] == null && (player.npc)) {
                      return player
                  }
          }

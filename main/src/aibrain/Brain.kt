@@ -8,15 +8,47 @@ import game.Player
 import util.safeSublist
 
 class Brain {
-    var player: Player
+    val player: Player
 
     var maxPlayersToThinkAbout = 3
     var maxPlansToThinkAbout = 9
 
-    var lastIdea: Map<GameCase, Double>? = null
+    var lastCasesOfConcern: Map<GameCase, Double>? = null
+    var lastFavoriteCase: GameCase? = null
+    var lastFavoriteEffects: List<Effect>? = null
 
     constructor(player: Player){
         this.player = player
+    }
+
+    fun thinkAboutNextTurn(game: Game): List<Action>{
+        lastCasesOfConcern = casesOfConcern(game)
+        calculateFavoriteEffects()
+        return listOf<Action>()
+    }
+
+    fun calculateFavoriteEffects(){
+        var cases = lastCasesOfConcern
+
+        val averageScore = cases!!.values.average()
+
+        val modCases = HashMap<GameCase, Double>()
+
+        cases.forEach { entry -> modCases[entry.key] = (entry.value - averageScore) * entry.key.probability() }
+
+        var orderedCaseList = modCases.toList().sortedBy { (key, value) -> value }
+
+        val bestCase = orderedCaseList[orderedCaseList.size-1].first
+        var bestCaseEffects = bestCase.effects.toMutableList()
+
+        for(index in 0..orderedCaseList.size-2){
+            if(orderedCaseList[index].second < 0){
+                bestCaseEffects.removeAll(orderedCaseList[index].first.effects)
+            }
+        }
+
+        lastFavoriteCase = bestCase
+        lastFavoriteEffects = bestCaseEffects
     }
 
     fun casesOfConcern(game: Game): Map<GameCase, Double>{
@@ -29,7 +61,6 @@ class Brain {
             likelyPlans[player] = possibleActionsForPlayer(myGame, player)
         }
 
-        var cases = mutableListOf<GameCase>()
         var retval = HashMap<GameCase,Double>()
         for(player in likelyPlans.keys){
             var effects = mutableListOf<Effect>()
@@ -50,10 +81,6 @@ class Brain {
             }
         }
 
-        cases.forEach{
-            retval.put(it, evaluateGame(it.game))
-        }
-
         return retval
     }
 
@@ -71,7 +98,7 @@ class Brain {
     private fun possibleActionsForPlayer(game: Game, player: Player): List<Plan>{
         var retval = ArrayList<Plan>()
         retval.add(Plan(player, listOf<Action>(), 0.5))
-        if(player.name == "player"){
+        if(player.name == "Melkar the Magnificant"){
             retval.add(Plan(player,listOf(Action(BakeCookies())), 0.5))
         }
         return retval

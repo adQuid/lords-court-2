@@ -19,7 +19,8 @@ class BrainThread: Runnable {
                 continue
             }
 
-            curPlayer.brain.lastIdea = curPlayer.brain.casesOfConcern(parent.game!!)
+            parent.game!!.commitActionsForPlayer(curPlayer, curPlayer.brain.thinkAboutNextTurn(parent.game!!))
+            println("turn commited for $curPlayer")
         }
     }
 }
