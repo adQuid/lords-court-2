@@ -1,5 +1,7 @@
 package ui
 
+import game.Conversation
+import game.Player
 import javafx.application.Application;
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
@@ -12,18 +14,36 @@ import javafx.scene.layout.FlowPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.layout.StackPane
+import javafx.stage.WindowEvent
+import main.Controller
+import java.lang.System.exit
+import kotlin.system.exitProcess
 
+class MainUI() : Application() {
 
-class Test : Application() {
     var stage: Stage? = null
 
     var totalWidth = 800.0
     var totalHeight = 600.0
 
+    var conversation: Conversation? = null
+
     override fun start(primaryStage: Stage) {
-        this.stage = primaryStage
-        primaryStage.scene = outOfConvoPage()
-        primaryStage.show()
+        primaryStage.onCloseRequest = EventHandler<WindowEvent> { exitProcess(0) }
+        stage = primaryStage
+
+        display()
+    }
+
+    fun display(){
+        if(conversation != null){
+            this.stage!!.scene = inConvoPage()
+        } else {
+            this.stage!!.scene = outOfConvoPage()
+        }
+
+
+        this.stage!!.show()
     }
 
     fun outOfConvoPage(): Scene{
@@ -51,7 +71,7 @@ class Test : Application() {
         buttonsPane.add(btn6, 1,1)
         val btn7 = makeShortButton("filler", null)
         buttonsPane.add(btn7, 2,1)
-        val btn8 = makeShortButton("Cancel", EventHandler{ _ -> this.stage!!.scene = outOfConvoPage()})
+        val btn8 = makeShortButton("Cancel", EventHandler{ _ -> this.conversation = null; display()})
         buttonsPane.add(btn8, 3,1)
 
 
@@ -68,9 +88,15 @@ class Test : Application() {
         return scene
     }
 
+    private fun establishConversation(){
+        conversation = Controller.singleton!!.createConversation(Controller.singleton!!.game!!.playerCharacter(), Controller.singleton!!.game!!.players[1])
+
+        display()
+    }
+
     private fun outOfConvoButtons(): Pane {
         val bottomButtonsPanel = FlowPane()
-        val btn1 = makeTallButton("Converse", EventHandler{ _ -> this.stage!!.scene = inConvoPage() })
+        val btn1 = makeTallButton("Converse", EventHandler{ _ -> establishConversation() })
         val btn2 = makeTallButton("Filler 1", null)
         val btn3 =  makeTallButton("Filler 2", null)
         bottomButtonsPanel.children.add(btn1)
@@ -112,8 +138,4 @@ class Test : Application() {
         }
         return retval
     }
-}
-
-fun main(args: Array<String>) {
-    Application.launch(Test::class.java)
 }

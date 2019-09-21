@@ -1,5 +1,5 @@
 package dialog
 
-class Line {
+abstract class Line {
 
 }

@@ -56,7 +56,15 @@ class Game {
                      return player
                  }
          }
-
         return null
+    }
+
+    fun playerCharacter(): Player{
+        players.forEach {
+            if(!it.npc){
+                return it
+            }
+        }
+        throw Exception("No player found!")
     }
 }
