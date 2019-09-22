@@ -3,7 +3,12 @@ package ui
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
-import main.Controller
+import javafx.scene.layout.Pane
+import javafx.scene.text.Font
+import javafx.scene.text.FontPosture
+import javafx.scene.text.FontWeight
+import javafx.scene.text.Text
+
 
 class ConversationComponentFactory {
 
@@ -34,16 +39,32 @@ class ConversationComponentFactory {
             EventHandler { parent.setFocus(parent.conversation); parent.display() })
         buttonsPane.add(btn8, 3, 1)
 
-        val imagePane = parent.generalComponents.mainImage()
-        val npcSpeechView = parent.generalComponents.makeImageView("assets//NPCSpeachBubble.png")
-        npcSpeechView.setOnMouseClicked { _ -> println("heyo!") }
-        val playerSpeechView = parent.generalComponents.makeImageView("assets//PlayerSpeechBubble.png")
-        imagePane.children.addAll(npcSpeechView, playerSpeechView)
-
         val pane = GridPane()
-        pane.add(imagePane, 0, 0)
+        pane.add(conversationBackgroundImage(), 0, 0)
         pane.add(buttonsPane, 0, 1)
         val scene = Scene(pane, parent.totalWidth, parent.totalHeight)
         return scene
+    }
+
+    fun conversationBackgroundImage(): Pane {
+        val imagePane = parent.generalComponents.mainImage()
+        val npcSpeechView = parent.generalComponents.makeImageView("assets//general//NPCSpeechBubble.png")
+        npcSpeechView.setOnMouseClicked { _ -> println("heyo!") }
+        val playerSpeechView = parent.generalComponents.makeImageView("assets//general//PlayerSpeechBubble.png")
+        imagePane.children.addAll(npcSpeechView, playerSpeechView)
+
+        if(parent.line != null) {
+            val playerLineText = Text(parent.line!!.toString())
+            if(parent.totalWidth > 800.0) {
+                playerLineText.font = Font(16.0)
+            }
+            playerLineText.wrappingWidth = parent.totalWidth / 4
+            val anchor = MyAnchorPane(playerLineText)
+
+            anchor.setTopAnchor(playerLineText, parent.totalHeight * 0.03);
+            anchor.setLeftAnchor(playerLineText, parent.totalWidth * 0.03);
+            imagePane.children.add(anchor.realPane)
+        }
+        return imagePane
     }
 }
