@@ -41,6 +41,10 @@ class Controller {
         activeConversations.add(retval)
         return retval
     }
+
+    fun endConversation(conversation: Conversation){
+        activeConversations.remove(conversation)
+    }
 }
 
 fun main() {
