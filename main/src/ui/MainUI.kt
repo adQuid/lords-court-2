@@ -76,7 +76,7 @@ class MainUI() : Application() {
 
     fun inConvoPage(): Scene{
         val buttonsPane = GridPane()
-        val btn1 = generalComponents.makeShortButton("Announce", EventHandler { line = Announcement(); display() })
+        val btn1 = generalComponents.makeShortButton("Announce", EventHandler { line = Announcement(null); display() })
         buttonsPane.add(btn1, 0,0)
         val btn2 = generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn2, 1,0)
