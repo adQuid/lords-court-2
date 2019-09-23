@@ -52,6 +52,7 @@ class ConversationComponentFactory {
     fun conversationBackgroundImage(): Pane {
         val imagePane = parent.generalComponents.mainImage()
         val npcSpeechView = parent.generalComponents.makeImageView("assets//general//NPCSpeechBubble.png")
+
         val playerSpeechView = parent.generalComponents.makeImageView("assets//general//PlayerSpeechBubble.png")
         imagePane.children.addAll(npcSpeechView, playerSpeechView)
 
