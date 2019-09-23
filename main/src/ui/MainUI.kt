@@ -14,6 +14,8 @@ import javafx.stage.WindowEvent
 import main.Controller
 import kotlin.system.exitProcess
 
+const val SIZE_SCALE = 0.8
+
 class MainUI() : Application() {
 
     private var stage: Stage? = null
@@ -21,8 +23,8 @@ class MainUI() : Application() {
     var generalComponents = GeneralComponentFactory(this)
     var conversationComponents = ConversationComponentFactory(this)
 
-    var totalWidth = 800.0
-    var totalHeight = 600.0
+    var totalWidth = 1200.0 * SIZE_SCALE
+    var totalHeight = 1080.0 * SIZE_SCALE
 
     var conversation: Conversation? = null
     var line: Line? = null
@@ -91,14 +93,8 @@ class MainUI() : Application() {
         val btn8 = generalComponents.makeShortButton("Cancel", EventHandler{ _ -> Controller.singleton!!.endConversation(conversation!!); setFocus(null); display()})
         buttonsPane.add(btn8, 3,1)
 
-        val imagePane = generalComponents.mainImage()
-        val npcSpeechView = generalComponents.makeImageView("assets//NPCSpeachBubble.png")
-        npcSpeechView.setOnMouseClicked{_ -> println("heyo!")}
-        val playerSpeechView = generalComponents.makeImageView("assets//PlayerSpeechBubble.png")
-        imagePane.children.addAll(npcSpeechView, playerSpeechView)
-
         val pane = GridPane()
-        pane.add(imagePane, 0,0)
+        pane.add(conversationComponents.conversationBackgroundImage(), 0,0)
         pane.add(buttonsPane, 0, 1)
         val scene = Scene(pane, totalWidth, totalHeight)
         return scene

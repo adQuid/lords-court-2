@@ -17,8 +17,8 @@ class GeneralComponentFactory {
     }
 
     fun mainImage(): Pane {
-        val backgroundView = makeImageView("assets//test.png")
-        val characterView = makeImageView("assets//person.png")
+        val backgroundView = makeImageView("assets//rooms//test.png")
+        val characterView = makeImageView("assets//portraits//person.png")
         val imagePane = StackPane()
         imagePane.children.addAll(backgroundView, characterView)
         return imagePane
