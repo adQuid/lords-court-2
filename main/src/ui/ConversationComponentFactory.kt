@@ -1,12 +1,11 @@
 package ui
 
+import dialog.linetypes.Announcement
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
-import javafx.scene.text.FontPosture
-import javafx.scene.text.FontWeight
 import javafx.scene.text.Text
 
 
@@ -23,7 +22,7 @@ class ConversationComponentFactory {
 
     fun announceOptions(): Scene {
         val buttonsPane = GridPane()
-        val btn1 = parent.generalComponents.makeShortButton("Action", EventHandler { _ -> parent.actionSelectModal = ActionSelectModal(parent, {_ -> println("hey")}) })
+        val btn1 = parent.generalComponents.makeShortButton("Action", EventHandler { _ -> parent.focusOn(ActionSelectModal(parent, { action -> parent.line = Announcement(action); parent.focusOn(parent.line)})) })
         buttonsPane.add(btn1, 0, 0)
         val btn2 = parent.generalComponents.makeShortButton( "filler", null)
         buttonsPane.add(btn2, 1, 0)
@@ -39,7 +38,7 @@ class ConversationComponentFactory {
         buttonsPane.add(btn7, 2, 1)
         val btn8 = parent.generalComponents.makeShortButton(
             "Cancel",
-            EventHandler { parent.setFocus(parent.conversation); parent.display() })
+            EventHandler { parent.focusOn(parent.conversation)})
         buttonsPane.add(btn8, 3, 1)
 
         val pane = GridPane()

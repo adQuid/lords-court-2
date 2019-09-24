@@ -32,10 +32,7 @@ class GeneralComponentFactory {
         return retval
     }
 
-    fun makeTallButton(
-        text: String,
-        action: EventHandler<ActionEvent>?
-    ): Button {
+    fun makeTallButton(text: String, action: EventHandler<ActionEvent>?): Button {
         val retval = Button(text)
         retval.setMinSize(parent.totalWidth / 4, parent.totalHeight / 6)
         if (action != null) {
@@ -44,12 +41,18 @@ class GeneralComponentFactory {
         return retval
     }
 
-    fun makeShortButton(
-        text: String,
-        action: EventHandler<ActionEvent>?
-    ): Button {
+    fun makeShortButton(text: String, action: EventHandler<ActionEvent>?): Button {
         val retval = Button(text)
         retval.setMinSize(parent.totalWidth / 4, parent.totalHeight / 12)
+        if (action != null) {
+            retval.onAction = action
+        }
+        return retval
+    }
+
+    fun makeShortWideButton(text: String, action: EventHandler<ActionEvent>?): Button {
+        val retval = Button(text)
+        retval.setMinSize(parent.totalWidth, parent.totalHeight / 12)
         if (action != null) {
             retval.onAction = action
         }

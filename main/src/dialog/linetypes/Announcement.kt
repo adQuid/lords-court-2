@@ -13,11 +13,11 @@ class Announcement: Line {
     }
 
     override fun symbolicForm(): List<LineBlock> {
-        return listOf(LineBlock("ANNOUNCE:"), LineBlock("Action:___________"))
+        return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "Action:___________" else "Action: "+action.toString()))
     }
 
     override fun fullTextForm(): String {
-        return "I will do a thing by the end of the turn. Just wanted to let you know."
+        return "I will "+action?.toString()+" by the end of the turn. Just wanted to let you know."
     }
 
 }

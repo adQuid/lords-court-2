@@ -12,7 +12,6 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.stage.WindowEvent
 import main.Controller
-import javax.swing.Action
 import kotlin.system.exitProcess
 
 const val SIZE_SCALE = 0.8
@@ -38,7 +37,7 @@ class MainUI() : Application() {
         display()
     }
 
-    fun setFocus(focus: Any?){
+    fun focusOn(focus: Any?){
         if(focus == null){
             conversation = null
             line = null
@@ -46,13 +45,16 @@ class MainUI() : Application() {
         if(focus is Conversation){
             conversation = focus
             line = null
+            actionSelectModal = null
         }
         if(focus is Line){
             line = focus
+            actionSelectModal = null
         }
         if(focus is ActionSelectModal){
             actionSelectModal = focus
         }
+        display()
     }
 
     fun display(){
@@ -97,7 +99,7 @@ class MainUI() : Application() {
         buttonsPane.add(btn6, 1,1)
         val btn7 = generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn7, 2,1)
-        val btn8 = generalComponents.makeShortButton("Cancel", EventHandler{ _ -> Controller.singleton!!.endConversation(conversation!!); setFocus(null); display()})
+        val btn8 = generalComponents.makeShortButton("Cancel", EventHandler{ _ -> Controller.singleton!!.endConversation(conversation!!); focusOn(null)})
         buttonsPane.add(btn8, 3,1)
 
         val pane = GridPane()
@@ -108,7 +110,7 @@ class MainUI() : Application() {
     }
 
     private fun establishConversation(){
-        setFocus(Controller.singleton!!.createConversation(Controller.singleton!!.game!!.playerCharacter(), Controller.singleton!!.game!!.players[1]))
+        focusOn(Controller.singleton!!.createConversation(Controller.singleton!!.game!!.playerCharacter(), Controller.singleton!!.game!!.players[1]))
         display()
     }
 

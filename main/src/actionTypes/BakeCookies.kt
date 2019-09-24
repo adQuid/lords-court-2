@@ -11,7 +11,7 @@ class BakeCookies: Action.ActionType() {
     }
 
     override fun toString(): String {
-        return "bake tasty cookies!"
+        return "bake tasty cookies"
     }
 
     class AddDelicousness(override var probability: Double) : Effect() {

@@ -1,6 +1,8 @@
 package game
 
 import action.Action
+import actionTypes.BakeCookies
+import aibrain.Plan
 
 class Game {
     var turn = 1
@@ -27,6 +29,14 @@ class Game {
 
         players.forEach{
             retval.actionsByPlayer[it] = listOf()
+        }
+        return retval
+    }
+
+    fun possibleActionsForPlayer(player: Player): List<Action>{
+        var retval = ArrayList<Action>()
+        if(player.name == "Melkar the Magnificant"){
+            retval.add(Action(BakeCookies()))
         }
         return retval
     }
