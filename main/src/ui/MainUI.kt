@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.stage.WindowEvent
 import main.Controller
+import javax.swing.Action
 import kotlin.system.exitProcess
 
 const val SIZE_SCALE = 0.8
@@ -28,6 +29,7 @@ class MainUI() : Application() {
 
     var conversation: Conversation? = null
     var line: Line? = null
+    var actionSelectModal: ActionSelectModal? = null
 
     override fun start(primaryStage: Stage) {
         primaryStage.onCloseRequest = EventHandler<WindowEvent> { exitProcess(0) }
@@ -48,10 +50,15 @@ class MainUI() : Application() {
         if(focus is Line){
             line = focus
         }
+        if(focus is ActionSelectModal){
+            actionSelectModal = focus
+        }
     }
 
     fun display(){
-        if(line != null) {
+        if(actionSelectModal != null){
+            setScene(actionSelectModal!!.getScene())
+        }else if(line != null) {
             setScene(conversationComponents.announceOptions())
         } else if(conversation != null){
            setScene(inConvoPage())

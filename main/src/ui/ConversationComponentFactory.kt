@@ -23,7 +23,7 @@ class ConversationComponentFactory {
 
     fun announceOptions(): Scene {
         val buttonsPane = GridPane()
-        val btn1 = parent.generalComponents.makeShortButton("Action", EventHandler { _ -> println("yup that works") })
+        val btn1 = parent.generalComponents.makeShortButton("Action", EventHandler { _ -> parent.actionSelectModal = ActionSelectModal(parent, {_ -> println("hey")}) })
         buttonsPane.add(btn1, 0, 0)
         val btn2 = parent.generalComponents.makeShortButton( "filler", null)
         buttonsPane.add(btn2, 1, 0)
@@ -51,9 +51,9 @@ class ConversationComponentFactory {
 
     fun conversationBackgroundImage(): Pane {
         val imagePane = parent.generalComponents.mainImage()
-        val npcSpeechView = parent.generalComponents.makeImageView("assets//general//NPCSpeechBubble.png")
+        val npcSpeechView = parent.generalComponents.makeImageView("assets//general//leftSpeechBubble.png")
 
-        val playerSpeechView = parent.generalComponents.makeImageView("assets//general//PlayerSpeechBubble.png")
+        val playerSpeechView = parent.generalComponents.makeImageView("assets//general//rightSpeechBubble.png")
         imagePane.children.addAll(npcSpeechView, playerSpeechView)
 
         if(parent.line != null) {
@@ -81,7 +81,7 @@ class ConversationComponentFactory {
                 if (parent.totalWidth > 800.0) {
                     playerLineText.font = Font(16.0)
                 }
-                playerLineText.wrappingWidth = parent.totalWidth / 4
+                playerLineText.wrappingWidth = parent.totalWidth * 0.30
                 playerLineText.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; parent.display() }
                 val anchor = MyAnchorPane(playerLineText)
 
