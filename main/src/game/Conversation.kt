@@ -36,4 +36,12 @@ class Conversation {
         }
         return false
     }
+
+    fun submitLine(line: Line){
+        lastLine = line
+        lastSpeaker = otherParticipant(lastSpeaker)
+        if(otherParticipant(lastSpeaker).npc){
+            lastLine = otherParticipant(lastSpeaker).shortBrain.reactToLine(lastLine!!, lastSpeaker)
+        }
+    }
 }

@@ -1,11 +1,13 @@
 package game
 
-import aibrain.Brain
+import aibrain.ConversationBrain
+import aibrain.ForecastBrain
 
 class Player {
     val name: String
     var npc: Boolean
-    var brain = Brain(this)
+    var brain = ForecastBrain(this)
+    var shortBrain = ConversationBrain(brain)
 
     constructor(name: String, npc: Boolean) {
         this.name = name

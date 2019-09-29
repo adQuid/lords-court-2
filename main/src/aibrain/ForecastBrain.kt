@@ -7,7 +7,7 @@ import game.Game
 import game.Player
 import util.safeSublist
 
-class Brain {
+class ForecastBrain {
     val player: Player
 
     var maxPlayersToThinkAbout = 3
@@ -51,7 +51,7 @@ class Brain {
         lastFavoriteEffects = bestCaseEffects
     }
 
-    fun casesOfConcern(game: Game): Map<GameCase, Double>{
+    private fun casesOfConcern(game: Game): Map<GameCase, Double>{
         var myGame = game.imageFor(player)
 
         val topPlayers = safeSublist(mostSignificantPlayersToMe(myGame),0,maxPlayersToThinkAbout)
@@ -84,7 +84,7 @@ class Brain {
         return retval
     }
 
-    fun mostSignificantPlayersToMe(game: Game): List<Player>{
+    private fun mostSignificantPlayersToMe(game: Game): List<Player>{
         var retval = mutableListOf<Player>()
         game.players.forEach{
             if(!it.equals(player)){

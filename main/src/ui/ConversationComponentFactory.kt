@@ -2,11 +2,13 @@ package ui
 
 import dialog.linetypes.Announcement
 import javafx.event.EventHandler
+import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
+import main.Controller
 
 
 class ConversationComponentFactory {
@@ -22,7 +24,7 @@ class ConversationComponentFactory {
 
     fun announceOptions(): Scene {
         val buttonsPane = GridPane()
-        val btn1 = parent.generalComponents.makeShortButton("Action", EventHandler { _ -> parent.focusOn(ActionSelectModal(parent, { action -> parent.line = Announcement(action); parent.focusOn(parent.line)})) })
+        val btn1 = parent.generalComponents.makeShortButton("Select Action", EventHandler { _ -> parent.focusOn(ActionSelectModal(parent, { action -> parent.line = Announcement(action); parent.focusOn(parent.line)})) })
         buttonsPane.add(btn1, 0, 0)
         val btn2 = parent.generalComponents.makeShortButton( "filler", null)
         buttonsPane.add(btn2, 1, 0)
@@ -34,7 +36,7 @@ class ConversationComponentFactory {
         buttonsPane.add(btn5, 0, 1)
         val btn6 = parent.generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn6, 1, 1)
-        val btn7 = parent.generalComponents.makeShortButton("filler", null)
+        val btn7 = parent.generalComponents.makeShortButton("Declare Announcement", EventHandler { _ -> parent.conversation!!.submitLine(parent.line!!); parent.display() })
         buttonsPane.add(btn7, 2, 1)
         val btn8 = parent.generalComponents.makeShortButton(
             "Cancel",
@@ -50,14 +52,17 @@ class ConversationComponentFactory {
 
     fun conversationBackgroundImage(): Pane {
         val imagePane = parent.generalComponents.mainImage()
-        val npcSpeechView = parent.generalComponents.makeImageView("assets//general//leftSpeechBubble.png")
 
+        val npcSpeechView = parent.generalComponents.makeImageView("assets//general//leftSpeechBubble.png")
         val playerSpeechView = parent.generalComponents.makeImageView("assets//general//rightSpeechBubble.png")
         imagePane.children.addAll(npcSpeechView, playerSpeechView)
 
-        if(parent.line != null) {
+        if(parent.line != null){
+            var lineNode: Node? = null
+
             if(myLineSymbolic){
-                var linePane = GridPane()
+                lineNode = GridPane()
+
                 var index = 0 //gotta be a better way to do this
                 parent.line!!.symbolicForm().forEach { block ->
                     val playerLineText = Text(block.text)
@@ -65,30 +70,32 @@ class ConversationComponentFactory {
                     if (parent.totalWidth > 600.0) {
                         playerLineText.font = Font(20.0)
                     }
-                    playerLineText.wrappingWidth = parent.totalWidth / 4
-                    linePane.add(playerLineText, 0, index++)
+                    playerLineText.wrappingWidth = parent.totalWidth * 0.28
+                    (lineNode as GridPane).add(playerLineText, 0, index++)
                 }
-                linePane.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; parent.display() }
-                val anchor = MyAnchorPane(linePane)
-
-                anchor.setTopAnchor(linePane, parent.totalHeight * 0.03);
-                anchor.setLeftAnchor(linePane, parent.totalWidth * 0.03);
-                imagePane.children.add(anchor.realPane)
+                lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; parent.display() }
             } else {
-                val playerLineText = Text(parent.line!!.fullTextForm())
-                playerLineText.maxWidth(parent.totalWidth / 2)
-                if (parent.totalWidth > 800.0) {
-                    playerLineText.font = Font(16.0)
-                }
-                playerLineText.wrappingWidth = parent.totalWidth * 0.30
-                playerLineText.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; parent.display() }
-                val anchor = MyAnchorPane(playerLineText)
+                lineNode = Text(parent.line!!.fullTextForm())
 
-                anchor.setTopAnchor(playerLineText, parent.totalHeight * 0.03);
-                anchor.setLeftAnchor(playerLineText, parent.totalWidth * 0.03);
-                imagePane.children.add(anchor.realPane)
+                lineNode.maxWidth(parent.totalWidth / 2)
+                if (parent.totalWidth > 800.0) {
+                    lineNode.font = Font(16.0)
+                }
+                lineNode.wrappingWidth = parent.totalWidth * 0.28
+                lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; parent.display() }
             }
+
+            val anchor = MyAnchorPane(lineNode)
+            anchor.setTopAnchor(lineNode, parent.totalHeight * 0.03);
+            if(parent.conversation!!.lastSpeaker != Controller.singleton!!.game!!.playerCharacter()){
+                anchor.setLeftAnchor(lineNode, parent.totalWidth * 0.03);
+            } else {
+                anchor.setRightAnchor(lineNode, parent.totalWidth * 0.027);
+            }
+
+            imagePane.children.add(anchor.realPane)
         }
+
         return imagePane
     }
 }
