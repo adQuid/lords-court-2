@@ -5,10 +5,8 @@ import dialog.linetypes.Announcement
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.Scene
-import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
-import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.Controller
@@ -25,9 +23,36 @@ class ConversationComponentFactory {
         this.parent = parent
     }
 
+    fun inConvoPage(): Scene{
+        val buttonsPane = GridPane()
+        val btn1 = parent.generalComponents.makeShortButton("Announce", EventHandler { parent.focusOn(Announcement(null)); parent.display() })
+        buttonsPane.add(btn1, 0,0)
+        val btn2 = parent.generalComponents.makeShortButton("filler", null)
+        buttonsPane.add(btn2, 1,0)
+        val btn3 = parent.generalComponents.makeShortButton("filler", null)
+        buttonsPane.add(btn3, 2,0)
+        val btn4 = parent.generalComponents.makeShortButton("filler", null)
+        buttonsPane.add(btn4, 3,0)
+        val btn5 = parent.generalComponents.makeShortButton("filler", null)
+        buttonsPane.add(btn5, 0,1)
+        val btn6 = parent.generalComponents.makeShortButton("filler", null)
+        buttonsPane.add(btn6, 1,1)
+        val btn7 = parent.generalComponents.makeShortButton("filler", null)
+        buttonsPane.add(btn7, 2,1)
+        val btn8 = parent.generalComponents.makeShortButton("Leave Conversation", EventHandler{ _ -> Controller.singleton!!.endConversation(parent.conversation!!); parent.focusOn(parent.room)})
+        buttonsPane.add(btn8, 3,1)
+
+        val pane = GridPane()
+        pane.add(parent.conversationComponents.conversationBackgroundImage(), 0,0)
+        pane.add(buttonsPane, 0, 1)
+        val scene = Scene(pane, parent.totalWidth, parent.totalHeight)
+        return scene
+    }
+
     fun announceOptions(): Scene {
         val buttonsPane = GridPane()
-        val btn1 = parent.generalComponents.makeShortButton("Select Action", EventHandler { _ -> parent.focusOn(ActionSelectModal(parent, { action -> parent.line = Announcement(action); parent.focusOn(parent.line)})) })
+        val btn1 = parent.generalComponents.makeShortButton("Select Action",
+            EventHandler { _ -> parent.focusOn(ActionSelectModal(parent, { action -> parent.lineBeingConstructed = Announcement(action); parent.focusOn(parent.lineBeingConstructed)})) })
         buttonsPane.add(btn1, 0, 0)
         val btn2 = parent.generalComponents.makeShortButton( "filler", null)
         buttonsPane.add(btn2, 1, 0)
@@ -39,7 +64,8 @@ class ConversationComponentFactory {
         buttonsPane.add(btn5, 0, 1)
         val btn6 = parent.generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn6, 1, 1)
-        val btn7 = parent.generalComponents.makeShortButton("Declare Announcement", EventHandler { _ -> parent.conversation!!.submitLine(parent.line!!, Controller.singleton!!.game!!); parent.display() })
+        val btn7 = parent.generalComponents.makeShortButton("Declare Announcement",
+            EventHandler { _ -> parent.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.focusOn(parent.conversation) })
         buttonsPane.add(btn7, 2, 1)
         val btn8 = parent.generalComponents.makeShortButton(
             "Cancel",
@@ -61,7 +87,7 @@ class ConversationComponentFactory {
         imagePane.children.addAll(npcSpeechView, playerSpeechView)
 
         val lineAnchorPane = MyAnchorPane()
-        linePane(lineAnchorPane, parent.line, myLineSymbolic, true)
+        linePane(lineAnchorPane, parent.lineBeingConstructed, myLineSymbolic, true)
 
         linePane(lineAnchorPane, parent.conversation!!.lastLine, otherLineSymbolic, false)
 

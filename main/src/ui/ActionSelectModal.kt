@@ -34,13 +34,13 @@ class ActionSelectModal {
         topPane.add(topic2,1,0)
 
         val data = FXCollections.observableArrayList<Action>()
-        data.addAll(Controller.singleton!!.game!!.possibleActionsForPlayer(Controller.singleton!!.game!!.playerCharacter()))
+        data.addAll(Controller.singleton!!.game!!.possibleActionsForPlayer(parent.playingAs()))
         val listView = ListView<Action>(data)
         listView.items = data
         listView.setPrefSize(parent.totalWidth,parent.totalHeight * (5.0/6.0))
         listView.setCellFactory({ _: ListView<Action> -> ActionPickCell(closeAction) })
 
-        val btn8 = parent.generalComponents.makeShortWideButton("Cancel", EventHandler { parent.focusOn(parent.line)})
+        val btn8 = parent.generalComponents.makeShortWideButton("Cancel", EventHandler { parent.focusOn(parent.lineBeingConstructed)})
         pane.add(topPane,0,0)
         pane.add(listView,0,1)
         pane.add(btn8, 0, 2)

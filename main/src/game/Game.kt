@@ -8,14 +8,15 @@ import aibrain.Plan
 class Game {
     var turn = 1
     var players = mutableListOf<Player>()
+    var locations = listOf(Location())
     var actionsByPlayer = HashMap<Player, List<Action>>()
 
     //temporary stat
     var deliciousness = 0
 
     constructor(){
-        players.add(Player("Melkar the Magnificant", false))
-        players.add(Player("npc", true))
+        players.add(Player("Melkar the Magnificant", false, locations[0]))
+        players.add(Player("npc", true, locations[0]))
         
     }
 

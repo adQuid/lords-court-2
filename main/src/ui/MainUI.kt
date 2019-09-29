@@ -1,8 +1,8 @@
 package ui
 
 import dialog.Line
-import dialog.linetypes.Announcement
 import game.Conversation
+import game.Player
 import javafx.application.Application;
 import javafx.event.EventHandler
 import javafx.stage.Stage
@@ -12,6 +12,8 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.stage.WindowEvent
 import main.Controller
+import shortstate.Room
+import java.lang.Exception
 import kotlin.system.exitProcess
 
 const val SIZE_SCALE = 0.8
@@ -26,14 +28,16 @@ class MainUI() : Application() {
     var totalWidth = 1200.0 * SIZE_SCALE
     var totalHeight = 1080.0 * SIZE_SCALE
 
+    var room: Room? = playingAs().location.startRoom()
     var conversation: Conversation? = null
-    var line: Line? = null
+    var lineBeingConstructed: Line? = null
     var actionSelectModal: ActionSelectModal? = null
+    var roomSelectModal: RoomSelectModal? = null
 
-    private var curFocus = Focus.GENERAL
+    private var curFocus = Focus.ROOM
 
     private enum class Focus{
-        GENERAL, CONVERSATION, LINE, ACTION_SELECT_MODAL
+        GENERAL, ROOM, CONVERSATION, LINE, ACTION_SELECT_MODAL, ROOM_SELECT_MODAL
     }
 
     override fun start(primaryStage: Stage) {
@@ -43,39 +47,58 @@ class MainUI() : Application() {
         display()
     }
 
+    fun playingAs(): Player{
+        return Controller.singleton!!.game!!.playerCharacter()
+    }
+
     fun focusOn(focus: Any?){
         if(focus == null){
             conversation = null
-            line = null
+            lineBeingConstructed = null
             curFocus = Focus.GENERAL
+        }
+        if(focus is Room){
+            room = focus
+            conversation = null
+            lineBeingConstructed = null
+            curFocus = Focus.ROOM
         }
         if(focus is Conversation){
             conversation = focus
-            line = null
+            lineBeingConstructed = null
             actionSelectModal = null
             curFocus = Focus.CONVERSATION
         }
         if(focus is Line){
-            line = focus
+            lineBeingConstructed = focus
             actionSelectModal = null
             curFocus = Focus.LINE
         }
+
         if(focus is ActionSelectModal){
             actionSelectModal = focus
             curFocus = Focus.ACTION_SELECT_MODAL
+        }
+        if(focus is RoomSelectModal){
+            roomSelectModal = focus
+            curFocus = Focus.ROOM_SELECT_MODAL
         }
         display()
     }
 
     fun display(){
-        if(curFocus == Focus.ACTION_SELECT_MODAL){
+        if(curFocus == Focus.ROOM_SELECT_MODAL){
+            setScene(roomSelectModal!!.getScene())
+        }else if(curFocus == Focus.ACTION_SELECT_MODAL){
             setScene(actionSelectModal!!.getScene())
         }else if(curFocus == Focus.LINE) {
             setScene(conversationComponents.announceOptions())
         } else if(curFocus == Focus.CONVERSATION){
-           setScene(inConvoPage())
-        } else {
+           setScene(conversationComponents.inConvoPage())
+        } else if(curFocus == Focus.ROOM){
             setScene(outOfConvoPage())
+        } else{
+            throw Exception("GENERAL Scope not implemented yet!")
         }
 
         this.stage!!.show()
@@ -93,47 +116,19 @@ class MainUI() : Application() {
         return scene
     }
 
-    fun inConvoPage(): Scene{
-        val buttonsPane = GridPane()
-        val btn1 = generalComponents.makeShortButton("Announce", EventHandler { focusOn(Announcement(null)); display() })
-        buttonsPane.add(btn1, 0,0)
-        val btn2 = generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn2, 1,0)
-        val btn3 = generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn3, 2,0)
-        val btn4 = generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn4, 3,0)
-        val btn5 = generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn5, 0,1)
-        val btn6 = generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn6, 1,1)
-        val btn7 = generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn7, 2,1)
-        val btn8 = generalComponents.makeShortButton("Cancel", EventHandler{ _ -> Controller.singleton!!.endConversation(conversation!!); focusOn(null)})
-        buttonsPane.add(btn8, 3,1)
-
-        val pane = GridPane()
-        pane.add(conversationComponents.conversationBackgroundImage(), 0,0)
-        pane.add(buttonsPane, 0, 1)
-        val scene = Scene(pane, totalWidth, totalHeight)
-        return scene
-    }
-
     private fun establishConversation(){
-        focusOn(Controller.singleton!!.createConversation(Controller.singleton!!.game!!.playerCharacter(), Controller.singleton!!.game!!.players[1]))
+        focusOn(Controller.singleton!!.createConversation(playingAs(), Controller.singleton!!.game!!.players[1]))
         display()
     }
 
     private fun outOfConvoButtons(): Pane {
         val bottomButtonsPanel = FlowPane()
         val btn1 = generalComponents.makeTallButton("Converse", EventHandler{ _ -> establishConversation() })
-        val btn2 = generalComponents.makeTallButton("Filler 1", null)
+        val btn2 = generalComponents.makeTallButton("Go Somewhere Else", EventHandler { _ -> focusOn(RoomSelectModal(this, {room -> focusOn(room)}) )})
         val btn3 = generalComponents.makeTallButton("Filler 2", null)
         bottomButtonsPanel.children.add(btn1)
         bottomButtonsPanel.children.add(btn2)
         bottomButtonsPanel.children.add(btn3)
         return bottomButtonsPanel
     }
-
-
 }
