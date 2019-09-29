@@ -30,6 +30,12 @@ class MainUI() : Application() {
     var line: Line? = null
     var actionSelectModal: ActionSelectModal? = null
 
+    private var curFocus = Focus.GENERAL
+
+    private enum class Focus{
+        GENERAL, CONVERSATION, LINE, ACTION_SELECT_MODAL
+    }
+
     override fun start(primaryStage: Stage) {
         primaryStage.onCloseRequest = EventHandler<WindowEvent> { exitProcess(0) }
         stage = primaryStage
@@ -41,28 +47,32 @@ class MainUI() : Application() {
         if(focus == null){
             conversation = null
             line = null
+            curFocus = Focus.GENERAL
         }
         if(focus is Conversation){
             conversation = focus
             line = null
             actionSelectModal = null
+            curFocus = Focus.CONVERSATION
         }
         if(focus is Line){
             line = focus
             actionSelectModal = null
+            curFocus = Focus.LINE
         }
         if(focus is ActionSelectModal){
             actionSelectModal = focus
+            curFocus = Focus.ACTION_SELECT_MODAL
         }
         display()
     }
 
     fun display(){
-        if(actionSelectModal != null){
+        if(curFocus == Focus.ACTION_SELECT_MODAL){
             setScene(actionSelectModal!!.getScene())
-        }else if(line != null) {
+        }else if(curFocus == Focus.LINE) {
             setScene(conversationComponents.announceOptions())
-        } else if(conversation != null){
+        } else if(curFocus == Focus.CONVERSATION){
            setScene(inConvoPage())
         } else {
             setScene(outOfConvoPage())
@@ -85,7 +95,7 @@ class MainUI() : Application() {
 
     fun inConvoPage(): Scene{
         val buttonsPane = GridPane()
-        val btn1 = generalComponents.makeShortButton("Announce", EventHandler { line = Announcement(null); display() })
+        val btn1 = generalComponents.makeShortButton("Announce", EventHandler { focusOn(Announcement(null)); display() })
         buttonsPane.add(btn1, 0,0)
         val btn2 = generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn2, 1,0)

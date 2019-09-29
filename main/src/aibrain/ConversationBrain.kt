@@ -2,6 +2,9 @@ package aibrain
 
 import dialog.Line
 import dialog.linetypes.Announcement
+import dialog.linetypes.Approve
+import dialog.linetypes.Disapprove
+import game.Game
 import game.Player
 
 class ConversationBrain {
@@ -12,7 +15,19 @@ class ConversationBrain {
         this.longBrain = longBrain
     }
 
-    fun reactToLine(line: Line, speaker: Player): Line {
+    fun reactToLine(line: Line, speaker: Player, game: Game): Line {
+        if(line is Announcement){
+            val action = line.action
+
+            val effectsILike = longBrain.lastFavoriteEffects!!
+            val effectsOfAction = action!!.type.doAction(game, speaker)
+
+            if(effectsILike.contains(effectsOfAction[0])){
+                return Approve()
+            } else {
+                return Disapprove()
+            }
+        }
         return Announcement(null)
     }
 

@@ -1,11 +1,14 @@
 package ui
 
+import dialog.Line
 import dialog.linetypes.Announcement
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.Scene
+import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
+import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.Controller
@@ -36,7 +39,7 @@ class ConversationComponentFactory {
         buttonsPane.add(btn5, 0, 1)
         val btn6 = parent.generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn6, 1, 1)
-        val btn7 = parent.generalComponents.makeShortButton("Declare Announcement", EventHandler { _ -> parent.conversation!!.submitLine(parent.line!!); parent.display() })
+        val btn7 = parent.generalComponents.makeShortButton("Declare Announcement", EventHandler { _ -> parent.conversation!!.submitLine(parent.line!!, Controller.singleton!!.game!!); parent.display() })
         buttonsPane.add(btn7, 2, 1)
         val btn8 = parent.generalComponents.makeShortButton(
             "Cancel",
@@ -57,45 +60,61 @@ class ConversationComponentFactory {
         val playerSpeechView = parent.generalComponents.makeImageView("assets//general//rightSpeechBubble.png")
         imagePane.children.addAll(npcSpeechView, playerSpeechView)
 
-        if(parent.line != null){
-            var lineNode: Node? = null
+        val lineAnchorPane = MyAnchorPane()
+        linePane(lineAnchorPane, parent.line, myLineSymbolic, true)
 
-            if(myLineSymbolic){
-                lineNode = GridPane()
+        linePane(lineAnchorPane, parent.conversation!!.lastLine, otherLineSymbolic, false)
 
-                var index = 0 //gotta be a better way to do this
-                parent.line!!.symbolicForm().forEach { block ->
-                    val playerLineText = Text(block.text)
-                    playerLineText.maxWidth(parent.totalWidth / 2)
-                    if (parent.totalWidth > 600.0) {
-                        playerLineText.font = Font(20.0)
-                    }
-                    playerLineText.wrappingWidth = parent.totalWidth * 0.28
-                    (lineNode as GridPane).add(playerLineText, 0, index++)
-                }
-                lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; parent.display() }
-            } else {
-                lineNode = Text(parent.line!!.fullTextForm())
 
-                lineNode.maxWidth(parent.totalWidth / 2)
-                if (parent.totalWidth > 800.0) {
-                    lineNode.font = Font(16.0)
-                }
-                lineNode.wrappingWidth = parent.totalWidth * 0.28
-                lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; parent.display() }
-            }
+        imagePane.children.add(lineAnchorPane.realPane)
+        return imagePane
+    }
 
-            val anchor = MyAnchorPane(lineNode)
-            anchor.setTopAnchor(lineNode, parent.totalHeight * 0.03);
-            if(parent.conversation!!.lastSpeaker != Controller.singleton!!.game!!.playerCharacter()){
-                anchor.setLeftAnchor(lineNode, parent.totalWidth * 0.03);
-            } else {
-                anchor.setRightAnchor(lineNode, parent.totalWidth * 0.027);
-            }
-
-            imagePane.children.add(anchor.realPane)
+    private fun linePane(pane: MyAnchorPane, line: Line?, symbolic: Boolean, left: Boolean): MyAnchorPane{
+        if(line == null){
+            return pane
         }
 
-        return imagePane
+        var lineNode: Node? = null
+
+        if(symbolic){
+            lineNode = GridPane()
+
+            var index = 0 //gotta be a better way to do this
+            line.symbolicForm().forEach { block ->
+                val playerLineText = Text(block.text)
+                playerLineText.maxWidth(parent.totalWidth / 2)
+                if (parent.totalWidth > 600.0) {
+                    playerLineText.font = Font(20.0)
+                }
+                playerLineText.wrappingWidth = parent.totalWidth * 0.28
+                (lineNode as GridPane).add(playerLineText, 0, index++)
+            }
+        } else {
+            lineNode = Text(line.fullTextForm())
+
+            lineNode.maxWidth(parent.totalWidth / 2)
+            if (parent.totalWidth > 800.0) {
+                lineNode.font = Font(16.0)
+            }
+            lineNode.wrappingWidth = parent.totalWidth * 0.28
+        }
+
+        if(left){
+            lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; parent.display() }
+        } else {
+            lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; parent.display() }
+        }
+
+        pane.realPane.children.add(lineNode)
+
+        pane.setTopAnchor(lineNode, parent.totalHeight * 0.03);
+        if(left){
+            pane.setLeftAnchor(lineNode, parent.totalWidth * 0.03);
+        } else {
+            pane.setRightAnchor(lineNode, parent.totalWidth * 0.027);
+        }
+
+        return pane
     }
 }

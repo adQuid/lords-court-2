@@ -37,11 +37,14 @@ class Conversation {
         return false
     }
 
-    fun submitLine(line: Line){
-        lastLine = line
-        lastSpeaker = otherParticipant(lastSpeaker)
-        if(otherParticipant(lastSpeaker).npc){
-            lastLine = otherParticipant(lastSpeaker).shortBrain.reactToLine(lastLine!!, lastSpeaker)
+    fun submitLine(line: Line, game: Game){
+        if(line.validToSend()){
+            lastLine = line
+            lastSpeaker = otherParticipant(lastSpeaker)
+            if(otherParticipant(lastSpeaker).npc){
+                println("this happen'd")
+                lastLine = otherParticipant(lastSpeaker).shortBrain.reactToLine(lastLine!!, lastSpeaker, game)
+            }
         }
     }
 }

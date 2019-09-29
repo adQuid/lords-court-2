@@ -20,4 +20,7 @@ class Announcement: Line {
         return "I will "+action?.toString()+" by the end of the turn. Just wanted to let you know."
     }
 
+    override fun validToSend(): Boolean {
+        return action != null
+    }
 }
