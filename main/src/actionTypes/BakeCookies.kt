@@ -15,6 +15,12 @@ class BakeCookies: Action.ActionType() {
     }
 
     class AddDelicousness(override var probability: Double) : Effect() {
+        override fun equals(other: Any?): Boolean {
+            if(other is AddDelicousness){
+                return true
+            }
+            return false
+        }
         override fun apply(game: Game) {
            game.deliciousness++
         }

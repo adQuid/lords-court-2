@@ -42,7 +42,6 @@ class Conversation {
             lastLine = line
             lastSpeaker = otherParticipant(lastSpeaker)
             if(otherParticipant(lastSpeaker).npc){
-                println("this happen'd")
                 lastLine = otherParticipant(lastSpeaker).shortBrain.reactToLine(lastLine!!, lastSpeaker, game)
             }
         }

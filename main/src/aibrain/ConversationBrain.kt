@@ -22,7 +22,7 @@ class ConversationBrain {
             val effectsILike = longBrain.lastFavoriteEffects!!
             val effectsOfAction = action!!.type.doAction(game, speaker)
 
-            if(effectsILike.contains(effectsOfAction[0])){
+            if(effectsILike.intersect(effectsOfAction).isNotEmpty()){
                 return Approve()
             } else {
                 return Disapprove()

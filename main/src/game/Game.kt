@@ -2,6 +2,7 @@ package game
 
 import action.Action
 import actionTypes.BakeCookies
+import actionTypes.WasteTime
 import aibrain.Plan
 
 class Game {
@@ -37,6 +38,7 @@ class Game {
         var retval = ArrayList<Action>()
         if(player.name == "Melkar the Magnificant"){
             retval.add(Action(BakeCookies()))
+            retval.add(Action(WasteTime()))
         }
         return retval
     }
