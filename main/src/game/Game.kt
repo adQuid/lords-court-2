@@ -63,7 +63,7 @@ class Game {
         actionsByPlayer.clear()
     }
     
-     @Synchronized fun nextPlayerWithoutActions(): Player?{
+     @Synchronized fun nextPlayerToForcast(): Player?{
          for (player in players) {
                  if (actionsByPlayer[player] == null && (player.npc)) {
                      return player

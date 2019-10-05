@@ -25,7 +25,7 @@ class GeneralComponentFactory {
             val characterView = makeImageView("assets//portraits//faceman.png")
             imagePane.children.addAll(backgroundView, characterView)
         } else {
-            backgroundView = makeImageView(Controller.singleton!!.shortGame!!.location.startRoom().pictureText)
+            backgroundView = makeImageView(parent.scene!!.room.pictureText)
             imagePane.children.addAll(backgroundView)
         }
         return imagePane

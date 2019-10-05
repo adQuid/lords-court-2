@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.stage.WindowEvent
 import main.Controller
+import shortstate.ShortStateGame
 import shortstate.ShortStatePlayer
 import java.lang.Exception
 import kotlin.system.exitProcess
@@ -45,8 +46,12 @@ class MainUI() : Application() {
         display()
     }
 
+    fun shortGame(): ShortStateGame {
+        return Controller.singleton!!.shortGame!!
+    }
+
     fun playingAs(): ShortStatePlayer {
-        return Controller.singleton!!.shortGame!!.playerCharacter()
+        return shortGame().playerCharacter()
     }
 
     fun focusOn(focus: Any?){

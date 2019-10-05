@@ -5,6 +5,7 @@ import javafx.scene.Scene
 import javafx.scene.layout.FlowPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
+import main.Controller
 
 class SceneComponentFactory {
 
@@ -33,7 +34,8 @@ class SceneComponentFactory {
     private fun outOfConvoButtons(): Pane {
         val bottomButtonsPanel = FlowPane()
         val btn1 = parent.generalComponents.makeTallButton("Personal Actions", null)
-        val btn2 = parent.generalComponents.makeTallButton("Go Somewhere Else", EventHandler { _ -> parent.focusOn(RoomSelectModal(parent, {room -> parent.focusOn(room)}) )})
+        val btn2 = parent.generalComponents.makeTallButton("Go Somewhere Else",
+            EventHandler { _ -> parent.focusOn(RoomSelectModal(parent, {room -> parent.shortGame().endScene(parent.scene!!); parent.focusOn(parent.shortGame().goToRoom(parent.playingAs(), room))}) )})
         val btn3 = parent.generalComponents.makeTallButton("Filler 2", null)
         bottomButtonsPanel.children.add(btn1)
         bottomButtonsPanel.children.add(btn2)
