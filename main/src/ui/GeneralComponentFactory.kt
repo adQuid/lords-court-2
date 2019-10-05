@@ -7,6 +7,7 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.Pane
 import javafx.scene.layout.StackPane
+import main.Controller
 
 class GeneralComponentFactory {
 
@@ -16,11 +17,17 @@ class GeneralComponentFactory {
         this.parent = parent
     }
 
-    fun mainImage(): Pane {
-        val backgroundView = makeImageView(parent.room!!.pictureText)
-        val characterView = makeImageView("assets//portraits//faceman.png")
+    fun sceneImage(): Pane {
         val imagePane = StackPane()
-        imagePane.children.addAll(backgroundView, characterView)
+        val backgroundView: ImageView
+        if(parent.scene?.characters!!.size > 1){
+            backgroundView = makeImageView(parent.scene!!.room.pictureText)
+            val characterView = makeImageView("assets//portraits//faceman.png")
+            imagePane.children.addAll(backgroundView, characterView)
+        } else {
+            backgroundView = makeImageView(Controller.singleton!!.shortGame!!.location.startRoom().pictureText)
+            imagePane.children.addAll(backgroundView)
+        }
         return imagePane
     }
 

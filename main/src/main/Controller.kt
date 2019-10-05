@@ -5,7 +5,10 @@ import game.Conversation
 import game.Game
 import game.Player
 import javafx.application.Application
+import shortstate.Room
+import shortstate.Scene
 import shortstate.ShortStateGame
+import shortstate.ShortStatePlayer
 import ui.MainUI
 
 class Controller {
@@ -19,32 +22,23 @@ class Controller {
 
     private val brainThread1 = Thread(BrainThread(this))
 
-
-
     constructor(){
         singleton = this
         game = Game()
-        shortGame = ShortStateGame(game!!)
+        shortGame = ShortStateGame(game!!, game!!.locations[0])
         brainThread1.start()
 
         Application.launch(MainUI::class.java)
     }
 
-    //returns true if the conversation was created, false otherwise
-    fun createConversation(initiator: Player, target: Player): Conversation?{
-        shortGame!!.activeConversations.forEach{conversation ->
-            if(conversation.participants().intersect(listOf(initiator, target)).isNotEmpty()){
-                return null
-            }
-        }
-        val retval = Conversation(initiator, target)
-        shortGame!!.activeConversations.add(retval)
-        return retval
+    fun sceneForPlayer(player: ShortStatePlayer): Scene?{
+        return shortGame!!.sceneForPlayer(player)
     }
 
-    fun endConversation(conversation: Conversation){
-        shortGame!!.activeConversations.remove(conversation)
+    fun createConversation(initiator: ShortStatePlayer, target: ShortStatePlayer, room: Room): Scene?{
+        return shortGame!!.createConversation(initiator, target, room)
     }
+
 }
 
 fun main() {

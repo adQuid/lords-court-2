@@ -1,22 +1,23 @@
 package game
 
 import dialog.Line
+import shortstate.ShortStatePlayer
 
 class Conversation {
 
-    val initiator: Player
-    val target: Player
+    val initiator: ShortStatePlayer
+    val target: ShortStatePlayer
 
-    var lastSpeaker: Player
+    var lastSpeaker: ShortStatePlayer
     var lastLine: Line? = null
 
-    constructor(initiator: Player, target: Player){
+    constructor(initiator: ShortStatePlayer, target: ShortStatePlayer){
         this.initiator = initiator
         this.target = target
         this.lastSpeaker = target //the inititator still hasn't said anything at this point
     }
 
-    fun otherParticipant(player: Player): Player{
+    fun otherParticipant(player: ShortStatePlayer): ShortStatePlayer{
         if (player == initiator){
             return target
         }
@@ -26,7 +27,7 @@ class Conversation {
         throw Exception("provided player is not in this conversation!")
     }
 
-    fun participants(): List<Player>{
+    fun participants(): List<ShortStatePlayer>{
         return listOf(initiator, target)
     }
 
@@ -41,8 +42,8 @@ class Conversation {
         if(line.validToSend()){
             lastLine = line
             lastSpeaker = otherParticipant(lastSpeaker)
-            if(otherParticipant(lastSpeaker).npc){
-                lastLine = otherParticipant(lastSpeaker).shortBrain.reactToLine(lastLine!!, lastSpeaker, game)
+            if(otherParticipant(lastSpeaker).player.npc){
+                lastLine = otherParticipant(lastSpeaker).player.shortBrain.reactToLine(lastLine!!, lastSpeaker.player, game)
             }
         }
     }

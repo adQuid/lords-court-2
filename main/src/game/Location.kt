@@ -7,10 +7,10 @@ class Location {
     var rooms: List<Room>
 
     constructor(){
-        rooms = listOf(Room("assets//rooms//testRoom.png"), Room("assets//rooms//bedroom.png"))
+        rooms = listOf(Room("assets//rooms//bedroom.png"), Room("assets//rooms//testRoom.png"))
     }
 
     fun startRoom(): Room{
-        return rooms[1]
+        return rooms[0]
     }
 }

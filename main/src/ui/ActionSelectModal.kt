@@ -34,7 +34,7 @@ class ActionSelectModal {
         topPane.add(topic2,1,0)
 
         val data = FXCollections.observableArrayList<Action>()
-        data.addAll(Controller.singleton!!.game!!.possibleActionsForPlayer(parent.playingAs()))
+        data.addAll(Controller.singleton!!.game!!.possibleActionsForPlayer(parent.playingAs().player))
         val listView = ListView<Action>(data)
         listView.items = data
         listView.setPrefSize(parent.totalWidth,parent.totalHeight * (5.0/6.0))

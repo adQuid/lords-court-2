@@ -72,6 +72,10 @@ class Game {
         return null
     }
 
+    fun playersAtLocation(location: Location): List<Player>{
+        return players.filter { player -> player.location == location }
+    }
+
     fun playerCharacter(): Player{
         players.forEach {
             if(!it.npc){

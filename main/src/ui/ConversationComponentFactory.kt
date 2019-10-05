@@ -39,7 +39,7 @@ class ConversationComponentFactory {
         buttonsPane.add(btn6, 1,1)
         val btn7 = parent.generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn7, 2,1)
-        val btn8 = parent.generalComponents.makeShortButton("Leave Conversation", EventHandler{ _ -> Controller.singleton!!.endConversation(parent.conversation!!); parent.focusOn(parent.room)})
+        val btn8 = parent.generalComponents.makeShortButton("Leave", EventHandler{ _ -> /*Controller.singleton!!.endConversation(parent.conversation!!);*/ parent.focusOn(null)})
         buttonsPane.add(btn8, 3,1)
 
         val pane = GridPane()
@@ -65,11 +65,11 @@ class ConversationComponentFactory {
         val btn6 = parent.generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn6, 1, 1)
         val btn7 = parent.generalComponents.makeShortButton("Declare Announcement",
-            EventHandler { _ -> parent.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.focusOn(parent.conversation) })
+            EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.focusOn(parent.scene!!.conversation) })
         buttonsPane.add(btn7, 2, 1)
         val btn8 = parent.generalComponents.makeShortButton(
             "Cancel",
-            EventHandler { parent.focusOn(parent.conversation)})
+            EventHandler { parent.focusOn(parent.scene)})
         buttonsPane.add(btn8, 3, 1)
 
         val pane = GridPane()
@@ -80,19 +80,19 @@ class ConversationComponentFactory {
     }
 
     fun conversationBackgroundImage(): Pane {
-        val imagePane = parent.generalComponents.mainImage()
+        val imagePane = parent.generalComponents.sceneImage()
 
-        val npcSpeechView = parent.generalComponents.makeImageView("assets//general//leftSpeechBubble.png")
-        val playerSpeechView = parent.generalComponents.makeImageView("assets//general//rightSpeechBubble.png")
-        imagePane.children.addAll(npcSpeechView, playerSpeechView)
+        if(parent.scene!!.conversation != null){
+            val npcSpeechView = parent.generalComponents.makeImageView("assets//general//leftSpeechBubble.png")
+            val playerSpeechView = parent.generalComponents.makeImageView("assets//general//rightSpeechBubble.png")
+            imagePane.children.addAll(npcSpeechView, playerSpeechView)
 
-        val lineAnchorPane = MyAnchorPane()
-        linePane(lineAnchorPane, parent.lineBeingConstructed, myLineSymbolic, true)
+            val lineAnchorPane = MyAnchorPane()
+            linePane(lineAnchorPane, parent.lineBeingConstructed, myLineSymbolic, true)
+            linePane(lineAnchorPane, parent.scene!!.conversation!!.lastLine, otherLineSymbolic, false)
 
-        linePane(lineAnchorPane, parent.conversation!!.lastLine, otherLineSymbolic, false)
-
-
-        imagePane.children.add(lineAnchorPane.realPane)
+            imagePane.children.add(lineAnchorPane.realPane)
+        }
         return imagePane
     }
 
