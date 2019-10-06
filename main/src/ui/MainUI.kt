@@ -5,13 +5,11 @@ import javafx.application.Application;
 import javafx.event.EventHandler
 import javafx.stage.Stage
 import javafx.scene.Scene
-import javafx.scene.layout.FlowPane
-import javafx.scene.layout.GridPane
-import javafx.scene.layout.Pane
 import javafx.stage.WindowEvent
 import main.Controller
 import shortstate.ShortStateGame
 import shortstate.ShortStatePlayer
+import ui.selectionmodal.SelectionModal
 import java.lang.Exception
 import kotlin.system.exitProcess
 
@@ -30,8 +28,7 @@ class MainUI() : Application() {
 
     var scene: shortstate.Scene? = null
     var lineBeingConstructed: Line? = null
-    var actionSelectModal: ActionSelectModal? = null
-    var roomSelectModal: RoomSelectModal? = null
+    var selectModal: SelectionModal<*>? = null
 
     private var curFocus = Focus.SCENE
 
@@ -62,18 +59,15 @@ class MainUI() : Application() {
         } else if(focus is shortstate.Scene){
             scene = focus
             lineBeingConstructed = null
-            actionSelectModal = null
+            selectModal = null
             curFocus = Focus.SCENE
         } else if(focus is Line){
             lineBeingConstructed = focus
-            actionSelectModal = null
+            selectModal = null
             curFocus = Focus.LINE
-        } else if(focus is ActionSelectModal){
-            actionSelectModal = focus
+        } else if(focus is SelectionModal<*>){
+            selectModal = focus
             curFocus = Focus.ACTION_SELECT_MODAL
-        } else if(focus is RoomSelectModal){
-            roomSelectModal = focus
-            curFocus = Focus.ROOM_SELECT_MODAL
         } else {
             throw Exception("INVALID TYPE FOR FOCUS! "+focus.javaClass)
         }
@@ -81,10 +75,8 @@ class MainUI() : Application() {
     }
 
     fun display(){
-        if(curFocus == Focus.ROOM_SELECT_MODAL){
-            setScene(roomSelectModal!!.getScene())
-        }else if(curFocus == Focus.ACTION_SELECT_MODAL){
-            setScene(actionSelectModal!!.getScene())
+        if(curFocus == Focus.ACTION_SELECT_MODAL){
+            setScene(selectModal!!.getScene())
         }else if(curFocus == Focus.LINE) {
             setScene(conversationComponents.announceOptions())
         } else if(curFocus == Focus.SCENE){
@@ -99,14 +91,5 @@ class MainUI() : Application() {
     fun setScene(scene: Scene){
         this.stage!!.scene = scene
     }
-
-    fun establishConversation(){
-        val convo = Controller.singleton!!.createConversation(playingAs(), Controller.singleton!!.shortGame!!.players[1], playingAs().player.location.startRoom())
-        if(convo != null){
-            focusOn(convo)
-        }
-        display()
-    }
-
 
 }

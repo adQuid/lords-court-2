@@ -5,7 +5,11 @@ import javafx.scene.Scene
 import javafx.scene.layout.FlowPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
-import main.Controller
+import shortstate.scenemaker.ConversationMaker
+import shortstate.scenemaker.GoToRoomSoloMaker
+import shortstate.scenemaker.SceneMaker
+import ui.selectionmodal.SelectionModal
+import ui.selectionmodal.Tab
 
 class SceneComponentFactory {
 
@@ -35,12 +39,32 @@ class SceneComponentFactory {
         val bottomButtonsPanel = FlowPane()
         val btn1 = parent.generalComponents.makeTallButton("Personal Actions", null)
         val btn2 = parent.generalComponents.makeTallButton("Go Somewhere Else",
-            EventHandler { _ -> parent.focusOn(RoomSelectModal(parent, {room -> parent.shortGame().endScene(parent.scene!!); parent.focusOn(parent.shortGame().goToRoom(parent.playingAs(), room))}) )})
+            EventHandler { _ -> parent.focusOn(
+                SelectionModal(parent, newSceneButtons(), {maker -> goToNewSceneIfApplicable(maker)}))
+            })
         val btn3 = parent.generalComponents.makeTallButton("Filler 2", null)
         bottomButtonsPanel.children.add(btn1)
         bottomButtonsPanel.children.add(btn2)
         bottomButtonsPanel.children.add(btn3)
         return bottomButtonsPanel
+    }
+
+    private fun newSceneButtons(): List<Tab<SceneMaker>>{
+        val goToRoomMakers = parent.playingAs().player.location.rooms.map { room -> GoToRoomSoloMaker(parent.playingAs(), room) }
+        val goToRoomTab = Tab<SceneMaker>("Go to Room", goToRoomMakers)
+
+        val conversationMakers = parent.shortGame().players.minusElement(parent.playingAs())
+            .map { player -> ConversationMaker(parent.playingAs(), player, parent.playingAs().player.location.rooms[0]) }
+        val conversationTab = Tab<SceneMaker>("Conversation", conversationMakers)
+
+        return listOf(goToRoomTab, conversationTab)
+    }
+
+    private fun goToNewSceneIfApplicable(maker: SceneMaker){
+        val scene = parent.shortGame().addScene(maker)
+        if(scene != null){
+            parent.focusOn(scene)
+        }
     }
 
 }

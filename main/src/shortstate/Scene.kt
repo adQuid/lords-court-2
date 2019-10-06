@@ -1,7 +1,5 @@
 package shortstate
 
-import game.Conversation
-
 class Scene {
 
     val conversation: Conversation?

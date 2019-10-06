@@ -1,7 +1,7 @@
-package game
+package shortstate
 
 import dialog.Line
-import shortstate.ShortStatePlayer
+import game.Game
 
 class Conversation {
 

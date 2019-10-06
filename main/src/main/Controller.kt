@@ -1,9 +1,7 @@
 package main
 
 import aibrain.BrainThread
-import game.Conversation
 import game.Game
-import game.Player
 import javafx.application.Application
 import shortstate.Room
 import shortstate.Scene
@@ -33,10 +31,6 @@ class Controller {
 
     fun sceneForPlayer(player: ShortStatePlayer): Scene?{
         return shortGame!!.sceneForPlayer(player)
-    }
-
-    fun createConversation(initiator: ShortStatePlayer, target: ShortStatePlayer, room: Room): Scene?{
-        return shortGame!!.createConversation(initiator, target, room)
     }
 
 }

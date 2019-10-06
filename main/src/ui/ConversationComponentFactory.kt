@@ -10,6 +10,8 @@ import javafx.scene.layout.Pane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.Controller
+import ui.selectionmodal.SelectionModal
+import ui.selectionmodal.Tab
 
 
 class ConversationComponentFactory {
@@ -52,7 +54,13 @@ class ConversationComponentFactory {
     fun announceOptions(): Scene {
         val buttonsPane = GridPane()
         val btn1 = parent.generalComponents.makeShortButton("Select Action",
-            EventHandler { _ -> parent.focusOn(ActionSelectModal(parent, { action -> parent.lineBeingConstructed = Announcement(action); parent.focusOn(parent.lineBeingConstructed)})) })
+            EventHandler { _ -> parent.focusOn(
+                SelectionModal(parent,
+                    listOf(Tab("Basic Actions",Controller.singleton!!.game!!.possibleActionsForPlayer(parent.playingAs().player))),
+                    { action ->
+                        parent.lineBeingConstructed = Announcement(action); parent.focusOn(parent.lineBeingConstructed)
+                    })
+            ) })
         buttonsPane.add(btn1, 0, 0)
         val btn2 = parent.generalComponents.makeShortButton( "filler", null)
         buttonsPane.add(btn2, 1, 0)
@@ -65,7 +73,7 @@ class ConversationComponentFactory {
         val btn6 = parent.generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn6, 1, 1)
         val btn7 = parent.generalComponents.makeShortButton("Declare Announcement",
-            EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.focusOn(parent.scene!!.conversation) })
+            EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.display() })
         buttonsPane.add(btn7, 2, 1)
         val btn8 = parent.generalComponents.makeShortButton(
             "Cancel",

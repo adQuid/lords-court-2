@@ -1,9 +1,8 @@
 package shortstate
 
-import game.Conversation
 import game.Game
 import game.Location
-import game.Player
+import shortstate.scenemaker.SceneMaker
 
 class ShortStateGame {
 
@@ -46,18 +45,12 @@ class ShortStateGame {
         return null
     }
 
-    fun goToRoom(initiator: ShortStatePlayer, room: Room): Scene?{
-        val sceneToMake = Scene(listOf(initiator), room, null)
-        scenes.add(sceneToMake)
-        return sceneToMake
-    }
-
-    fun createConversation(initiator: ShortStatePlayer, target: ShortStatePlayer, room: Room): Scene?{
-        //TODO: make sure characters aren't already in scene
-        val convo = Conversation(initiator, target)
-        val sceneToMake = Scene(listOf(initiator, target), room, convo)
-        scenes.add(sceneToMake)
-        return sceneToMake
+    fun addScene(creator: SceneMaker): Scene?{
+        val toAdd = creator.makeScene(this)
+        if(toAdd != null){
+            scenes.add(toAdd)
+        }
+        return toAdd
     }
 
     private fun establishStartingScenes(){

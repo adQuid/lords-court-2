@@ -12,4 +12,7 @@ class ShortStatePlayer {
         this.energy = 10
     }
 
+    override fun toString(): String {
+        return player.toString()
+    }
 }
