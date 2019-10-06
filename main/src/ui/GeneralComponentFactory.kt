@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.Pane
 import javafx.scene.layout.StackPane
 import main.Controller
+import ui.selectionmodal.SelectionModal
 
 class GeneralComponentFactory {
 
@@ -40,12 +41,12 @@ class GeneralComponentFactory {
     }
 
     fun makeTallButton(text: String, action: EventHandler<ActionEvent>?): Button {
-        val retval = Button(text)
-        retval.setMinSize(parent.totalWidth / 4, parent.totalHeight / 6)
-        if (action != null) {
-            retval.onAction = action
-        }
-        return retval
+        return makeTall(makeShortButton(text, action))
+    }
+
+    fun makeTall(button: Button): Button{
+        button.setMinSize(parent.totalWidth / 4, parent.totalHeight / 6)
+        return button
     }
 
     fun makeShortButton(text: String, action: EventHandler<ActionEvent>?): Button {
@@ -65,4 +66,5 @@ class GeneralComponentFactory {
         }
         return retval
     }
+
 }

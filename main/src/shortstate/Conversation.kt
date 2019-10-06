@@ -43,7 +43,7 @@ class Conversation {
             lastLine = line
             lastSpeaker = otherParticipant(lastSpeaker)
             if(otherParticipant(lastSpeaker).player.npc){
-                lastLine = otherParticipant(lastSpeaker).player.shortBrain.reactToLine(lastLine!!, lastSpeaker.player, game)
+                submitLine(otherParticipant(lastSpeaker).player.shortBrain.reactToLine(lastLine!!, lastSpeaker.player, game), game)
             }
         }
     }

@@ -41,8 +41,7 @@ class ConversationComponentFactory {
         buttonsPane.add(btn6, 1,1)
         val btn7 = parent.generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn7, 2,1)
-        val btn8 = parent.generalComponents.makeShortButton("Leave", EventHandler{ _ -> /*Controller.singleton!!.endConversation(parent.conversation!!);*/ parent.focusOn(null)})
-        buttonsPane.add(btn8, 3,1)
+        buttonsPane.add(parent.sceneComponents.newSceneButton(), 3,1)
 
         val pane = GridPane()
         pane.add(parent.conversationComponents.conversationBackgroundImage(), 0,0)
@@ -73,7 +72,7 @@ class ConversationComponentFactory {
         val btn6 = parent.generalComponents.makeShortButton("filler", null)
         buttonsPane.add(btn6, 1, 1)
         val btn7 = parent.generalComponents.makeShortButton("Declare Announcement",
-            EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.display() })
+            EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.lineBeingConstructed = null; parent.display() })
         buttonsPane.add(btn7, 2, 1)
         val btn8 = parent.generalComponents.makeShortButton(
             "Cancel",

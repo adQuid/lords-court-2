@@ -1,7 +1,9 @@
 package ui
 
 import javafx.event.EventHandler
+import javafx.scene.Node
 import javafx.scene.Scene
+import javafx.scene.control.Button
 import javafx.scene.layout.FlowPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
@@ -38,15 +40,21 @@ class SceneComponentFactory {
     private fun outOfConvoButtons(): Pane {
         val bottomButtonsPanel = FlowPane()
         val btn1 = parent.generalComponents.makeTallButton("Personal Actions", null)
-        val btn2 = parent.generalComponents.makeTallButton("Go Somewhere Else",
-            EventHandler { _ -> parent.focusOn(
-                SelectionModal(parent, newSceneButtons(), {maker -> goToNewSceneIfApplicable(maker)}))
-            })
+        val btn2 = parent.generalComponents.makeTall(newSceneButton())
         val btn3 = parent.generalComponents.makeTallButton("Filler 2", null)
         bottomButtonsPanel.children.add(btn1)
         bottomButtonsPanel.children.add(btn2)
         bottomButtonsPanel.children.add(btn3)
         return bottomButtonsPanel
+    }
+
+    fun newSceneButton(): Button {
+        return parent.generalComponents.makeShortButton("Go Somewhere Else",
+            EventHandler { _ -> parent.focusOn(
+                SelectionModal(parent, newSceneButtons(), {maker -> goToNewSceneIfApplicable(maker)})
+            )
+            }
+        )
     }
 
     private fun newSceneButtons(): List<Tab<SceneMaker>>{

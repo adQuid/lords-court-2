@@ -30,10 +30,11 @@ class MainUI() : Application() {
     var lineBeingConstructed: Line? = null
     var selectModal: SelectionModal<*>? = null
 
+    private var lastFocus: Focus = Focus.GENERAL
     private var curFocus = Focus.SCENE
 
     private enum class Focus{
-        GENERAL, SCENE, LINE, ACTION_SELECT_MODAL, ROOM_SELECT_MODAL
+        GENERAL, SCENE, LINE, SELECT_MODAL
     }
 
     override fun start(primaryStage: Stage) {
@@ -52,6 +53,9 @@ class MainUI() : Application() {
     }
 
     fun focusOn(focus: Any?){
+        if(curFocus != null){
+            lastFocus = curFocus
+        }
         if(focus == null){
             scene = null
             lineBeingConstructed = null
@@ -67,15 +71,21 @@ class MainUI() : Application() {
             curFocus = Focus.LINE
         } else if(focus is SelectionModal<*>){
             selectModal = focus
-            curFocus = Focus.ACTION_SELECT_MODAL
+            curFocus = Focus.SELECT_MODAL
         } else {
             throw Exception("INVALID TYPE FOR FOCUS! "+focus.javaClass)
         }
         display()
     }
 
+    fun defocus(){
+        curFocus = lastFocus
+        lastFocus = Focus.GENERAL
+        display()
+    }
+
     fun display(){
-        if(curFocus == Focus.ACTION_SELECT_MODAL){
+        if(curFocus == Focus.SELECT_MODAL){
             setScene(selectModal!!.getScene())
         }else if(curFocus == Focus.LINE) {
             setScene(conversationComponents.announceOptions())
