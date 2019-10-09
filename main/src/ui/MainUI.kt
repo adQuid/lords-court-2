@@ -41,6 +41,11 @@ class MainUI() : Application() {
         primaryStage.onCloseRequest = EventHandler<WindowEvent> { exitProcess(0) }
         stage = primaryStage
         focusOn(Controller.singleton!!.sceneForPlayer(playingAs()))
+
+        /* still working on scaling with this
+        stage!!.widthProperty().addListener({_ -> totalHeight = stage!!.height; totalWidth = stage!!.width; })
+        stage!!.heightProperty().addListener({_ -> totalHeight = stage!!.height; totalWidth = stage!!.width; })*/
+
         display()
     }
 
