@@ -1,12 +1,16 @@
 package ui
 
+import dialog.linetypes.Announcement
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.control.Button
+import javafx.scene.control.Label
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.layout.StackPane
+import javafx.scene.text.Text
 import main.Controller
 import ui.selectionmodal.SelectionModal
 
@@ -35,8 +39,28 @@ class GeneralComponentFactory {
     fun makeImageView(url: String): ImageView {
         val image = Image(url)
         val retval = ImageView(image)
-        retval.fitHeight = (parent.totalHeight) * (5.0 / 6.0)
+        retval.fitHeight = (parent.totalHeight) * (4.5 / 6.0)
         retval.fitWidth = parent.totalWidth
+        return retval
+    }
+
+    fun makeBottomPane(buttons: List<Button>): Pane{
+        val statsDisplay = Label("Energy: " + parent.playingAs().energy + "/10")
+        statsDisplay.setMinSize(parent.totalWidth, parent.totalWidth / 12)
+
+        val buttonsPane = GridPane()
+        for(index in 0..7){
+            if(index < buttons.size){
+                buttonsPane.add(buttons[index], (index % 4), if(index > 3) 1 else 0)
+            } else {
+                buttonsPane.add(makeShortButton("", null), (index % 4), if(index > 3) 1 else 0)
+            }
+        }
+
+        val retval = GridPane()
+        retval.add(statsDisplay, 0, 0)
+        retval.add(buttonsPane, 0,1)
+
         return retval
     }
 

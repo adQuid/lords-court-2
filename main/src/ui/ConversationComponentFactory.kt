@@ -26,32 +26,17 @@ class ConversationComponentFactory {
     }
 
     fun inConvoPage(): Scene{
-        val buttonsPane = GridPane()
         val btn1 = parent.generalComponents.makeShortButton("Announce", EventHandler { parent.focusOn(Announcement(null)); parent.display() })
-        buttonsPane.add(btn1, 0,0)
-        val btn2 = parent.generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn2, 1,0)
-        val btn3 = parent.generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn3, 2,0)
-        val btn4 = parent.generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn4, 3,0)
-        val btn5 = parent.generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn5, 0,1)
-        val btn6 = parent.generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn6, 1,1)
-        val btn7 = parent.generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn7, 2,1)
-        buttonsPane.add(parent.sceneComponents.newSceneButton(), 3,1)
+        val leaveButton = parent.sceneComponents.newSceneButton()
 
         val pane = GridPane()
         pane.add(parent.conversationComponents.conversationBackgroundImage(), 0,0)
-        pane.add(buttonsPane, 0, 1)
+        pane.add(parent.generalComponents.makeBottomPane(listOf(btn1,leaveButton)), 0, 1)
         val scene = Scene(pane, parent.totalWidth, parent.totalHeight)
         return scene
     }
 
     fun announceOptions(): Scene {
-        val buttonsPane = GridPane()
         val btn1 = parent.generalComponents.makeShortButton("Select Action",
             EventHandler { _ -> parent.focusOn(
                 SelectionModal(parent,
@@ -60,28 +45,15 @@ class ConversationComponentFactory {
                         parent.lineBeingConstructed = Announcement(action); parent.focusOn(parent.lineBeingConstructed)
                     })
             ) })
-        buttonsPane.add(btn1, 0, 0)
-        val btn2 = parent.generalComponents.makeShortButton( "filler", null)
-        buttonsPane.add(btn2, 1, 0)
-        val btn3 = parent.generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn3, 2, 0)
-        val btn4 = parent.generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn4, 3, 0)
-        val btn5 = parent.generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn5, 0, 1)
-        val btn6 = parent.generalComponents.makeShortButton("filler", null)
-        buttonsPane.add(btn6, 1, 1)
         val btn7 = parent.generalComponents.makeShortButton("Declare Announcement",
             EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.lineBeingConstructed = null; parent.display() })
-        buttonsPane.add(btn7, 2, 1)
         val btn8 = parent.generalComponents.makeShortButton(
             "Cancel",
             EventHandler { parent.focusOn(parent.scene)})
-        buttonsPane.add(btn8, 3, 1)
 
         val pane = GridPane()
         pane.add(conversationBackgroundImage(), 0, 0)
-        pane.add(buttonsPane, 0, 1)
+        pane.add(parent.generalComponents.makeBottomPane(listOf(btn1,btn7,btn8)), 0, 1)
         val scene = Scene(pane, parent.totalWidth, parent.totalHeight)
         return scene
     }

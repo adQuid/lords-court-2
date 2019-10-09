@@ -1,10 +1,8 @@
 package ui
 
 import javafx.event.EventHandler
-import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.control.Button
-import javafx.scene.layout.FlowPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import shortstate.scenemaker.ConversationMaker
@@ -38,14 +36,10 @@ class SceneComponentFactory {
     }
 
     private fun outOfConvoButtons(): Pane {
-        val bottomButtonsPanel = FlowPane()
-        val btn1 = parent.generalComponents.makeTallButton("Personal Actions", null)
-        val btn2 = parent.generalComponents.makeTall(newSceneButton())
-        val btn3 = parent.generalComponents.makeTallButton("Filler 2", null)
-        bottomButtonsPanel.children.add(btn1)
-        bottomButtonsPanel.children.add(btn2)
-        bottomButtonsPanel.children.add(btn3)
-        return bottomButtonsPanel
+        val btn1 = parent.generalComponents.makeShortButton("Personal Actions", null)
+        val btn2 = newSceneButton()
+        val btn3 = parent.generalComponents.makeShortButton("Filler 2", null)
+        return parent.generalComponents.makeBottomPane(listOf(btn1,btn2,btn3))
     }
 
     fun newSceneButton(): Button {
