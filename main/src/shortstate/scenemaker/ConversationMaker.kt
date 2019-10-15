@@ -1,6 +1,7 @@
 package shortstate.scenemaker
 
 import shortstate.*
+import shortstate.room.Room
 
 class ConversationMaker: SceneMaker {
 

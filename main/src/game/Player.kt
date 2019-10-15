@@ -2,11 +2,13 @@ package game
 
 import aibrain.ConversationBrain
 import aibrain.ForecastBrain
+import aibrain.SceneBrain
 
 class Player {
     var npc: Boolean
     var brain = ForecastBrain(this)
-    var shortBrain = ConversationBrain(brain)
+    var sceneBrain = SceneBrain(brain)
+    var convoBrain = ConversationBrain(brain)
 
     val name: String
     var location: Location

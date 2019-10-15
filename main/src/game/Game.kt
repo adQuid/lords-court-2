@@ -65,7 +65,7 @@ class Game {
     
      @Synchronized fun nextPlayerToForcast(): Player?{
          for (player in players) {
-                 if (actionsByPlayer[player] == null && (player.npc)) {
+                 if (player.brain.lastCasesOfConcern == null && (player.npc)) {
                      return player
                  }
          }

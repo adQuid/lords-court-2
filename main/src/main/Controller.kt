@@ -3,7 +3,6 @@ package main
 import aibrain.BrainThread
 import game.Game
 import javafx.application.Application
-import shortstate.Room
 import shortstate.Scene
 import shortstate.ShortStateGame
 import shortstate.ShortStatePlayer
@@ -17,6 +16,7 @@ class Controller {
 
     var game: Game? = null
     var shortGame: ShortStateGame? = null
+    var GUI: MainUI? = null
 
     private val brainThread1 = Thread(BrainThread(this))
 
@@ -33,6 +33,9 @@ class Controller {
         return shortGame!!.sceneForPlayer(player)
     }
 
+    fun registerUI(gui: MainUI){
+        GUI = gui
+    }
 }
 
 fun main() {

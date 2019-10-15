@@ -1,16 +1,12 @@
 package ui
 
 import action.Action
-import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.scene.Scene
-import javafx.scene.control.Button
-import javafx.scene.control.ListView
 import javafx.scene.layout.GridPane
 import javafx.scene.control.ListCell
 import javafx.scene.text.Text
-import main.Controller
-import shortstate.Room
+import shortstate.room.Room
 
 
 class RoomSelectModal {

@@ -38,13 +38,17 @@ class Conversation {
         return false
     }
 
+    fun doAIIfAppropriate(game: Game){
+        if(otherParticipant(lastSpeaker).player.npc){
+            submitLine(otherParticipant(lastSpeaker).player.convoBrain.reactToLine(lastLine!!, lastSpeaker.player, game), game)
+        }
+    }
+
     fun submitLine(line: Line, game: Game){
         if(line.validToSend()){
             lastLine = line
             lastSpeaker = otherParticipant(lastSpeaker)
-            if(otherParticipant(lastSpeaker).player.npc){
-                submitLine(otherParticipant(lastSpeaker).player.shortBrain.reactToLine(lastLine!!, lastSpeaker.player, game), game)
-            }
+            doAIIfAppropriate(game)
         }
     }
 }

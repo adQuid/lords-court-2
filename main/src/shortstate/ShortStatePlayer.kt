@@ -1,11 +1,15 @@
 package shortstate
 
+import action.Action
 import game.Player
+import shortstate.scenemaker.SceneMaker
 
 class ShortStatePlayer {
 
     val player: Player
     var energy: Double
+    var prospectiveActions = mutableListOf<Action>()
+    var nextSceneIWannaBeIn: SceneMaker? = null
 
     constructor(player: Player){
         this.player = player
@@ -22,5 +26,9 @@ class ShortStatePlayer {
             return true
         }
         return false
+    }
+
+    fun decideNextScene(game: ShortStateGame){
+        nextSceneIWannaBeIn = player.sceneBrain.nextSceneIWantToBeIn(this, game)
     }
 }

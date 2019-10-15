@@ -22,6 +22,7 @@ class MainUI() : Application() {
     var generalComponents = GeneralComponentFactory(this)
     var sceneComponents = SceneComponentFactory(this)
     var conversationComponents = ConversationComponentFactory(this)
+    var nonSceneComponents = NonSceneComponentFactory(this)
 
     var totalWidth = 1200.0 * SIZE_SCALE
     var totalHeight = 1080.0 * SIZE_SCALE
@@ -31,10 +32,14 @@ class MainUI() : Application() {
     var selectModal: SelectionModal<*>? = null
 
     private var lastFocus: Focus = Focus.GENERAL
-    private var curFocus = Focus.SCENE
+    private var curFocus = Focus.GENERAL
 
     private enum class Focus{
         GENERAL, SCENE, LINE, SELECT_MODAL
+    }
+
+    override fun init(){
+        Controller.singleton!!.registerUI(this)
     }
 
     override fun start(primaryStage: Stage) {
@@ -83,6 +88,11 @@ class MainUI() : Application() {
         display()
     }
 
+    //focuses on whatever the scene is at this point
+    fun refocus(){
+        focusOn(shortGame().sceneForPlayer(playingAs()))
+    }
+
     fun defocus(){
         curFocus = lastFocus
         lastFocus = Focus.GENERAL
@@ -97,7 +107,7 @@ class MainUI() : Application() {
         } else if(curFocus == Focus.SCENE){
            setScene(sceneComponents.scenePage())
         } else{
-            throw Exception("GENERAL Scope not implemented yet!")
+           setScene(nonSceneComponents.waitingPage())
         }
 
         this.stage!!.show()

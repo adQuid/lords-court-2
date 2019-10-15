@@ -15,8 +15,8 @@ class BrainThread: Runnable {
             val player = parent.game?.nextPlayerToForcast()
 
             if(player != null){
-                parent.game!!.commitActionsForPlayer(player, player.brain.thinkAboutNextTurn(parent.game!!))
-                println("turn commited for $player")
+                player.brain.thinkAboutNextTurn(parent.game!!)
+                println("turn forcast for $player")
 
             } else {
                 val shortPlayer = parent.shortGame?.nextPlayerToDoShortStateStuff()
@@ -26,17 +26,13 @@ class BrainThread: Runnable {
                     continue
                 }
 
-                val scene = parent.shortGame!!.sceneForPlayer(shortPlayer)
+                println("forecasting next scene for ${shortPlayer.player}")
+                val scene = shortPlayer.nextSceneIWannaBeIn
 
-                //TODO: Make this do something relivent
                 if(scene == null){
-                    Thread.sleep(200)
-                    continue
+                    shortPlayer.decideNextScene(parent.shortGame!!)
                 }
-
-                if(scene!!.characters.size == 1){
-                    parent.shortGame!!.endScene(scene)
-                }
+                Thread.sleep(200)
             }
 
 

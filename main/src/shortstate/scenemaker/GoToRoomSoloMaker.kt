@@ -1,7 +1,6 @@
 package shortstate.scenemaker
 
-import game.Game
-import shortstate.Room
+import shortstate.room.Room
 import shortstate.Scene
 import shortstate.ShortStateGame
 import shortstate.ShortStatePlayer

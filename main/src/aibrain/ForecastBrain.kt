@@ -21,10 +21,9 @@ class ForecastBrain {
         this.player = player
     }
 
-    fun thinkAboutNextTurn(game: Game): List<Action>{
+    fun thinkAboutNextTurn(game: Game){
         lastCasesOfConcern = casesOfConcern(game)
         calculateFavoriteEffects()
-        return listOf<Action>()
     }
 
     fun calculateFavoriteEffects(){

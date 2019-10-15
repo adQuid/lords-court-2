@@ -5,6 +5,8 @@ import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
+import shortstate.room.Room
+import shortstate.room.RoomAction
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
@@ -37,8 +39,13 @@ class SceneComponentFactory {
 
     private fun outOfConvoButtons(): Pane {
         val btn1 = parent.generalComponents.makeShortButton("Personal Actions", null)
-        val btn2 = newSceneButton()
-        val btn3 = parent.generalComponents.makeShortButton("Filler 2", null)
+        var btn2 = parent.generalComponents.makeShortButton("No Actions In this Room", null)
+        if(parent.scene!!.room.actions.isNotEmpty()){
+            btn2 = parent.generalComponents.makeShortButton("Actions Here", EventHandler { _ ->
+                parent.focusOn(SelectionModal(parent, roomActionButtons(parent.scene!!.room), {action -> action.doAction(parent.shortGame(), parent.playingAs())}))
+            })
+        }
+        val btn3 = newSceneButton()
         return parent.generalComponents.makeBottomPane(listOf(btn1,btn2,btn3))
     }
 
@@ -63,10 +70,14 @@ class SceneComponentFactory {
     }
 
     private fun goToNewSceneIfApplicable(maker: SceneMaker){
-        val scene = parent.shortGame().addScene(maker)
-        if(scene != null){
-            parent.focusOn(scene)
-        }
+        parent.playingAs().nextSceneIWannaBeIn = maker
+        parent.shortGame().endScene(parent.scene)
+        parent.refocus()
     }
 
+    private fun roomActionButtons(room: Room): List<Tab<RoomAction>>{
+        val tab = Tab<RoomAction>(room.name, room.actions)
+
+        return listOf(tab)
+    }
 }
