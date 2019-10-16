@@ -9,7 +9,7 @@ class ConversationMaker: SceneMaker {
     val target: ShortStatePlayer
     val room: Room
 
-    val energyCost = 1.5
+    val energyCost = 150
 
     constructor(initiator: ShortStatePlayer, target: ShortStatePlayer, room: Room){
         this.initiator = initiator

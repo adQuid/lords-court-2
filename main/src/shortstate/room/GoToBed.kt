@@ -1,12 +1,13 @@
 package shortstate.room
 
+import main.Controller
 import shortstate.ShortStateGame
 import shortstate.ShortStatePlayer
 
 class GoToBed: RoomAction() {
     override fun doAction(game: ShortStateGame, player: ShortStatePlayer) {
-        println("this happened")
-        game.game.commitActionsForPlayer(player.player, player.prospectiveActions)
+        println("$player committed actions")
+        Controller.singleton!!.commitActionsForPlayer(player.player, player.prospectiveActions)
     }
 
     override fun toString(): String {

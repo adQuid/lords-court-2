@@ -42,7 +42,7 @@ class SceneComponentFactory {
         var btn2 = parent.generalComponents.makeShortButton("No Actions In this Room", null)
         if(parent.scene!!.room.actions.isNotEmpty()){
             btn2 = parent.generalComponents.makeShortButton("Actions Here", EventHandler { _ ->
-                parent.focusOn(SelectionModal(parent, roomActionButtons(parent.scene!!.room), {action -> action.doAction(parent.shortGame(), parent.playingAs())}))
+                parent.focusOn(SelectionModal(parent, roomActionButtons(parent.scene!!.room), {action -> action.doAction(parent.shortGame(), parent.playingAs()); parent.refocus()}))
             })
         }
         val btn3 = newSceneButton()

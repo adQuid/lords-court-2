@@ -1,7 +1,9 @@
 package main
 
+import action.Action
 import aibrain.BrainThread
 import game.Game
+import game.Player
 import javafx.application.Application
 import shortstate.Scene
 import shortstate.ShortStateGame
@@ -35,6 +37,16 @@ class Controller {
 
     fun registerUI(gui: MainUI){
         GUI = gui
+    }
+
+    fun commitActionsForPlayer(player: Player, actions: List<Action>){
+        game!!.commitActionsForPlayer(player, actions)
+        if(game!!.actionsByPlayer.keys.size == game!!.players.size){
+            println("ENDING TURN")
+            game!!.endTurn()
+            shortGame = ShortStateGame(game!!, game!!.locations[0])
+            GUI!!.refocus()
+        }
     }
 }
 

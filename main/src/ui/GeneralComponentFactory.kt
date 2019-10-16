@@ -45,7 +45,7 @@ class GeneralComponentFactory {
     }
 
     fun makeBottomPane(buttons: List<Button>): Pane{
-        val statsDisplay = Label("Energy: " + parent.playingAs().energy + "/10")
+        val statsDisplay = Label("Energy: " + parent.playingAs().energy + "/1000")
         statsDisplay.setMinSize(parent.totalWidth, parent.totalWidth / 12)
 
         val buttonsPane = GridPane()

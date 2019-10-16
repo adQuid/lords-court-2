@@ -46,9 +46,6 @@ class Game {
 
     fun commitActionsForPlayer(player: Player, actions: List<Action>){
         actionsByPlayer[player] = actions
-        if(actionsByPlayer.keys.size == players.size){
-            endTurn()
-        }
     }
 
     fun endTurn(){
@@ -61,6 +58,8 @@ class Game {
         }
 
         actionsByPlayer.clear()
+
+        turn++
     }
     
      @Synchronized fun nextPlayerToForcast(): Player?{

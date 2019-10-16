@@ -3,6 +3,7 @@ package shortstate
 import game.Game
 import game.Location
 import main.Controller
+import shortstate.room.GoToBed
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
 
@@ -51,12 +52,12 @@ class ShortStateGame {
     }
 
     private fun addScene(player: ShortStatePlayer, creator: SceneMaker?){
-        println("scene added for $player")
+        println("scene($creator) added for $player, who has ${player.energy} energy left")
         if(creator == null){
             println("OHH NO we need a new scene!!!!")
         }
         if(scene == null){
-            player.energy -= 0.01
+            player.energy -= 1
             val toAdd = creator!!.makeScene(this)
             if(toAdd != null){
                 scene = toAdd
@@ -81,6 +82,9 @@ class ShortStateGame {
             } else {
                 //TODO: Have this do other things
                 if(scene!!.characters[0].player.npc){
+                    if(scene!!.characters[0].energy < 990){
+                        GoToBed().doAction(this, scene!!.characters[0])
+                    }
                     endScene(scene)
                 }
             }
