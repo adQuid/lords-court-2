@@ -3,7 +3,7 @@ package shortstate
 import game.Game
 import game.Location
 import main.Controller
-import shortstate.room.GoToBed
+import shortstate.room.action.GoToBed
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
 
@@ -39,8 +39,8 @@ class ShortStateGame {
         throw Exception("No player found!")
     }
 
-    fun nextActingPlayer(): ShortStatePlayer{
-        return players.sortedByDescending { it.energy }[0]
+    fun nextActingPlayer(): ShortStatePlayer?{
+        return players.filter { it.energy > 0 }.sortedByDescending { it.energy }.getOrNull(0)
     }
 
     fun sceneForPlayer(player: ShortStatePlayer): Scene?{
@@ -72,7 +72,8 @@ class ShortStateGame {
         players.forEach { player ->
             player.nextSceneIWannaBeIn = GoToRoomSoloMaker(player,location.startRoom())
         }
-        addScene(nextActingPlayer(), nextActingPlayer().nextSceneIWannaBeIn)
+        //this SHOULD be safe, since the game just started. this will crash on an empty location
+        addScene(nextActingPlayer()!!, nextActingPlayer()!!.nextSceneIWannaBeIn)
     }
 
     private fun doAIIfAppropriate(){
@@ -94,15 +95,22 @@ class ShortStateGame {
     fun endScene(scene: Scene?){
         if(this.scene == scene){
             this.scene = null
-        }
-        val nextPlayer = nextActingPlayer()
-        if(nextPlayer.player.npc && nextPlayer.nextSceneIWannaBeIn == null){
-            nextPlayer.decideNextScene(this)
-        }
-        addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)
-        nextPlayer.nextSceneIWannaBeIn = null
-        doAIIfAppropriate()
 
-        Controller.singleton!!.GUI!!.refocus()
+            val nextPlayer = nextActingPlayer()
+
+            if(nextPlayer == null){
+                println("no players left to act. Doing nothing else")
+            } else {
+
+                if(nextPlayer.player.npc && nextPlayer.nextSceneIWannaBeIn == null){
+                    nextPlayer.decideNextScene(this)
+                }
+                addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)
+                nextPlayer.nextSceneIWannaBeIn = null
+                doAIIfAppropriate()
+            }
+
+            Controller.singleton!!.GUI!!.refocus()
+        }
     }
 }

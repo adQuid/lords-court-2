@@ -46,6 +46,7 @@ class Controller {
             game!!.endTurn()
             shortGame = ShortStateGame(game!!, game!!.locations[0])
             GUI!!.refocus()
+            println(game!!.deliciousness)
         }
     }
 }

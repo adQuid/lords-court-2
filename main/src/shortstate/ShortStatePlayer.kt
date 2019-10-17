@@ -7,6 +7,9 @@ import java.math.BigDecimal
 
 class ShortStatePlayer {
 
+    //testing only
+    val id = Math.random()
+
     val player: Player
     var energy: Int
     var prospectiveActions = mutableListOf<Action>()
@@ -18,7 +21,7 @@ class ShortStatePlayer {
     }
 
     override fun toString(): String {
-        return player.toString()
+        return player.toString() + id.toString()
     }
 
     fun addEnergy(amount: Int): Boolean {

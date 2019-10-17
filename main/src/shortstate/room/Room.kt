@@ -1,5 +1,8 @@
 package shortstate.room
 
+import shortstate.room.action.CommitToCookies
+import shortstate.room.action.GoToBed
+
 class Room {
 
     val name: String
@@ -10,7 +13,7 @@ class Room {
         this.name = name
         this.pictureText = pictureText
         if(type == RoomType.BEDROOM){
-            actions = listOf(GoToBed())
+            actions = listOf(GoToBed(), CommitToCookies())
         } else {
             actions = listOf()
         }
