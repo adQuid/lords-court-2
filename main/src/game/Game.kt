@@ -6,6 +6,7 @@ import actionTypes.WasteTime
 import aibrain.Plan
 
 class Game {
+    var isLive = true
     var turn = 1
     var players = mutableListOf<Player>()
     var locations = listOf(Location())
@@ -21,6 +22,7 @@ class Game {
     }
 
     constructor(other: Game){
+        isLive = false
         other.players.forEach{
             this.players.add(Player(it))
         }

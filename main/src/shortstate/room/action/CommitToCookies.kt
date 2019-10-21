@@ -10,7 +10,6 @@ import shortstate.room.RoomAction
 class CommitToCookies: RoomAction() {
     override fun doAction(game: ShortStateGame, player: ShortStatePlayer) {
         player.prospectiveActions.add(Action(BakeCookies()))
-        Controller.singleton!!.commitActionsForPlayer(player.player, player.prospectiveActions)
         player.energy -= 10
     }
 
