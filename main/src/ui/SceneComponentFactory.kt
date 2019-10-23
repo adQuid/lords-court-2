@@ -5,6 +5,7 @@ import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
+import shortstate.report.Report
 import shortstate.room.Room
 import shortstate.room.RoomAction
 import shortstate.scenemaker.ConversationMaker
@@ -46,19 +47,36 @@ class SceneComponentFactory {
             })
         }
         val btn3 = newSceneButton()
-        return parent.generalComponents.makeBottomPane(listOf(btn1,btn2,btn3))
+        val btn4 = viewReportsButton()
+        return parent.generalComponents.makeBottomPane(listOf(btn1,btn2,btn3,btn4))
+    }
+
+    fun viewReportsButton(): Button {
+        return parent.generalComponents.makeShortButton("View Reports",
+                EventHandler { _ -> parent.focusOn(
+                    SelectionModal(parent, reports(), { report -> println(report)})
+                )
+            }
+        )
+    }
+
+    fun reports(): List<Tab<Report>>{
+        val reportOptions = parent.playingAs().knownReports.map{ report -> report }
+        val reportTab = Tab<Report>("Reports", reportOptions)
+
+        return listOf(reportTab)
     }
 
     fun newSceneButton(): Button {
         return parent.generalComponents.makeShortButton("Go Somewhere Else",
             EventHandler { _ -> parent.focusOn(
-                SelectionModal(parent, newSceneButtons(), {maker -> goToNewSceneIfApplicable(maker)})
+                SelectionModal(parent, newSceneOptions(), { maker -> goToNewSceneIfApplicable(maker)})
             )
             }
         )
     }
 
-    private fun newSceneButtons(): List<Tab<SceneMaker>>{
+    private fun newSceneOptions(): List<Tab<SceneMaker>>{
         val goToRoomMakers = parent.playingAs().player.location.rooms.map { room -> GoToRoomSoloMaker(parent.playingAs(), room) }
         val goToRoomTab = Tab<SceneMaker>("Go to Room", goToRoomMakers)
 

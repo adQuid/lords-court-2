@@ -2,6 +2,7 @@ package shortstate.room
 
 import shortstate.room.action.CommitToCookies
 import shortstate.room.action.GoToBed
+import shortstate.room.action.ReportOnDeliciousness
 
 class Room {
 
@@ -13,7 +14,9 @@ class Room {
         this.name = name
         this.pictureText = pictureText
         if(type == RoomType.BEDROOM){
-            actions = listOf(GoToBed(), CommitToCookies())
+            actions = listOf(GoToBed())
+        } else if(type == RoomType.WORKROOM){
+            actions = listOf(CommitToCookies(), ReportOnDeliciousness())
         } else {
             actions = listOf()
         }
@@ -24,7 +27,7 @@ class Room {
     }
 
     enum class RoomType{
-        BEDROOM, ETC
+        BEDROOM, WORKROOM, ETC
     }
 
 }

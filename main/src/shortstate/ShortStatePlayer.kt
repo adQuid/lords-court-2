@@ -2,6 +2,7 @@ package shortstate
 
 import action.Action
 import game.Player
+import shortstate.report.Report
 import shortstate.scenemaker.SceneMaker
 import java.math.BigDecimal
 
@@ -12,6 +13,7 @@ class ShortStatePlayer {
 
     val player: Player
     var energy: Int
+    var knownReports = mutableListOf<Report>()
     var prospectiveActions = mutableListOf<Action>()
     var nextSceneIWannaBeIn: SceneMaker? = null
 
