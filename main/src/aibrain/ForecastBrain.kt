@@ -15,6 +15,7 @@ class ForecastBrain {
 
     var lastCasesOfConcern: Map<GameCase, Double>? = null
     var lastFavoriteEffects: List<Effect>? = null
+    var sortedCases: List<GameCase>? = null
 
     constructor(player: Player){
         this.player = player
@@ -23,10 +24,7 @@ class ForecastBrain {
     fun thinkAboutNextTurn(game: Game){
         lastCasesOfConcern = casesOfConcern(game)
         lastFavoriteEffects = favoriteEffects()
-
-        lastCasesOfConcern!!.forEach {
-            println(it)
-        }
+        sortedCases = lastCasesOfConcern!!.toList().sortedBy { entry -> -entry.second }.map { entry -> entry.first }
     }
 
     private fun favoriteEffects(): List<Effect>{

@@ -1,6 +1,6 @@
 package ui
 
-import dialog.Line
+import shortstate.dialog.Line
 import javafx.application.Application;
 import javafx.event.EventHandler
 import javafx.stage.Stage

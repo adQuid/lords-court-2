@@ -1,6 +1,6 @@
 package shortstate
 
-import dialog.Line
+import shortstate.dialog.Line
 import game.Game
 
 class Conversation {
@@ -40,7 +40,7 @@ class Conversation {
 
     fun doAIIfAppropriate(game: Game){
         if(otherParticipant(lastSpeaker).player.npc){
-            submitLine(otherParticipant(lastSpeaker).player.convoBrain.reactToLine(lastLine, lastSpeaker.player, game), game)
+            submitLine(otherParticipant(lastSpeaker).convoBrain.reactToLine(lastLine, lastSpeaker.player, game), game)
         }
     }
 

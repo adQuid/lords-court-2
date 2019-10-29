@@ -1,4 +1,4 @@
-package dialog
+package shortstate.dialog
 
 abstract class Line {
 

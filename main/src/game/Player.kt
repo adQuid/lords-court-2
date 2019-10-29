@@ -7,8 +7,6 @@ import aibrain.SceneBrain
 class Player {
     var npc: Boolean
     var brain = ForecastBrain(this)
-    var sceneBrain = SceneBrain(brain)
-    var convoBrain = ConversationBrain(brain)
 
     val name: String
     var location: Location

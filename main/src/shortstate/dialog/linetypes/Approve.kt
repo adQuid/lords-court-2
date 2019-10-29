@@ -1,20 +1,20 @@
-package dialog.linetypes
+package shortstate.dialog.linetypes
 
-import dialog.Line
-import dialog.LineBlock
+import shortstate.dialog.Line
+import shortstate.dialog.LineBlock
 
-class Disapprove: Line {
+class Approve: Line {
 
     constructor(){
 
     }
 
     override fun symbolicForm(): List<LineBlock> {
-        return listOf(LineBlock("Disapprove"))
+        return listOf(LineBlock("Approve"))
     }
 
     override fun fullTextForm(): String {
-        return "NOOO!!!"
+        return "YAASSSSS"
     }
 
     override fun validToSend(): Boolean {

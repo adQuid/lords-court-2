@@ -1,6 +1,5 @@
 package ui
 
-import dialog.linetypes.Announcement
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.control.Button
@@ -10,9 +9,6 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.layout.StackPane
-import javafx.scene.text.Text
-import main.Controller
-import ui.selectionmodal.SelectionModal
 
 class GeneralComponentFactory {
 

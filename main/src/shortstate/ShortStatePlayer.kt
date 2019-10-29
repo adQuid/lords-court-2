@@ -1,6 +1,8 @@
 package shortstate
 
 import action.Action
+import aibrain.ConversationBrain
+import aibrain.SceneBrain
 import game.Player
 import shortstate.report.Report
 import shortstate.scenemaker.SceneMaker
@@ -12,6 +14,8 @@ class ShortStatePlayer {
     val id = Math.random()
 
     val player: Player
+    var sceneBrain: SceneBrain
+    var convoBrain: ConversationBrain
     var energy: Int
     var knownReports = mutableListOf<Report>()
     var prospectiveActions = mutableListOf<Action>()
@@ -20,6 +24,8 @@ class ShortStatePlayer {
     constructor(player: Player){
         this.player = player
         this.energy = 1000
+        sceneBrain = SceneBrain(player.brain)
+        convoBrain = ConversationBrain(player.brain)
     }
 
     override fun toString(): String {
@@ -35,6 +41,6 @@ class ShortStatePlayer {
     }
 
     fun decideNextScene(game: ShortStateGame){
-        nextSceneIWannaBeIn = player.sceneBrain.nextSceneIWantToBeIn(this, game)
+        nextSceneIWannaBeIn = sceneBrain.nextSceneIWantToBeIn(this, game)
     }
 }

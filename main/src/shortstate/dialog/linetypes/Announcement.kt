@@ -1,8 +1,8 @@
-package dialog.linetypes
+package shortstate.dialog.linetypes
 
 import action.Action
-import dialog.Line
-import dialog.LineBlock
+import shortstate.dialog.Line
+import shortstate.dialog.LineBlock
 
 class Announcement: Line {
 

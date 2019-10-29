@@ -1,7 +1,7 @@
 package ui
 
-import dialog.Line
-import dialog.linetypes.Announcement
+import shortstate.dialog.Line
+import shortstate.dialog.linetypes.Announcement
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.Scene

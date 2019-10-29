@@ -1,11 +1,12 @@
 package aibrain
 
-import dialog.Line
-import dialog.linetypes.Announcement
-import dialog.linetypes.Approve
-import dialog.linetypes.Disapprove
+import shortstate.dialog.Line
+import shortstate.dialog.linetypes.Announcement
+import shortstate.dialog.linetypes.Approve
+import shortstate.dialog.linetypes.Disapprove
 import game.Game
 import game.Player
+import shortstate.dialog.linetypes.Request
 
 class ConversationBrain {
 
@@ -16,8 +17,9 @@ class ConversationBrain {
     }
 
     fun reactToLine(line: Line?, speaker: Player, game: Game): Line {
+        //TODO: Make this not awful
         if(line == null){
-            return Approve()
+            return Request(longBrain.sortedCases!![0].plan.actions[0])
         }
 
         if(line is Announcement){

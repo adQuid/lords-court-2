@@ -1,5 +1,6 @@
 package aibrain
 
+import game.Game
 import shortstate.ShortStateGame
 import shortstate.ShortStatePlayer
 import shortstate.scenemaker.ConversationMaker
@@ -10,17 +11,25 @@ class SceneBrain {
 
     val longBrain: ForecastBrain
 
+    var sortedCases: List<GameCase>? = null
+
     constructor(longBrain: ForecastBrain){
         this.longBrain = longBrain
     }
 
     fun nextSceneIWantToBeIn(player: ShortStatePlayer, game: ShortStateGame): SceneMaker?{
 
-        val sortedCases = longBrain.lastCasesOfConcern!!.toList().sortedBy { entry -> entry.second }.map { entry -> entry.first }
+        if(sortedCases == null){
+            sortedCases = longBrain.sortedCases
+        }
 
         //if someone else did something for the best case, go ask them about it
-        if(sortedCases[0].plan.player != longBrain.player && game.shortPlayerForLongPlayer(sortedCases[0].plan.player) != null){
-            return ConversationMaker(player, game.shortPlayerForLongPlayer(sortedCases[0].plan.player)!!, game.location.startRoom())
+        while(sortedCases != null && sortedCases!!.isNotEmpty()){
+            val hopefulCase = sortedCases!![0]
+            sortedCases = sortedCases!!.filter { it.plan.player != hopefulCase.plan.player }
+            if(hopefulCase.plan.player != longBrain.player && game.shortPlayerForLongPlayer(hopefulCase.plan.player) != null){
+                return ConversationMaker(player, game.shortPlayerForLongPlayer(hopefulCase.plan.player)!!, game.location.startRoom())
+            }
         }
 
         return GoToRoomSoloMaker(player, game.location.startRoom())
