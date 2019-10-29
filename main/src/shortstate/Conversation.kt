@@ -40,7 +40,7 @@ class Conversation {
 
     fun doAIIfAppropriate(game: Game){
         if(otherParticipant(lastSpeaker).player.npc){
-            submitLine(otherParticipant(lastSpeaker).player.convoBrain.reactToLine(lastLine!!, lastSpeaker.player, game), game)
+            submitLine(otherParticipant(lastSpeaker).player.convoBrain.reactToLine(lastLine, lastSpeaker.player, game), game)
         }
     }
 

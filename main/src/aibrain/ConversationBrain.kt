@@ -15,7 +15,11 @@ class ConversationBrain {
         this.longBrain = longBrain
     }
 
-    fun reactToLine(line: Line, speaker: Player, game: Game): Line {
+    fun reactToLine(line: Line?, speaker: Player, game: Game): Line {
+        if(line == null){
+            return Approve()
+        }
+
         if(line is Announcement){
             val action = line.action
 

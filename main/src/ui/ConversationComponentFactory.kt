@@ -46,7 +46,7 @@ class ConversationComponentFactory {
                     })
             ) })
         val btn7 = parent.generalComponents.makeShortButton("Declare Announcement",
-            EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.lineBeingConstructed = null; parent.display() })
+            EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.lineBeingConstructed = null; parent.focusOn(parent.scene)})
         val btn8 = parent.generalComponents.makeShortButton(
             "Cancel",
             EventHandler { parent.focusOn(parent.scene)})

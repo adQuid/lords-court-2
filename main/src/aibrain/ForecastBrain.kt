@@ -14,7 +14,6 @@ class ForecastBrain {
     var maxPlansToThinkAbout = 9
 
     var lastCasesOfConcern: Map<GameCase, Double>? = null
-    var lastFavoriteCase: GameCase? = null
     var lastFavoriteEffects: List<Effect>? = null
 
     constructor(player: Player){
@@ -23,16 +22,20 @@ class ForecastBrain {
 
     fun thinkAboutNextTurn(game: Game){
         lastCasesOfConcern = casesOfConcern(game)
-        calculateFavoriteEffects()
+        lastFavoriteEffects = favoriteEffects()
+
+        lastCasesOfConcern!!.forEach {
+            println(it)
+        }
     }
 
-    fun calculateFavoriteEffects(){
+    private fun favoriteEffects(): List<Effect>{
         var cases = lastCasesOfConcern
 
         val averageScore = cases!!.values.average()
 
+        //map cases to how different they are from average
         val modCases = HashMap<GameCase, Double>()
-
         cases.forEach { entry -> modCases[entry.key] = (entry.value - averageScore) * entry.key.probability() }
 
         var orderedCaseList = modCases.toList().sortedBy { (key, value) -> value }
@@ -40,14 +43,14 @@ class ForecastBrain {
         val bestCase = orderedCaseList[orderedCaseList.size-1].first
         var bestCaseEffects = bestCase.effects.toMutableList()
 
-        for(index in 0..orderedCaseList.size-2){
-            if(orderedCaseList[index].second < 0){
-                bestCaseEffects.removeAll(orderedCaseList[index].first.effects)
+        //in very primitive logic, if any case is below average, assume all effects are bad and remove them from the best case
+        orderedCaseList.forEach{
+            if(it.second < 0){
+                bestCaseEffects.removeAll(it.first.effects)
             }
         }
 
-        lastFavoriteCase = bestCase
-        lastFavoriteEffects = bestCaseEffects
+        return bestCaseEffects
     }
 
     private fun casesOfConcern(game: Game): Map<GameCase, Double>{
@@ -61,8 +64,9 @@ class ForecastBrain {
         }
 
         var retval = HashMap<GameCase,Double>()
-        for(player in likelyPlans.keys){
+        likelyPlans.keys.forEach {player ->
             var effects = mutableListOf<Effect>()
+            //for every player that isn't this one, add the effect of every action of every plan, layered by the probability of that plan
             for(otherPlayer in likelyPlans.keys) {
                 if(otherPlayer != player) {
                     for (plan in likelyPlans[otherPlayer]!!) {
@@ -74,9 +78,10 @@ class ForecastBrain {
                 }
             }
 
+            //make a gamecase for every plan of each player with effects added for the average of what everyone else might do?
             likelyPlans[player]!!.forEach {
                 val toAdd = GameCase(myGame, it, effects)
-                retval[toAdd] = evaluateGame(toAdd.game) * it.probability
+                retval[toAdd] = evaluateGame(toAdd.game)
             }
         }
 

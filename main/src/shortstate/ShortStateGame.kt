@@ -2,6 +2,7 @@ package shortstate
 
 import game.Game
 import game.Location
+import game.Player
 import main.Controller
 import shortstate.room.action.GoToBed
 import shortstate.scenemaker.GoToRoomSoloMaker
@@ -30,6 +31,7 @@ class ShortStateGame {
         return null
     }
 
+    //returns short state player actually being played by a human
     fun playerCharacter(): ShortStatePlayer{
         players.forEach {
             if(!it.player.npc){
@@ -37,6 +39,15 @@ class ShortStateGame {
             }
         }
         throw Exception("No player found!")
+    }
+
+    fun shortPlayerForLongPlayer(player: Player): ShortStatePlayer?{
+        players.forEach {
+            if(it.player == player){
+                return it
+            }
+        }
+        return null
     }
 
     fun nextActingPlayer(): ShortStatePlayer?{
