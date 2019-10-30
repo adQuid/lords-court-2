@@ -1,10 +1,10 @@
 package shortstate.room
 
 import shortstate.ShortStateGame
-import shortstate.ShortStatePlayer
+import shortstate.ShortStateCharacter
 
 abstract class RoomAction {
 
-    abstract fun doAction(game: ShortStateGame, player: ShortStatePlayer)
+    abstract fun doAction(game: ShortStateGame, player: ShortStateCharacter)
 
 }

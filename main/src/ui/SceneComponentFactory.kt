@@ -41,7 +41,7 @@ class SceneComponentFactory {
     private fun outOfConvoButtons(): Pane {
         val btn1 = parent.generalComponents.makeShortButton("Personal Actions", null)
         var btn2 = parent.generalComponents.makeShortButton("No Actions In this Room", null)
-        if(parent.scene!!.room.actions.isNotEmpty()){
+        if(parent.scene!!.room.baseActions.isNotEmpty()){
             btn2 = parent.generalComponents.makeShortButton("Actions Here", EventHandler { _ ->
                 parent.focusOn(SelectionModal(parent, roomActionButtons(parent.scene!!.room), {action -> action.doAction(parent.shortGame(), parent.playingAs()); parent.refocus()}))
             })
@@ -94,7 +94,7 @@ class SceneComponentFactory {
     }
 
     private fun roomActionButtons(room: Room): List<Tab<RoomAction>>{
-        val tab = Tab<RoomAction>(room.name, room.actions)
+        val tab = Tab<RoomAction>(room.name, room.getActions(parent.playingAs().player))
 
         return listOf(tab)
     }

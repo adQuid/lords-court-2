@@ -1,12 +1,12 @@
-package actionTypes
+package game.action.actionTypes
 
-import action.Action
-import action.Effect
+import game.action.Action
+import game.action.Effect
 import game.Game
-import game.Player
+import game.Character
 
 class BakeCookies: Action.ActionType() {
-    override fun doAction(game: Game, player: Player): List<Effect> {
+    override fun doAction(game: Game, player: Character): List<Effect> {
         return listOf(AddDelicousness(1.0))
     }
 

@@ -5,7 +5,7 @@ import shortstate.dialog.linetypes.Announcement
 import shortstate.dialog.linetypes.Approve
 import shortstate.dialog.linetypes.Disapprove
 import game.Game
-import game.Player
+import game.Character
 import shortstate.dialog.linetypes.Request
 
 class ConversationBrain {
@@ -16,7 +16,7 @@ class ConversationBrain {
         this.longBrain = longBrain
     }
 
-    fun reactToLine(line: Line?, speaker: Player, game: Game): Line {
+    fun reactToLine(line: Line?, speaker: Character, game: Game): Line {
         //TODO: Make this not awful
         if(line == null){
             return Request(longBrain.sortedCases!![0].plan.actions[0])

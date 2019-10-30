@@ -8,7 +8,7 @@ import javafx.scene.Scene
 import javafx.stage.WindowEvent
 import main.Controller
 import shortstate.ShortStateGame
-import shortstate.ShortStatePlayer
+import shortstate.ShortStateCharacter
 import ui.selectionmodal.SelectionModal
 import java.lang.Exception
 import kotlin.system.exitProcess
@@ -58,7 +58,7 @@ class MainUI() : Application() {
         return Controller.singleton!!.shortGame!!
     }
 
-    fun playingAs(): ShortStatePlayer {
+    fun playingAs(): ShortStateCharacter {
         return shortGame().playerCharacter()
     }
 

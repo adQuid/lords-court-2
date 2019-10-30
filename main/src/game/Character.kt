@@ -1,14 +1,14 @@
 package game
 
-import aibrain.ConversationBrain
 import aibrain.ForecastBrain
-import aibrain.SceneBrain
 
-class Player {
+class Character {
     var npc: Boolean
     var brain = ForecastBrain(this)
 
     val name: String
+    var titles: MutableList<Title> = mutableListOf()
+
     var location: Location
 
     constructor(name: String, npc: Boolean, location: Location) {
@@ -17,14 +17,14 @@ class Player {
         this.location = location
     }
 
-    constructor(other: Player){
+    constructor(other: Character){
         this.name = other.name
         this.npc = other.npc
         this.location = other.location
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other is Player){
+        if(other is Character){
             return this.name == other.name
         }
         return false

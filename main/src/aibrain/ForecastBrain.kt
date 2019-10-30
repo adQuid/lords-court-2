@@ -1,14 +1,14 @@
 package aibrain
 
-import actionTypes.BakeCookies
-import action.Action
-import action.Effect
+import game.action.actionTypes.BakeCookies
+import game.action.Action
+import game.action.Effect
 import game.Game
-import game.Player
+import game.Character
 import util.safeSublist
 
 class ForecastBrain {
-    val player: Player
+    val player: Character
 
     var maxPlayersToThinkAbout = 3
     var maxPlansToThinkAbout = 9
@@ -17,7 +17,7 @@ class ForecastBrain {
     var lastFavoriteEffects: List<Effect>? = null
     var sortedCases: List<GameCase>? = null
 
-    constructor(player: Player){
+    constructor(player: Character){
         this.player = player
     }
 
@@ -56,7 +56,7 @@ class ForecastBrain {
 
         val topPlayers = safeSublist(mostSignificantPlayersToMe(myGame),0,maxPlayersToThinkAbout)
 
-        val likelyPlans = HashMap<Player, List<Plan>>()
+        val likelyPlans = HashMap<Character, List<Plan>>()
         topPlayers.forEach{player ->
             likelyPlans[player] = possibleActionsForPlayer(myGame, player)
         }
@@ -64,7 +64,7 @@ class ForecastBrain {
         var retval = HashMap<GameCase,Double>()
         likelyPlans.keys.forEach {player ->
             var effects = mutableListOf<Effect>()
-            //for every player that isn't this one, add the effect of every action of every plan, layered by the probability of that plan
+            //for every player that isn't this one, add the effect of every game.action of every plan, layered by the probability of that plan
             for(otherPlayer in likelyPlans.keys) {
                 if(otherPlayer != player) {
                     for (plan in likelyPlans[otherPlayer]!!) {
@@ -86,8 +86,8 @@ class ForecastBrain {
         return retval
     }
 
-    private fun mostSignificantPlayersToMe(game: Game): List<Player>{
-        var retval = mutableListOf<Player>()
+    private fun mostSignificantPlayersToMe(game: Game): List<Character>{
+        var retval = mutableListOf<Character>()
         game.players.forEach{
             if(!it.equals(player)){
                 retval.add(it)
@@ -97,7 +97,7 @@ class ForecastBrain {
         return retval
     }
 
-    private fun possibleActionsForPlayer(game: Game, player: Player): List<Plan>{
+    private fun possibleActionsForPlayer(game: Game, player: Character): List<Plan>{
         var retval = ArrayList<Plan>()
         retval.add(Plan(player, listOf<Action>(), 0.5))
         if(player.name == "Melkar the Magnificant"){

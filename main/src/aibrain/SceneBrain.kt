@@ -1,7 +1,7 @@
 package aibrain
 
 import shortstate.ShortStateGame
-import shortstate.ShortStatePlayer
+import shortstate.ShortStateCharacter
 import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
@@ -17,7 +17,7 @@ class SceneBrain {
         this.longBrain = longBrain
     }
 
-    fun nextSceneIWantToBeIn(player: ShortStatePlayer, game: ShortStateGame): SceneMaker?{
+    fun nextSceneIWantToBeIn(player: ShortStateCharacter, game: ShortStateGame): SceneMaker?{
 
         if(sortedCases == null){
             sortedCases = longBrain.sortedCases
@@ -36,7 +36,7 @@ class SceneBrain {
         return GoToRoomSoloMaker(player, game.location.startRoom())
     }
 
-    private fun roomToMeetCharacterIn(target: ShortStatePlayer, game: ShortStateGame): Room {
+    private fun roomToMeetCharacterIn(target: ShortStateCharacter, game: ShortStateGame): Room {
         game.location.rooms.forEach {
             if(it.type == Room.RoomType.ETC){
                 return it

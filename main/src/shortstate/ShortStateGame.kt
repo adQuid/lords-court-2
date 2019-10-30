@@ -2,7 +2,7 @@ package shortstate
 
 import game.Game
 import game.Location
-import game.Player
+import game.Character
 import main.Controller
 import shortstate.room.action.GoToBed
 import shortstate.scenemaker.GoToRoomSoloMaker
@@ -13,16 +13,16 @@ class ShortStateGame {
     private var scene: Scene? = null
     val game: Game
     val location: Location
-    val players: List<ShortStatePlayer>
+    val players: List<ShortStateCharacter>
 
     constructor(game: Game, location: Location){
         this.game = game
         this.location = location
-        this.players = game.playersAtLocation(location).map { player -> ShortStatePlayer(player) }
+        this.players = game.playersAtLocation(location).map { player -> ShortStateCharacter(player) }
         establishStartingScene()
     }
 
-    @Synchronized fun nextPlayerToDoShortStateStuff(): ShortStatePlayer?{
+    @Synchronized fun nextPlayerToDoShortStateStuff(): ShortStateCharacter?{
         players.sortedByDescending { player -> player.energy }.forEach {
             if(it.player.npc && it.energy > 0 && it.nextSceneIWannaBeIn == null){
                 return it
@@ -32,7 +32,7 @@ class ShortStateGame {
     }
 
     //returns short state player actually being played by a human
-    fun playerCharacter(): ShortStatePlayer{
+    fun playerCharacter(): ShortStateCharacter{
         players.forEach {
             if(!it.player.npc){
                 return it
@@ -41,7 +41,7 @@ class ShortStateGame {
         throw Exception("No player found!")
     }
 
-    fun shortPlayerForLongPlayer(player: Player): ShortStatePlayer?{
+    fun shortPlayerForLongPlayer(player: Character): ShortStateCharacter?{
         players.forEach {
             if(it.player == player){
                 return it
@@ -50,11 +50,11 @@ class ShortStateGame {
         return null
     }
 
-    fun nextActingPlayer(): ShortStatePlayer?{
+    fun nextActingPlayer(): ShortStateCharacter?{
         return players.filter { it.energy > 0 }.sortedByDescending { it.energy }.getOrNull(0)
     }
 
-    fun sceneForPlayer(player: ShortStatePlayer): Scene?{
+    fun sceneForPlayer(player: ShortStateCharacter): Scene?{
         if(scene != null && scene!!.characters!!.contains(player)){
                 return scene
         }
@@ -62,7 +62,7 @@ class ShortStateGame {
         return null
     }
 
-    private fun addScene(player: ShortStatePlayer, creator: SceneMaker?){
+    private fun addScene(player: ShortStateCharacter, creator: SceneMaker?){
         println("scene($creator) added for $player, who has ${player.energy} energy left")
         if(creator == null){
             println("OHH NO we need a new scene!!!!")

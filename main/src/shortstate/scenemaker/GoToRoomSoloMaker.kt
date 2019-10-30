@@ -3,14 +3,14 @@ package shortstate.scenemaker
 import shortstate.room.Room
 import shortstate.Scene
 import shortstate.ShortStateGame
-import shortstate.ShortStatePlayer
+import shortstate.ShortStateCharacter
 
 class GoToRoomSoloMaker: SceneMaker{
 
-    val player: ShortStatePlayer
+    val player: ShortStateCharacter
     val room: Room
 
-    constructor(initiator: ShortStatePlayer, room: Room){
+    constructor(initiator: ShortStateCharacter, room: Room){
         this.player = initiator
         this.room = room
     }

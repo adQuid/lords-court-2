@@ -1,6 +1,6 @@
 package ui
 
-import action.Action
+import game.action.Action
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane

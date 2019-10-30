@@ -1,19 +1,18 @@
 package shortstate
 
-import action.Action
+import game.action.Action
 import aibrain.ConversationBrain
 import aibrain.SceneBrain
-import game.Player
+import game.Character
 import shortstate.report.Report
 import shortstate.scenemaker.SceneMaker
-import java.math.BigDecimal
 
-class ShortStatePlayer {
+class ShortStateCharacter {
 
     //testing only
     val id = Math.random()
 
-    val player: Player
+    val player: Character
     var sceneBrain: SceneBrain
     var convoBrain: ConversationBrain
     var energy: Int
@@ -21,7 +20,7 @@ class ShortStatePlayer {
     var prospectiveActions = mutableListOf<Action>()
     var nextSceneIWannaBeIn: SceneMaker? = null
 
-    constructor(player: Player){
+    constructor(player: Character){
         this.player = player
         this.energy = 1000
         sceneBrain = SceneBrain(player.brain)

@@ -5,13 +5,13 @@ import shortstate.room.Room
 
 class ConversationMaker: SceneMaker {
 
-    val initiator: ShortStatePlayer
-    val target: ShortStatePlayer
+    val initiator: ShortStateCharacter
+    val target: ShortStateCharacter
     val room: Room
 
     val energyCost = 150
 
-    constructor(initiator: ShortStatePlayer, target: ShortStatePlayer, room: Room){
+    constructor(initiator: ShortStateCharacter, target: ShortStateCharacter, room: Room){
         this.initiator = initiator
         this.target = target
         this.room = room

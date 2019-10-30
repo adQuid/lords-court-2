@@ -1,6 +1,6 @@
 package shortstate.dialog.linetypes
 
-import action.Action
+import game.action.Action
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 

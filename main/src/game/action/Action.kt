@@ -1,7 +1,7 @@
-package action
+package game.action
 
 import game.Game
-import game.Player
+import game.Character
 
 class Action {
     val type: ActionType
@@ -16,6 +16,6 @@ class Action {
 
     abstract class ActionType{
         //checks prerequisites, and returns any effects produced
-        abstract fun doAction(game: Game, player: Player): List<Effect>
+        abstract fun doAction(game: Game, player: Character): List<Effect>
     }
 }

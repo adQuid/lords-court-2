@@ -5,19 +5,19 @@ import game.Game
 
 class Conversation {
 
-    val initiator: ShortStatePlayer
-    val target: ShortStatePlayer
+    val initiator: ShortStateCharacter
+    val target: ShortStateCharacter
 
-    var lastSpeaker: ShortStatePlayer
+    var lastSpeaker: ShortStateCharacter
     var lastLine: Line? = null
 
-    constructor(initiator: ShortStatePlayer, target: ShortStatePlayer){
+    constructor(initiator: ShortStateCharacter, target: ShortStateCharacter){
         this.initiator = initiator
         this.target = target
         this.lastSpeaker = target //the inititator still hasn't said anything at this point
     }
 
-    fun otherParticipant(player: ShortStatePlayer): ShortStatePlayer{
+    fun otherParticipant(player: ShortStateCharacter): ShortStateCharacter{
         if (player == initiator){
             return target
         }
@@ -27,7 +27,7 @@ class Conversation {
         throw Exception("provided player is not in this conversation!")
     }
 
-    fun participants(): List<ShortStatePlayer>{
+    fun participants(): List<ShortStateCharacter>{
         return listOf(initiator, target)
     }
 

@@ -1,13 +1,13 @@
 package main
 
-import action.Action
+import game.action.Action
 import aibrain.BrainThread
 import game.Game
-import game.Player
+import game.Character
 import javafx.application.Application
 import shortstate.Scene
 import shortstate.ShortStateGame
-import shortstate.ShortStatePlayer
+import shortstate.ShortStateCharacter
 import ui.MainUI
 
 class Controller {
@@ -31,7 +31,7 @@ class Controller {
         Application.launch(MainUI::class.java)
     }
 
-    fun sceneForPlayer(player: ShortStatePlayer): Scene?{
+    fun sceneForPlayer(player: ShortStateCharacter): Scene?{
         return shortGame!!.sceneForPlayer(player)
     }
 
@@ -39,7 +39,7 @@ class Controller {
         GUI = gui
     }
 
-    fun commitActionsForPlayer(player: Player, actions: List<Action>){
+    fun commitActionsForPlayer(player: Character, actions: List<Action>){
         game!!.commitActionsForPlayer(player, actions)
         if(game!!.actionsByPlayer.keys.size == game!!.players.size){
             println("ENDING TURN")
