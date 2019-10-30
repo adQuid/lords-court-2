@@ -1,8 +1,8 @@
 package aibrain
 
-import game.Game
 import shortstate.ShortStateGame
 import shortstate.ShortStatePlayer
+import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
@@ -28,10 +28,20 @@ class SceneBrain {
             val hopefulCase = sortedCases!![0]
             sortedCases = sortedCases!!.filter { it.plan.player != hopefulCase.plan.player }
             if(hopefulCase.plan.player != longBrain.player && game.shortPlayerForLongPlayer(hopefulCase.plan.player) != null){
-                return ConversationMaker(player, game.shortPlayerForLongPlayer(hopefulCase.plan.player)!!, game.location.startRoom())
+                return ConversationMaker(player, game.shortPlayerForLongPlayer(hopefulCase.plan.player)!!,
+                    roomToMeetCharacterIn(game.shortPlayerForLongPlayer(hopefulCase.plan.player)!!, game))
             }
         }
 
         return GoToRoomSoloMaker(player, game.location.startRoom())
+    }
+
+    private fun roomToMeetCharacterIn(target: ShortStatePlayer, game: ShortStateGame): Room {
+        game.location.rooms.forEach {
+            if(it.type == Room.RoomType.ETC){
+                return it
+            }
+        }
+        return game.location.startRoom()
     }
 }
