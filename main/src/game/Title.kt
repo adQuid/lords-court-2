@@ -12,4 +12,7 @@ class Title {
         actionsEntitled = actions
     }
 
+    override fun toString(): String {
+        return name
+    }
 }

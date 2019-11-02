@@ -20,7 +20,10 @@ class Game {
         PC.titles.add(TitleFactory.makeCountTitle("Cookies"))
         players.add(PC)
 
-        players.add(Character("npc", true, locations[0]))
+        val NPC = Character("Frip", true, locations[0])
+        NPC.titles.add(TitleFactory.makeCountTitle("Eating Cookies"))
+        NPC.titles.add(TitleFactory.makeCountTitle("Nomz, munch, and food-related goodness"))
+        players.add(NPC)
         
     }
 

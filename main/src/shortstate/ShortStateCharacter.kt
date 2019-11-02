@@ -9,9 +9,6 @@ import shortstate.scenemaker.SceneMaker
 
 class ShortStateCharacter {
 
-    //testing only
-    val id = Math.random()
-
     val player: Character
     var sceneBrain: SceneBrain
     var convoBrain: ConversationBrain
@@ -28,7 +25,7 @@ class ShortStateCharacter {
     }
 
     override fun toString(): String {
-        return player.toString() + id.toString()
+        return player.toString()
     }
 
     fun addEnergy(amount: Int): Boolean {

@@ -19,11 +19,12 @@ class GeneralComponentFactory {
     }
 
     fun sceneImage(): Pane {
-        val imagePane = StackPane()
+        val imagePane = Pane()
         val backgroundView: ImageView
         if(parent.scene?.characters!!.size > 1){
             backgroundView = makeImageView(parent.scene!!.room.pictureText)
             val characterView = makeImageView("assets//portraits//faceman.png")
+            characterView.setOnMouseClicked { event -> parent.focusOn(parent.scene!!.characters!![1].player) }
             imagePane.children.addAll(backgroundView, characterView)
         } else {
             backgroundView = makeImageView(parent.scene!!.room.pictureText)

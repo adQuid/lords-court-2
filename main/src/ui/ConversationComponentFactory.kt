@@ -5,6 +5,7 @@ import shortstate.dialog.linetypes.Announcement
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.Scene
+import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
@@ -66,6 +67,8 @@ class ConversationComponentFactory {
             val playerSpeechView = parent.generalComponents.makeImageView("assets//general//rightSpeechBubble.png")
             imagePane.children.addAll(npcSpeechView, playerSpeechView)
 
+            imagePane.children.add(descriptionPane())
+
             val lineAnchorPane = MyAnchorPane()
             linePane(lineAnchorPane, parent.lineBeingConstructed, myLineSymbolic, true)
             linePane(lineAnchorPane, parent.scene!!.conversation!!.lastLine, otherLineSymbolic, false)
@@ -73,6 +76,16 @@ class ConversationComponentFactory {
             imagePane.children.add(lineAnchorPane.realPane)
         }
         return imagePane
+    }
+
+    private fun descriptionPane(): AnchorPane{
+        val nameText = Text(10.0, 50.0, parent.scene!!.conversation!!.otherParticipant(parent.playingAs()).toString())
+        nameText.font = Font(24.0)
+        val descriptionAnchorPane = MyAnchorPane()
+        descriptionAnchorPane.realPane.children.add(nameText)
+        descriptionAnchorPane.setTopAnchor(nameText, parent.totalHeight * 0.03)
+        descriptionAnchorPane.setLeftAnchor(nameText, parent.totalWidth * 0.35)
+        return descriptionAnchorPane.realPane
     }
 
     private fun linePane(pane: MyAnchorPane, line: Line?, symbolic: Boolean, left: Boolean): MyAnchorPane{

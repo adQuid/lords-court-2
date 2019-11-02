@@ -37,4 +37,8 @@ class Character {
     override fun toString(): String{
         return name
     }
+
+    fun fullName(): String{
+        return name + ", " + titles.joinToString(", ")
+    }
 }

@@ -23,6 +23,7 @@ class MainUI() : Application() {
     var sceneComponents = SceneComponentFactory(this)
     var conversationComponents = ConversationComponentFactory(this)
     var nonSceneComponents = NonSceneComponentFactory(this)
+    var characterDetailComponents = CharacterDetailComponentFactory(this)
 
     var totalWidth = 1200.0 * SIZE_SCALE
     var totalHeight = 1080.0 * SIZE_SCALE
@@ -30,12 +31,13 @@ class MainUI() : Application() {
     var scene: shortstate.Scene? = null
     var lineBeingConstructed: Line? = null
     var selectModal: SelectionModal<*>? = null
+    var character: game.Character? = null
 
     private var lastFocus: Focus = Focus.GENERAL
     private var curFocus = Focus.GENERAL
 
     private enum class Focus{
-        GENERAL, SCENE, LINE, SELECT_MODAL
+        GENERAL, SCENE, LINE, CHARACTER, SELECT_MODAL
     }
 
     override fun init(){
@@ -82,6 +84,9 @@ class MainUI() : Application() {
         } else if(focus is SelectionModal<*>){
             selectModal = focus
             curFocus = Focus.SELECT_MODAL
+        } else if(focus is game.Character){
+            character = focus
+            curFocus = Focus.CHARACTER
         } else {
             throw Exception("INVALID TYPE FOR FOCUS! "+focus.javaClass)
         }
@@ -100,7 +105,9 @@ class MainUI() : Application() {
     }
 
     fun display(){
-        if(curFocus == Focus.SELECT_MODAL){
+        if(curFocus == Focus.CHARACTER){
+            setScene(characterDetailComponents.characterFocusPage())
+        }else if(curFocus == Focus.SELECT_MODAL){
             setScene(selectModal!!.getScene())
         }else if(curFocus == Focus.LINE) {
             setScene(conversationComponents.announceOptions())
