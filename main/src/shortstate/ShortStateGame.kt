@@ -68,7 +68,6 @@ class ShortStateGame {
             println("OHH NO we need a new scene!!!!")
         }
         if(scene == null){
-            player.energy -= 1
             val toAdd = creator!!.makeScene(this)
             if(toAdd != null){
                 scene = toAdd
@@ -92,7 +91,7 @@ class ShortStateGame {
             if(scene!!.conversation != null){
                 val convo = scene!!.conversation!!
                 if(scene!!.conversation!!.age > 5){
-                    endScene(scene)
+                    endScene(scene!!)
                 } else {
                     if(convo.otherParticipant(convo.lastSpeaker).player.npc){
                         convo.submitLine(convo.otherParticipant(convo.lastSpeaker).convoBrain.reactToLine(convo.lastLine, convo.lastSpeaker.player, game), this)
@@ -104,15 +103,16 @@ class ShortStateGame {
                     if(scene!!.characters[0].energy < 990){
                         GoToBed().doAction(this, scene!!.characters[0])
                     }
-                    endScene(scene)
+                    endScene(scene!!)
                 }
             }
         }
     }
 
-    fun endScene(scene: Scene?){
-        println("scene ended")
+    fun endScene(scene: Scene){
         if(this.scene == scene){
+            println("scene ended")
+            scene!!.characters.forEach { player -> player.energy -= 1}
             this.scene = null
 
             val nextPlayer = nextActingPlayer()

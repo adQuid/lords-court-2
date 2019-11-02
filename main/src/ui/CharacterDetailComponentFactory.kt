@@ -28,7 +28,7 @@ class CharacterDetailComponentFactory {
     private fun sceneImage(): Pane {
         val imagePane = StackPane()
         val backgroundView = parent.generalComponents.makeImageView("assets//rooms//characterStage.png")
-        val characterView = parent.generalComponents.makeImageView("assets//portraits//faceman.png")
+        val characterView = parent.generalComponents.makeImageView(parent.character!!.pictureString)
 
         val nameText = Text(10.0, 50.0, parent.scene!!.conversation!!.otherParticipant(parent.playingAs()).player.fullName())
         nameText.font = Font(24.0)

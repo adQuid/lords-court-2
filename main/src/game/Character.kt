@@ -7,18 +7,21 @@ class Character {
     var brain = ForecastBrain(this)
 
     val name: String
+    val pictureString: String
     var titles = mutableSetOf<Title>()
 
     var location: Location
 
-    constructor(name: String, npc: Boolean, location: Location) {
+    constructor(name: String, picture: String, npc: Boolean, location: Location) {
         this.name = name
+        this.pictureString = picture
         this.npc = npc
         this.location = location
     }
 
     constructor(other: Character){
         this.name = other.name
+        this.pictureString = other.pictureString
         this.npc = other.npc
         this.location = other.location
     }
@@ -39,6 +42,10 @@ class Character {
     }
 
     fun fullName(): String{
-        return name + ", " + titles.joinToString(", ")
+        if(titles.isNotEmpty()){
+            return name + ", " + titles.joinToString(", ")
+        } else {
+            return name
+        }
     }
 }

@@ -89,7 +89,7 @@ class SceneComponentFactory {
 
     private fun goToNewSceneIfApplicable(maker: SceneMaker){
         parent.playingAs().nextSceneIWannaBeIn = maker
-        parent.shortGame().endScene(parent.scene)
+        parent.shortGame().endScene(parent.scene!!)
         parent.refocus()
     }
 

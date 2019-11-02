@@ -20,16 +20,16 @@ class Game {
     var deliciousness = 0
 
     constructor(){
-        val PC = Character("Melkar the Magnificant", false, locations[0])
+        val PC = Character("Melkar the Magnificant", "assets//general//conversation frame.png", false, locations[0])
         applyTitleToCharacter(TitleFactory.makeCountTitle("Cookies"), PC)
         players.add(PC)
 
-        val NPC = Character("Frip", true, locations[0])
+        val NPC = Character("Frip", "assets//portraits//faceman.png", true, locations[0])
         NPC.titles.add(TitleFactory.makeCountTitle("Eating Cookies"))
         NPC.titles.add(TitleFactory.makeCountTitle("Nomz, munch, and food-related goodness"))
         players.add(NPC)
 
-        val NPC2 = Character("Omrin", true, locations[0])
+        val NPC2 = Character("Omrin", "assets//portraits//stacheman.png", true, locations[0])
         players.add(NPC2)
     }
 
