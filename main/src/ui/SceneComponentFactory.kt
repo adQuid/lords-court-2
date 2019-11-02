@@ -81,7 +81,7 @@ class SceneComponentFactory {
         val goToRoomTab = Tab<SceneMaker>("Go to Room", goToRoomMakers)
 
         val conversationMakers = parent.shortGame().players.minusElement(parent.playingAs())
-            .map { player -> ConversationMaker(parent.playingAs(), player, parent.playingAs().player.location.rooms[0]) }
+            .map { player -> ConversationMaker(parent.playingAs(), player, parent.playingAs().player.location.roomByType(Room.RoomType.ETC)) }
         val conversationTab = Tab<SceneMaker>("Conversation", conversationMakers)
 
         return listOf(goToRoomTab, conversationTab)

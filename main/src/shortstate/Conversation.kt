@@ -11,6 +11,8 @@ class Conversation {
     var lastSpeaker: ShortStateCharacter
     var lastLine: Line? = null
 
+    var age = 0
+
     constructor(initiator: ShortStateCharacter, target: ShortStateCharacter){
         this.initiator = initiator
         this.target = target
@@ -38,17 +40,12 @@ class Conversation {
         return false
     }
 
-    fun doAIIfAppropriate(game: Game){
-        if(otherParticipant(lastSpeaker).player.npc){
-            submitLine(otherParticipant(lastSpeaker).convoBrain.reactToLine(lastLine, lastSpeaker.player, game), game)
-        }
-    }
-
-    fun submitLine(line: Line, game: Game){
+    fun submitLine(line: Line, game: ShortStateGame){
         if(line.validToSend()){
+            age++
             lastLine = line
             lastSpeaker = otherParticipant(lastSpeaker)
-            doAIIfAppropriate(game)
         }
+        game.doAIIfAppropriate()
     }
 }

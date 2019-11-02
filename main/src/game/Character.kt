@@ -7,7 +7,7 @@ class Character {
     var brain = ForecastBrain(this)
 
     val name: String
-    var titles: MutableList<Title> = mutableListOf()
+    var titles = mutableSetOf<Title>()
 
     var location: Location
 

@@ -17,4 +17,17 @@ class Location {
     fun startRoom(): Room {
         return rooms[0]
     }
+
+    fun hasType(type: Room.RoomType): Boolean{
+        return roomByType(type) != null
+    }
+
+    fun roomByType(type: Room.RoomType): Room{
+        rooms.forEach {
+            if(it.type == type){
+                return it
+            }
+        }
+        throw Exception("Room type $type does not exist!")
+    }
 }

@@ -12,19 +12,25 @@ class Game {
     var locations = listOf(Location())
     var actionsByPlayer = HashMap<Character, List<Action>>()
 
+    //This is more of a "secondary" pointer, and is expected to be duplicated with anyone actually holding the titles.
+    //These exist to prevent titles from vanishing when nobody is holding them
+    val titles = mutableSetOf<Title>()
+
     //temporary stat
     var deliciousness = 0
 
     constructor(){
         val PC = Character("Melkar the Magnificant", false, locations[0])
-        PC.titles.add(TitleFactory.makeCountTitle("Cookies"))
+        applyTitleToCharacter(TitleFactory.makeCountTitle("Cookies"), PC)
         players.add(PC)
 
         val NPC = Character("Frip", true, locations[0])
         NPC.titles.add(TitleFactory.makeCountTitle("Eating Cookies"))
         NPC.titles.add(TitleFactory.makeCountTitle("Nomz, munch, and food-related goodness"))
         players.add(NPC)
-        
+
+        val NPC2 = Character("Omrin", true, locations[0])
+        players.add(NPC2)
     }
 
     constructor(other: Game){
@@ -90,5 +96,10 @@ class Game {
             }
         }
         throw Exception("No player found!")
+    }
+
+    fun applyTitleToCharacter(title: Title, character: Character){
+        titles.add(title)
+        character.titles.add(title)
     }
 }

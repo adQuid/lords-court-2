@@ -87,10 +87,17 @@ class ShortStateGame {
         addScene(nextActingPlayer()!!, nextActingPlayer()!!.nextSceneIWannaBeIn)
     }
 
-    private fun doAIIfAppropriate(){
+    fun doAIIfAppropriate(){
         if(scene != null){
             if(scene!!.conversation != null){
-                scene!!.conversation!!.doAIIfAppropriate(game)
+                val convo = scene!!.conversation!!
+                if(scene!!.conversation!!.age > 5){
+                    endScene(scene)
+                } else {
+                    if(convo.otherParticipant(convo.lastSpeaker).player.npc){
+                        convo.submitLine(convo.otherParticipant(convo.lastSpeaker).convoBrain.reactToLine(convo.lastLine, convo.lastSpeaker.player, game), this)
+                    }
+                }
             } else {
                 //TODO: Have this do other things
                 if(scene!!.characters[0].player.npc){
@@ -104,6 +111,7 @@ class ShortStateGame {
     }
 
     fun endScene(scene: Scene?){
+        println("scene ended")
         if(this.scene == scene){
             this.scene = null
 

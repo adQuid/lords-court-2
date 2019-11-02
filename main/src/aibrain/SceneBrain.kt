@@ -37,11 +37,11 @@ class SceneBrain {
     }
 
     private fun roomToMeetCharacterIn(target: ShortStateCharacter, game: ShortStateGame): Room {
-        game.location.rooms.forEach {
-            if(it.type == Room.RoomType.ETC){
-                return it
-            }
+
+        if(game.location.hasType(Room.RoomType.ETC)){
+            return game.location.roomByType(Room.RoomType.ETC)
         }
+
         return game.location.startRoom()
     }
 }

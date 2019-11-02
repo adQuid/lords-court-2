@@ -5,6 +5,8 @@ import shortstate.dialog.linetypes.Announcement
 import shortstate.dialog.linetypes.Approve
 import shortstate.dialog.linetypes.Disapprove
 import game.Game
+import game.action.Action
+import game.action.actionTypes.WasteTime
 import game.Character
 import shortstate.dialog.linetypes.Request
 
@@ -34,7 +36,7 @@ class ConversationBrain {
                 return Disapprove()
             }
         }
-        return Announcement(null)
+        return Announcement(Action(WasteTime()))
     }
 
 }

@@ -8,6 +8,7 @@ import javafx.scene.Scene
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
+import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.Controller
@@ -47,7 +48,7 @@ class ConversationComponentFactory {
                     })
             ) })
         val btn7 = parent.generalComponents.makeShortButton("Declare Announcement",
-            EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, Controller.singleton!!.game!!); parent.lineBeingConstructed = null; parent.focusOn(parent.scene)})
+            EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, parent.shortGame()); parent.lineBeingConstructed = null; parent.focusOn(parent.scene)})
         val btn8 = parent.generalComponents.makeShortButton(
             "Cancel",
             EventHandler { parent.focusOn(parent.scene)})
@@ -130,7 +131,7 @@ class ConversationComponentFactory {
         if(left){
             pane.setLeftAnchor(lineNode, parent.totalWidth * 0.03);
         } else {
-            pane.setRightAnchor(lineNode, parent.totalWidth * 0.027);
+            pane.setLeftAnchor(lineNode, parent.totalWidth * 0.693);
         }
 
         return pane
