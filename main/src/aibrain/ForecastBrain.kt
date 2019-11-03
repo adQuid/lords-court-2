@@ -44,7 +44,7 @@ class ForecastBrain {
         //in very primitive logic, if any case is below average, assume all effects are bad and remove them from the best case
         orderedCaseList.forEach{
             if(it.second < 0){
-                bestCaseEffects.removeAll(it.first.effects)
+                //bestCaseEffects.removeAll(it.first.effects)
             }
         }
 

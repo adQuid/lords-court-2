@@ -80,9 +80,7 @@ class ShortStateGame: Runnable {
                 }
                 addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)
             } else {
-                if(nextPlayer.player.npc){
-                    doAIIfAppropriate()
-                }
+                doAIIfAppropriate()
             }
             Thread.sleep(200)
             nextPlayer = nextActingPlayer()
@@ -106,8 +104,9 @@ class ShortStateGame: Runnable {
                 if(scene!!.characters[0].player.npc){
                     if(scene!!.characters[0].energy < 990){
                         GoToBed().doAction(this, scene!!.characters[0])
+                    } else {
+                        endScene(scene!!)
                     }
-                    endScene(scene!!)
                 }
             }
         }
