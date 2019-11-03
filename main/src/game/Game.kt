@@ -14,7 +14,7 @@ class Game {
 
     //This is more of a "secondary" pointer, and is expected to be duplicated with anyone actually holding the titles.
     //These exist to prevent titles from vanishing when nobody is holding them
-    val titles = mutableSetOf<Title>()
+    var titles = mutableSetOf<Title>()
 
     //temporary stat
     var deliciousness = 0
@@ -35,9 +35,13 @@ class Game {
 
     constructor(other: Game){
         isLive = false
+        turn = other.turn
         other.players.forEach{
             this.players.add(Character(it))
         }
+        locations = other.locations.map { loc -> Location(loc) }
+        titles = other.titles.map { title -> Title(title)}.toMutableSet()
+        deliciousness = other.deliciousness
     }
 
     fun imageFor(player: Character): Game{

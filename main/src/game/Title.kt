@@ -12,6 +12,11 @@ class Title {
         actionsEntitled = actions
     }
 
+    constructor(other: Title){
+        this.name = other.name
+        actionsEntitled = other.actionsEntitled.map { type -> type }
+    }
+
     override fun toString(): String {
         return name
     }

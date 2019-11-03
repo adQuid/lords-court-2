@@ -1,6 +1,7 @@
 package game
 
 import aibrain.ForecastBrain
+import shortstate.dialog.Memory
 
 class Character {
     var npc: Boolean
@@ -12,11 +13,14 @@ class Character {
 
     var location: Location
 
+    val memory: MutableList<Memory>
+
     constructor(name: String, picture: String, npc: Boolean, location: Location) {
         this.name = name
         this.pictureString = picture
         this.npc = npc
         this.location = location
+        this.memory = mutableListOf()
     }
 
     constructor(other: Character){
@@ -24,6 +28,7 @@ class Character {
         this.pictureString = other.pictureString
         this.npc = other.npc
         this.location = other.location
+        this.memory = other.memory.map{ memory -> Memory(memory)}.toMutableList()
     }
 
     override fun equals(other: Any?): Boolean {

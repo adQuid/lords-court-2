@@ -2,6 +2,7 @@ package shortstate
 
 import shortstate.dialog.Line
 import game.Game
+import shortstate.dialog.Memory
 
 class Conversation {
 
@@ -44,6 +45,7 @@ class Conversation {
         if(line.validToSend()){
             age++
             lastLine = line
+            otherParticipant(lastSpeaker).player.memory.add(Memory(line))
             lastSpeaker = otherParticipant(lastSpeaker)
         }
         game.doAIIfAppropriate()

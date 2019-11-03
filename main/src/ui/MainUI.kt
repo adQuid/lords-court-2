@@ -54,6 +54,7 @@ class MainUI() : Application() {
         stage!!.heightProperty().addListener({_ -> totalHeight = stage!!.height; totalWidth = stage!!.width; })*/
 
         display()
+
     }
 
     fun shortGame(): ShortStateGame {

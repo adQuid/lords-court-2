@@ -14,6 +14,10 @@ class Location {
         )
     }
 
+    constructor(other: Location){
+        this.rooms = other.rooms.map { room -> room }
+    }
+
     fun startRoom(): Room {
         return rooms[0]
     }

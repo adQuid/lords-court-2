@@ -3,12 +3,13 @@ package shortstate
 import game.Game
 import game.Location
 import game.Character
+import javafx.application.Platform
 import main.Controller
 import shortstate.room.action.GoToBed
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
 
-class ShortStateGame {
+class ShortStateGame: Runnable {
 
     private var scene: Scene? = null
     val game: Game
@@ -62,28 +63,31 @@ class ShortStateGame {
         return null
     }
 
-    private fun addScene(player: ShortStateCharacter, creator: SceneMaker?){
-        println("scene($creator) added for $player, who has ${player.energy} energy left")
-        if(creator == null){
-            println("OHH NO we need a new scene!!!!")
-        }
-        if(scene == null){
-            val toAdd = creator!!.makeScene(this)
-            if(toAdd != null){
-                scene = toAdd
-            } else {
-                println("OHH NO we need a new scene!!!!")
-            }
-        }
-
-    }
-
     private fun establishStartingScene(){
         players.forEach { player ->
             player.nextSceneIWannaBeIn = GoToRoomSoloMaker(player,location.startRoom())
         }
         //this SHOULD be safe, since the game just started. this will crash on an empty location
         addScene(nextActingPlayer()!!, nextActingPlayer()!!.nextSceneIWannaBeIn)
+    }
+
+    override fun run(){
+        var nextPlayer = nextActingPlayer()
+        while(nextPlayer != null){
+            if(scene == null){
+                if(nextPlayer.player.npc && nextPlayer.nextSceneIWannaBeIn == null){
+                    nextPlayer.decideNextScene(this)
+                }
+                addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)
+            } else {
+                if(nextPlayer.player.npc){
+                    doAIIfAppropriate()
+                }
+            }
+            Thread.sleep(200)
+            nextPlayer = nextActingPlayer()
+        }
+        println("finished run")
     }
 
     fun doAIIfAppropriate(){
@@ -109,27 +113,33 @@ class ShortStateGame {
         }
     }
 
+    private fun addScene(player: ShortStateCharacter, creator: SceneMaker?){
+        println("scene($creator) added for $player, who has ${player.energy} energy left")
+        if(creator == null){
+            println("OHH NO we need a new scene!!!!")
+        }
+        if(scene == null){
+            val toAdd = creator!!.makeScene(this)
+            if(toAdd != null){
+                scene = toAdd
+            } else {
+                println("OHH NO we need a new scene!!!!")
+            }
+        }
+        player.nextSceneIWannaBeIn = null
+        try{
+            Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
+        } catch(exception: Exception){
+            //Do nothing. This is scotch tape because sort state games might be made before UI starts
+        }
+    }
+
     fun endScene(scene: Scene){
         if(this.scene == scene){
             println("scene ended")
             scene!!.characters.forEach { player -> player.energy -= 1}
             this.scene = null
-
-            val nextPlayer = nextActingPlayer()
-
-            if(nextPlayer == null){
-                println("no players left to act. Doing nothing else")
-            } else {
-
-                if(nextPlayer.player.npc && nextPlayer.nextSceneIWannaBeIn == null){
-                    nextPlayer.decideNextScene(this)
-                }
-                addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)
-                nextPlayer.nextSceneIWannaBeIn = null
-                doAIIfAppropriate()
-            }
-
-            Controller.singleton!!.GUI!!.refocus()
         }
+        Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
     }
 }
