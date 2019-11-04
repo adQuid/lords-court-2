@@ -21,6 +21,7 @@ class ShortStateGame: Runnable {
         this.location = location
         this.players = game.playersAtLocation(location).map { player -> ShortStateCharacter(player) }
         establishStartingScene()
+        Thread(this).start()
     }
 
     @Synchronized fun nextPlayerToDoShortStateStuff(): ShortStateCharacter?{
@@ -71,6 +72,7 @@ class ShortStateGame: Runnable {
         addScene(nextActingPlayer()!!, nextActingPlayer()!!.nextSceneIWannaBeIn)
     }
 
+    //TODO: Combine the following two functions to fit together, or better seperate them
     override fun run(){
         var nextPlayer = nextActingPlayer()
         while(nextPlayer != null){
@@ -90,19 +92,7 @@ class ShortStateGame: Runnable {
 
     fun doAIIfAppropriate(){
         if(scene != null){
-            if(scene!!.conversation != null){
-                val convo = scene!!.conversation!!
-                if(scene!!.conversation!!.age > 5){
-                    endScene(scene!!)
-                } else {
-                    if(convo.otherParticipant(convo.lastSpeaker).player.npc){
-                        convo.submitLine(convo.otherParticipant(convo.lastSpeaker).convoBrain.reactToLine(convo.lastLine, convo.lastSpeaker.player, game), this)
-                    }
-                }
-            } else {
-                //TODO: Have this do other things
-
-            }
+            scene!!.nextPlayerToDoSomething().sceneBrain.reactToScene(scene!!, this)
         }
     }
 

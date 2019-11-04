@@ -20,11 +20,23 @@ class SceneBrain {
     }
 
     fun reactToScene(scene: Scene, game: ShortStateGame){
-        if(scene!!.characters[0].player.npc){
-            if(scene!!.characters[0].energy < 990){
-                GoToBed().doAction(game, scene!!.characters[0])
-            } else {
+        if(scene!!.conversation != null){
+            val convo = scene!!.conversation!!
+            if(scene!!.conversation!!.age > 5){
                 game.endScene(scene!!)
+            } else {
+                if(convo.otherParticipant(convo.lastSpeaker).player.npc){
+                    convo.submitLine(convo.otherParticipant(convo.lastSpeaker).convoBrain.reactToLine(convo.lastLine, convo.lastSpeaker.player, game.game), game)
+                }
+            }
+        } else {
+            //TODO: Have this do other things
+            if(scene!!.characters[0].player.npc){
+                if(scene!!.characters[0].energy < 990){
+                    GoToBed().doAction(game, scene!!.characters[0])
+                } else {
+                    game.endScene(scene!!)
+                }
             }
         }
     }

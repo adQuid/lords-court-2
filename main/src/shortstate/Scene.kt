@@ -14,4 +14,11 @@ class Scene {
         this.conversation = conversation
     }
 
+    fun nextPlayerToDoSomething(): ShortStateCharacter{
+        if(conversation!= null) {
+            return conversation.otherParticipant(conversation.lastSpeaker)
+        } else {
+            return characters[0]
+        }
+    }
 }
