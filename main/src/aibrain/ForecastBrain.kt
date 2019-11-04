@@ -1,6 +1,7 @@
 package aibrain
 
 import game.action.actionTypes.BakeCookies
+import game.action.actionTypes.GetPlate
 import game.action.Action
 import game.action.Effect
 import game.Game
@@ -15,6 +16,7 @@ class ForecastBrain {
 
     var lastCasesOfConcern: Map<GameCase, Double>? = null
     var lastFavoriteEffects: List<Effect>? = null
+    var lastActionsToCommitTo: List<Action>? = null
     var sortedCases: List<GameCase>? = null
 
     constructor(player: Character){
@@ -25,6 +27,7 @@ class ForecastBrain {
         lastCasesOfConcern = casesOfConcern(game)
         lastFavoriteEffects = favoriteEffects()
         sortedCases = lastCasesOfConcern!!.toList().sortedBy { entry -> -entry.second }.map { entry -> entry.first }
+        lastActionsToCommitTo = actionsToDo(game)
     }
 
     private fun favoriteEffects(): List<Effect>{
@@ -49,6 +52,10 @@ class ForecastBrain {
         }
 
         return bestCaseEffects
+    }
+
+    private fun actionsToDo(game: Game): List<Action> {
+        return lastCasesOfConcern!!.filter { entry -> entry.key.plan.player == player }.toList().sortedBy { entry -> -entry.second }[0].first.plan.actions
     }
 
     private fun casesOfConcern(game: Game): Map<GameCase, Double>{
@@ -76,10 +83,10 @@ class ForecastBrain {
                 }
             }
 
-            //make a gamecase for every plan of each player with effects added for the average of what everyone else might do?
+            //make a gamecase for every plan of this player with effects added for the average of what everyone else might do?
             likelyPlans[player]!!.forEach {
                 val toAdd = GameCase(myGame, it, effects)
-                retval[toAdd] = evaluateGame(toAdd.game)
+                retval[toAdd] = gameValue(toAdd.game)
             }
         }
 
@@ -89,7 +96,7 @@ class ForecastBrain {
     private fun mostSignificantPlayersToMe(game: Game): List<Character>{
         var retval = mutableListOf<Character>()
         game.players.forEach{
-            if(!it.equals(player)){
+            if(true){ //TODO: make this not stupid
                 retval.add(it)
             }
         }
@@ -100,13 +107,19 @@ class ForecastBrain {
     private fun possibleActionsForPlayer(game: Game, player: Character): List<Plan>{
         var retval = ArrayList<Plan>()
         retval.add(Plan(player, listOf<Action>(), 0.5))
-        if(player.name == "Melkar the Magnificant"){
+        if(!player.npc){
             retval.add(Plan(player,listOf(Action(BakeCookies())), 0.5))
+        } else {
+            retval.add(Plan(player,listOf(Action(GetPlate())),0.5))
         }
         return retval
     }
 
-    private fun evaluateGame(game: Game): Double {
-        return game.deliciousness * 1.0
+    private fun gameValue(game: Game): Double {
+        return if(game.hasPlate.contains(player)){
+            game.deliciousness * 1.0
+        } else {
+            0.0
+        }
     }
 }

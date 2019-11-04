@@ -16,8 +16,9 @@ class Game {
     //These exist to prevent titles from vanishing when nobody is holding them
     var titles = mutableSetOf<Title>()
 
-    //temporary stat
+    //temporary stats
     var deliciousness = 0
+    var hasPlate = mutableListOf<Character>()
 
     constructor(){
         val PC = Character("Melkar the Magnificant", "assets//general//conversation frame.png", false, locations[0])

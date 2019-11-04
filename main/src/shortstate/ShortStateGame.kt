@@ -101,13 +101,7 @@ class ShortStateGame: Runnable {
                 }
             } else {
                 //TODO: Have this do other things
-                if(scene!!.characters[0].player.npc){
-                    if(scene!!.characters[0].energy < 990){
-                        GoToBed().doAction(this, scene!!.characters[0])
-                    } else {
-                        endScene(scene!!)
-                    }
-                }
+
             }
         }
     }

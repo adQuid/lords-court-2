@@ -19,6 +19,7 @@ class GameCase {
 
     fun addEffect(effect: Effect){
         effects = effects + effect
+        effect.apply(game)
     }
 
     fun probability(): Double{
@@ -26,6 +27,6 @@ class GameCase {
     }
 
     override fun toString(): String {
-        return plan.actions.fold("ACTIONS BY ${plan.player.toString()}: ", {acc, action -> "$acc $action" })
+        return plan.actions.fold("{ACTIONS BY ${plan.player.toString()}: ", {acc, action -> "$acc $action" }) + "}"
     }
 }

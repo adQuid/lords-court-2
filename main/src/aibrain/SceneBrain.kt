@@ -1,8 +1,10 @@
 package aibrain
 
+import shortstate.Scene
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.room.Room
+import shortstate.room.action.GoToBed
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
@@ -15,6 +17,16 @@ class SceneBrain {
 
     constructor(longBrain: ForecastBrain){
         this.longBrain = longBrain
+    }
+
+    fun reactToScene(scene: Scene, game: ShortStateGame){
+        if(scene!!.characters[0].player.npc){
+            if(scene!!.characters[0].energy < 990){
+                GoToBed().doAction(game, scene!!.characters[0])
+            } else {
+                game.endScene(scene!!)
+            }
+        }
     }
 
     fun nextSceneIWantToBeIn(player: ShortStateCharacter, game: ShortStateGame): SceneMaker?{
