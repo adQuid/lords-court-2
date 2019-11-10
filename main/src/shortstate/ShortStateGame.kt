@@ -121,6 +121,10 @@ class ShortStateGame: Runnable {
         if(this.scene == scene){
             println("scene ended")
             scene!!.characters.forEach { player -> player.energy -= 1}
+            //if there was a conversation, characters might have learned something in this time
+            if(scene!!.conversation != null){
+                scene!!.characters.filter { character -> character.player.npc }.forEach { character -> character.player.brain.thinkAboutNextTurn(this.game) }
+            }
             this.scene = null
         }
         Platform.runLater { Controller.singleton!!.GUI!!.refocus() }

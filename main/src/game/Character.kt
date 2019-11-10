@@ -15,6 +15,9 @@ class Character {
 
     val memory: MutableList<Memory>
 
+    //testing only
+    var dummyScore = 0.0
+
     constructor(name: String, picture: String, npc: Boolean, location: Location) {
         this.name = name
         this.pictureString = picture
@@ -29,6 +32,9 @@ class Character {
         this.npc = other.npc
         this.location = other.location
         this.memory = other.memory.map{ memory -> Memory(memory)}.toMutableList()
+
+        //testing only
+        this.dummyScore = other.dummyScore
     }
 
     override fun equals(other: Any?): Boolean {

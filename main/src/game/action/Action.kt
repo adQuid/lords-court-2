@@ -14,8 +14,16 @@ class Action {
         return type.toString()
     }
 
+    override fun equals(other: Any?): Boolean {
+        if(other is Action){
+            return type == other.type
+        }
+        return false
+    }
+
     abstract class ActionType{
         //checks prerequisites, and returns any effects produced
         abstract fun doAction(game: Game, player: Character): List<Effect>
+
     }
 }

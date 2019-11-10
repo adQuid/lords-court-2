@@ -15,6 +15,10 @@ class GetPlate: Action.ActionType() {
         return "get a plate"
     }
 
+    override fun equals(other: Any?): Boolean {
+        return other is GetPlate
+    }
+
     class ApplyPlate: Effect {
 
         override var probability: Double
@@ -33,6 +37,7 @@ class GetPlate: Action.ActionType() {
         }
         override fun apply(game: Game) {
            game.hasPlate.add(player)
+            player.dummyScore -= 0.45
         }
         override fun toString(): String{
             return "get plate for $player with probability $probability"

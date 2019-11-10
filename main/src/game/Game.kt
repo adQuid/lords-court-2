@@ -2,6 +2,7 @@ package game
 
 import game.action.Action
 import game.action.actionTypes.BakeCookies
+import game.action.actionTypes.GetPlate
 import game.action.actionTypes.WasteTime
 import game.titlemaker.TitleFactory
 
@@ -17,7 +18,7 @@ class Game {
     var titles = mutableSetOf<Title>()
 
     //temporary stats
-    var deliciousness = 0
+    var deliciousness = 0.0
     var hasPlate = mutableListOf<Character>()
 
     constructor(){
@@ -56,10 +57,12 @@ class Game {
 
     fun possibleActionsForPlayer(player: Character): List<Action>{
         var retval = ArrayList<Action>()
-        if(player.name == "Melkar the Magnificant"){
+        if(!player.npc){
             retval.add(Action(BakeCookies()))
-            retval.add(Action(WasteTime()))
+        } else {
+            retval.add(Action(GetPlate()))
         }
+        retval.add(Action(WasteTime()))
         return retval
     }
 
@@ -80,7 +83,12 @@ class Game {
 
         turn++
     }
-    
+
+    fun matchingPlayer(player: Character): Character?{
+        players.forEach { if(it == player){ return it} }
+        return null
+    }
+
      @Synchronized fun nextPlayerToForcast(): Character?{
          for (player in players) {
                  if (player.brain.lastCasesOfConcern == null && (player.npc)) {

@@ -14,6 +14,10 @@ class BakeCookies: Action.ActionType() {
         return "bake tasty cookies"
     }
 
+    override fun equals(other: Any?): Boolean {
+        return other is BakeCookies
+    }
+
     class AddDelicousness(override var probability: Double) : Effect() {
         override fun equals(other: Any?): Boolean {
             if(other is AddDelicousness){
@@ -22,7 +26,7 @@ class BakeCookies: Action.ActionType() {
             return false
         }
         override fun apply(game: Game) {
-           game.deliciousness++
+           game.deliciousness += this.probability
         }
         override fun toString(): String{
             return "add deliciousness with probability $probability"

@@ -6,6 +6,8 @@ import game.action.Action
 import game.action.Effect
 import game.Game
 import game.Character
+import shortstate.dialog.Memory
+import shortstate.dialog.linetypes.Announcement
 import util.safeSublist
 
 class ForecastBrain {
@@ -28,6 +30,9 @@ class ForecastBrain {
         lastFavoriteEffects = favoriteEffects()
         sortedCases = lastCasesOfConcern!!.toList().sortedBy { entry -> -entry.second }.map { entry -> entry.first }
         lastActionsToCommitTo = actionsToDo(game)
+        if(this.player.name == "Frip"){
+            println("${player.name} wants to $lastActionsToCommitTo")
+        }
     }
 
     private fun favoriteEffects(): List<Effect>{
@@ -65,15 +70,15 @@ class ForecastBrain {
 
         val likelyPlans = HashMap<Character, List<Plan>>()
         topPlayers.forEach{player ->
-            likelyPlans[player] = possibleActionsForPlayer(myGame, player)
+            likelyPlans[player] = actionPossibilitiesForPlayer(myGame, player)
         }
 
         var retval = HashMap<GameCase,Double>()
-        likelyPlans.keys.forEach {player ->
+        likelyPlans.keys.forEach {curPlayer ->
             var effects = mutableListOf<Effect>()
             //for every player that isn't this one, add the effect of every game.action of every plan, layered by the probability of that plan
             for(otherPlayer in likelyPlans.keys) {
-                if(otherPlayer != player) {
+                if(otherPlayer != curPlayer) {
                     for (plan in likelyPlans[otherPlayer]!!) {
                         for (action in plan.actions) {
                             effects.addAll(
@@ -84,9 +89,9 @@ class ForecastBrain {
             }
 
             //make a gamecase for every plan of this player with effects added for the average of what everyone else might do?
-            likelyPlans[player]!!.forEach {
+            likelyPlans[curPlayer]!!.forEach {
                 val toAdd = GameCase(myGame, it, effects)
-                retval[toAdd] = gameValue(toAdd.game)
+                retval[toAdd] = gameValue(toAdd.game, toAdd.game.matchingPlayer(curPlayer)!!)
             }
         }
 
@@ -104,22 +109,40 @@ class ForecastBrain {
         return retval
     }
 
-    private fun possibleActionsForPlayer(game: Game, player: Character): List<Plan>{
-        var retval = ArrayList<Plan>()
-        retval.add(Plan(player, listOf<Action>(), 0.5))
-        if(!player.npc){
-            retval.add(Plan(player,listOf(Action(BakeCookies())), 0.5))
-        } else {
-            retval.add(Plan(player,listOf(Action(GetPlate())),0.5))
+    private fun actionPossibilitiesForPlayer(game: Game, player: Character): List<Plan>{
+        if(this.player.name == "Frip" && !player.npc){
+            println("hook")
         }
-        return retval
+
+        var planWeights = HashMap<Action,Double>()
+        val rawActions = game.possibleActionsForPlayer(player)
+
+        rawActions.forEach {
+            action ->
+             val weight = this.player.memory.fold(1.0, {acc, mem -> acc + oddsModifierGivenLine(player, action, mem)})
+             planWeights.put(action, weight)
+        }
+
+        val totalWeight = planWeights.values.sum()
+
+        return planWeights.map { Plan(player, listOf(it.key), it.value/totalWeight) }
     }
 
-    private fun gameValue(game: Game): Double {
-        return if(game.hasPlate.contains(player)){
-            game.deliciousness * 1.0
-        } else {
-            0.0
+    private fun oddsModifierGivenLine(character: Character, action: Action, memory: Memory): Double{
+        if(memory.line is Announcement && memory.line.action!!.equals(action)){
+            return 1.0
         }
+        return 0.0
+    }
+
+    private fun gameValue(game: Game, player: Character): Double {
+        var retval = 0.0
+        if(game.hasPlate.contains(player)){
+            retval += game.deliciousness * 1.0
+        } else {
+            retval += 0.0
+        }
+        retval += player.dummyScore
+        return retval
     }
 }

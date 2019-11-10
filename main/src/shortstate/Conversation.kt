@@ -47,8 +47,8 @@ class Conversation {
         if(line.validToSend()){
             age++
             lastLine = line
-            otherParticipant(lastSpeaker).player.memory.add(Memory(line))
             lastSpeaker = otherParticipant(lastSpeaker)
+            otherParticipant(lastSpeaker).player.memory.add(Memory(line))
         }
         game.doAIIfAppropriate()
         try{

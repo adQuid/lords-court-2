@@ -13,4 +13,8 @@ class WasteTime: Action.ActionType() {
     override fun toString(): String {
         return "be useless"
     }
+
+    override fun equals(other: Any?): Boolean {
+        return other is WasteTime
+    }
 }

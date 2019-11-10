@@ -4,9 +4,9 @@ import game.Game
 
 class DeliciousnessReport: Report{
     
-    val value: Int
+    val value: Double
     
-    constructor(deliciousness: Int){
+    constructor(deliciousness: Double){
         value = deliciousness
     }
     
