@@ -21,7 +21,7 @@ class ConversationBrain {
     fun reactToLine(line: Line?, speaker: Character, game: Game): Line {
         //TODO: Make this not awful
         if(line == null){
-            return Request(longBrain.sortedCases!![0].plan.actions[0])
+            return Request(longBrain.sortedCases!!.filter{case->case.plan.player == speaker}[0].plan.actions[0])
         }
 
         if(line is Announcement){

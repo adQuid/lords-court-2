@@ -44,6 +44,7 @@ class Conversation {
     }
 
     fun submitLine(line: Line, game: ShortStateGame){
+        println("\"${line.fullTextForm()}\" submitted by ${otherParticipant(lastSpeaker)}")
         if(line.validToSend()){
             age++
             lastLine = line

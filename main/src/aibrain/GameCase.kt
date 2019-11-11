@@ -27,6 +27,6 @@ class GameCase {
     }
 
     override fun toString(): String {
-        return plan.actions.fold("{ACTIONS BY ${plan.player.toString()}: ", {acc, action -> "$acc $action" }) + "}"
+        return plan.actions.fold("{If  ${plan.player.toString()} did: ", {acc, action -> "$acc $action" }) + "}"
     }
 }

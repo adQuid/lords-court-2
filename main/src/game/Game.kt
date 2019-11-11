@@ -55,6 +55,7 @@ class Game {
         return retval
     }
 
+    //this needs to return at least one action for the AI fucks up
     fun possibleActionsForPlayer(player: Character): List<Action>{
         var retval = ArrayList<Action>()
         if(!player.npc){
@@ -67,6 +68,9 @@ class Game {
     }
 
     fun commitActionsForPlayer(player: Character, actions: List<Action>){
+        if(isLive){
+            println("$player is comitting to $actions")
+        }
         actionsByPlayer[player] = actions
     }
 

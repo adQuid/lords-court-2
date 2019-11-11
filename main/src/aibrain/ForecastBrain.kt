@@ -30,8 +30,9 @@ class ForecastBrain {
         lastFavoriteEffects = favoriteEffects()
         sortedCases = lastCasesOfConcern!!.toList().sortedBy { entry -> -entry.second }.map { entry -> entry.first }
         lastActionsToCommitTo = actionsToDo(game)
+        println("${player.name} thinks about $lastCasesOfConcern")
         if(this.player.name == "Frip"){
-            println("${player.name} wants to $lastActionsToCommitTo")
+            //println("${player.name} wants to $lastActionsToCommitTo")
         }
     }
 
@@ -76,14 +77,12 @@ class ForecastBrain {
         var retval = HashMap<GameCase,Double>()
         likelyPlans.keys.forEach {curPlayer ->
             var effects = mutableListOf<Effect>()
-            //for every player that isn't this one, add the effect of every game.action of every plan, layered by the probability of that plan
-            for(otherPlayer in likelyPlans.keys) {
-                if(otherPlayer != curPlayer) {
-                    for (plan in likelyPlans[otherPlayer]!!) {
-                        for (action in plan.actions) {
-                            effects.addAll(
-                                action.type.doAction(myGame,plan.player).map { effect -> effect.layerProbability(plan.probability) })
-                        }
+            //for every player that isn't this one, add the effect of every action of every plan, layered by the probability of that plan
+            for(otherPlayer in likelyPlans.keys.filter{other -> other != curPlayer}) {
+                for (plan in likelyPlans[otherPlayer]!!) {
+                    for (action in plan.actions) {
+                        effects.addAll(
+                            action.type.doAction(myGame,plan.player).map { effect -> effect.layerProbability(plan.probability) })
                     }
                 }
             }
@@ -91,7 +90,7 @@ class ForecastBrain {
             //make a gamecase for every plan of this player with effects added for the average of what everyone else might do?
             likelyPlans[curPlayer]!!.forEach {
                 val toAdd = GameCase(myGame, it, effects)
-                retval[toAdd] = gameValue(toAdd.game, toAdd.game.matchingPlayer(curPlayer)!!)
+                retval[toAdd] = gameValue(toAdd.game, toAdd.game.matchingPlayer(this.player)!!)
             }
         }
 
