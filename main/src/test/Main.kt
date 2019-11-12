@@ -1,11 +1,13 @@
 package test
 
+import test.ai.testForcastBrainBasic
 import test.game.testGameCreation
 import test.game.testGameEndTurn
 
 fun main() {
     runAsTest("Game: Create game", { -> testGameCreation()})
     runAsTest("Game: End turn", { -> testGameEndTurn()})
+    runAsTest("AI: Basic", { -> testForcastBrainBasic()})
     println("Tests complete!")
 }
 
