@@ -13,13 +13,7 @@ private fun runAsTest(name: String, function: () -> Unit){
     try {
         function()
         println("$name: PASSED")
-    } catch (e: Exception){
+    } catch (e: AssertionError){
         System.err.println("$name: FAILED")
-    }
-}
-
-fun myAssert(value: Boolean){
-    if(!value){
-        throw Exception("Assertion Failed")
     }
 }
