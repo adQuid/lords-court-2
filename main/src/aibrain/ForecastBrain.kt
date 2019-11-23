@@ -30,9 +30,9 @@ class ForecastBrain {
         lastFavoriteEffects = favoriteEffects()
         sortedCases = lastCasesOfConcern!!.toList().sortedBy { entry -> -entry.second }.map { entry -> entry.first }
         lastActionsToCommitTo = actionsToDo(game)
-        println("${player.name} thinks about $lastCasesOfConcern")
         if(this.player.name == "Frip"){
-            //println("${player.name} wants to $lastActionsToCommitTo")
+            println("${player.name} thinks about $lastCasesOfConcern")
+            println("${player.name} wants to $lastActionsToCommitTo")
         }
     }
 
