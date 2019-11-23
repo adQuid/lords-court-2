@@ -1,10 +1,13 @@
 package aibrain
 
+import aibrain.scenereactionadvocates.GoToBedAdvocate
+import aibrain.scenereactionadvocates.LeaveSceneAdvocate
+import aibrain.scenereactionadvocates.SceneReactionAdvocate
+import aibrain.scenereactionadvocates.TalkMoreAdvocate
 import shortstate.Scene
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.room.Room
-import shortstate.room.action.GoToBed
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
@@ -15,30 +18,15 @@ class SceneBrain {
 
     var sortedCases: List<GameCase>? = null
 
+    val advocates: List<SceneReactionAdvocate>
+
     constructor(longBrain: ForecastBrain){
         this.longBrain = longBrain
+        advocates = listOf(TalkMoreAdvocate(longBrain.player), GoToBedAdvocate(longBrain.player), LeaveSceneAdvocate(longBrain.player))
     }
 
     fun reactToScene(scene: Scene, game: ShortStateGame){
-        if(scene!!.conversation != null){
-            val convo = scene!!.conversation!!
-            if(scene!!.conversation!!.age > 5){
-                game.endScene(scene!!)
-            } else {
-                if(convo.otherParticipant(convo.lastSpeaker).player.npc){
-                    convo.submitLine(convo.otherParticipant(convo.lastSpeaker).convoBrain.reactToLine(convo.lastLine, convo.lastSpeaker.player, game.game), game)
-                }
-            }
-        } else {
-            //TODO: Have this do other things
-            if(scene!!.characters[0].player.npc){
-                if(scene!!.characters[0].energy < 990){
-                    GoToBed().doAction(game, scene!!.characters[0])
-                } else {
-                    game.endScene(scene!!)
-                }
-            }
-        }
+        advocates.sortedByDescending { adv -> adv.weight(scene) }[0].doToScene(game, scene)
     }
 
     fun nextSceneIWantToBeIn(player: ShortStateCharacter, game: ShortStateGame): SceneMaker?{

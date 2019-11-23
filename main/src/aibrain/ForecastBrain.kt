@@ -109,10 +109,6 @@ class ForecastBrain {
     }
 
     private fun actionPossibilitiesForPlayer(game: Game, player: Character): List<Plan>{
-        if(this.player.name == "Frip" && !player.npc){
-            println("hook")
-        }
-
         var planWeights = HashMap<Action,Double>()
         val rawActions = game.possibleActionsForPlayer(player)
 

@@ -91,7 +91,7 @@ class ShortStateGame: Runnable {
     }
 
     fun doAIIfAppropriate(){
-        if(scene != null){
+        if(scene != null && scene!!.nextPlayerToDoSomething().player.npc){
             scene!!.nextPlayerToDoSomething().sceneBrain.reactToScene(scene!!, this)
         }
     }
@@ -127,6 +127,8 @@ class ShortStateGame: Runnable {
             }
             this.scene = null
         }
-        Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
+        if(scene.characters.filter { char -> !char.player.npc }.isNotEmpty()){
+            Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
+        }
     }
 }
