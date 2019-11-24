@@ -1,9 +1,7 @@
 package aibrain.scenereactionadvocates
 
 import shortstate.Scene
-import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
-import shortstate.room.action.GoToBed
 
 class TalkMoreAdvocate: SceneReactionAdvocate {
 

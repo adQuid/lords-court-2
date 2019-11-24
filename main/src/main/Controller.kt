@@ -27,7 +27,6 @@ class Controller {
         game = Game()
         shortGame = ShortStateGame(game!!, game!!.locations[0])
         brainThread1.start()
-
         Application.launch(MainUI::class.java)
     }
 

@@ -58,7 +58,7 @@ class ShortStateGame: Runnable {
 
     fun sceneForPlayer(player: ShortStateCharacter): Scene?{
         if(scene != null && scene!!.characters!!.contains(player)){
-                return scene
+            return scene
         }
 
         return null
@@ -72,8 +72,12 @@ class ShortStateGame: Runnable {
         addScene(nextActingPlayer()!!, nextActingPlayer()!!.nextSceneIWannaBeIn)
     }
 
-    //TODO: Combine the following two functions to fit together, or better seperate them
     override fun run(){
+        while(Controller.singleton!!.GUI == null){
+            Thread.sleep(100) //Very weak logic to prevent the threads from crashing the GUI
+        }
+        println("starting run")
+        Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
         var nextPlayer = nextActingPlayer()
         while(nextPlayer != null){
             if(scene == null){
@@ -81,8 +85,11 @@ class ShortStateGame: Runnable {
                     nextPlayer.decideNextScene(this)
                 }
                 addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)
-            } else {
+            } else if(scene!!.nextPlayerToDoSomething().player.npc){
                 doAIIfAppropriate()
+                if(scene != null && scene!!.hasAPC()){
+                    Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
+                }
             }
             Thread.sleep(200)
             nextPlayer = nextActingPlayer()
@@ -91,9 +98,11 @@ class ShortStateGame: Runnable {
     }
 
     fun doAIIfAppropriate(){
-        if(scene != null && scene!!.nextPlayerToDoSomething().player.npc){
-            scene!!.nextPlayerToDoSomething().sceneBrain.reactToScene(scene!!, this)
+        if(scene!!.nextPlayerToDoSomething().player.name == "Melkar the Magnificant"){
+            println("debug")
         }
+        print("${scene!!.nextPlayerToDoSomething()} is reacting to scene: ")
+        scene!!.nextPlayerToDoSomething().sceneBrain.reactToScene(scene!!, this)
     }
 
     private fun addScene(player: ShortStateCharacter, creator: SceneMaker?){
@@ -113,6 +122,7 @@ class ShortStateGame: Runnable {
         try{
             Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
         } catch(exception: Exception){
+            println("exception caught on addScene UI update")
             //Do nothing. This is scotch tape because sort state games might be made before UI starts
         }
     }

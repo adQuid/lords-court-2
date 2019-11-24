@@ -21,4 +21,8 @@ class Scene {
             return characters[0]
         }
     }
+
+    fun hasAPC(): Boolean{
+        return characters.filter { char -> !char.player.npc }.isNotEmpty()
+    }
 }

@@ -51,11 +51,11 @@ class Conversation {
             lastSpeaker = otherParticipant(lastSpeaker)
             otherParticipant(lastSpeaker).player.memory.add(Memory(line))
         }
-        game.doAIIfAppropriate()
+        /*game.doAIIfAppropriate()
         try{
             Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
         } catch(exception: Exception){
             //Do nothing. This is scotch tape because sort state games might be made before UI starts
-        }
+        }*/
     }
 }
