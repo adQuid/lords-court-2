@@ -26,7 +26,6 @@ class BrainThread: Runnable {
                     continue
                 }
 
-                println("forecasting next scene for ${shortPlayer.player}")
                 val scene = shortPlayer.nextSceneIWannaBeIn
 
                 if(scene == null){

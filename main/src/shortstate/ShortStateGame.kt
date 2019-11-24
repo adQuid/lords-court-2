@@ -97,11 +97,7 @@ class ShortStateGame: Runnable {
         println("finished run")
     }
 
-    fun doAIIfAppropriate(){
-        if(scene!!.nextPlayerToDoSomething().player.name == "Melkar the Magnificant"){
-            println("debug")
-        }
-        print("${scene!!.nextPlayerToDoSomething()} is reacting to scene: ")
+    private fun doAIIfAppropriate(){
         scene!!.nextPlayerToDoSomething().sceneBrain.reactToScene(scene!!, this)
     }
 
