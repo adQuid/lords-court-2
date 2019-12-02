@@ -11,7 +11,7 @@ import shortstate.scenemaker.SceneMaker
 
 class TalkToImportantPersonAdvocate: SceneCreationAdvocate {
 
-    val me: Character
+    private val me: Character
 
     constructor(character: game.Character) : super(character) {
         me = character

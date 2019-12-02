@@ -1,14 +1,13 @@
 package aibrain.scenereactionadvocates
 
 import shortstate.Scene
-import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.room.Room
 import shortstate.room.action.GoToBed
 
 class GoToBedAdvocate: SceneReactionAdvocate {
 
-    val me: game.Character
+    private val me: game.Character
 
     constructor(character: game.Character) : super(character) {
         me = character

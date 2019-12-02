@@ -41,7 +41,7 @@ class Controller {
     fun commitActionsForPlayer(player: Character, actions: List<Action>){
         game!!.commitActionsForPlayer(player, actions)
         if(game!!.actionsByPlayer.keys.size == game!!.players.size){
-            println("ENDING TURN")
+            println("ENDING TURN ${game!!.turn}")
             game!!.endTurn()
             shortGame = ShortStateGame(game!!, game!!.locations[0])
             println("Deliciousness: ${game!!.deliciousness}")
