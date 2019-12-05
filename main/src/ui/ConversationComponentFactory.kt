@@ -5,6 +5,7 @@ import shortstate.dialog.linetypes.Announcement
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.Scene
+import javafx.scene.control.Button
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
@@ -12,6 +13,7 @@ import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.Controller
+import shortstate.dialog.linetypes.HasAction
 import ui.selectionmodal.SelectionModal
 import ui.selectionmodal.Tab
 
@@ -28,34 +30,50 @@ class ConversationComponentFactory {
     }
 
     fun inConvoPage(): Scene{
-        val btn1 = parent.generalComponents.makeShortButton("Announce", EventHandler { parent.focusOn(Announcement(null)); parent.display() })
+        val actionButtons =
+        if(parent.scene!!.conversation!!.lastLine != null){
+            parent.scene!!.conversation!!.lastLine!!.possibleReplies()
+                .map { line -> parent.generalComponents.makeShortButton(line.tooltipName(), EventHandler {parent.focusOn(line); parent.display()}) }
+        } else {
+            listOf(
+                parent.generalComponents.makeShortButton("Announce", EventHandler { parent.focusOn(Announcement(null)); parent.display() })
+            )
+        }
         val leaveButton = parent.sceneComponents.newSceneButton()
 
         val pane = GridPane()
         pane.add(parent.conversationComponents.conversationBackgroundImage(), 0,0)
-        pane.add(parent.generalComponents.makeBottomPane(listOf(btn1,leaveButton)), 0, 1)
+        pane.add(parent.generalComponents.makeBottomPane(actionButtons + leaveButton), 0, 1)
         val scene = Scene(pane, parent.totalWidth, parent.totalHeight)
         return scene
     }
 
-    fun announceOptions(): Scene {
-        val btn1 = parent.generalComponents.makeShortButton("Select Action",
-            EventHandler { _ -> parent.focusOn(
-                SelectionModal(parent,
-                    listOf(Tab("Basic Actions",Controller.singleton!!.game!!.possibleActionsForPlayer(parent.playingAs().player))),
-                    { action ->
-                        parent.lineBeingConstructed = Announcement(action); parent.focusOn(parent.lineBeingConstructed)
-                    })
-            ) })
-        val btn7 = parent.generalComponents.makeShortButton("Declare Announcement",
-            EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, parent.shortGame()); parent.lineBeingConstructed = null; parent.focusOn(parent.scene)})
-        val btn8 = parent.generalComponents.makeShortButton(
+    fun lineConstructionOptions(): Scene {
+
+        var buttonList = mutableListOf<Button>()
+        if(parent.lineBeingConstructed is HasAction){
+            buttonList.add(parent.generalComponents.makeShortButton("Select Action",
+                EventHandler { _ -> parent.focusOn(
+                    SelectionModal(parent,
+                        listOf(Tab("Basic Actions",Controller.singleton!!.game!!.possibleActionsForPlayer(parent.playingAs().player))),
+                        { action ->
+                            (parent.lineBeingConstructed as HasAction).mySetAction(action); parent.focusOn(parent.lineBeingConstructed)
+                        })
+                )})
+            )
+        }
+        if(parent.lineBeingConstructed!!.validToSend()){
+            buttonList.add(parent.generalComponents.makeShortButton("Commit Line",
+                EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, parent.shortGame()); parent.lineBeingConstructed = null; parent.focusOn(parent.scene)}))
+        }
+        buttonList.add(parent.generalComponents.makeShortButton(
             "Cancel",
             EventHandler { parent.focusOn(parent.scene)})
+        )
 
         val pane = GridPane()
         pane.add(conversationBackgroundImage(), 0, 0)
-        pane.add(parent.generalComponents.makeBottomPane(listOf(btn1,btn7,btn8)), 0, 1)
+        pane.add(parent.generalComponents.makeBottomPane(buttonList), 0, 1)
         val scene = Scene(pane, parent.totalWidth, parent.totalHeight)
         return scene
     }

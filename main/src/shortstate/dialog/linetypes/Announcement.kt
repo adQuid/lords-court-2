@@ -4,12 +4,16 @@ import game.action.Action
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 
-class Announcement: Line {
+class Announcement: Line, HasAction {
 
     var action: Action? = null
 
     constructor(action: Action?){
         this.action = action
+    }
+
+    override fun tooltipName(): String {
+        return "Declare Action"
     }
 
     override fun symbolicForm(): List<LineBlock> {
@@ -22,5 +26,17 @@ class Announcement: Line {
 
     override fun validToSend(): Boolean {
         return action != null
+    }
+
+    override fun possibleReplies(): List<Line> {
+        return listOf(Approve(), Disapprove(), QuestionLineReason(this))
+    }
+
+    override fun mySetAction(action: Action) {
+        this.action = action
+    }
+
+    override fun myGetAction(): Action? {
+        return this.action
     }
 }

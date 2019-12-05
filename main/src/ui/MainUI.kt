@@ -111,7 +111,7 @@ class MainUI() : Application() {
         }else if(curFocus == Focus.SELECT_MODAL){
             setScene(selectModal!!.getScene())
         }else if(curFocus == Focus.LINE) {
-            setScene(conversationComponents.announceOptions())
+            setScene(conversationComponents.lineConstructionOptions())
         } else if(curFocus == Focus.SCENE){
            setScene(sceneComponents.scenePage())
         } else{

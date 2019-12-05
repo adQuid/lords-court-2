@@ -12,6 +12,10 @@ class Request: Line {
         this.action = action
     }
 
+    override fun tooltipName(): String {
+        return "Request"
+    }
+
     override fun symbolicForm(): List<LineBlock> {
         return listOf(LineBlock("REQUEST:"), LineBlock(if(action == null) "Action:___________" else "Action: "+action.toString()))
     }
@@ -22,5 +26,9 @@ class Request: Line {
 
     override fun validToSend(): Boolean {
         return action != null
+    }
+
+    override fun possibleReplies(): List<Line> {
+        return listOf(Announcement(action))
     }
 }

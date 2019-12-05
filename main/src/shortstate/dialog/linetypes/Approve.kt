@@ -9,6 +9,10 @@ class Approve: Line {
 
     }
 
+    override fun tooltipName(): String {
+        return "Approve"
+    }
+
     override fun symbolicForm(): List<LineBlock> {
         return listOf(LineBlock("Approve"))
     }
@@ -19,5 +23,9 @@ class Approve: Line {
 
     override fun validToSend(): Boolean {
         return true
+    }
+
+    override fun possibleReplies(): List<Line> {
+        return listOf(Approve())
     }
 }

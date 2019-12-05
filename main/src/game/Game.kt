@@ -31,8 +31,8 @@ class Game {
         NPC.titles.add(TitleFactory.makeCountTitle("Nomz, munch, and food-related goodness"))
         players.add(NPC)
 
-        val NPC2 = Character("Omrin", "assets//portraits//stacheman.png", true, locations[0])
-        players.add(NPC2)
+        /*val NPC2 = Character("Omrin", "assets//portraits//stacheman.png", true, locations[0])
+        players.add(NPC2)*/
     }
 
     constructor(other: Game){
