@@ -4,7 +4,7 @@ import game.action.Action
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 
-class Request: Line {
+class RequestAction: Line {
 
     var action: Action? = null
 

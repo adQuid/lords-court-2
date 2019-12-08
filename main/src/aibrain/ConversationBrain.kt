@@ -1,12 +1,9 @@
 package aibrain
 
 import shortstate.dialog.Line
-import shortstate.dialog.linetypes.Approve
-import shortstate.dialog.linetypes.Disapprove
 import game.Game
 import game.Character
-import shortstate.dialog.linetypes.Announcement
-import shortstate.dialog.linetypes.Request
+import shortstate.dialog.linetypes.*
 
 class ConversationBrain {
 
@@ -33,7 +30,7 @@ class ConversationBrain {
     }
 
     private fun startConversation(line: Line?, speaker: Character, game: Game): Line {
-        return Request(longBrain.sortedCases!!.filter{case->case.plan.player == speaker}[0].plan.actions[0])
+        return RequestAction(longBrain.sortedCases!!.filter{ case->case.plan.player == speaker}[0].plan.actions[0])
     }
 
     private fun reactToAnnouncement(line: Announcement, speaker: Character, game: Game): Line {

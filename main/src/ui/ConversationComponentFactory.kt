@@ -31,7 +31,8 @@ class ConversationComponentFactory {
 
     fun inConvoPage(): Scene{
         val actionButtons =
-        if(parent.scene!!.conversation!!.lastLine != null){
+        if(parent.scene!!.conversation!!.lastLine != null
+            && parent.scene!!.conversation!!.lastLine!!.possibleReplies().isNotEmpty()){
             parent.scene!!.conversation!!.lastLine!!.possibleReplies()
                 .map { line -> parent.generalComponents.makeShortButton(line.tooltipName(), EventHandler {parent.focusOn(line); parent.display()}) }
         } else {

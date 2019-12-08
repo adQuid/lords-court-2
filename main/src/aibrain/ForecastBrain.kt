@@ -1,7 +1,5 @@
 package aibrain
 
-import game.action.actionTypes.BakeCookies
-import game.action.actionTypes.GetPlate
 import game.action.Action
 import game.action.Effect
 import game.Game
@@ -14,7 +12,6 @@ class ForecastBrain {
     val player: Character
 
     var maxPlayersToThinkAbout = 3
-    var maxPlansToThinkAbout = 9
 
     var lastCasesOfConcern: Map<GameCase, Double>? = null
     var lastFavoriteEffects: List<Effect>? = null
