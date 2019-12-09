@@ -5,21 +5,21 @@ import game.action.Effect
 import game.Game
 import game.Character
 
-class GetPlate: Action.ActionType() {
+class GetMilk: Action.ActionType() {
 
     override fun doAction(game: Game, player: Character): List<Effect> {
-        return listOf(ApplyPlate(1.0, player))
+        return listOf(AddMilk(1.0, player))
     }
 
     override fun toString(): String {
-        return "get a plate"
+        return "get milk"
     }
 
     override fun equals(other: Any?): Boolean {
-        return other is GetPlate
+        return other is GetMilk
     }
 
-    class ApplyPlate: Effect {
+    class AddMilk: Effect {
 
         override var probability: Double
         val player: Character
@@ -30,7 +30,7 @@ class GetPlate: Action.ActionType() {
         }
 
         override fun equals(other: Any?): Boolean {
-            if(other is ApplyPlate){
+            if(other is AddMilk){
                 return true
             }
             return false
@@ -40,7 +40,7 @@ class GetPlate: Action.ActionType() {
             player.dummyScore -= 0.45
         }
         override fun toString(): String{
-            return "get plate for $player with probability $probability"
+            return "get milk for $player with probability $probability"
         }
     }
 }

@@ -2,7 +2,7 @@ package game
 
 import game.action.Action
 import game.action.actionTypes.BakeCookies
-import game.action.actionTypes.GetPlate
+import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
 import game.titlemaker.TitleFactory
 
@@ -61,7 +61,7 @@ class Game {
         if(!player.npc){
             retval.add(Action(BakeCookies()))
         } else {
-            retval.add(Action(GetPlate()))
+            retval.add(Action(GetMilk()))
         }
         retval.add(Action(WasteTime()))
         return retval
