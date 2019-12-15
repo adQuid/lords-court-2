@@ -1,5 +1,6 @@
 package shortstate
 
+import game.Character
 import shortstate.room.Room
 
 class Scene {
@@ -20,6 +21,15 @@ class Scene {
         } else {
             return characters[0]
         }
+    }
+
+    fun shortPlayerForLongPlayer(player: Character): ShortStateCharacter?{
+        characters.forEach {
+            if(it.player == player){
+                return it
+            }
+        }
+        return null
     }
 
     fun hasAPC(): Boolean{

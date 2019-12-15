@@ -13,7 +13,7 @@ class SuggestAction: Line {
     }
 
     override fun tooltipName(): String {
-        return "Request"
+        return "Suggest Action"
     }
 
     override fun symbolicForm(): List<LineBlock> {

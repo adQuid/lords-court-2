@@ -21,6 +21,6 @@ class GoToBedAdvocate: SceneReactionAdvocate {
     }
 
     override fun doToScene(game: ShortStateGame, scene: Scene) {
-        GoToBed().doAction(game, scene!!.characters[0])
+        GoToBed().doAction(game, scene!!.shortPlayerForLongPlayer(me)!!)
     }
 }

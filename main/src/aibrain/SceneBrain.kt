@@ -1,12 +1,10 @@
 package aibrain
 
 import aibrain.scenecreationadvocates.GoToBedroomAdvocate
+import aibrain.scenecreationadvocates.GoToWorkroomAdvocate
 import aibrain.scenecreationadvocates.SceneCreationAdvocate
 import aibrain.scenecreationadvocates.TalkToImportantPersonAdvocate
-import aibrain.scenereactionadvocates.GoToBedAdvocate
-import aibrain.scenereactionadvocates.LeaveSceneAdvocate
-import aibrain.scenereactionadvocates.SceneReactionAdvocate
-import aibrain.scenereactionadvocates.TalkMoreAdvocate
+import aibrain.scenereactionadvocates.*
 import shortstate.Scene
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
@@ -23,8 +21,15 @@ class SceneBrain {
 
     constructor(longBrain: ForecastBrain){
         this.longBrain = longBrain
-        reactionAdvocates = listOf(TalkMoreAdvocate(longBrain.player), GoToBedAdvocate(longBrain.player), LeaveSceneAdvocate(longBrain.player))
-        creationAdvocates = listOf(GoToBedroomAdvocate(longBrain.player), TalkToImportantPersonAdvocate(longBrain.player))
+        reactionAdvocates = listOf(
+            TalkMoreAdvocate(longBrain.player),
+            GoToBedAdvocate(longBrain.player),
+            LeaveSceneAdvocate(longBrain.player),
+            GetReportAdvocate(longBrain.player))
+        creationAdvocates = listOf(
+            GoToBedroomAdvocate(longBrain.player),
+            GoToWorkroomAdvocate(longBrain.player),
+            TalkToImportantPersonAdvocate(longBrain.player))
     }
 
     fun reactToScene(scene: Scene, game: ShortStateGame){
