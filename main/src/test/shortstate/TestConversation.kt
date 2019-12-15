@@ -6,7 +6,6 @@ import game.Location
 import game.action.Action
 import game.action.actionTypes.BakeCookies
 import shortstate.Conversation
-import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.dialog.linetypes.Announcement
 

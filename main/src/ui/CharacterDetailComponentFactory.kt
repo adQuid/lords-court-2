@@ -29,6 +29,8 @@ class CharacterDetailComponentFactory {
         val imagePane = StackPane()
         val backgroundView = parent.generalComponents.makeImageView("assets//rooms//characterStage.png")
         val characterView = parent.generalComponents.makeImageView(parent.character!!.pictureString)
+        backgroundView.setOnMouseClicked { event -> parent.defocus() }
+        characterView.setOnMouseClicked { event -> parent.defocus() }
 
         val nameText = Text(10.0, 50.0, parent.scene!!.conversation!!.otherParticipant(parent.playingAs()).player.fullName())
         nameText.font = Font(24.0)
