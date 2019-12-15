@@ -21,7 +21,6 @@ class ShortStateGame: Runnable {
         this.location = location
         this.players = game.playersAtLocation(location).map { player -> ShortStateCharacter(player) }
         establishStartingScene()
-        Thread(this).start()
     }
 
     @Synchronized fun nextPlayerToDoShortStateStuff(): ShortStateCharacter?{

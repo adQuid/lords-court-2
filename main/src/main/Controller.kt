@@ -3,6 +3,7 @@ package main
 import game.action.Action
 import aibrain.BrainThread
 import game.Game
+import game.GameSetup
 import game.Character
 import javafx.application.Application
 import shortstate.Scene
@@ -25,7 +26,9 @@ class Controller {
     constructor(){
         singleton = this
         game = Game()
+        GameSetup().setupGame(game!!)
         shortGame = ShortStateGame(game!!, game!!.locations[0])
+        Thread(shortGame).start()
         brainThread1.start()
         Application.launch(MainUI::class.java)
     }
@@ -44,6 +47,7 @@ class Controller {
             println("ENDING TURN ${game!!.turn}")
             game!!.endTurn()
             shortGame = ShortStateGame(game!!, game!!.locations[0])
+            Thread(shortGame).start()
             println("Deliciousness: ${game!!.deliciousness}")
         }
     }

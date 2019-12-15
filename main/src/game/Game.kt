@@ -4,13 +4,12 @@ import game.action.Action
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
-import game.titlemaker.TitleFactory
 
 class Game {
     var isLive = true
     var turn = 1
     var players = mutableListOf<Character>()
-    var locations = listOf(Location())
+    var locations = mutableListOf<Location>()
     var actionsByPlayer = HashMap<Character, List<Action>>()
 
     //This is more of a "secondary" pointer, and is expected to be duplicated with anyone actually holding the titles.
@@ -22,14 +21,7 @@ class Game {
     var hasPlate = mutableListOf<Character>()
 
     constructor(){
-        val PC = Character("Melkar the Magnificant", "assets//general//conversation frame.png", false, locations[0])
-        applyTitleToCharacter(TitleFactory.makeCountTitle("Cookies"), PC)
-        players.add(PC)
 
-        val NPC = Character("Frip", "assets//portraits//faceman.png", true, locations[0])
-        NPC.titles.add(TitleFactory.makeCountTitle("Eating Cookies"))
-        NPC.titles.add(TitleFactory.makeCountTitle("Nomz, munch, and food-related goodness"))
-        players.add(NPC)
 
         /*val NPC2 = Character("Omrin", "assets//portraits//stacheman.png", true, locations[0])
         players.add(NPC2)*/
@@ -41,7 +33,7 @@ class Game {
         other.players.forEach{
             this.players.add(Character(it))
         }
-        locations = other.locations.map { loc -> Location(loc) }
+        locations = other.locations.toList().map { loc -> Location(loc) }.toMutableList()
         titles = other.titles.map { title -> Title(title)}.toMutableSet()
         deliciousness = other.deliciousness
     }
