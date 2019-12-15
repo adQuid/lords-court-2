@@ -42,5 +42,9 @@ class GetMilk: Action.ActionType() {
         override fun toString(): String{
             return "get milk for $player with probability $probability"
         }
+
+        override fun describe(): String {
+            return "${player} would get milk"
+        }
     }
 }

@@ -31,5 +31,9 @@ class BakeCookies: Action.ActionType() {
         override fun toString(): String{
             return "add deliciousness with probability $probability"
         }
+
+        override fun describe(): String {
+            return "deliciousness levels would increase by {probability}"
+        }
     }
 }

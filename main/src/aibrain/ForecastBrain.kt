@@ -13,7 +13,7 @@ class ForecastBrain {
 
     var maxPlayersToThinkAbout = 3
 
-    var lastCasesOfConcern: Map<GameCase, Double>? = null
+    var lastCasesOfConcern: List<GameCase>? = null
     var lastFavoriteEffects: List<Effect>? = null
     var lastActionsToCommitTo: List<Action>? = null
     var sortedCases: List<GameCase>? = null
@@ -25,7 +25,7 @@ class ForecastBrain {
     fun thinkAboutNextTurn(game: Game){
         lastCasesOfConcern = casesOfConcern(game)
         lastFavoriteEffects = favoriteEffects()
-        sortedCases = lastCasesOfConcern!!.toList().sortedBy { entry -> -entry.second }.map { entry -> entry.first }
+        sortedCases = lastCasesOfConcern!!.toList().sortedBy { case -> -case.valueToCharacter(player) }
         lastActionsToCommitTo = actionsToDo(game)
         if(this.player.name == "Frip"){
             println("${player.name} thinks about $lastCasesOfConcern")
@@ -36,11 +36,11 @@ class ForecastBrain {
     private fun favoriteEffects(): List<Effect>{
         var cases = lastCasesOfConcern
 
-        val averageScore = cases!!.values.average()
+        val averageScore = cases!!.map{case -> case.valueToCharacter(player)}.average()
 
         //map cases to how different they are from average
         val modCases = HashMap<GameCase, Double>()
-        cases.forEach { entry -> modCases[entry.key] = (entry.value - averageScore) * entry.key.probability() }
+        cases.forEach { case -> modCases[case] = (case.valueToCharacter(player) - averageScore) * case.probability() }
 
         var orderedCaseList = modCases.toList().sortedBy { (key, value) -> value }
 
@@ -58,10 +58,10 @@ class ForecastBrain {
     }
 
     private fun actionsToDo(game: Game): List<Action> {
-        return lastCasesOfConcern!!.filter { entry -> entry.key.plan.player == player }.toList().sortedBy { entry -> -entry.second }[0].first.plan.actions
+        return lastCasesOfConcern!!.filter { case -> case.plan.player == player }.toList().sortedBy { case -> -case.valueToCharacter(player) }[0].plan.actions
     }
 
-    private fun casesOfConcern(game: Game): Map<GameCase, Double>{
+    private fun casesOfConcern(game: Game): List<GameCase>{
         var myGame = game.imageFor(player)
 
         val topPlayers = safeSublist(mostSignificantPlayersToMe(myGame),0,maxPlayersToThinkAbout)
@@ -71,7 +71,7 @@ class ForecastBrain {
             likelyPlans[player] = actionPossibilitiesForPlayer(myGame, player)
         }
 
-        var retval = HashMap<GameCase,Double>()
+        var retval = mutableListOf<GameCase>()
         likelyPlans.keys.forEach {curPlayer ->
             var effects = mutableListOf<Effect>()
             //for every player that isn't this one, add the effect of every action of every plan, layered by the probability of that plan
@@ -87,7 +87,7 @@ class ForecastBrain {
             //make a gamecase for every plan of this player with effects added for the average of what everyone else might do?
             likelyPlans[curPlayer]!!.forEach {
                 val toAdd = GameCase(myGame, it, effects)
-                retval[toAdd] = gameValue(toAdd.game, toAdd.game.matchingPlayer(this.player)!!)
+                retval.add(toAdd)
             }
         }
 
@@ -127,14 +127,4 @@ class ForecastBrain {
         return 0.0
     }
 
-    private fun gameValue(game: Game, player: Character): Double {
-        var retval = 0.0
-        if(game.hasPlate.contains(player)){
-            retval += game.deliciousness * 1.0
-        } else {
-            retval += 0.0
-        }
-        retval += player.dummyScore
-        return retval
-    }
 }

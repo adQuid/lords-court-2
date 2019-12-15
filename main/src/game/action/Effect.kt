@@ -13,4 +13,6 @@ abstract class Effect {
         this.probability *= probability
         return this
     }
+
+    abstract fun describe(): String
 }

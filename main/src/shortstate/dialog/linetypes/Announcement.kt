@@ -29,7 +29,7 @@ class Announcement: Line, HasAction {
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf(Approve(), Disapprove(), QuestionLineReason(this))
+        return listOf(Approve(), Disapprove())
     }
 
     override fun mySetAction(action: Action) {

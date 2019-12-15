@@ -120,7 +120,7 @@ class ConversationComponentFactory {
 
             var index = 0 //gotta be a better way to do this
             line.symbolicForm().forEach { block ->
-                val playerLineText = Text(block.text)
+                val playerLineText = Text(block.toString())
                 playerLineText.maxWidth(parent.totalWidth / 2)
                 if (parent.totalWidth > 600.0) {
                     playerLineText.font = Font(20.0)

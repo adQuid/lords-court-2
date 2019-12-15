@@ -29,4 +29,19 @@ class GameCase {
     override fun toString(): String {
         return plan.actions.fold("{If  ${plan.player.toString()} did: ", {acc, action -> "$acc $action" }) + "}"
     }
+
+    fun valueToCharacter(character: game.Character): Double{
+        return gameValue(this.game, character)
+    }
+
+    private fun gameValue(game: Game, player: game.Character): Double {
+        var retval = 0.0
+        if(game.hasPlate.contains(player)){
+            retval += game.deliciousness * 1.0
+        } else {
+            retval += 0.0
+        }
+        retval += player.dummyScore
+        return retval
+    }
 }

@@ -4,7 +4,7 @@ import game.action.Action
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 
-class RequestAction: Line {
+class SuggestAction: Line {
 
     var action: Action? = null
 
@@ -21,7 +21,7 @@ class RequestAction: Line {
     }
 
     override fun fullTextForm(): String {
-        return "Yo, could you "+action?.toString()+" this turn?"
+        return "I think you should "+action?.toString()+" this turn."
     }
 
     override fun validToSend(): Boolean {
@@ -29,6 +29,6 @@ class RequestAction: Line {
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf(Announcement(action))
+        return listOf(Announcement(action), QuestionSuggestion(this))
     }
 }

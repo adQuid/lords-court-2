@@ -4,11 +4,11 @@ import game.action.Action
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 
-class QuestionLineReason: Line {
+class QuestionSuggestion: Line {
 
-    var line: Line? = null
+    var line: SuggestAction? = null
 
-    constructor(line: Line?){
+    constructor(line: SuggestAction?){
         this.line = line
     }
 
@@ -17,11 +17,11 @@ class QuestionLineReason: Line {
     }
 
     override fun symbolicForm(): List<LineBlock> {
-        var retval = mutableListOf(LineBlock("QUESTION:"), LineBlock(if(line == null) "Line:___________" else "Line: "+line!!.symbolicForm().toString()))
+        var retval = mutableListOf(LineBlock("QUESTION:"))
         if(line == null){
             retval.add(LineBlock("Line:___________"))
         } else {
-            retval.addAll(line!!.symbolicForm())
+            retval.addAll(line!!.symbolicForm().map{block -> block.tab()})
         }
         return retval
     }
@@ -35,6 +35,6 @@ class QuestionLineReason: Line {
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf()
+        return listOf(CiteEffect(null))
     }
 }
