@@ -1,10 +1,9 @@
 package shortstate.dialog.linetypes
 
-import game.action.Action
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
-import shortstate.report.Report
+import shortstate.dialog.linetypes.traits.HasReportType
 import shortstate.report.ReportType
 
 class RequestReport: Line, HasReportType {

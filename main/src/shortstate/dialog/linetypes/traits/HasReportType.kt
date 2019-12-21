@@ -1,4 +1,4 @@
-package shortstate.dialog.linetypes
+package shortstate.dialog.linetypes.traits
 
 import shortstate.report.ReportType
 

@@ -4,6 +4,7 @@ import game.action.Action
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
+import shortstate.dialog.linetypes.traits.HasAction
 
 class Announcement: Line, HasAction {
 

@@ -1,7 +1,6 @@
 package ui
 
 import shortstate.dialog.Line
-import shortstate.dialog.linetypes.Announcement
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.Scene
@@ -9,12 +8,11 @@ import javafx.scene.control.Button
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
-import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.Controller
-import shortstate.dialog.linetypes.HasAction
-import shortstate.dialog.linetypes.HasReportType
+import shortstate.dialog.linetypes.traits.HasAction
+import shortstate.dialog.linetypes.traits.HasReportType
 import ui.selectionmodal.SelectionModal
 import ui.selectionmodal.Tab
 
