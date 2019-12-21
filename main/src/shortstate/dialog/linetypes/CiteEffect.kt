@@ -5,7 +5,6 @@ import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 
 class CiteEffect: Line {
-
     var effects: List<Effect>? = null
 
     constructor(effects: List<Effect>?){
@@ -38,5 +37,4 @@ class CiteEffect: Line {
     override fun possibleReplies(): List<Line> {
         return listOf()
     }
-
 }

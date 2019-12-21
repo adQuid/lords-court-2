@@ -4,6 +4,9 @@ import game.action.Action
 import aibrain.ConversationBrain
 import aibrain.SceneBrain
 import game.Character
+import shortstate.dialog.Line
+import shortstate.dialog.linetypes.Announcement
+import shortstate.dialog.linetypes.RequestReport
 import shortstate.report.Report
 import shortstate.scenemaker.SceneMaker
 
@@ -38,5 +41,12 @@ class ShortStateCharacter {
 
     fun decideNextScene(game: ShortStateGame){
         nextSceneIWannaBeIn = sceneBrain.nextSceneIWantToBeIn(this, game)
+    }
+
+    fun defaultConversationLines(): List<Line>{
+        return listOf(
+            Announcement(null),
+            RequestReport(null)
+        )
     }
 }

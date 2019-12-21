@@ -11,4 +11,5 @@ abstract class Line {
     abstract fun validToSend(): Boolean
 
     abstract fun possibleReplies(): List<Line>
-}
+
+ }

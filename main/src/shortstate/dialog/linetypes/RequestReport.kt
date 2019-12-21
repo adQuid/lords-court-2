@@ -4,12 +4,13 @@ import game.action.Action
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.report.Report
+import shortstate.report.ReportType
 
-class RequestReport: Line {
+class RequestReport: Line, HasReportType {
 
-    var report: Report? = null
+    var report: ReportType? = null
 
-    constructor(report: Report?){
+    constructor(report: ReportType?){
         this.report = report
     }
 
@@ -31,5 +32,13 @@ class RequestReport: Line {
 
     override fun possibleReplies(): List<Line> {
         return listOf()
+    }
+
+    override fun mySetReportType(type: ReportType) {
+        report = type
+    }
+
+    override fun myGetReportType(): ReportType? {
+        return report
     }
 }

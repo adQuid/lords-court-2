@@ -14,6 +14,7 @@ import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.Controller
 import shortstate.dialog.linetypes.HasAction
+import shortstate.dialog.linetypes.HasReportType
 import ui.selectionmodal.SelectionModal
 import ui.selectionmodal.Tab
 
@@ -36,9 +37,7 @@ class ConversationComponentFactory {
             parent.scene!!.conversation!!.lastLine!!.possibleReplies()
                 .map { line -> parent.generalComponents.makeShortButton(line.tooltipName(), EventHandler {parent.focusOn(line); parent.display()}) }
         } else {
-            listOf(
-                parent.generalComponents.makeShortButton("Announce", EventHandler { parent.focusOn(Announcement(null)); parent.display() })
-            )
+            parent.playingAs().defaultConversationLines().map{ line -> parent.generalComponents.makeShortButton(line.tooltipName(), EventHandler { parent.focusOn(line); parent.display() })}
         }
         val leaveButton = parent.sceneComponents.newSceneButton()
 
@@ -59,6 +58,17 @@ class ConversationComponentFactory {
                         listOf(Tab("Basic Actions",Controller.singleton!!.game!!.possibleActionsForPlayer(parent.playingAs().player))),
                         { action ->
                             (parent.lineBeingConstructed as HasAction).mySetAction(action); parent.focusOn(parent.lineBeingConstructed)
+                        })
+                )})
+            )
+        }
+        if(parent.lineBeingConstructed is HasReportType){
+            buttonList.add(parent.generalComponents.makeShortButton("Select Report",
+                EventHandler { _ -> parent.focusOn(
+                    SelectionModal(parent,
+                        listOf(Tab("Reports",parent.playingAs().player.titles.flatMap { title -> title.reportsEntitled })),
+                        { reportType ->
+                            (parent.lineBeingConstructed as HasReportType).mySetReportType(reportType); parent.focusOn(parent.lineBeingConstructed)
                         })
                 )})
             )
