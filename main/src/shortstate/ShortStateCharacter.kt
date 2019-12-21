@@ -8,6 +8,7 @@ import shortstate.dialog.Line
 import shortstate.dialog.linetypes.Announcement
 import shortstate.dialog.linetypes.RequestReport
 import shortstate.report.Report
+import shortstate.report.ReportType
 import shortstate.scenemaker.SceneMaker
 
 class ShortStateCharacter {
@@ -24,7 +25,7 @@ class ShortStateCharacter {
         this.player = player
         this.energy = 1000
         sceneBrain = SceneBrain(player.brain)
-        convoBrain = ConversationBrain(player.brain)
+        convoBrain = ConversationBrain(this)
     }
 
     override fun toString(): String {
@@ -48,5 +49,9 @@ class ShortStateCharacter {
             Announcement(null),
             RequestReport(null)
         )
+    }
+
+    fun reportOfType(type: ReportType): Report {
+        return knownReports.filter { report -> report.type() == type }[0]
     }
 }

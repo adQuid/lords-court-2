@@ -14,6 +14,10 @@ class DeliciousnessReport: Report{
        game.deliciousness = value
     }
 
+    override fun type(): ReportType {
+        return ReportType.DeliciousnessReportType
+    }
+
     override fun toString(): String {
         return "Game has $value Deliciousness"
     }

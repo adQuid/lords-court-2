@@ -3,14 +3,15 @@ package aibrain
 import shortstate.dialog.Line
 import game.Game
 import game.Character
+import shortstate.ShortStateCharacter
 import shortstate.dialog.linetypes.*
 
 class ConversationBrain {
 
-    val longBrain: ForecastBrain
+    val shortCharacter: ShortStateCharacter
 
-    constructor(longBrain: ForecastBrain){
-        this.longBrain = longBrain
+    constructor(shortCharacter: ShortStateCharacter){
+        this.shortCharacter = shortCharacter
     }
 
     fun reactToLine(line: Line?, speaker: Character, game: Game): Line {
@@ -29,19 +30,22 @@ class ConversationBrain {
         if(line is QuestionSuggestion){
             return reactToQuestionSuggestion(line,speaker,game)
         }
+        if(line is RequestReport){
+            return reactToRequestReport(line, speaker, game)
+        }
         throw Error("Line class ${line.javaClass} unknown!")
     }
 
     private fun startConversation(line: Line?, speaker: Character, game: Game): Line {
-        return SuggestAction(longBrain.sortedCases!!
-            .filter{case -> case.valueToCharacter(longBrain.player) > 0}
+        return SuggestAction(shortCharacter.player.brain.sortedCases!!
+            .filter{case -> case.valueToCharacter(shortCharacter.player.brain.player) > 0}
             .filter{ case->case.plan.player == speaker}[0].plan.actions[0])
     }
 
     private fun reactToAnnouncement(line: Announcement, speaker: Character, game: Game): Line {
         val action = line.action
 
-        val effectsILike = longBrain.lastFavoriteEffects!!
+        val effectsILike = shortCharacter.player.brain.lastFavoriteEffects!!
         val effectsOfAction = action!!.type.doAction(game, speaker)
 
         if(effectsILike.intersect(effectsOfAction).isNotEmpty()){
@@ -60,7 +64,14 @@ class ConversationBrain {
     }
 
     private fun reactToQuestionSuggestion(line: QuestionSuggestion, speaker: Character, game: Game): Line{
-        return CiteEffect(longBrain.lastFavoriteEffects)
+        return CiteEffect(shortCharacter.player.brain.lastFavoriteEffects)
     }
 
+    private fun reactToRequestReport(line: RequestReport, speaker: Character, game: Game): Line{
+        if(shortCharacter.knownReports.filter { report -> report.type() == line.myGetReportType() }.isNotEmpty()){
+            return GiveReport(shortCharacter.knownReports.filter { report -> report.type() == line.myGetReportType() }[0])
+        } else {
+            return Approve()
+        }
+    }
 }

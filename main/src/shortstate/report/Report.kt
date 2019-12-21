@@ -6,4 +6,5 @@ interface Report {
 
     fun apply(game: Game)
 
+    fun type(): ReportType
 }

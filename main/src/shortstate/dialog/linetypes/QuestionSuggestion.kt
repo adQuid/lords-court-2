@@ -1,6 +1,7 @@
 package shortstate.dialog.linetypes
 
 import game.action.Action
+import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 
@@ -36,5 +37,9 @@ class QuestionSuggestion: Line {
 
     override fun possibleReplies(): List<Line> {
         return listOf(CiteEffect(null))
+    }
+
+    override fun specialEffect(conversation: Conversation) {
+        //No special effects
     }
 }

@@ -1,6 +1,7 @@
 package shortstate.dialog.linetypes
 
 import game.action.Action
+import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 
@@ -38,5 +39,9 @@ class Announcement: Line, HasAction {
 
     override fun myGetAction(): Action? {
         return this.action
+    }
+
+    override fun specialEffect(conversation: Conversation) {
+        //No special effects
     }
 }

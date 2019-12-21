@@ -1,5 +1,6 @@
 package shortstate.dialog.linetypes
 
+import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 
@@ -27,5 +28,9 @@ class Approve: Line {
 
     override fun possibleReplies(): List<Line> {
         return listOf(Approve())
+    }
+
+    override fun specialEffect(conversation: Conversation) {
+        //No special effects
     }
 }

@@ -1,6 +1,7 @@
 package shortstate.dialog.linetypes
 
 import game.action.Action
+import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.report.Report
@@ -31,7 +32,7 @@ class RequestReport: Line, HasReportType {
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf()
+        return listOf(GiveReport(null)) //AI needs to think about matching reports manually
     }
 
     override fun mySetReportType(type: ReportType) {
@@ -40,5 +41,9 @@ class RequestReport: Line, HasReportType {
 
     override fun myGetReportType(): ReportType? {
         return report
+    }
+
+    override fun specialEffect(conversation: Conversation) {
+        //No special effects
     }
 }

@@ -1,5 +1,7 @@
 package shortstate.dialog
 
+import shortstate.Conversation
+
 abstract class Line {
 
     abstract fun tooltipName(): String
@@ -12,4 +14,5 @@ abstract class Line {
 
     abstract fun possibleReplies(): List<Line>
 
+    abstract fun specialEffect(conversation: Conversation)
  }
