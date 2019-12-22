@@ -37,9 +37,14 @@ class ConversationBrain {
     }
 
     private fun startConversation(line: Line?, speaker: Character, game: Game): Line {
-        return SuggestAction(shortCharacter.player.brain.sortedCases!!
+        val thingToSuggest = shortCharacter.player.brain.sortedCases!!
             .filter{case -> case.valueToCharacter(shortCharacter.player.brain.player) > 0}
-            .filter{ case->case.plan.player == speaker}[0].plan.actions[0])
+            .filter{ case->case.plan.player == speaker}
+
+        if(thingToSuggest.isNotEmpty()){
+            return SuggestAction(thingToSuggest[0].plan.actions[0])
+        }
+        return Approve()
     }
 
     private fun reactToAnnouncement(line: Announcement, speaker: Character, game: Game): Line {

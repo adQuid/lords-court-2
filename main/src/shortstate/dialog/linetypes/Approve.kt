@@ -27,7 +27,7 @@ class Approve: Line {
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf(Approve())
+        return listOf()
     }
 
     override fun specialEffect(conversation: Conversation) {

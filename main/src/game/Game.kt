@@ -67,17 +67,21 @@ class Game {
     }
 
     fun endTurn(){
-        players.forEach{ player ->
-            actionsByPlayer[player]?.forEach{
-                it.type.doAction(this, player).forEach{
-                    it.apply(this)
-                }
-            }
+        actionsByPlayer.entries.forEach{ entry ->
+            applyActions(entry.value, entry.key)
         }
 
         actionsByPlayer.clear()
 
         turn++
+    }
+
+    fun applyActions(actions: Collection<Action>, player: Character){
+        actions.forEach {
+            it.type.doAction(this, player).forEach{
+                it.apply(this)
+            }
+        }
     }
 
     fun matchingPlayer(player: Character): Character?{

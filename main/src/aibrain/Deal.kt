@@ -1,4 +1,7 @@
-package game.action
+package aibrain
+
+import game.action.Action
+import game.Character
 
 class Deal {
 

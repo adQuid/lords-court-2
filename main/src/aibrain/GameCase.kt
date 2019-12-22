@@ -4,22 +4,35 @@ import game.action.Effect
 import game.Game
 
 class GameCase {
-    val game: Game
+    val baseGame: Game
+    val currentGame: Game
     val plan: Plan
     var effects = listOf<Effect>()
 
     constructor(game: Game, plan: Plan, effects: List<Effect>){
-        this.game = Game(game)
+        this.baseGame = Game(game)
         this.plan = plan
         effects.forEach { addEffect(it) }
-        plan.actions.forEach { action -> action.type.doAction(game, plan.player).forEach { addEffect(it) } }
-        this.game.commitActionsForPlayer(plan.player, plan.actions)
-        this.game.endTurn()
+        this.currentGame = calculateGame()
+    }
+
+    private fun calculateGame(): Game{
+        val tempGame = Game(baseGame)
+        tempGame.commitActionsForPlayer(plan.player, plan.actions)
+        tempGame.endTurn()
+        effects.forEach { it.apply(tempGame) }
+        return tempGame
+    }
+
+    fun applyDeal(deal: Deal){
+        deal.actions.keys.forEach {
+            baseGame.applyActions(deal.actions[it]!!, it)
+        }
+        calculateGame()
     }
 
     fun addEffect(effect: Effect){
         effects = effects + effect
-        effect.apply(game)
     }
 
     fun probability(): Double{
@@ -31,7 +44,7 @@ class GameCase {
     }
 
     fun valueToCharacter(character: game.Character): Double{
-        return gameValue(this.game, character)
+        return gameValue(this.currentGame, character)
     }
 
     private fun gameValue(game: Game, player: game.Character): Double {
