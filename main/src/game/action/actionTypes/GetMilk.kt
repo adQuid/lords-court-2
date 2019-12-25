@@ -5,14 +5,20 @@ import game.action.Effect
 import game.Game
 import game.Character
 
-class GetMilk: Action.ActionType() {
+class GetMilk: Action.ActionType {
+
+    val player: Character
+
+    constructor(player: Character){
+        this.player = player
+    }
 
     override fun doAction(game: Game, player: Character): List<Effect> {
-        return listOf(AddMilk(1.0, player))
+        return listOf(AddMilk(1.0, this.player))
     }
 
     override fun toString(): String {
-        return "get milk"
+        return "get milk for ${player.name}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -36,7 +42,7 @@ class GetMilk: Action.ActionType() {
             return false
         }
         override fun apply(game: Game) {
-           game.hasPlate.add(player)
+           game.hasMilk.add(player)
             player.dummyScore -= 0.45
         }
         override fun toString(): String{

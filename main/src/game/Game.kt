@@ -18,7 +18,7 @@ class Game {
 
     //temporary stats
     var deliciousness = 0.0
-    var hasPlate = mutableListOf<Character>()
+    var hasMilk = mutableListOf<Character>()
 
     constructor(){
 
@@ -36,6 +36,7 @@ class Game {
         locations = other.locations.toList().map { loc -> Location(loc) }.toMutableList()
         titles = other.titles.map { title -> Title(title)}.toMutableSet()
         deliciousness = other.deliciousness
+        hasMilk = other.hasMilk.toMutableList()
     }
 
     fun imageFor(player: Character): Game{
@@ -53,7 +54,7 @@ class Game {
         if(!player.npc){
             retval.add(Action(BakeCookies()))
         } else {
-            retval.add(Action(GetMilk()))
+            players.forEach { retval.add(Action(GetMilk(it))) }
         }
         retval.add(Action(WasteTime()))
         return retval

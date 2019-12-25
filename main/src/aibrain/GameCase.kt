@@ -5,7 +5,7 @@ import game.Game
 
 class GameCase {
     val baseGame: Game
-    val currentGame: Game
+    var currentGame: Game
     val plan: Plan
     var effects = listOf<Effect>()
 
@@ -13,6 +13,13 @@ class GameCase {
         this.baseGame = Game(game)
         this.plan = plan
         effects.forEach { addEffect(it) }
+        this.currentGame = calculateGame()
+    }
+
+    constructor(other: GameCase){
+        this.baseGame = Game(other.baseGame)
+        this.plan = other.plan
+        other.effects.forEach { addEffect(it) }
         this.currentGame = calculateGame()
     }
 
@@ -24,11 +31,13 @@ class GameCase {
         return tempGame
     }
 
-    fun applyDeal(deal: Deal){
+    fun applyDeal(deal: Deal): GameCase{
+        val retval = GameCase(this)
         deal.actions.keys.forEach {
-            baseGame.applyActions(deal.actions[it]!!, it)
+            retval.baseGame.applyActions(deal.actions[it]!!, it)
         }
-        calculateGame()
+        retval.currentGame = retval.calculateGame()
+        return retval
     }
 
     fun addEffect(effect: Effect){
@@ -49,7 +58,7 @@ class GameCase {
 
     private fun gameValue(game: Game, player: game.Character): Double {
         var retval = 0.0
-        if(game.hasPlate.contains(player)){
+        if(game.hasMilk.contains(player)){
             retval += game.deliciousness * 1.0
         } else {
             retval += 0.0

@@ -12,7 +12,7 @@ fun testForcastBrainBasic(){
 
     //basic sanity checks
     assert(brain.player == character)
-    assert(brain.sortedCases!!.isNotEmpty())
+    assert(brain.lastCasesOfConcern!!.isNotEmpty())
     assert(brain.lastFavoriteEffects != null)
     assert(brain.lastActionsToCommitTo != null)
 }

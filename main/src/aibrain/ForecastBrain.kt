@@ -4,6 +4,9 @@ import game.action.Action
 import game.action.Effect
 import game.Game
 import game.Character
+import game.action.actionTypes.BakeCookies
+import game.action.actionTypes.GetMilk
+import game.action.actionTypes.WasteTime
 import shortstate.dialog.Memory
 import shortstate.dialog.linetypes.Announcement
 import util.safeSublist
@@ -13,24 +16,31 @@ class ForecastBrain {
 
     var maxPlayersToThinkAbout = 3
 
+    //TODO: Why do both of these exist?
     var lastCasesOfConcern: List<GameCase>? = null
+
+    var dealsILike: List<Deal>? = null
+
     var lastFavoriteEffects: List<Effect>? = null
     var lastActionsToCommitTo: List<Action>? = null
-    var sortedCases: List<GameCase>? = null
+
 
     constructor(player: Character){
         this.player = player
     }
 
     fun thinkAboutNextTurn(game: Game){
-        lastCasesOfConcern = casesOfConcern(game)
+        lastCasesOfConcern = casesOfConcern(game).toList().sortedBy { case -> -case.valueToCharacter(player) }
         lastFavoriteEffects = favoriteEffects()
-        sortedCases = lastCasesOfConcern!!.toList().sortedBy { case -> -case.valueToCharacter(player) }
         lastActionsToCommitTo = actionsToDo(game)
+
+        //DEBUG
         if(this.player.name == "Frip"){
             println("${player.name} thinks about $lastCasesOfConcern")
             println("${player.name} wants to $lastActionsToCommitTo")
         }
+
+        dealsILike = dealsILike(game)
     }
 
     private fun favoriteEffects(): List<Effect>{
@@ -55,6 +65,12 @@ class ForecastBrain {
         }
 
         return bestCaseEffects
+    }
+
+    private fun dealsILike(game: Game): List<Deal> {
+        return mostSignificantPlayersToMe(game).filter { it -> it != player }
+            .map { character -> prospectiveDealsWithPlayer(character) }.flatten()
+            .filter { dealValue(it) > 0 }
     }
 
     private fun actionsToDo(game: Game): List<Action> {
@@ -92,6 +108,31 @@ class ForecastBrain {
         }
 
         return retval
+    }
+
+    fun prospectiveDealsWithPlayer(target: Character): List<Deal>{
+        val badDeal = Deal(hashMapOf(
+            player to listOf(Action(WasteTime())),
+            target to listOf(Action(WasteTime()))
+        ))
+
+        val goodDeal = Deal(hashMapOf(
+            player to listOf(Action(GetMilk(target))),
+            target to listOf(Action(BakeCookies()))
+        ))
+
+        return listOf(badDeal, goodDeal)
+    }
+
+    //returns the multiple of previous value. For example, if the total of gamecase value was 100 before the deal and 120 after,
+    //this would return 0.2
+    private fun dealValue(deal: Deal): Double{
+        val casesWithDeal = lastCasesOfConcern!!.map { it.applyDeal(deal) }
+        return (totalCaseValue(casesWithDeal) - totalCaseValue(lastCasesOfConcern!!)) /totalCaseValue(lastCasesOfConcern!!)
+    }
+
+    private fun totalCaseValue(reality: List<GameCase>): Double{
+        return reality.fold(0.0, { acc, case -> acc + case.valueToCharacter(player) })
     }
 
     private fun mostSignificantPlayersToMe(game: Game): List<Character>{

@@ -37,7 +37,7 @@ class ConversationBrain {
     }
 
     private fun startConversation(line: Line?, speaker: Character, game: Game): Line {
-        val thingToSuggest = shortCharacter.player.brain.sortedCases!!
+        val thingToSuggest = shortCharacter.player.brain.lastCasesOfConcern!!
             .filter{case -> case.valueToCharacter(shortCharacter.player.brain.player) > 0}
             .filter{ case->case.plan.player == speaker}
 

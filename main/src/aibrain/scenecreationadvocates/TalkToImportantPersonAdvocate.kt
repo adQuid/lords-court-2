@@ -18,14 +18,14 @@ class TalkToImportantPersonAdvocate: SceneCreationAdvocate {
     }
 
     override fun weight(game: ShortStateGame): Double{
-        if(me.brain.sortedCases != null && me.brain.sortedCases!!.isNotEmpty()){
+        if(me.brain.lastCasesOfConcern != null && me.brain.lastCasesOfConcern!!.isNotEmpty()){
             return 10.0
         }
         return 0.0
     }
 
     override fun createScene(game: ShortStateGame, player: shortstate.ShortStateCharacter): SceneMaker{
-        var sortedCases = player.player.brain.sortedCases
+        var sortedCases = player.player.brain.lastCasesOfConcern
 
         while(sortedCases != null && sortedCases!!.isNotEmpty()){
             val hopefulCase = sortedCases!![0]
