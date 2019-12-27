@@ -1,10 +1,12 @@
 package shortstate.dialog.linetypes
 
+import aibrain.ConversationBrain
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.report.Report
 import game.Character
+import game.Game
 
 class GiveReport: Line {
 
@@ -36,5 +38,9 @@ class GiveReport: Line {
 
     override fun specialEffect(conversation: Conversation) {
         conversation.lastSpeaker.knownReports.add(report!!)
+    }
+
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+        throw NotImplementedError()
     }
 }

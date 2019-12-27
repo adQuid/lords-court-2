@@ -1,9 +1,11 @@
 package shortstate.dialog.linetypes
 
+import aibrain.ConversationBrain
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.Character
+import game.Game
 
 class Approve: Line {
 
@@ -33,5 +35,9 @@ class Approve: Line {
 
     override fun specialEffect(conversation: Conversation) {
         //No special effects
+    }
+
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+        return Approve()
     }
 }

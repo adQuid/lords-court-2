@@ -14,7 +14,7 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
     override fun weight(scene: Scene): Double {
         if(scene!!.conversation != null){
             if(scene!!.conversation!!.otherParticipant(scene!!.conversation!!.lastSpeaker).player.npc){
-                return 6.0 - scene!!.conversation!!.age
+                return 8.0 - scene!!.conversation!!.age
             }
             return 0.0
         }
@@ -23,6 +23,10 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
 
     override fun doToScene(game: ShortStateGame, scene: Scene) {
         val convo = scene.conversation!!
-        convo.submitLine(convo.otherParticipant(convo.lastSpeaker).convoBrain.reactToLine(convo.lastLine, convo.lastSpeaker.player, game.game), game)
+        if(convo.lastLine != null){
+            convo.submitLine(convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker.player, game.game), game)
+        } else {
+            convo.submitLine(convo.otherParticipant(convo.lastSpeaker).convoBrain.startConversation(convo.lastSpeaker.player, game.game), game)
+        }
     }
 }

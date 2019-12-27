@@ -8,7 +8,7 @@ import shortstate.dialog.LineBlock
 import game.Character
 import game.Game
 
-class OfferDeal: Line {
+class AcceptDeal: Line {
 
     var deal: Deal? = null
 
@@ -17,19 +17,15 @@ class OfferDeal: Line {
     }
 
     override fun tooltipName(): String {
-        return "Suggest Action"
+        return "Accept Deal"
     }
 
     override fun symbolicForm(): List<LineBlock> {
-        return listOf(LineBlock("OFFER:"), LineBlock(if(deal == null) "Deal:___________" else "Deal: "+deal.toString()))
+        return listOf(LineBlock("ACCEPT"))
     }
 
     override fun fullTextForm(speaker: Character, target: Character): String {
-        if(deal != null){
-            return "I would like to offer a deal: ${deal!!.dialogText(speaker, target)}"
-        } else {
-            return "I would like to offer a deal: _________"
-        }
+        return "sounds reasonable"
     }
 
     override fun validToSend(): Boolean {
@@ -37,14 +33,15 @@ class OfferDeal: Line {
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf(AcceptDeal(deal), RejectDeal(deal))
+        return listOf()
     }
 
     override fun specialEffect(conversation: Conversation) {
-        //No special effects
+        conversation.initiator.player.acceptedDeals.add(deal!!)
+        conversation.target.player.acceptedDeals.add(deal!!)
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
-        return AcceptDeal(deal)
+        return Approve()
     }
 }

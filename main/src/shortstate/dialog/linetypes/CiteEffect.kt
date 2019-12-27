@@ -1,10 +1,12 @@
 package shortstate.dialog.linetypes
 
+import aibrain.ConversationBrain
 import game.action.Effect
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.Character
+import game.Game
 
 class CiteEffect: Line {
     var effects: List<Effect>? = null
@@ -42,5 +44,9 @@ class CiteEffect: Line {
 
     override fun specialEffect(conversation: Conversation) {
         //No special effects
+    }
+
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+       throw NotImplementedError()
     }
 }

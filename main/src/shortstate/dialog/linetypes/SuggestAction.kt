@@ -1,11 +1,13 @@
 package shortstate.dialog.linetypes
 
+import aibrain.ConversationBrain
 import game.action.Action
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasAction
 import game.Character
+import game.Game
 
 class SuggestAction: Line, HasAction {
 
@@ -45,5 +47,9 @@ class SuggestAction: Line, HasAction {
 
     override fun specialEffect(conversation: Conversation) {
         //No special effects
+    }
+
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+        throw NotImplementedError()
     }
 }

@@ -1,11 +1,13 @@
 package shortstate.dialog.linetypes
 
+import aibrain.ConversationBrain
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasReportType
 import shortstate.report.ReportType
 import game.Character
+import game.Game
 
 class RequestReport: Line, HasReportType {
 
@@ -45,5 +47,13 @@ class RequestReport: Line, HasReportType {
 
     override fun specialEffect(conversation: Conversation) {
         //No special effects
+    }
+
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+        if(brain.shortCharacter.knownReports.filter { report -> report.type() == myGetReportType() }.isNotEmpty()){
+            return GiveReport(brain.shortCharacter.knownReports.filter { report -> report.type() == myGetReportType() }[0])
+        } else {
+            return Approve()
+        }
     }
 }

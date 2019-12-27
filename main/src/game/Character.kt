@@ -1,6 +1,8 @@
 package game
 
+import aibrain.Deal
 import aibrain.ForecastBrain
+import aibrain.Treaty
 import shortstate.dialog.Memory
 
 class Character {
@@ -14,6 +16,8 @@ class Character {
     var location: Location
 
     val memory: MutableList<Memory>
+    val acceptedDeals: MutableList<Deal>
+    val acceptedTreaty: MutableList<Treaty>
 
     //testing only
     var dummyScore = 0.0
@@ -24,6 +28,8 @@ class Character {
         this.npc = npc
         this.location = location
         this.memory = mutableListOf()
+        this.acceptedDeals = mutableListOf()
+        this.acceptedTreaty = mutableListOf()
     }
 
     constructor(other: Character){
@@ -32,6 +38,8 @@ class Character {
         this.npc = other.npc
         this.location = other.location
         this.memory = other.memory.map{ memory -> Memory(memory)}.toMutableList()
+        this.acceptedDeals = mutableListOf()
+        this.acceptedTreaty = mutableListOf()
 
         //testing only
         this.dummyScore = other.dummyScore

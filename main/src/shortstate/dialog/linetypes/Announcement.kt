@@ -1,11 +1,13 @@
 package shortstate.dialog.linetypes
 
+import aibrain.ConversationBrain
 import game.action.Action
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasAction
 import game.Character
+import game.Game
 
 class Announcement: Line, HasAction {
 
@@ -45,5 +47,18 @@ class Announcement: Line, HasAction {
 
     override fun specialEffect(conversation: Conversation) {
         //No special effects
+    }
+
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+        val action = action
+
+        val effectsILike = brain.shortCharacter.player.brain.lastFavoriteEffects!!
+        val effectsOfAction = action!!.type.doAction(game, speaker)
+
+        if(effectsILike.intersect(effectsOfAction).isNotEmpty()){
+            return Approve()
+        } else {
+            return Disapprove()
+        }
     }
 }

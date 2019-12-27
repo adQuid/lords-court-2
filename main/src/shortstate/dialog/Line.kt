@@ -1,7 +1,9 @@
 package shortstate.dialog
 
+import aibrain.ConversationBrain
 import shortstate.Conversation
 import game.Character
+import game.Game
 
 abstract class Line {
 
@@ -16,4 +18,6 @@ abstract class Line {
     abstract fun possibleReplies(): List<Line>
 
     abstract fun specialEffect(conversation: Conversation)
+
+    abstract fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line
  }
