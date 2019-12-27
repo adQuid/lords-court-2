@@ -11,4 +11,10 @@ class Deal {
         this.actions = actions
     }
 
+   fun dialogText(speaker: Character, target: Character): String {
+        val retval = actions.map{(character, actions) -> "${character.name} will ${actions.toString()}"}
+
+       return retval.joinToString(", ")
+    }
+
 }

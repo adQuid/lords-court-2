@@ -24,6 +24,5 @@ class Action {
     abstract class ActionType{
         //checks prerequisites, and returns any effects produced
         abstract fun doAction(game: Game, player: Character): List<Effect>
-
     }
 }

@@ -1,43 +1,41 @@
 package shortstate.dialog.linetypes
 
-import game.action.Action
+import aibrain.Deal
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.Character
 
-class QuestionSuggestion: Line {
+class OfferDeal: Line {
 
-    var line: SuggestAction? = null
+    var deal: Deal? = null
 
-    constructor(line: SuggestAction?){
-        this.line = line
+    constructor(deal: Deal?){
+        this.deal = deal
     }
 
     override fun tooltipName(): String {
-        return "why?"
+        return "Suggest Action"
     }
 
     override fun symbolicForm(): List<LineBlock> {
-        var retval = mutableListOf(LineBlock("QUESTION:"))
-        if(line == null){
-            retval.add(LineBlock("Line:___________"))
-        } else {
-            retval.addAll(line!!.symbolicForm().map{block -> block.tab()})
-        }
-        return retval
+        return listOf(LineBlock("OFFER:"), LineBlock(if(deal == null) "Deal:___________" else "Deal: "+deal.toString()))
     }
 
     override fun fullTextForm(speaker: Character, target: Character): String {
-        return "Why would you say that?"
+        if(deal != null){
+            return "I would like to offer a deal: ${deal!!.dialogText(speaker, target)}"
+        } else {
+            return "I would like to offer a deal: _________"
+        }
     }
 
     override fun validToSend(): Boolean {
-        return line != null
+        return deal != null
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf(CiteEffect(null))
+        return listOf()
     }
 
     override fun specialEffect(conversation: Conversation) {

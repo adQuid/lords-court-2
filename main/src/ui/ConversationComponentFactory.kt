@@ -137,7 +137,7 @@ class ConversationComponentFactory {
                 (lineNode as GridPane).add(playerLineText, 0, index++)
             }
         } else {
-            lineNode = Text(line.fullTextForm())
+            lineNode = Text(line.fullTextForm(parent.scene!!.conversation!!.lastSpeaker.player, parent.scene!!.conversation!!.otherParticipant(parent.scene!!.conversation!!.lastSpeaker).player))
 
             lineNode.maxWidth(parent.totalWidth / 2)
             if (parent.totalWidth > 800.0) {

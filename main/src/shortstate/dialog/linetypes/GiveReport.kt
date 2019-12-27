@@ -4,6 +4,7 @@ import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.report.Report
+import game.Character
 
 class GiveReport: Line {
 
@@ -21,7 +22,7 @@ class GiveReport: Line {
         return listOf(LineBlock("GIVE REPORT:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString()))
     }
 
-    override fun fullTextForm(): String {
+    override fun fullTextForm(speaker: Character, target: Character): String {
         return "I have discovered that ${report.toString()}"
     }
 

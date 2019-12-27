@@ -5,6 +5,7 @@ import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasAction
+import game.Character
 
 class Announcement: Line, HasAction {
 
@@ -22,7 +23,7 @@ class Announcement: Line, HasAction {
         return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "Action:___________" else "Action: "+action.toString()))
     }
 
-    override fun fullTextForm(): String {
+    override fun fullTextForm(speaker: Character, target: Character): String {
         return "I will "+action?.toString()+" by the end of the turn. Just wanted to let you know."
     }
 

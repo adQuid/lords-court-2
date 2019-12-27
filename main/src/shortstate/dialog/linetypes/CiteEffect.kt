@@ -4,6 +4,7 @@ import game.action.Effect
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
+import game.Character
 
 class CiteEffect: Line {
     var effects: List<Effect>? = null
@@ -27,7 +28,7 @@ class CiteEffect: Line {
         return retval
     }
 
-    override fun fullTextForm(): String {
+    override fun fullTextForm(speaker: Character, target: Character): String {
         return "I have some very good reasons: " + effects!!.map { effect -> effect.describe() }
     }
 

@@ -3,6 +3,7 @@ package shortstate.dialog.linetypes
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
+import game.Character
 
 class Disapprove: Line {
 
@@ -18,7 +19,7 @@ class Disapprove: Line {
         return listOf(LineBlock("Disapprove"))
     }
 
-    override fun fullTextForm(): String {
+    override fun fullTextForm(speaker: Character, target: Character): String {
         return "NOOO!!!"
     }
 

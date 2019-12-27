@@ -5,6 +5,7 @@ import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasReportType
 import shortstate.report.ReportType
+import game.Character
 
 class RequestReport: Line, HasReportType {
 
@@ -22,7 +23,7 @@ class RequestReport: Line, HasReportType {
         return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString()))
     }
 
-    override fun fullTextForm(): String {
+    override fun fullTextForm(speaker: Character, target: Character): String {
         return "What can you tell me of "+report?.toString()+"?"
     }
 
