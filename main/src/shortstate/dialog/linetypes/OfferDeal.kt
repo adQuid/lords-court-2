@@ -32,6 +32,13 @@ class OfferDeal: Line {
         }
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(
+            GlobalLineTypeList.TYPE_NAME to "OfferDeal",
+            "deal" to deal!!.saveString()
+        )
+    }
+
     override fun validToSend(): Boolean {
         return deal != null
     }

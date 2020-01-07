@@ -28,6 +28,13 @@ class RejectDeal: Line {
         return "no thanks"
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(
+            GlobalLineTypeList.TYPE_NAME to "RejectDeal",
+            "deal" to deal!!.saveString()
+        )
+    }
+
     override fun validToSend(): Boolean {
         return deal != null
     }

@@ -29,6 +29,13 @@ class Announcement: Line, HasAction {
         return "I will "+action?.toString()+" by the end of the turn. Just wanted to let you know."
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(
+            GlobalLineTypeList.TYPE_NAME to "Announcement",
+            "ACTION" to action!!.saveString()
+        )
+    }
+
     override fun validToSend(): Boolean {
         return action != null
     }

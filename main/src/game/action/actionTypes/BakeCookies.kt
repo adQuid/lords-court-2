@@ -4,6 +4,7 @@ import game.action.Action
 import game.action.Effect
 import game.Game
 import game.Character
+import game.action.GlobalActionTypeFactory
 
 class BakeCookies: Action.ActionType() {
     override fun doAction(game: Game, player: Character): List<Effect> {
@@ -18,6 +19,10 @@ class BakeCookies: Action.ActionType() {
         return other is BakeCookies
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(GlobalActionTypeFactory.TYPE_NAME to "BakeCookies")
+    }
+
     class AddDelicousness(override var probability: Double) : Effect() {
         override fun equals(other: Any?): Boolean {
             if(other is AddDelicousness){
@@ -30,6 +35,12 @@ class BakeCookies: Action.ActionType() {
         }
         override fun toString(): String{
             return "add deliciousness with probability $probability"
+        }
+
+        override fun saveString(): Map<String, Any> {
+            return hashMapOf(
+                TYPE_NAME to "BakeCookies"
+            )
         }
 
         override fun describe(): String {

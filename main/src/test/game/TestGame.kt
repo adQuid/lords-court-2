@@ -1,7 +1,8 @@
 package test.game
 
 import game.Game
-import kotlin.test.assertTrue
+import kotlin.test.*
+import test.util.soloTestGame
 
 fun testGameCreation() {
     val game = Game()
@@ -14,4 +15,10 @@ fun testGameEndTurn() {
     val game = Game()
     game.endTurn()
     assertTrue(game.turn == 2)
+}
+
+@Test fun testSaveGame() {
+    val game = soloTestGame()
+    val game2 = Game(game.saveString())
+    assertTrue(game == game2)
 }

@@ -11,10 +11,10 @@ import shortstate.dialog.linetypes.Announcement
 
 fun testBasicConvo(){
     val game = Game()
-    val location = Location()
+    val location = Location(game)
 
-    val character1 = Character("person1", "thisdoesn'tmatter", false, location)
-    val character2 = Character("person2", "thisdoesn'tmatter", false, location)
+    val character1 = Character("person1", "thisdoesn'tmatter", false, location, game)
+    val character2 = Character("person2", "thisdoesn'tmatter", false, location, game)
 
     game.locations.add(location)
     game.players.add(character1)

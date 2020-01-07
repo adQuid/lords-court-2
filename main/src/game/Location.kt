@@ -4,9 +4,11 @@ import shortstate.room.Room
 
 class Location {
 
+    val id: Int
     var rooms: List<Room>
 
-    constructor(){
+    constructor(game: Game){
+        id = game.nextID++
         rooms = listOf(
             Room("Bedchamber", "assets//rooms//bedroom.png", Room.RoomType.BEDROOM),
             Room("Hallway", "assets//rooms//testRoom.png", Room.RoomType.ETC),
@@ -15,7 +17,18 @@ class Location {
     }
 
     constructor(other: Location){
+        this.id = other.id
         this.rooms = other.rooms.map { room -> room }
+    }
+
+    constructor(saveString: Map<String, Any>, game:Game): this(game)
+
+    fun saveString(): Map<String, Any>{
+        val retval = mutableMapOf<String, Any>()
+
+        //TODO: As locations get more complicated, make this more dynamic
+
+        return retval
     }
 
     fun startRoom(): Room {

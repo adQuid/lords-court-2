@@ -25,6 +25,10 @@ class Disapprove: Line {
         return "NOOO!!!"
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(GlobalLineTypeList.TYPE_NAME to "Disapprove")
+    }
+
     override fun validToSend(): Boolean {
         return true
     }

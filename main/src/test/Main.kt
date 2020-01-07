@@ -3,6 +3,7 @@ package test
 import test.ai.testForcastBrainBasic
 import test.game.testGameCreation
 import test.game.testGameEndTurn
+import test.game.testSaveGame
 import test.shortstate.testBasicConvo
 
 var failures = 0
@@ -10,6 +11,7 @@ var failures = 0
 fun main() {
     runAsTest("Game: Create game", { -> testGameCreation()})
     runAsTest("Game: End turn", { -> testGameEndTurn()})
+    runAsTest("Game: Save", { -> testSaveGame()})
     runAsTest("AI: Basic", { -> testForcastBrainBasic()})
     runAsTest("Conversation: Basic", { -> testBasicConvo()})
     println("Tests complete! $failures failures")

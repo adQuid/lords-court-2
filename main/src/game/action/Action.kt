@@ -14,6 +14,10 @@ class Action {
         return type.toString()
     }
 
+    fun saveString(): Map<String, Any>{
+        return type.saveString()
+    }
+
     override fun equals(other: Any?): Boolean {
         if(other is Action){
             return type == other.type
@@ -22,7 +26,10 @@ class Action {
     }
 
     abstract class ActionType{
+
         //checks prerequisites, and returns any effects produced
         abstract fun doAction(game: Game, player: Character): List<Effect>
+
+        abstract fun saveString(): Map<String, Any>
     }
 }

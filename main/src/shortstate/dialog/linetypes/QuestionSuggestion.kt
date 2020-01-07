@@ -34,6 +34,13 @@ class QuestionSuggestion: Line {
         return "Why would you say that?"
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(
+            GlobalLineTypeList.TYPE_NAME to "QuestionSuggestion",
+            "line" to line!!.saveString()
+        )
+    }
+
     override fun validToSend(): Boolean {
         return line != null
     }

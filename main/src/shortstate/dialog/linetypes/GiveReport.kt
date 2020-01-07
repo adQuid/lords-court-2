@@ -28,6 +28,13 @@ class GiveReport: Line {
         return "I have discovered that ${report.toString()}"
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(
+            GlobalLineTypeList.TYPE_NAME to "GiveReport",
+            "report" to report!!.saveString()
+        )
+    }
+
     override fun validToSend(): Boolean {
         return report != null
     }

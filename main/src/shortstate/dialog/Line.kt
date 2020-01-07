@@ -13,6 +13,8 @@ abstract class Line {
 
     abstract fun fullTextForm(speaker: Character, target: Character): String
 
+    abstract fun saveString(): Map<String, Any>
+
     abstract fun validToSend(): Boolean
 
     abstract fun possibleReplies(): List<Line>

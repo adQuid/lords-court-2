@@ -37,6 +37,13 @@ class SuggestAction: Line, HasAction {
         return "I think you should "+action?.toString()+" this turn."
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(
+            GlobalLineTypeList.TYPE_NAME to "SuggestAction",
+            "action" to action!!.saveString()
+        )
+    }
+
     override fun validToSend(): Boolean {
         return action != null
     }

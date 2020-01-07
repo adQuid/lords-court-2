@@ -34,6 +34,13 @@ class CiteEffect: Line {
         return "I have some very good reasons: " + effects!!.map { effect -> effect.describe() }
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(
+            GlobalLineTypeList.TYPE_NAME to "CiteEffect",
+            "effects" to effects!!.map { effect -> effect.saveString() }
+        )
+    }
+    
     override fun validToSend(): Boolean {
         return effects != null
     }

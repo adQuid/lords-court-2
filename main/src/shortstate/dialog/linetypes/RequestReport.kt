@@ -29,6 +29,13 @@ class RequestReport: Line, HasReportType {
         return "What can you tell me of "+report?.toString()+"?"
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(
+            GlobalLineTypeList.TYPE_NAME to "RequestReport",
+            "report" to report.toString()
+        )
+    }
+
     override fun validToSend(): Boolean {
         return report != null
     }
