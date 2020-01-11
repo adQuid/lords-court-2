@@ -1,24 +1,32 @@
 package test.game
 
 import game.Game
-import kotlin.test.*
+import org.junit.Test
 import test.util.soloTestGame
+import kotlin.test.assertTrue
 
-fun testGameCreation() {
-    val game = Game()
-    assertTrue(game.turn == 1)
-    assertTrue(game.isLive)
-    assertTrue(game.actionsByPlayer.size == 0)
-}
+class TestGame {
 
-fun testGameEndTurn() {
-    val game = Game()
-    game.endTurn()
-    assertTrue(game.turn == 2)
-}
+    @Test
+    fun testGameCreation() {
+        val game = Game()
+        assertTrue(game.turn == 1)
+        assertTrue(game.isLive)
+        assertTrue(game.actionsByPlayer.size == 0)
+    }
 
-@Test fun testSaveGame() {
-    val game = soloTestGame()
-    val game2 = Game(game.saveString())
-    assertTrue(game == game2)
+    @Test
+    fun testGameEndTurn() {
+        val game = Game()
+        game.endTurn()
+        assertTrue(game.turn == 2)
+    }
+
+    @Test
+    fun testSaveGame() {
+        val game = soloTestGame()
+        val game2 = Game(game.saveString())
+        assertTrue(game == game2)
+    }
+
 }
