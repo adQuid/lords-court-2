@@ -11,7 +11,7 @@ object GlobalActionTypeFactory {
     val typeMap: HashMap<String, (map: Map<String, Any>) -> Action.ActionType> = hashMapOf(
         "WasteTime" to {map -> WasteTime()},
         "BakeCookies" to {map -> BakeCookies()},
-        "WasteTime" to {map -> GetMilk(map["target"] as Character) }
+        "GetMilk" to {map -> GetMilk(map["target"] as Character) }
     )
 
     fun fromMap(map: Map<String, Any>): Action.ActionType {
