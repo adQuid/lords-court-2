@@ -26,6 +26,15 @@ class Room {
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        if(other is Room){
+            return this.name == other.name &&
+            this.type == other.type
+        } else {
+            return false
+        }
+    }
+
     override fun toString(): String {
         return name
     }

@@ -30,6 +30,14 @@ class Location {
         )
     }
 
+    override fun equals(other: Any?): Boolean {
+        if(other is Location){
+            return this.rooms == other.rooms
+        } else {
+            return false
+        }
+    }
+
     fun startRoom(): Room {
         return rooms[0]
     }

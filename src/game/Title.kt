@@ -25,10 +25,6 @@ class Title {
         reportsEntitled = other.reportsEntitled
     }
 
-    override fun toString(): String {
-        return name
-    }
-
     constructor(saveString: Map<String, Any>) {
         name = saveString[NAME_NAME] as String
         actionsEntitled = (saveString[ACTIONS_NAME] as List<Map<String, Any>>).map { map -> GlobalActionTypeFactory.fromMap(map) }
@@ -41,5 +37,19 @@ class Title {
             ACTIONS_NAME to actionsEntitled.map { action -> action.saveString() },
             REPORTS_NAME to reportsEntitled.map { report -> report.toString() }
         )
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other is Title){
+            return this.name == other.name &&
+            this.actionsEntitled == other.actionsEntitled &&
+            this.reportsEntitled == other.reportsEntitled
+        } else {
+            return false
+        }
+    }
+
+    override fun toString(): String {
+        return name
     }
 }

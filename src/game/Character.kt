@@ -87,7 +87,7 @@ class Character {
 
     override fun equals(other: Any?): Boolean {
         if(other is Character){
-            return this.name == other.name
+            return this.id == other.id
         }
         return false
     }

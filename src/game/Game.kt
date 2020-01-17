@@ -82,6 +82,18 @@ class Game {
         return retval
     }
 
+    override fun equals(other: Any?): Boolean {
+        if(other is Game){
+            return this.nextID == other.nextID &&
+            this.isLive == other.isLive &&
+            this.turn == other.turn &&
+            this.locations == other.locations &&
+            this.actionsByPlayer == other.actionsByPlayer
+        } else {
+            return false
+        }
+    }
+
     fun imageFor(player: Character): Game{
         var retval = Game(this)
 
