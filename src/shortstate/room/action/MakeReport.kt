@@ -2,7 +2,6 @@ package shortstate.room.action
 
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
-import shortstate.report.DeliciousnessReport
 import shortstate.report.ReportType
 import shortstate.report.generateReport
 import shortstate.room.RoomAction

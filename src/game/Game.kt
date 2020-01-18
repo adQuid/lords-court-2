@@ -50,7 +50,7 @@ class Game {
     constructor(saveString: Map<String,Any>){
         nextID = saveString[MAX_ID_NAME] as Int
         turn = saveString[TURN_NAME] as Int
-        locations = (saveString[LOCATIONS_NAME] as List<Map<String, Any>>).map { map -> Location(map, this) }.toMutableList()
+        locations = (saveString[LOCATIONS_NAME] as List<Map<String, Any>>).map { map -> Location(this, map) }.toMutableList()
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> Character(map, this) }.toMutableList()
 
         val tempActions = mutableMapOf<Character, List<Action>>()

@@ -8,8 +8,11 @@ import shortstate.room.action.MakeReport
 
 class Room {
 
+    val NAME_NAME = "NAME"
     val name: String
+    val TYPE_NAME = "TYPE"
     val type: RoomType
+    val PICTURE_TEXT_NAME = "PICTURE"
     val pictureText: String
     val baseActions: List<RoomAction>
 
@@ -24,6 +27,14 @@ class Room {
         } else {
             baseActions = listOf()
         }
+    }
+
+    fun saveString(): Map<String, Any>{
+        return hashMapOf(
+            NAME_NAME to name,
+            TYPE_NAME to type.toString(),
+            PICTURE_TEXT_NAME to pictureText
+        )
     }
 
     override fun equals(other: Any?): Boolean {

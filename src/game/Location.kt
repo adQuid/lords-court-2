@@ -20,7 +20,7 @@ class Location {
         this.rooms = other.rooms.map { room -> room }
     }
 
-    constructor(saveString: Map<String, Any>, game:Game){
+    constructor(parent: Game, saveString: Map<String, Any>){
         this.id = saveString["ID"] as Int
     }
 

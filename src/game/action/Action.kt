@@ -10,6 +10,10 @@ class Action {
         this.type = type
     }
 
+    constructor(parent: Game, saveString: Map<String, Any>){
+        this.type = GlobalActionTypeFactory.fromMap(saveString)
+    }
+
     override fun toString(): String{
         return type.toString()
     }

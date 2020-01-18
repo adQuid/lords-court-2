@@ -9,7 +9,11 @@ class DeliciousnessReport: Report{
     constructor(deliciousness: Double){
         value = deliciousness
     }
-    
+
+    constructor(saveString: Map<String, Any>){
+        value = saveString["value"] as Double
+    }
+
     override fun apply(game: Game) {
        game.deliciousness = value
     }

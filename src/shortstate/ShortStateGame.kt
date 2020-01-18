@@ -11,9 +11,12 @@ import shortstate.scenemaker.SceneMaker
 
 class ShortStateGame: Runnable {
 
+    val SCENE_NAME = "SCENE"
     private var scene: Scene? = null
     val game: Game
+    val LOCATION_NAME = "LOCATION"
     val location: Location
+    val PLAYERS_NAME = "PLAYERS"
     val players: List<ShortStateCharacter>
 
     constructor(game: Game, location: Location){
@@ -21,6 +24,29 @@ class ShortStateGame: Runnable {
         this.location = location
         this.players = game.playersAtLocation(location).map { player -> ShortStateCharacter(player) }
         establishStartingScene()
+    }
+
+    constructor(parent: Game, saveString: Map<String,Any>){
+        game = parent
+        location = parent.locationById(saveString[LOCATION_NAME] as Int)
+        players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> ShortStateCharacter(parent, map) }
+    }
+
+    fun saveString(): Map<String, Any>{
+        return hashMapOf(
+            SCENE_NAME to {scene!!.saveString(); if(scene != null) else null},
+            LOCATION_NAME to location.id,
+            PLAYERS_NAME to players.map { player -> player.saveString() }
+        )
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other is ShortStateGame){
+            //TODO: Make this more through
+            return true
+        } else {
+            return false
+        }
     }
 
     @Synchronized fun nextPlayerToDoShortStateStuff(): ShortStateCharacter?{

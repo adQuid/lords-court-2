@@ -4,6 +4,7 @@ import game.Character
 import game.Game
 import game.Location
 import game.titlemaker.TitleFactory
+import shortstate.ShortStateGame
 
 fun soloTestGame(): Game{
     val game = Game()
@@ -16,4 +17,9 @@ fun soloTestGame(): Game{
     game.players.add(player1)
 
     return game
+}
+
+fun soloTestShortgame(): ShortStateGame{
+    val game = soloTestGame()
+    return ShortStateGame(game, game.locations[0])
 }

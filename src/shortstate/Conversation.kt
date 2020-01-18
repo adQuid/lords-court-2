@@ -1,17 +1,18 @@
 package shortstate
 
 import shortstate.dialog.Line
-import game.Game
-import javafx.application.Platform
-import main.Controller
 import shortstate.dialog.Memory
 
 class Conversation {
 
+    val INITIATOR_NAME = "INITER"
     val initiator: ShortStateCharacter
+    val TARGET_NAME = "TARGET"
     val target: ShortStateCharacter
 
+    val LAST_SPEAKER_NAME = "SPEAKER"
     var lastSpeaker: ShortStateCharacter
+    val LAST_LINE_NAME = "LINE"
     var lastLine: Line? = null
 
     var age = 0
@@ -20,6 +21,15 @@ class Conversation {
         this.initiator = initiator
         this.target = target
         this.lastSpeaker = target //the inititator still hasn't said anything at this point
+    }
+
+    fun saveString(): Map<String, Any>{
+        return hashMapOf(
+            INITIATOR_NAME to initiator.player.id,
+            TARGET_NAME to target.player.id,
+            LAST_SPEAKER_NAME to lastSpeaker.player.id,
+            LAST_LINE_NAME to {lastLine!!.saveString(); if(lastLine != null) else null}
+        )
     }
 
     fun otherParticipant(player: ShortStateCharacter): ShortStateCharacter{
