@@ -2,6 +2,8 @@ package main
 
 import game.action.Action
 import aibrain.BrainThread
+import com.beust.klaxon.Klaxon
+import com.google.gson.Gson
 import game.Game
 import game.GameSetup
 import game.Character
@@ -10,6 +12,9 @@ import shortstate.Scene
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import ui.MainUI
+import java.io.File
+
+
 
 class Controller {
 
@@ -25,12 +30,7 @@ class Controller {
 
     constructor(){
         singleton = this
-        game = Game()
-        GameSetup().setupGame(game!!)
-        shortGame = ShortStateGame(game!!, game!!.locations[0])
-        Thread(shortGame).start()
-        brainThread1.start()
-        Application.launch(MainUI::class.java)
+        load()
     }
 
     fun sceneForPlayer(player: ShortStateCharacter): Scene?{
@@ -50,6 +50,41 @@ class Controller {
             Thread(shortGame).start()
             println("Deliciousness: ${game!!.deliciousness}")
         }
+    }
+
+    //TODO: Have save and load use the same library
+    fun save(){
+        val gson = Gson()
+        val saveMap = mapOf<String, Any>(
+            "game" to game!!.saveString(),
+            "shortGame" to shortGame!!.saveString()
+        )
+
+        val saveFile = File("save/test.savgam")
+        saveFile.writeText(gson.toJson(saveMap))
+        println(saveFile.absolutePath)
+    }
+
+    //TODO: Have save and load use the same library
+    fun load(){
+        val klac = Klaxon()
+        val loadMap = klac.parse<Map<String,Any>>(File("save/test.savgam").readText())!!
+        game = Game(loadMap["game"] as Map<String,Any>)
+        shortGame = ShortStateGame(game!!, loadMap["shortGame"] as Map<String, Any>)
+        startPlaying()
+    }
+
+    fun newGame(){
+        game = Game()
+        GameSetup().setupGame(game!!)
+        shortGame = ShortStateGame(game!!, game!!.locations[0])
+        Thread(shortGame).start()
+        startPlaying()
+    }
+
+    private fun startPlaying(){
+        brainThread1.start()
+        Application.launch(MainUI::class.java)
     }
 }
 
