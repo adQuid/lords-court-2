@@ -42,8 +42,9 @@ class ShortStateGame: Runnable {
 
     override fun equals(other: Any?): Boolean {
         if(other is ShortStateGame){
-            //TODO: Make this more through
-            return true
+            return this.game == other.game &&
+            this.location.id == other.location.id &&
+            this.players == other.players
         } else {
             return false
         }

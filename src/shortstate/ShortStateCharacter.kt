@@ -53,6 +53,14 @@ class ShortStateCharacter {
         )
     }
 
+    override fun equals(other: Any?): Boolean {
+        if(other is ShortStateCharacter){
+            return this.player.id == other.player.id
+        } else {
+            return false
+        }
+    }
+
     override fun toString(): String {
         return player.toString()
     }
