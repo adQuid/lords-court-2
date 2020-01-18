@@ -78,11 +78,11 @@ class Controller {
         game = Game()
         GameSetup().setupGame(game!!)
         shortGame = ShortStateGame(game!!, game!!.locations[0])
-        Thread(shortGame).start()
         startPlaying()
     }
 
     private fun startPlaying(){
+        Thread(shortGame).start()
         brainThread1.start()
         Application.launch(MainUI::class.java)
     }

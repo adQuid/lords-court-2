@@ -30,6 +30,7 @@ class ShortStateGame: Runnable {
         game = parent
         location = parent.locationById(saveString[LOCATION_NAME] as Int)
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> ShortStateCharacter(parent, map) }
+        establishStartingScene()
     }
 
     fun saveString(): Map<String, Any>{
