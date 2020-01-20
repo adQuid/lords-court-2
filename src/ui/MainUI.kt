@@ -9,6 +9,7 @@ import javafx.stage.WindowEvent
 import main.Controller
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
+import ui.componentfactory.*
 import ui.selectionmodal.SelectionModal
 import java.lang.Exception
 import kotlin.system.exitProcess
@@ -19,10 +20,10 @@ class MainUI() : Application() {
 
     private var stage: Stage? = null
 
-    var generalComponents = GeneralComponentFactory(this)
+    var generalComponents = UtilityComponentFactory(this)
     var sceneComponents = SceneComponentFactory(this)
     var conversationComponents = ConversationComponentFactory(this)
-    var nonSceneComponents = NonSceneComponentFactory(this)
+    var nonSceneComponents = WaitingSceneComponentFactory(this)
     var characterDetailComponents = CharacterDetailComponentFactory(this)
 
     var totalWidth = 1200.0 * SIZE_SCALE

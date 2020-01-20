@@ -41,7 +41,7 @@ class ShortStateCharacter {
         sceneBrain = SceneBrain(player.brain)
         convoBrain = ConversationBrain(this)
         knownReports = (saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> GlobalReportTypeFactory.fromMap(map) }.toMutableList()
-        prospectiveActions = (saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> Action(parent, map)}.toMutableList()
+        prospectiveActions = (saveString[ACTIONS_NAME] as List<Map<String, Any>>).map { map -> Action(parent, map)}.toMutableList()
     }
 
     fun saveString(): Map<String, Any>{

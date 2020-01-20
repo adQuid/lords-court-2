@@ -1,4 +1,4 @@
-package ui
+package ui.componentfactory
 
 import javafx.event.EventHandler
 import javafx.scene.Scene
@@ -11,6 +11,7 @@ import shortstate.room.RoomAction
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
+import ui.MainUI
 import ui.selectionmodal.SelectionModal
 import ui.selectionmodal.Tab
 
@@ -39,21 +40,21 @@ class SceneComponentFactory {
     }
 
     private fun outOfConvoButtons(): Pane {
-        val btn1 = parent.generalComponents.makeShortButton("Personal Actions", null)
-        val btn2 = if(parent.scene!!.room.baseActions.isNotEmpty() || parent.scene!!.room.type == Room.RoomType.WORKROOM){
-            parent.generalComponents.makeShortButton("Actions Here", EventHandler { _ ->
+        val btn1 = parent.generalComponents.shortButton("Personal Actions", null)
+        val btn2 = if(parent.scene!!.room.getActions(parent.playingAs().player).isNotEmpty()){
+            parent.generalComponents.shortButton("Actions Here", EventHandler { _ ->
                 parent.focusOn(SelectionModal(parent, roomActionButtons(parent.scene!!.room), {action -> action.doAction(parent.shortGame(), parent.playingAs()); parent.refocus()}))
             })
         } else {
-            parent.generalComponents.makeShortButton("No Actions In this Room", null)
+            parent.generalComponents.shortButton("No Actions In this Room", null)
         }
         val btn3 = newSceneButton()
         val btn4 = viewReportsButton()
-        return parent.generalComponents.makeBottomPane(listOf(btn1,btn2,btn3,btn4))
+        return parent.generalComponents.bottomPane(listOf(btn1,btn2,btn3,btn4))
     }
 
-    fun viewReportsButton(): Button {
-        return parent.generalComponents.makeShortButton("View Reports",
+    private fun viewReportsButton(): Button {
+        return parent.generalComponents.shortButton("View Reports",
                 EventHandler { _ -> parent.focusOn(
                     SelectionModal(parent, reports(), { report -> println(report)})
                 )
@@ -69,7 +70,7 @@ class SceneComponentFactory {
     }
 
     fun newSceneButton(): Button {
-        return parent.generalComponents.makeShortButton("Go Somewhere Else",
+        return parent.generalComponents.shortButton("Go Somewhere Else",
             EventHandler { _ -> parent.focusOn(
                 SelectionModal(parent, newSceneOptions(), { maker -> goToNewSceneIfApplicable(maker)})
             )

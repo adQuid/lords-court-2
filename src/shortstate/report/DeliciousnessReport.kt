@@ -3,7 +3,8 @@ package shortstate.report
 import game.Game
 
 class DeliciousnessReport: Report{
-    
+
+    override val type: String = GlobalReportTypeFactory.DELICIOUSNESS_REPORT_TYPE_NAME
     val value: Double
     
     constructor(deliciousness: Double){
@@ -26,7 +27,7 @@ class DeliciousnessReport: Report{
         return "Game has $value Deliciousness"
     }
 
-    override fun saveString(): Map<String, Any> {
+    override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "value" to value
         )

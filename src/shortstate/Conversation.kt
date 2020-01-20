@@ -2,6 +2,7 @@ package shortstate
 
 import shortstate.dialog.Line
 import shortstate.dialog.Memory
+import shortstate.dialog.linetypes.GlobalLineTypeList
 
 class Conversation {
 
@@ -23,12 +24,23 @@ class Conversation {
         this.lastSpeaker = target //the inititator still hasn't said anything at this point
     }
 
+    constructor(parent: ShortStateGame, saveString: Map<String, Any>){
+        initiator = parent.shortPlayerForLongPlayer(parent.game.characterById(saveString[INITIATOR_NAME] as Int)!!)!!
+        target = parent.shortPlayerForLongPlayer(parent.game.characterById(saveString[TARGET_NAME] as Int)!!)!!
+        lastSpeaker = parent.shortPlayerForLongPlayer(parent.game.characterById(saveString[LAST_SPEAKER_NAME] as Int)!!)!!
+        if(saveString[LAST_LINE_NAME] == null){
+            lastLine = null
+        } else {
+            lastLine = GlobalLineTypeList.fromMap(saveString[LAST_LINE_NAME] as Map<String, Any>)
+        }
+    }
+
     fun saveString(): Map<String, Any>{
         return hashMapOf(
             INITIATOR_NAME to initiator.player.id,
             TARGET_NAME to target.player.id,
             LAST_SPEAKER_NAME to lastSpeaker.player.id,
-            LAST_LINE_NAME to {lastLine!!.saveString(); if(lastLine != null) else null}
+            LAST_LINE_NAME to {lastLine!!.saveString(); if(lastLine != null) else null}()
         )
     }
 

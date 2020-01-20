@@ -1,6 +1,7 @@
 package shortstate
 
 import game.Character
+import game.Game
 import shortstate.room.Room
 
 class Scene {
@@ -18,10 +19,20 @@ class Scene {
         this.conversation = conversation
     }
 
-    fun saveString(): Map<String, Any>{
-        return hashMapOf(
-            CONVERSATION_NAME to {conversation!!.saveString(); if(conversation != null) else null },
-            CHARACTERS_NAME to characters.map { character -> character.saveString() },
+    constructor(parent: ShortStateGame, saveString: Map<String,Any?>){
+        if(saveString[CONVERSATION_NAME] == null){
+            conversation = null
+        } else {
+            conversation = Conversation(parent, saveString[CONVERSATION_NAME] as Map<String, Any>)
+        }
+        this.characters = (saveString[CHARACTERS_NAME] as List<Int>).map { id -> parent.shortPlayerForLongPlayer(parent.game.characterById(id))!! }
+        this.room = Room(parent, saveString[ROOM_NAME] as Map<String, Any>)
+    }
+
+    fun saveString(): Map<String, Any?>{
+        return mapOf(
+            CONVERSATION_NAME to {if(conversation != null){conversation!!.saveString()} else{ null }}(),
+            CHARACTERS_NAME to characters.map { character -> character.player.id },
             ROOM_NAME to room.saveString()
         )
     }

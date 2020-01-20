@@ -1,13 +1,13 @@
-package ui
+package ui.componentfactory
 
 import javafx.event.EventHandler
 import javafx.geometry.Pos
 import javafx.scene.Scene
-import javafx.scene.image.ImageView
 import javafx.scene.layout.*
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.scene.text.TextAlignment
+import ui.MainUI
 
 class CharacterDetailComponentFactory {
 
@@ -27,8 +27,8 @@ class CharacterDetailComponentFactory {
 
     private fun sceneImage(): Pane {
         val imagePane = StackPane()
-        val backgroundView = parent.generalComponents.makeImageView("assets//rooms//characterStage.png")
-        val characterView = parent.generalComponents.makeImageView(parent.character!!.pictureString)
+        val backgroundView = parent.generalComponents.imageView("assets//rooms//characterStage.png")
+        val characterView = parent.generalComponents.imageView(parent.character!!.pictureString)
         backgroundView.setOnMouseClicked { event -> parent.defocus() }
         characterView.setOnMouseClicked { event -> parent.defocus() }
 
@@ -44,10 +44,10 @@ class CharacterDetailComponentFactory {
     }
 
     private fun characterFocusButtons(): Pane {
-        val cancelButton = parent.generalComponents.makeShortButton(
+        val cancelButton = parent.generalComponents.shortButton(
             "Cancel",
             EventHandler { parent.focusOn(parent.scene)})
 
-        return parent.generalComponents.makeBottomPane(listOf(cancelButton))
+        return parent.generalComponents.bottomPane(listOf(cancelButton))
     }
 }

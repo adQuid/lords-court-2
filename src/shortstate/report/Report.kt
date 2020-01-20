@@ -2,11 +2,26 @@ package shortstate.report
 
 import game.Game
 
-interface Report {
+abstract class Report {
 
-    fun apply(game: Game)
+    abstract val type: String
 
-    fun saveString(): Map<String, Any>
+    abstract fun apply(game: Game)
 
-    fun type(): ReportType
+    abstract fun specialSaveString(): Map<String, Any>
+
+    fun saveString(): Map<String, Any>{
+        val retval = specialSaveString().toMutableMap()
+
+        retval.putAll(
+            mapOf<String, Any>(
+                GlobalReportTypeFactory.TYPE_NAME to type
+            )
+        )
+
+        return retval
+
+    }
+
+    abstract fun type(): ReportType
 }

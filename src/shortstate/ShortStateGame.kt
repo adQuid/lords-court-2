@@ -26,16 +26,16 @@ class ShortStateGame: Runnable {
         establishStartingScene()
     }
 
-    constructor(parent: Game, saveString: Map<String,Any>){
+    constructor(parent: Game, saveString: Map<String,Any?>){
         game = parent
         location = parent.locationById(saveString[LOCATION_NAME] as Int)
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> ShortStateCharacter(parent, map) }
-        establishStartingScene()
+        scene = Scene(this, saveString[SCENE_NAME] as Map<String, Any>)
     }
 
-    fun saveString(): Map<String, Any>{
+    fun saveString(): Map<String, Any?>{
         return hashMapOf(
-            SCENE_NAME to {scene!!.saveString(); if(scene != null) else null},
+            SCENE_NAME to {if(scene != null){ scene!!.saveString() }else{ null}}(),
             LOCATION_NAME to location.id,
             PLAYERS_NAME to players.map { player -> player.saveString() }
         )
@@ -111,7 +111,7 @@ class ShortStateGame: Runnable {
                 if(nextPlayer.player.npc && nextPlayer.nextSceneIWannaBeIn == null){
                     nextPlayer.decideNextScene(this)
                 }
-                addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)
+                addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)//because of the starting scene, this should NEVER be null
             } else if(scene!!.nextPlayerToDoSomething().player.npc){
                 doAIIfAppropriate()
                 if(scene != null && scene!!.hasAPC()){

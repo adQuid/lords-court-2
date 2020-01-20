@@ -38,7 +38,7 @@ class SelectionModal<T> {
         listView.setPrefSize(parent.totalWidth,parent.totalHeight * (5.0/6.0))
         listView.setCellFactory({ _: ListView<T> -> ActionPickCell(closeAction) })
 
-        val btn8 = parent.generalComponents.makeShortWideButton("Cancel", EventHandler { parent.defocus()})
+        val btn8 = parent.generalComponents.shortWideButton("Cancel", EventHandler { parent.defocus()})
         pane.add(topPane(),0,0)
         pane.add(listView,0,1)
         pane.add(btn8, 0, 2)

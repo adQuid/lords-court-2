@@ -62,7 +62,6 @@ class Controller {
 
         val saveFile = File("save/test.savgam")
         saveFile.writeText(gson.toJson(saveMap))
-        println(saveFile.absolutePath)
     }
 
     //TODO: Have save and load use the same library
