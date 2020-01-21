@@ -6,8 +6,12 @@ import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.Character
 import game.Game
+import shortstate.dialog.GlobalLineTypeFactory
 
 class Disapprove: Line {
+
+    override val type: String
+        get() = GlobalLineTypeFactory.DISAPPROVE_TYPE_NAME
 
     constructor(){
 
@@ -25,8 +29,8 @@ class Disapprove: Line {
         return "NOOO!!!"
     }
 
-    override fun saveString(): Map<String, Any> {
-        return hashMapOf(GlobalLineTypeList.TYPE_NAME to "Disapprove")
+    override fun specialSaveString(): Map<String, Any> {
+        return hashMapOf(GlobalLineTypeFactory.TYPE_NAME to "Disapprove")
     }
 
     override fun validToSend(): Boolean {

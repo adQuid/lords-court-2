@@ -1,18 +1,30 @@
 package shortstate.dialog.linetypes
 
 import aibrain.ConversationBrain
-import game.action.Effect
+import game.Effect
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.Character
 import game.Game
+import shortstate.dialog.GlobalLineTypeFactory
+import game.effects.GlobalEffectFactory
 
 class CiteEffect: Line {
+
+    override val type: String
+        get() = GlobalLineTypeFactory.CITE_EFFECT_TYPE_NAME
+
     var effects: List<Effect>? = null
 
     constructor(effects: List<Effect>?){
         this.effects = effects
+    }
+
+    constructor(saveString: Map<String, Any?>, game: Game){
+        if(saveString["effects"] != null){
+            effects =  (saveString["effects"] as List<Map<String, Any>>).map { map -> GlobalEffectFactory.fromMap(map, game) }
+        }
     }
 
     override fun tooltipName(): String {
@@ -34,9 +46,9 @@ class CiteEffect: Line {
         return "I have some very good reasons: " + effects!!.map { effect -> effect.describe() }
     }
 
-    override fun saveString(): Map<String, Any> {
+    override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalLineTypeList.TYPE_NAME to "CiteEffect",
+            GlobalLineTypeFactory.TYPE_NAME to "CiteEffect",
             "effects" to effects!!.map { effect -> effect.saveString() }
         )
     }

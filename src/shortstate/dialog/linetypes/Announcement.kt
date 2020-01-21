@@ -1,6 +1,7 @@
 package shortstate.dialog.linetypes
 
 import aibrain.ConversationBrain
+import aibrain.Deal
 import game.action.Action
 import shortstate.Conversation
 import shortstate.dialog.Line
@@ -8,13 +9,23 @@ import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasAction
 import game.Character
 import game.Game
+import shortstate.dialog.GlobalLineTypeFactory
 
 class Announcement: Line, HasAction {
+
+    override val type: String
+        get() = GlobalLineTypeFactory.ANNOUNCEMENT_TYPE_NAME
 
     var action: Action? = null
 
     constructor(action: Action?){
         this.action = action
+    }
+
+    constructor(saveString: Map<String, Any?>, game: Game){
+        if(saveString["ACTION"] != null){
+            action = Action(game, saveString["ACTION"] as Map<String, Any>)
+        }
     }
 
     override fun tooltipName(): String {
@@ -29,9 +40,9 @@ class Announcement: Line, HasAction {
         return "I will "+action?.toString()+" by the end of the turn. Just wanted to let you know."
     }
 
-    override fun saveString(): Map<String, Any> {
+    override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalLineTypeList.TYPE_NAME to "Announcement",
+            GlobalLineTypeFactory.TYPE_NAME to "Announcement",
             "ACTION" to action!!.saveString()
         )
     }

@@ -13,16 +13,6 @@ class Deal {
         this.actions = actions
     }
 
-    override fun toString(): String {
-        return "[DEAL]"
-    }
-
-   fun dialogText(speaker: Character, target: Character): String {
-       val retval = actions.map{(character, actions) -> "${character.name} will ${actions.toString()}"}
-
-       return retval.joinToString(", ")
-   }
-
     constructor(saveString: Map<String, Any>, game: Game){
         val tempActions = mutableMapOf<Character, List<Action>>()
         (saveString["ACTIONS"] as Map<String, Any>).forEach { key, value -> tempActions[game.characterById(key.toInt())] =
@@ -39,4 +29,14 @@ class Deal {
            "ACTIONS" to actionMap
        )
    }
+
+    override fun toString(): String {
+        return "[DEAL]"
+    }
+
+    fun dialogText(speaker: Character, target: Character): String {
+        val retval = actions.map{(character, actions) -> "${character.name} will ${actions.toString()}"}
+
+        return retval.joinToString(", ")
+    }
 }

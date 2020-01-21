@@ -1,6 +1,6 @@
 package shortstate.dialog
 
-import shortstate.dialog.linetypes.GlobalLineTypeList
+import game.Game
 
 class Memory {
     var age = 0
@@ -15,9 +15,9 @@ class Memory {
         this.line = other.line
     }
 
-    constructor(map: Map<String, Any>){
+    constructor(map: Map<String, Any>, parent: Game){
         age = map["AGE"] as Int
-        line = GlobalLineTypeList.fromMap(map["LINE"] as Map<String, Any>)
+        line = GlobalLineTypeFactory.fromMap(map["LINE"] as Map<String, Any>, parent)
     }
 
     fun saveString(): Map<String, Any>{

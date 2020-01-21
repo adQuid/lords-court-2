@@ -1,0 +1,34 @@
+package game.effects
+
+import game.Game
+import game.Effect
+
+class AddDelicousness(override var probability: Double) : Effect() {
+
+    constructor(saveString: Map<String, Any>, game: Game) : this(saveString[GlobalEffectFactory.PROBABLITY_NAME] as Double) {
+
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other is AddDelicousness){
+            return true
+        }
+        return false
+    }
+    override fun apply(game: Game) {
+        game.deliciousness += this.probability
+    }
+    override fun toString(): String{
+        return "add deliciousness with probability $probability"
+    }
+
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(
+            GlobalEffectFactory.TYPE_NAME to "BakeCookies"
+        )
+    }
+
+    override fun describe(): String {
+        return "deliciousness levels would increase by {probability}"
+    }
+}

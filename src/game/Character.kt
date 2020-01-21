@@ -64,7 +64,7 @@ class Character {
         pictureString = saveString[PICTURE_NAME] as String
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> Title(map) }.toMutableSet()
         location = game.locationById(saveString[LOCATION_NAME] as Int)
-        memory = (saveString[MEMORY_NAME] as List<Map<String, Any>>).map { map -> Memory(map)}.toMutableList()
+        memory = (saveString[MEMORY_NAME] as List<Map<String, Any>>).map { map -> Memory(map, game)}.toMutableList()
         acceptedDeals = (saveString[ACCEPTED_DEALS_NAME] as List<Map<String, Any>>).map { map -> Deal(map, game)}.toMutableList()
         acceptedTreaties = (saveString[ACCEPTED_TREATIES_NAME] as List<Map<String, Any>>).map { map -> Treaty(map, game)}.toMutableList()
     }

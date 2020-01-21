@@ -7,13 +7,20 @@ import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.Character
 import game.Game
+import shortstate.dialog.GlobalLineTypeFactory
 
 class OfferDeal: Line {
 
+    override val type: String
+        get() = GlobalLineTypeFactory.OFFER_DEAL_TYPE_NAME
     var deal: Deal? = null
 
     constructor(deal: Deal?){
         this.deal = deal
+    }
+
+    constructor(saveString: Map<String, Any>, game: Game){
+        deal = Deal(saveString["deal"] as Map<String, Any>, game)
     }
 
     override fun tooltipName(): String {
@@ -32,9 +39,9 @@ class OfferDeal: Line {
         }
     }
 
-    override fun saveString(): Map<String, Any> {
+    override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalLineTypeList.TYPE_NAME to "OfferDeal",
+            GlobalLineTypeFactory.TYPE_NAME to "OfferDeal",
             "deal" to deal!!.saveString()
         )
     }

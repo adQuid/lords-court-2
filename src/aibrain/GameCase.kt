@@ -1,6 +1,6 @@
 package aibrain
 
-import game.action.Effect
+import game.Effect
 import game.Game
 
 class GameCase {

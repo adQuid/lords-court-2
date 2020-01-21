@@ -2,6 +2,7 @@ package game.action
 
 import game.Game
 import game.Character
+import game.Effect
 
 class Action {
     val type: ActionType

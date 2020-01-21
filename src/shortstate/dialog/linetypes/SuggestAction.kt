@@ -8,13 +8,20 @@ import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasAction
 import game.Character
 import game.Game
+import shortstate.dialog.GlobalLineTypeFactory
 
 class SuggestAction: Line, HasAction {
 
+    override val type: String
+        get() = GlobalLineTypeFactory.SUGGEST_ACTION_TYPE_NAME
     var action: Action? = null
 
     constructor(action: Action?){
         this.action = action
+    }
+
+    constructor(saveString: Map<String, Any>, game: Game){
+        action = Action(game, saveString["action"] as Map<String, Any>)
     }
 
     override fun mySetAction(action: Action) {
@@ -37,9 +44,9 @@ class SuggestAction: Line, HasAction {
         return "I think you should "+action?.toString()+" this turn."
     }
 
-    override fun saveString(): Map<String, Any> {
+    override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalLineTypeList.TYPE_NAME to "SuggestAction",
+            GlobalLineTypeFactory.TYPE_NAME to "SuggestAction",
             "action" to action!!.saveString()
         )
     }

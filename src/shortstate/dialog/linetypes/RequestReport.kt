@@ -8,13 +8,21 @@ import shortstate.dialog.linetypes.traits.HasReportType
 import shortstate.report.ReportType
 import game.Character
 import game.Game
+import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.report.GlobalReportTypeFactory
 
 class RequestReport: Line, HasReportType {
 
+    override val type: String
+        get() = GlobalLineTypeFactory.REQUEST_REPORT_TYPE_NAME
     var report: ReportType? = null
 
     constructor(report: ReportType?){
         this.report = report
+    }
+
+    constructor(map: Map<String, Any>){
+        report = ReportType.valueOf(map["report"] as String)
     }
 
     override fun tooltipName(): String {
@@ -29,9 +37,9 @@ class RequestReport: Line, HasReportType {
         return "What can you tell me of "+report?.toString()+"?"
     }
 
-    override fun saveString(): Map<String, Any> {
+    override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalLineTypeList.TYPE_NAME to "RequestReport",
+            GlobalLineTypeFactory.TYPE_NAME to "RequestReport",
             "report" to report.toString()
         )
     }

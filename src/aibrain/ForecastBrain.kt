@@ -1,7 +1,7 @@
 package aibrain
 
 import game.action.Action
-import game.action.Effect
+import game.Effect
 import game.Game
 import game.Character
 import game.action.actionTypes.BakeCookies
