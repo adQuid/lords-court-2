@@ -2,6 +2,7 @@ package shortstate.room.action
 
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateController
 import shortstate.report.ReportType
 import shortstate.report.generateReport
 import shortstate.room.RoomAction
@@ -14,9 +15,9 @@ class MakeReport: RoomAction{
         this.type = type
     }
 
-    override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
+    override fun doAction(game: ShortStateController, player: ShortStateCharacter) {
         println("looked up deliciousness")
-        player.knownReports.add(generateReport(game.game, type))
+        player.knownReports.add(generateReport(game.shortGame.game, type))
         player.energy -= 10
     }
 

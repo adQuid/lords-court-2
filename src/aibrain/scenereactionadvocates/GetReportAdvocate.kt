@@ -1,6 +1,7 @@
 package aibrain.scenereactionadvocates
 
 import shortstate.Scene
+import shortstate.ShortStateController
 import shortstate.ShortStateGame
 import shortstate.report.ReportType
 import shortstate.room.action.MakeReport
@@ -17,7 +18,7 @@ class GetReportAdvocate: SceneReactionAdvocate {
         return 15.0 - (15.0 * scene.shortPlayerForLongPlayer(me)!!.knownReports.size)
     }
 
-    override fun doToScene(game: ShortStateGame, scene: Scene) {
-        MakeReport(ReportType.DeliciousnessReportType).doAction(game, scene!!.shortPlayerForLongPlayer(me)!!)
+    override fun doToScene(shortStateController: ShortStateController, scene: Scene) {
+        MakeReport(ReportType.DeliciousnessReportType).doAction(shortStateController, scene!!.shortPlayerForLongPlayer(me)!!)
     }
 }

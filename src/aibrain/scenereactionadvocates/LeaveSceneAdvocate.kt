@@ -2,6 +2,7 @@ package aibrain.scenereactionadvocates
 
 import shortstate.Scene
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateController
 import shortstate.ShortStateGame
 
 class LeaveSceneAdvocate: SceneReactionAdvocate {
@@ -16,7 +17,7 @@ class LeaveSceneAdvocate: SceneReactionAdvocate {
         return 1.0
     }
 
-    override fun doToScene(game: ShortStateGame, scene: Scene) {
-        game.endScene(scene)
+    override fun doToScene(shortStateController: ShortStateController, scene: Scene) {
+        shortStateController.endScene(scene)
     }
 }

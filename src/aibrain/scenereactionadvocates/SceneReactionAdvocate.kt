@@ -1,6 +1,7 @@
 package aibrain.scenereactionadvocates
 
 import shortstate.Scene
+import shortstate.ShortStateController
 import shortstate.ShortStateGame
 
 abstract class SceneReactionAdvocate {
@@ -9,6 +10,6 @@ abstract class SceneReactionAdvocate {
 
     abstract fun weight(scene: Scene): Double
 
-    abstract fun doToScene(game: ShortStateGame, scene: Scene)
+    abstract fun doToScene(shortStateController: ShortStateController, scene: Scene)
 
 }

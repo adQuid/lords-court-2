@@ -9,6 +9,7 @@ import javafx.stage.WindowEvent
 import main.Controller
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateController
 import ui.componentfactory.*
 import ui.selectionmodal.SelectionModal
 import java.lang.Exception
@@ -58,8 +59,12 @@ class MainUI() : Application() {
 
     }
 
+    fun shortThread(): ShortStateController {
+        return Controller.singleton!!.shortThread!!
+    }
+
     fun shortGame(): ShortStateGame {
-        return Controller.singleton!!.shortGame!!
+        return Controller.singleton!!.shortThread!!.shortGame
     }
 
     fun playingAs(): ShortStateCharacter {

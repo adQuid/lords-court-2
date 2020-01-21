@@ -11,6 +11,7 @@ import javafx.application.Application
 import shortstate.Scene
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateController
 import ui.MainUI
 import java.io.File
 
@@ -23,7 +24,7 @@ class Controller {
     }
 
     var game: Game? = null
-    var shortGame: ShortStateGame? = null
+    var shortThread: ShortStateController? = null
     var GUI: MainUI? = null
 
     private val brainThread1 = Thread(BrainThread(this))
@@ -34,7 +35,7 @@ class Controller {
     }
 
     fun sceneForPlayer(player: ShortStateCharacter): Scene?{
-        return shortGame!!.sceneForPlayer(player)
+        return shortThread!!.shortGame!!.sceneForPlayer(player)
     }
 
     fun registerUI(gui: MainUI){
@@ -46,8 +47,9 @@ class Controller {
         if(game!!.actionsByPlayer.keys.size == game!!.players.size){
             println("ENDING TURN ${game!!.turn}")
             game!!.endTurn()
-            shortGame = ShortStateGame(game!!, game!!.locations[0])
-            Thread(shortGame).start()
+            val shortGame = ShortStateGame(game!!, game!!.locations[0])
+            shortThread = ShortStateController(shortGame)
+            Thread(shortThread).start()
             println("Deliciousness: ${game!!.deliciousness}")
         }
     }
@@ -57,7 +59,7 @@ class Controller {
         val gson = Gson()
         val saveMap = mapOf<String, Any>(
             "game" to game!!.saveString(),
-            "shortGame" to shortGame!!.saveString()
+            "shortGame" to shortThread!!.shortGame!!.saveString()
         )
 
         val saveFile = File("save/test.savgam")
@@ -71,19 +73,21 @@ class Controller {
         val klac = Klaxon()
         val loadMap = klac.parse<Map<String,Any>>(File("save/test.savgam").readText())!!
         game = Game(loadMap["game"] as Map<String,Any>)
-        shortGame = ShortStateGame(game!!, loadMap["shortGame"] as Map<String, Any>)
+        val shortGame = ShortStateGame(game!!, loadMap["shortGame"] as Map<String, Any>)
+        shortThread = ShortStateController(shortGame)
         startPlaying()
     }
 
     fun newGame(){
         game = Game()
         GameSetup().setupGame(game!!)
-        shortGame = ShortStateGame(game!!, game!!.locations[0])
+        val shortGame = ShortStateGame(game!!, game!!.locations[0])
+        shortThread = ShortStateController(shortGame)
         startPlaying()
     }
 
     private fun startPlaying(){
-        Thread(shortGame).start()
+        Thread(shortThread).start()
         brainThread1.start()
         Application.launch(MainUI::class.java)
     }

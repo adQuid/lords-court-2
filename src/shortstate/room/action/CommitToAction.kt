@@ -4,6 +4,7 @@ import game.action.Action
 import game.action.actionTypes.BakeCookies
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateController
 import shortstate.room.RoomAction
 
 class CommitToAction: RoomAction {
@@ -14,7 +15,7 @@ class CommitToAction: RoomAction {
         this.type = type
     }
 
-    override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
+    override fun doAction(game: ShortStateController, player: ShortStateCharacter) {
         player.prospectiveActions.add(Action(type))
         player.energy -= 10
     }

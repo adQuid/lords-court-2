@@ -43,7 +43,7 @@ class SceneComponentFactory {
         val btn1 = parent.generalComponents.shortButton("Personal Actions", null)
         val btn2 = if(parent.scene!!.room.getActions(parent.playingAs().player).isNotEmpty()){
             parent.generalComponents.shortButton("Actions Here", EventHandler { _ ->
-                parent.focusOn(SelectionModal(parent, roomActionButtons(parent.scene!!.room), {action -> action.doAction(parent.shortGame(), parent.playingAs()); parent.refocus()}))
+                parent.focusOn(SelectionModal(parent, roomActionButtons(parent.scene!!.room), {action -> action.doAction(parent.shortThread(), parent.playingAs()); parent.refocus()}))
             })
         } else {
             parent.generalComponents.shortButton("No Actions In this Room", null)
@@ -91,7 +91,7 @@ class SceneComponentFactory {
 
     private fun goToNewSceneIfApplicable(maker: SceneMaker){
         parent.playingAs().nextSceneIWannaBeIn = maker
-        parent.shortGame().endScene(parent.scene!!)
+        parent.shortThread().endScene(parent.scene!!)
         parent.refocus()
     }
 

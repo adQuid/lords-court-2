@@ -1,6 +1,7 @@
 package aibrain.scenereactionadvocates
 
 import shortstate.Scene
+import shortstate.ShortStateController
 import shortstate.ShortStateGame
 import shortstate.room.Room
 import shortstate.room.action.GoToBed
@@ -20,7 +21,7 @@ class GoToBedAdvocate: SceneReactionAdvocate {
         return 0.0
     }
 
-    override fun doToScene(game: ShortStateGame, scene: Scene) {
-        GoToBed().doAction(game, scene!!.shortPlayerForLongPlayer(me)!!)
+    override fun doToScene(shortStateController: ShortStateController, scene: Scene) {
+        GoToBed().doAction(shortStateController, scene!!.shortPlayerForLongPlayer(me)!!)
     }
 }

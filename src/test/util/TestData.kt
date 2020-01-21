@@ -11,9 +11,12 @@ import game.action.actionTypes.*
 import game.action.Action
 import shortstate.dialog.linetypes.*
 import game.effects.AddDelicousness
+import shortstate.Conversation
+import shortstate.Scene
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.DeliciousnessReport
 import shortstate.report.ReportType
+import shortstate.scenemaker.ConversationMaker
 
 fun soloTestGame(): Game{
     val game = Game()
@@ -59,4 +62,12 @@ fun soloTestGameWithEverythingOnIt(): Game{
 fun soloTestShortgame(): ShortStateGame{
     val game = soloTestGame()
     return ShortStateGame(game, game.locations[0])
+}
+
+fun soloTestShortgameWithEverythingOnIt(): ShortStateGame{
+    val game = soloTestGameWithEverythingOnIt()
+    game.players.add(Character("NPC 2", "this should never come up in a test", true, game.locations[0], game))
+    val retval = ShortStateGame(game, game.locations[0])
+    retval.scene = Scene(listOf(retval.players[0], retval.players[1]), retval.location.rooms[0], Conversation(retval.players[0], retval.players[1]))
+    return retval
 }

@@ -1,6 +1,7 @@
 package aibrain.scenereactionadvocates
 
 import shortstate.Scene
+import shortstate.ShortStateController
 import shortstate.ShortStateGame
 
 class TalkMoreAdvocate: SceneReactionAdvocate {
@@ -21,12 +22,12 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
         return 0.0
     }
 
-    override fun doToScene(game: ShortStateGame, scene: Scene) {
+    override fun doToScene(shortStateController: ShortStateController, scene: Scene) {
         val convo = scene.conversation!!
         if(convo.lastLine != null){
-            convo.submitLine(convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker.player, game.game), game)
+            convo.submitLine(convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker.player, shortStateController.shortGame.game), shortStateController.shortGame)
         } else {
-            convo.submitLine(convo.otherParticipant(convo.lastSpeaker).convoBrain.startConversation(convo.lastSpeaker.player, game.game), game)
+            convo.submitLine(convo.otherParticipant(convo.lastSpeaker).convoBrain.startConversation(convo.lastSpeaker.player, shortStateController.shortGame.game), shortStateController.shortGame)
         }
     }
 }

@@ -8,6 +8,7 @@ import aibrain.scenereactionadvocates.*
 import shortstate.Scene
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateController
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
@@ -32,7 +33,7 @@ class SceneBrain {
             TalkToImportantPersonAdvocate(longBrain.player))
     }
 
-    fun reactToScene(scene: Scene, game: ShortStateGame){
+    fun reactToScene(scene: Scene, game: ShortStateController){
         reactionAdvocates.sortedByDescending { adv -> adv.weight(scene) }[0].doToScene(game, scene)
     }
 
