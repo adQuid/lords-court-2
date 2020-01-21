@@ -15,6 +15,7 @@ class AddDelicousness(override var probability: Double) : Effect() {
         }
         return false
     }
+
     override fun apply(game: Game) {
         game.deliciousness += this.probability
     }
@@ -24,7 +25,8 @@ class AddDelicousness(override var probability: Double) : Effect() {
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalEffectFactory.TYPE_NAME to "BakeCookies"
+            GlobalEffectFactory.TYPE_NAME to GlobalEffectFactory.ADD_DELICIOUSNESS_NAME,
+            GlobalEffectFactory.PROBABLITY_NAME to probability
         )
     }
 

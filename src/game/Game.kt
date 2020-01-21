@@ -53,10 +53,10 @@ class Game {
         locations = (saveString[LOCATIONS_NAME] as List<Map<String, Any>>).map { map -> Location(this, map) }.toMutableList()
 
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> Character(map, this) }.toMutableList()
-        (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEachIndexed { index, map -> players[index].finishConstruction(map, this) }
+        (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
 
         val tempActions = mutableMapOf<Character, List<Action>>()
-        (saveString[ACTIONS_NAME] as Map<String, Any>).forEach { key, value -> tempActions[characterById(key.toInt())] =
+        (saveString[ACTIONS_NAME] as Map<Int, Any>).forEach { key, value -> tempActions[characterById(key.toInt())] =
             (value as List<Map<String,Any>>).map { map -> Action(GlobalActionTypeFactory.fromMap(map)) } }
         actionsByPlayer = tempActions
 

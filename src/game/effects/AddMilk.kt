@@ -35,7 +35,7 @@ class AddMilk: Effect {
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalEffectFactory.TYPE_NAME to "AddMilk",
+            GlobalEffectFactory.TYPE_NAME to GlobalEffectFactory.ADD_MILK_NAME,
             GlobalEffectFactory.PROBABLITY_NAME to probability,
             "PLAYER" to player.id
         )
