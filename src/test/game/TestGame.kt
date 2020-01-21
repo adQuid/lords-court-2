@@ -27,6 +27,7 @@ class TestGame {
         val game = soloTestGame()
         val game2 = Game(game.saveString())
         assertTrue(game == game2)
+        assertTrue(game.players[0].acceptedDeals == game2.players[0].acceptedDeals)
     }
 
 }

@@ -51,7 +51,9 @@ class Game {
         nextID = saveString[MAX_ID_NAME] as Int
         turn = saveString[TURN_NAME] as Int
         locations = (saveString[LOCATIONS_NAME] as List<Map<String, Any>>).map { map -> Location(this, map) }.toMutableList()
+
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> Character(map, this) }.toMutableList()
+        (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEachIndexed { index, map -> players[index].finishConstruction(map, this) }
 
         val tempActions = mutableMapOf<Character, List<Action>>()
         (saveString[ACTIONS_NAME] as Map<String, Any>).forEach { key, value -> tempActions[characterById(key.toInt())] =
