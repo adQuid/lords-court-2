@@ -16,7 +16,6 @@ import shortstate.Scene
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.DeliciousnessReport
 import shortstate.report.ReportType
-import shortstate.scenemaker.ConversationMaker
 
 fun soloTestGame(): Game{
     val game = Game()
