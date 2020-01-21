@@ -65,11 +65,14 @@ class UtilityComponentFactory {
         val retval = GridPane()
 
         val statsDisplay = Label("Energy: " + parent.playingAs().energy + "/1000")
-        statsDisplay.setMinSize(parent.totalWidth/4, parent.totalWidth / 12)
+        statsDisplay.setMinSize(parent.totalWidth/2, parent.totalWidth / 12)
         retval.add(statsDisplay, 0,0)
 
         val saveButton = shortButton("Save", EventHandler { Controller.singleton!!.save()})
         retval.add(saveButton, 1,0)
+
+        val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); parent.refocus()})
+        retval.add(loadButton, 2,0)
 
         return retval
     }

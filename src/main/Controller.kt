@@ -30,7 +30,7 @@ class Controller {
 
     constructor(){
         singleton = this
-        load()
+        newGame()
     }
 
     fun sceneForPlayer(player: ShortStateCharacter): Scene?{
@@ -66,6 +66,8 @@ class Controller {
 
     //TODO: Have save and load use the same library
     fun load(){
+        brainThread1.interrupt()
+
         val klac = Klaxon()
         val loadMap = klac.parse<Map<String,Any>>(File("save/test.savgam").readText())!!
         game = Game(loadMap["game"] as Map<String,Any>)
