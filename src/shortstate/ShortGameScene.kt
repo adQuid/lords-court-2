@@ -1,10 +1,9 @@
 package shortstate
 
-import game.Character
-import game.Game
+import game.GameCharacter
 import shortstate.room.Room
 
-class Scene {
+class ShortGameScene {
 
     val CONVERSATION_NAME = "CONVO"
     val conversation: Conversation?
@@ -45,7 +44,7 @@ class Scene {
         }
     }
 
-    fun shortPlayerForLongPlayer(player: Character): ShortStateCharacter?{
+    fun shortPlayerForLongPlayer(player: GameCharacter): ShortStateCharacter?{
         characters.forEach {
             if(it.player == player){
                 return it

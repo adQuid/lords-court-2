@@ -1,23 +1,21 @@
 package aibrain.scenereactionadvocates
 
-import shortstate.Scene
-import shortstate.ShortStateCharacter
+import shortstate.ShortGameScene
 import shortstate.ShortStateController
-import shortstate.ShortStateGame
 
 class LeaveSceneAdvocate: SceneReactionAdvocate {
 
-    val me: game.Character
+    val me: game.GameCharacter
 
-    constructor(character: game.Character) : super(character) {
+    constructor(character: game.GameCharacter) : super(character) {
         me = character
     }
 
-    override fun weight(scene: Scene): Double {
+    override fun weight(shortGameScene: ShortGameScene): Double {
         return 1.0
     }
 
-    override fun doToScene(shortStateController: ShortStateController, scene: Scene) {
-        shortStateController.endScene(scene)
+    override fun doToScene(shortStateController: ShortStateController, shortGameScene: ShortGameScene) {
+        shortStateController.endScene(shortGameScene)
     }
 }

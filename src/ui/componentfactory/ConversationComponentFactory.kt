@@ -32,18 +32,18 @@ class ConversationComponentFactory {
 
     fun inConvoPage(): Scene{
         val actionButtons =
-        if(parent.scene!!.conversation!!.lastLine != null
-            && parent.scene!!.conversation!!.lastLine!!.possibleReplies().isNotEmpty()){
-            parent.scene!!.conversation!!.lastLine!!.possibleReplies()
-                .map { line -> parent.generalComponents.shortButton(line.tooltipName(), EventHandler {parent.focusOn(line); parent.display()}) }
+        if(parent.shortGameScene!!.conversation!!.lastLine != null
+            && parent.shortGameScene!!.conversation!!.lastLine!!.possibleReplies().isNotEmpty()){
+            parent.shortGameScene!!.conversation!!.lastLine!!.possibleReplies()
+                .map { line -> parent.utilityComponents.shortButton(line.tooltipName(), EventHandler {parent.focusOn(line); parent.display()}) }
         } else {
-            parent.playingAs().defaultConversationLines().map{ line -> parent.generalComponents.shortButton(line.tooltipName(), EventHandler { parent.focusOn(line); parent.display() })}
+            parent.playingAs().defaultConversationLines().map{ line -> parent.utilityComponents.shortButton(line.tooltipName(), EventHandler { parent.focusOn(line); parent.display() })}
         }
-        val leaveButton = parent.sceneComponents.newSceneButton()
+        val leaveButton = parent.utilityComponents.newSceneButton()
 
         val pane = GridPane()
         pane.add(parent.conversationComponents.conversationBackgroundImage(), 0,0)
-        pane.add(parent.generalComponents.bottomPane(actionButtons + leaveButton), 0, 1)
+        pane.add(parent.utilityComponents.bottomPane(actionButtons + leaveButton), 0, 1)
         val scene = Scene(pane, parent.totalWidth, parent.totalHeight)
         return scene
     }
@@ -52,7 +52,7 @@ class ConversationComponentFactory {
 
         var buttonList = mutableListOf<Button>()
         if(parent.lineBeingConstructed is HasAction){
-            buttonList.add(parent.generalComponents.shortButton("Select Action",
+            buttonList.add(parent.utilityComponents.shortButton("Select Action",
                 EventHandler { _ -> parent.focusOn(
                     SelectionModal(parent,
                         listOf(Tab("Basic Actions",Controller.singleton!!.game!!.possibleActionsForPlayer(parent.playingAs().player))),
@@ -63,7 +63,7 @@ class ConversationComponentFactory {
             )
         }
         if(parent.lineBeingConstructed is HasReportType){
-            buttonList.add(parent.generalComponents.shortButton("Select Report",
+            buttonList.add(parent.utilityComponents.shortButton("Select Report",
                 EventHandler { _ -> parent.focusOn(
                     SelectionModal(parent,
                         listOf(Tab("Reports",parent.playingAs().player.titles.flatMap { title -> title.reportsEntitled })),
@@ -74,34 +74,34 @@ class ConversationComponentFactory {
             )
         }
         if(parent.lineBeingConstructed!!.validToSend()){
-            buttonList.add(parent.generalComponents.shortButton("Commit Line",
-                EventHandler { _ -> parent.scene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, parent.shortGame()); parent.lineBeingConstructed = null; parent.focusOn(parent.scene)}))
+            buttonList.add(parent.utilityComponents.shortButton("Commit Line",
+                EventHandler { _ -> parent.shortGameScene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, parent.shortGame()); parent.lineBeingConstructed = null; parent.focusOn(parent.shortGameScene)}))
         }
-        buttonList.add(parent.generalComponents.shortButton(
+        buttonList.add(parent.utilityComponents.shortButton(
             "Cancel",
-            EventHandler { parent.focusOn(parent.scene)})
+            EventHandler { parent.focusOn(parent.shortGameScene)})
         )
 
         val pane = GridPane()
         pane.add(conversationBackgroundImage(), 0, 0)
-        pane.add(parent.generalComponents.bottomPane(buttonList), 0, 1)
+        pane.add(parent.utilityComponents.bottomPane(buttonList), 0, 1)
         val scene = Scene(pane, parent.totalWidth, parent.totalHeight)
         return scene
     }
 
     fun conversationBackgroundImage(): Pane {
-        val imagePane = parent.generalComponents.sceneImage()
+        val imagePane = parent.utilityComponents.sceneImage()
 
-        if(parent.scene!!.conversation != null){
-            val npcSpeechView = parent.generalComponents.imageView("assets//general//leftSpeechBubble.png")
-            val playerSpeechView = parent.generalComponents.imageView("assets//general//rightSpeechBubble.png")
+        if(parent.shortGameScene!!.conversation != null){
+            val npcSpeechView = parent.utilityComponents.imageView("assets//general//leftSpeechBubble.png")
+            val playerSpeechView = parent.utilityComponents.imageView("assets//general//rightSpeechBubble.png")
             imagePane.children.addAll(npcSpeechView, playerSpeechView)
 
             imagePane.children.add(descriptionPane())
 
             val lineAnchorPane = MyAnchorPane()
             linePane(lineAnchorPane, parent.lineBeingConstructed, myLineSymbolic, true)
-            linePane(lineAnchorPane, parent.scene!!.conversation!!.lastLine, otherLineSymbolic, false)
+            linePane(lineAnchorPane, parent.shortGameScene!!.conversation!!.lastLine, otherLineSymbolic, false)
 
             imagePane.children.add(lineAnchorPane.realPane)
         }
@@ -109,7 +109,7 @@ class ConversationComponentFactory {
     }
 
     private fun descriptionPane(): AnchorPane{
-        val nameText = Text(10.0, 50.0, parent.scene!!.conversation!!.otherParticipant(parent.playingAs()).toString())
+        val nameText = Text(10.0, 50.0, parent.shortGameScene!!.conversation!!.otherParticipant(parent.playingAs()).toString())
         nameText.font = Font(24.0)
         val descriptionAnchorPane = MyAnchorPane()
         descriptionAnchorPane.realPane.children.add(nameText)
@@ -139,7 +139,7 @@ class ConversationComponentFactory {
                 (lineNode as GridPane).add(playerLineText, 0, index++)
             }
         } else {
-            lineNode = Text(line.fullTextForm(parent.scene!!.conversation!!.lastSpeaker.player, parent.scene!!.conversation!!.otherParticipant(parent.scene!!.conversation!!.lastSpeaker).player))
+            lineNode = Text(line.fullTextForm(parent.shortGameScene!!.conversation!!.lastSpeaker.player, parent.shortGameScene!!.conversation!!.otherParticipant(parent.shortGameScene!!.conversation!!.lastSpeaker).player))
 
             lineNode.maxWidth(parent.totalWidth / 2)
             if (parent.totalWidth > 800.0) {

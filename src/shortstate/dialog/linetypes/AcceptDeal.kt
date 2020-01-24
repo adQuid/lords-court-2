@@ -5,7 +5,7 @@ import aibrain.Deal
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
-import game.Character
+import game.GameCharacter
 import game.Game
 import shortstate.dialog.GlobalLineTypeFactory
 
@@ -34,7 +34,7 @@ class AcceptDeal: Line {
         return listOf(LineBlock("ACCEPT"))
     }
 
-    override fun fullTextForm(speaker: Character, target: Character): String {
+    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
         return "sounds reasonable"
     }
 
@@ -58,7 +58,7 @@ class AcceptDeal: Line {
         conversation.target.player.acceptedDeals.add(deal!!)
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
         return Approve()
     }
 }

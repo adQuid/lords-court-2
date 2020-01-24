@@ -1,29 +1,28 @@
 package aibrain.scenereactionadvocates
 
-import shortstate.Scene
+import shortstate.ShortGameScene
 import shortstate.ShortStateController
-import shortstate.ShortStateGame
 
 class TalkMoreAdvocate: SceneReactionAdvocate {
 
-    val me: game.Character
+    val me: game.GameCharacter
 
-    constructor(character: game.Character) : super(character) {
+    constructor(character: game.GameCharacter) : super(character) {
         me = character
     }
 
-    override fun weight(scene: Scene): Double {
-        if(scene!!.conversation != null){
-            if(scene!!.conversation!!.otherParticipant(scene!!.conversation!!.lastSpeaker).player.npc){
-                return 8.0 - scene!!.conversation!!.age
+    override fun weight(shortGameScene: ShortGameScene): Double {
+        if(shortGameScene!!.conversation != null){
+            if(shortGameScene!!.conversation!!.otherParticipant(shortGameScene!!.conversation!!.lastSpeaker).player.npc){
+                return 8.0 - shortGameScene!!.conversation!!.age
             }
             return 0.0
         }
         return 0.0
     }
 
-    override fun doToScene(shortStateController: ShortStateController, scene: Scene) {
-        val convo = scene.conversation!!
+    override fun doToScene(shortStateController: ShortStateController, shortGameScene: ShortGameScene) {
+        val convo = shortGameScene.conversation!!
         if(convo.lastLine != null){
             convo.submitLine(convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker.player, shortStateController.shortGame.game), shortStateController.shortGame)
         } else {

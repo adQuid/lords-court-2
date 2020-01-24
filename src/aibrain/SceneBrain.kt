@@ -5,12 +5,10 @@ import aibrain.scenecreationadvocates.GoToWorkroomAdvocate
 import aibrain.scenecreationadvocates.SceneCreationAdvocate
 import aibrain.scenecreationadvocates.TalkToImportantPersonAdvocate
 import aibrain.scenereactionadvocates.*
-import shortstate.Scene
+import shortstate.ShortGameScene
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
-import shortstate.scenemaker.ConversationMaker
-import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
 
 class SceneBrain {
@@ -33,8 +31,8 @@ class SceneBrain {
             TalkToImportantPersonAdvocate(longBrain.player))
     }
 
-    fun reactToScene(scene: Scene, game: ShortStateController){
-        reactionAdvocates.sortedByDescending { adv -> adv.weight(scene) }[0].doToScene(game, scene)
+    fun reactToScene(shortGameScene: ShortGameScene, game: ShortStateController){
+        reactionAdvocates.sortedByDescending { adv -> adv.weight(shortGameScene) }[0].doToScene(game, shortGameScene)
     }
 
     fun nextSceneIWantToBeIn(player: ShortStateCharacter, game: ShortStateGame): SceneMaker?{

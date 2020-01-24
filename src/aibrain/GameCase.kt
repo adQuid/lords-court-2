@@ -52,11 +52,11 @@ class GameCase {
         return plan.actions.fold("{If  ${plan.player.toString()} did: ", {acc, action -> "$acc $action" }) + "}"
     }
 
-    fun valueToCharacter(character: game.Character): Double{
+    fun valueToCharacter(character: game.GameCharacter): Double{
         return gameValue(this.currentGame, character)
     }
 
-    private fun gameValue(game: Game, player: game.Character): Double {
+    private fun gameValue(game: Game, player: game.GameCharacter): Double {
         var retval = 0.0
         if(game.hasMilk.contains(player)){
             retval += game.deliciousness * 1.0

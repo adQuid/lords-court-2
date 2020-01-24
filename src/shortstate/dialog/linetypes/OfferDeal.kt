@@ -5,7 +5,7 @@ import aibrain.Deal
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
-import game.Character
+import game.GameCharacter
 import game.Game
 import shortstate.dialog.GlobalLineTypeFactory
 
@@ -31,7 +31,7 @@ class OfferDeal: Line {
         return listOf(LineBlock("OFFER:"), LineBlock(if(deal == null) "Deal:___________" else "Deal: "+deal.toString()))
     }
 
-    override fun fullTextForm(speaker: Character, target: Character): String {
+    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
         if(deal != null){
             return "I would like to offer a deal: ${deal!!.dialogText(speaker, target)}"
         } else {
@@ -58,7 +58,7 @@ class OfferDeal: Line {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
         return AcceptDeal(deal)
     }
 }

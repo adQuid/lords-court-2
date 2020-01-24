@@ -1,15 +1,14 @@
 package aibrain.scenereactionadvocates
 
-import shortstate.Scene
+import shortstate.ShortGameScene
 import shortstate.ShortStateController
-import shortstate.ShortStateGame
 
 abstract class SceneReactionAdvocate {
 
-    constructor(character: game.Character)
+    constructor(character: game.GameCharacter)
 
-    abstract fun weight(scene: Scene): Double
+    abstract fun weight(shortGameScene: ShortGameScene): Double
 
-    abstract fun doToScene(shortStateController: ShortStateController, scene: Scene)
+    abstract fun doToScene(shortStateController: ShortStateController, shortGameScene: ShortGameScene)
 
 }

@@ -5,7 +5,7 @@ import game.Effect
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
-import game.Character
+import game.GameCharacter
 import game.Game
 import shortstate.dialog.GlobalLineTypeFactory
 import game.effects.GlobalEffectFactory
@@ -42,7 +42,7 @@ class CiteEffect: Line {
         return retval
     }
 
-    override fun fullTextForm(speaker: Character, target: Character): String {
+    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
         return "I have some very good reasons: " + effects!!.map { effect -> effect.describe() }
     }
 
@@ -65,7 +65,7 @@ class CiteEffect: Line {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
        throw NotImplementedError()
     }
 }

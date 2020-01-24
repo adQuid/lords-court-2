@@ -17,11 +17,11 @@ class ConversationMaker: SceneMaker {
         this.room = room
     }
 
-    override fun makeScene(game: ShortStateGame): Scene? {
+    override fun makeScene(game: ShortStateGame): ShortGameScene? {
         //TODO: make sure characters aren't already in scene
         if(initiator.addEnergy(-energyCost)){
             val convo = Conversation(initiator, target)
-            val sceneToMake = Scene(listOf(initiator, target), room, convo)
+            val sceneToMake = ShortGameScene(listOf(initiator, target), room, convo)
             return sceneToMake
         }
         return null

@@ -30,14 +30,14 @@ class ShortStateController: Runnable {
         Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
         var nextPlayer = shortGame.nextActingPlayer()
         while(nextPlayer != null){
-            if(shortGame.scene == null){
+            if(shortGame.shortGameScene == null){
                 if(nextPlayer.player.npc && nextPlayer.nextSceneIWannaBeIn == null){
                     nextPlayer.decideNextScene(shortGame)
                 }
                 addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)//because of the starting scene, this should NEVER be null
-            } else if(shortGame.scene!!.nextPlayerToDoSomething().player.npc){
+            } else if(shortGame.shortGameScene!!.nextPlayerToDoSomething().player.npc){
                 doAIIfAppropriate()
-                if(shortGame.scene != null && shortGame.scene!!.hasAPC()){
+                if(shortGame.shortGameScene != null && shortGame.shortGameScene!!.hasAPC()){
                     Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
                 }
             }
@@ -48,7 +48,7 @@ class ShortStateController: Runnable {
     }
 
     private fun doAIIfAppropriate(){
-        shortGame.scene!!.nextPlayerToDoSomething().sceneBrain.reactToScene(shortGame.scene!!, this)
+        shortGame.shortGameScene!!.nextPlayerToDoSomething().sceneBrain.reactToScene(shortGame.shortGameScene!!, this)
     }
 
     private fun addScene(player: ShortStateCharacter, creator: SceneMaker?){
@@ -56,10 +56,10 @@ class ShortStateController: Runnable {
         if(creator == null){
             println("OHH NO we need a new scene!!!!")
         }
-        if(shortGame.scene == null){
+        if(shortGame.shortGameScene == null){
             val toAdd = creator!!.makeScene(shortGame)
             if(toAdd != null){
-                shortGame.scene = toAdd
+                shortGame.shortGameScene = toAdd
             } else {
                 println("OHH NO we need a new scene!!!!")
             }
@@ -73,17 +73,17 @@ class ShortStateController: Runnable {
         }
     }
 
-    fun endScene(scene: Scene){
-        if(shortGame.scene == scene){
+    fun endScene(shortGameScene: ShortGameScene){
+        if(shortGame.shortGameScene == shortGameScene){
             println("scene ended")
-            scene!!.characters.forEach { player -> player.energy -= 1}
+            shortGameScene!!.characters.forEach { player -> player.energy -= 1}
             //if there was a conversation, characters might have learned something in this time
-            if(scene!!.conversation != null){
-                scene!!.characters.filter { character -> character.player.npc }.forEach { character -> character.player.brain.thinkAboutNextTurn(shortGame.game) }
+            if(shortGameScene!!.conversation != null){
+                shortGameScene!!.characters.filter { character -> character.player.npc }.forEach { character -> character.player.brain.thinkAboutNextTurn(shortGame.game) }
             }
-            shortGame.scene = null
+            shortGame.shortGameScene = null
         }
-        if(scene.characters.filter { char -> !char.player.npc }.isNotEmpty()){
+        if(shortGameScene.characters.filter { char -> !char.player.npc }.isNotEmpty()){
             Platform.runLater { Controller.singleton!!.GUI!!.refocus() }
         }
     }

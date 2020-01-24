@@ -4,9 +4,8 @@ import aibrain.ConversationBrain
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
-import game.Character
+import game.GameCharacter
 import game.Game
-import shortstate.ShortStateGame
 import shortstate.dialog.GlobalLineTypeFactory
 
 class QuestionSuggestion: Line {
@@ -37,7 +36,7 @@ class QuestionSuggestion: Line {
         return retval
     }
 
-    override fun fullTextForm(speaker: Character, target: Character): String {
+    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
         return "Why would you say that?"
     }
 
@@ -60,7 +59,7 @@ class QuestionSuggestion: Line {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
         return CiteEffect(brain.shortCharacter.player.brain.lastFavoriteEffects)
     }
 }

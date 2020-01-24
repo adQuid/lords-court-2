@@ -3,7 +3,7 @@ package shortstate
 import game.action.Action
 import aibrain.ConversationBrain
 import aibrain.SceneBrain
-import game.Character
+import game.GameCharacter
 import game.Game
 import shortstate.dialog.Line
 import shortstate.dialog.linetypes.Announcement
@@ -16,7 +16,7 @@ import shortstate.scenemaker.SceneMaker
 class ShortStateCharacter {
 
     val PLAYER_NAME = "PLAYER"
-    val player: Character
+    val player: GameCharacter
     var sceneBrain: SceneBrain
     var convoBrain: ConversationBrain
     val ENERGY_NAME = "ENERGY"
@@ -28,7 +28,7 @@ class ShortStateCharacter {
     var prospectiveActions = mutableListOf<Action>()
     var nextSceneIWannaBeIn: SceneMaker? = null
 
-    constructor(player: Character){
+    constructor(player: GameCharacter){
         this.player = player
         this.energy = 1000
         sceneBrain = SceneBrain(player.brain)

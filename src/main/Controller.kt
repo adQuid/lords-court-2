@@ -6,9 +6,9 @@ import com.beust.klaxon.Klaxon
 import com.google.gson.Gson
 import game.Game
 import game.GameSetup
-import game.Character
+import game.GameCharacter
 import javafx.application.Application
-import shortstate.Scene
+import shortstate.ShortGameScene
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
@@ -34,7 +34,7 @@ class Controller {
         newGame()
     }
 
-    fun sceneForPlayer(player: ShortStateCharacter): Scene?{
+    fun sceneForPlayer(player: ShortStateCharacter): ShortGameScene?{
         return shortThread!!.shortGame!!.sceneForPlayer(player)
     }
 
@@ -42,7 +42,7 @@ class Controller {
         GUI = gui
     }
 
-    fun commitActionsForPlayer(player: Character, actions: List<Action>){
+    fun commitActionsForPlayer(player: GameCharacter, actions: List<Action>){
         game!!.commitActionsForPlayer(player, actions)
         if(game!!.actionsByPlayer.keys.size == game!!.players.size){
             println("ENDING TURN ${game!!.turn}")

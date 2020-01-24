@@ -6,10 +6,9 @@ import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasReportType
 import shortstate.report.ReportType
-import game.Character
+import game.GameCharacter
 import game.Game
 import shortstate.dialog.GlobalLineTypeFactory
-import shortstate.report.GlobalReportTypeFactory
 
 class RequestReport: Line, HasReportType {
 
@@ -33,7 +32,7 @@ class RequestReport: Line, HasReportType {
         return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString()))
     }
 
-    override fun fullTextForm(speaker: Character, target: Character): String {
+    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
         return "What can you tell me of "+report?.toString()+"?"
     }
 
@@ -64,7 +63,7 @@ class RequestReport: Line, HasReportType {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
         if(brain.shortCharacter.knownReports.filter { report -> report.type() == myGetReportType() }.isNotEmpty()){
             return GiveReport(brain.shortCharacter.knownReports.filter { report -> report.type() == myGetReportType() }[0])
         } else {

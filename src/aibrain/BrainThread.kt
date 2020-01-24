@@ -33,8 +33,6 @@ class BrainThread: Runnable {
                 }
                 Thread.sleep(200)
             }
-
-
         }
     }
 }

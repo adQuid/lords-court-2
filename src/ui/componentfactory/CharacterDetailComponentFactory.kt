@@ -27,12 +27,12 @@ class CharacterDetailComponentFactory {
 
     private fun sceneImage(): Pane {
         val imagePane = StackPane()
-        val backgroundView = parent.generalComponents.imageView("assets//rooms//characterStage.png")
-        val characterView = parent.generalComponents.imageView(parent.character!!.pictureString)
+        val backgroundView = parent.utilityComponents.imageView("assets//rooms//characterStage.png")
+        val characterView = parent.utilityComponents.imageView(parent.character!!.pictureString)
         backgroundView.setOnMouseClicked { event -> parent.defocus() }
         characterView.setOnMouseClicked { event -> parent.defocus() }
 
-        val nameText = Text(10.0, 50.0, parent.scene!!.conversation!!.otherParticipant(parent.playingAs()).player.fullName())
+        val nameText = Text(10.0, 50.0, parent.shortGameScene!!.conversation!!.otherParticipant(parent.playingAs()).player.fullName())
         nameText.font = Font(24.0)
         nameText.wrappingWidth = parent.totalWidth * 0.7
         nameText.textAlignment = TextAlignment.CENTER
@@ -44,10 +44,10 @@ class CharacterDetailComponentFactory {
     }
 
     private fun characterFocusButtons(): Pane {
-        val cancelButton = parent.generalComponents.shortButton(
+        val cancelButton = parent.utilityComponents.shortButton(
             "Cancel",
-            EventHandler { parent.focusOn(parent.scene)})
+            EventHandler { parent.focusOn(parent.shortGameScene)})
 
-        return parent.generalComponents.bottomPane(listOf(cancelButton))
+        return parent.utilityComponents.bottomPane(listOf(cancelButton))
     }
 }

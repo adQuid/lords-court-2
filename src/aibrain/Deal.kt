@@ -1,20 +1,20 @@
 package aibrain
 
 import game.action.Action
-import game.Character
+import game.GameCharacter
 import game.Game
 import game.action.GlobalActionTypeFactory
 
 class Deal {
 
-    val actions: Map<Character, List<Action>>
+    val actions: Map<GameCharacter, List<Action>>
 
-    constructor(actions: Map<Character, List<Action>>){
+    constructor(actions: Map<GameCharacter, List<Action>>){
         this.actions = actions
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
-        val tempActions = mutableMapOf<Character, List<Action>>()
+        val tempActions = mutableMapOf<GameCharacter, List<Action>>()
         (saveString["ACTIONS"] as Map<String, Any>).forEach { key, value -> tempActions[game.characterById(key.toInt())] =
                 (value as List<Map<String,Any>>).map { map -> Action(GlobalActionTypeFactory.fromMap(map)) } }
 
@@ -34,7 +34,7 @@ class Deal {
         return "[DEAL]"
     }
 
-    fun dialogText(speaker: Character, target: Character): String {
+    fun dialogText(speaker: GameCharacter, target: GameCharacter): String {
         val retval = actions.map{(character, actions) -> "${character.name} will ${actions.toString()}"}
 
         return retval.joinToString(", ")

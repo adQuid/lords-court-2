@@ -21,7 +21,7 @@ class MainUI() : Application() {
 
     private var stage: Stage? = null
 
-    var generalComponents = UtilityComponentFactory(this)
+    var utilityComponents = UtilityComponentFactory(this)
     var sceneComponents = SceneComponentFactory(this)
     var conversationComponents = ConversationComponentFactory(this)
     var nonSceneComponents = WaitingSceneComponentFactory(this)
@@ -30,10 +30,10 @@ class MainUI() : Application() {
     var totalWidth = 1200.0 * SIZE_SCALE
     var totalHeight = 1080.0 * SIZE_SCALE
 
-    var scene: shortstate.Scene? = null
+    var shortGameScene: shortstate.ShortGameScene? = null
     var lineBeingConstructed: Line? = null
     var selectModal: SelectionModal<*>? = null
-    var character: game.Character? = null
+    var character: game.GameCharacter? = null
 
     private var lastFocus: Focus = Focus.GENERAL
     private var curFocus = Focus.GENERAL
@@ -76,11 +76,11 @@ class MainUI() : Application() {
             lastFocus = curFocus
         }
         if(focus == null){
-            scene = null
+            shortGameScene = null
             lineBeingConstructed = null
             curFocus = Focus.GENERAL
-        } else if(focus is shortstate.Scene){
-            scene = focus
+        } else if(focus is shortstate.ShortGameScene){
+            shortGameScene = focus
             lineBeingConstructed = null
             selectModal = null
             curFocus = Focus.SCENE
@@ -91,7 +91,7 @@ class MainUI() : Application() {
         } else if(focus is SelectionModal<*>){
             selectModal = focus
             curFocus = Focus.SELECT_MODAL
-        } else if(focus is game.Character){
+        } else if(focus is game.GameCharacter){
             character = focus
             curFocus = Focus.CHARACTER
         } else {

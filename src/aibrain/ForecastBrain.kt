@@ -3,7 +3,7 @@ package aibrain
 import game.action.Action
 import game.Effect
 import game.Game
-import game.Character
+import game.GameCharacter
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
@@ -12,7 +12,7 @@ import shortstate.dialog.linetypes.Announcement
 import util.safeSublist
 
 class ForecastBrain {
-    val player: Character
+    val player: GameCharacter
 
     var maxPlayersToThinkAbout = 3
 
@@ -25,7 +25,7 @@ class ForecastBrain {
     var lastActionsToCommitTo: List<Action>? = null
 
 
-    constructor(player: Character){
+    constructor(player: GameCharacter){
         this.player = player
     }
 
@@ -82,7 +82,7 @@ class ForecastBrain {
 
         val topPlayers = safeSublist(mostSignificantPlayersToMe(myGame),0,maxPlayersToThinkAbout)
 
-        val likelyPlans = HashMap<Character, List<Plan>>()
+        val likelyPlans = HashMap<GameCharacter, List<Plan>>()
         topPlayers.forEach{player ->
             likelyPlans[player] = actionPossibilitiesForPlayer(myGame, player)
         }
@@ -110,7 +110,7 @@ class ForecastBrain {
         return retval
     }
 
-    fun prospectiveDealsWithPlayer(target: Character): List<Deal>{
+    fun prospectiveDealsWithPlayer(target: GameCharacter): List<Deal>{
         val badDeal = Deal(hashMapOf(
             player to listOf(Action(WasteTime())),
             target to listOf(Action(WasteTime()))
@@ -135,8 +135,8 @@ class ForecastBrain {
         return reality.fold(0.0, { acc, case -> acc + case.valueToCharacter(player) })
     }
 
-    private fun mostSignificantPlayersToMe(game: Game): List<Character>{
-        var retval = mutableListOf<Character>()
+    private fun mostSignificantPlayersToMe(game: Game): List<GameCharacter>{
+        var retval = mutableListOf<GameCharacter>()
         game.players.forEach{
             if(true){ //TODO: make this not stupid
                 retval.add(it)
@@ -146,7 +146,7 @@ class ForecastBrain {
         return retval
     }
 
-    private fun actionPossibilitiesForPlayer(game: Game, player: Character): List<Plan>{
+    private fun actionPossibilitiesForPlayer(game: Game, player: GameCharacter): List<Plan>{
         var planWeights = HashMap<Action,Double>()
         val rawActions = game.possibleActionsForPlayer(player)
 
@@ -161,7 +161,7 @@ class ForecastBrain {
         return planWeights.map { Plan(player, listOf(it.key), it.value/totalWeight) }
     }
 
-    private fun oddsModifierGivenLine(character: Character, action: Action, memory: Memory): Double{
+    private fun oddsModifierGivenLine(character: GameCharacter, action: Action, memory: Memory): Double{
         if(memory.line is Announcement && memory.line.action!!.equals(action)){
             return 1.0
         }

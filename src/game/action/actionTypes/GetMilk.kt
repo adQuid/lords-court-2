@@ -4,18 +4,18 @@ import game.action.Action
 import game.Effect
 import game.effects.AddMilk
 import game.Game
-import game.Character
+import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 
 class GetMilk: Action.ActionType {
 
-    val player: Character
+    val player: GameCharacter
 
-    constructor(player: Character){
+    constructor(player: GameCharacter){
         this.player = player
     }
 
-    override fun doAction(game: Game, player: Character): List<Effect> {
+    override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf(AddMilk(1.0, this.player))
     }
 

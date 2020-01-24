@@ -2,7 +2,7 @@ package aibrain
 
 import shortstate.dialog.Line
 import game.Game
-import game.Character
+import game.GameCharacter
 import shortstate.ShortStateCharacter
 import shortstate.dialog.linetypes.*
 
@@ -14,7 +14,7 @@ class ConversationBrain {
         this.shortCharacter = shortCharacter
     }
 
-    fun startConversation(speaker: Character, game: Game): Line {
+    fun startConversation(speaker: GameCharacter, game: Game): Line {
         val dealToOffer = shortCharacter.player.brain.dealsILike!!.filter { it.actions.keys.contains(speaker) }[0]
 
         val thingToSuggest = shortCharacter.player.brain.lastCasesOfConcern!!

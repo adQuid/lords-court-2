@@ -5,7 +5,7 @@ import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.report.Report
-import game.Character
+import game.GameCharacter
 import game.Game
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.GlobalReportTypeFactory
@@ -32,7 +32,7 @@ class GiveReport: Line {
         return listOf(LineBlock("GIVE REPORT:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString()))
     }
 
-    override fun fullTextForm(speaker: Character, target: Character): String {
+    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
         return "I have discovered that ${report.toString()}"
     }
 
@@ -55,7 +55,7 @@ class GiveReport: Line {
         conversation.lastSpeaker.knownReports.add(report!!)
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
         throw NotImplementedError()
     }
 }

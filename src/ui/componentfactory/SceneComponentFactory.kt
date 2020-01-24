@@ -8,9 +8,6 @@ import javafx.scene.layout.Pane
 import shortstate.report.Report
 import shortstate.room.Room
 import shortstate.room.RoomAction
-import shortstate.scenemaker.ConversationMaker
-import shortstate.scenemaker.GoToRoomSoloMaker
-import shortstate.scenemaker.SceneMaker
 import ui.MainUI
 import ui.selectionmodal.SelectionModal
 import ui.selectionmodal.Tab
@@ -24,7 +21,7 @@ class SceneComponentFactory {
     }
 
     fun scenePage(): Scene {
-        if(parent.scene!!.conversation != null){
+        if(parent.shortGameScene!!.conversation != null){
             return parent.conversationComponents.inConvoPage()
         } else {
             return outOfConvoPage()
@@ -34,27 +31,27 @@ class SceneComponentFactory {
     private fun outOfConvoPage(): Scene {
         val root = GridPane()
         root.add(outOfConvoButtons(), 0, 1)
-        root.add(parent.generalComponents.sceneImage(), 0, 0)
+        root.add(parent.utilityComponents.sceneImage(), 0, 0)
         val scene = Scene(root, parent.totalWidth, parent.totalHeight)
         return scene
     }
 
     private fun outOfConvoButtons(): Pane {
-        val btn1 = parent.generalComponents.shortButton("Personal Actions", null)
-        val btn2 = if(parent.scene!!.room.getActions(parent.playingAs().player).isNotEmpty()){
-            parent.generalComponents.shortButton("Actions Here", EventHandler { _ ->
-                parent.focusOn(SelectionModal(parent, roomActionButtons(parent.scene!!.room), {action -> action.doAction(parent.shortThread(), parent.playingAs()); parent.refocus()}))
+        val btn1 = parent.utilityComponents.shortButton("Personal Actions", null)
+        val btn2 = if(parent.shortGameScene!!.room.getActions(parent.playingAs().player).isNotEmpty()){
+            parent.utilityComponents.shortButton("Actions Here", EventHandler { _ ->
+                parent.focusOn(SelectionModal(parent, roomActionButtons(parent.shortGameScene!!.room), { action -> action.doAction(parent.shortThread(), parent.playingAs()); parent.refocus()}))
             })
         } else {
-            parent.generalComponents.shortButton("No Actions In this Room", null)
+            parent.utilityComponents.shortButton("No Actions In this Room", null)
         }
-        val btn3 = newSceneButton()
+        val btn3 = parent.utilityComponents.newSceneButton()
         val btn4 = viewReportsButton()
-        return parent.generalComponents.bottomPane(listOf(btn1,btn2,btn3,btn4))
+        return parent.utilityComponents.bottomPane(listOf(btn1,btn2,btn3,btn4))
     }
 
     private fun viewReportsButton(): Button {
-        return parent.generalComponents.shortButton("View Reports",
+        return parent.utilityComponents.shortButton("View Reports",
                 EventHandler { _ -> parent.focusOn(
                     SelectionModal(parent, reports(), { report -> println(report)})
                 )
@@ -67,32 +64,6 @@ class SceneComponentFactory {
         val reportTab = Tab<Report>("Reports", reportOptions)
 
         return listOf(reportTab)
-    }
-
-    fun newSceneButton(): Button {
-        return parent.generalComponents.shortButton("Go Somewhere Else",
-            EventHandler { _ -> parent.focusOn(
-                SelectionModal(parent, newSceneOptions(), { maker -> goToNewSceneIfApplicable(maker)})
-            )
-            }
-        )
-    }
-
-    private fun newSceneOptions(): List<Tab<SceneMaker>>{
-        val goToRoomMakers = parent.playingAs().player.location.rooms.map { room -> GoToRoomSoloMaker(parent.playingAs(), room) }
-        val goToRoomTab = Tab<SceneMaker>("Go to Room", goToRoomMakers)
-
-        val conversationMakers = parent.shortGame().players.minusElement(parent.playingAs())
-            .map { player -> ConversationMaker(parent.playingAs(), player, parent.playingAs().player.location.roomByType(Room.RoomType.ETC)) }
-        val conversationTab = Tab<SceneMaker>("Conversation", conversationMakers)
-
-        return listOf(goToRoomTab, conversationTab)
-    }
-
-    private fun goToNewSceneIfApplicable(maker: SceneMaker){
-        parent.playingAs().nextSceneIWannaBeIn = maker
-        parent.shortThread().endScene(parent.scene!!)
-        parent.refocus()
     }
 
     private fun roomActionButtons(room: Room): List<Tab<RoomAction>>{

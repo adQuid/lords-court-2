@@ -1,7 +1,7 @@
 package shortstate.scenemaker
 
 import shortstate.room.Room
-import shortstate.Scene
+import shortstate.ShortGameScene
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 
@@ -15,9 +15,9 @@ class GoToRoomSoloMaker: SceneMaker{
         this.room = room
     }
 
-    override fun makeScene(game: ShortStateGame): Scene? {
+    override fun makeScene(game: ShortStateGame): ShortGameScene? {
         //TODO: check prereqs
-        val sceneToMake = Scene(listOf(player), room, null)
+        val sceneToMake = ShortGameScene(listOf(player), room, null)
         return sceneToMake
     }
 

@@ -1,10 +1,10 @@
 package shortstate.scenemaker
 
-import shortstate.Scene
+import shortstate.ShortGameScene
 import shortstate.ShortStateGame
 
 abstract class SceneMaker {
 
-    abstract fun makeScene(game: ShortStateGame): Scene?
+    abstract fun makeScene(game: ShortStateGame): ShortGameScene?
 
 }

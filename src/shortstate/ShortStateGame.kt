@@ -2,17 +2,12 @@ package shortstate
 
 import game.Game
 import game.Location
-import game.Character
-import javafx.application.Platform
-import main.Controller
-import shortstate.room.action.GoToBed
-import shortstate.scenemaker.GoToRoomSoloMaker
-import shortstate.scenemaker.SceneMaker
+import game.GameCharacter
 
 class ShortStateGame {
 
     val SCENE_NAME = "SCENE"
-    var scene: Scene? = null
+    var shortGameScene: ShortGameScene? = null
     val game: Game
     val LOCATION_NAME = "LOCATION"
     val location: Location
@@ -31,13 +26,13 @@ class ShortStateGame {
         location = parent.locationById(saveString[LOCATION_NAME] as Int)
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> ShortStateCharacter(parent, map) }
         if(saveString[SCENE_NAME] != null){
-            scene = Scene(this, saveString[SCENE_NAME] as Map<String, Any>)
+            shortGameScene = ShortGameScene(this, saveString[SCENE_NAME] as Map<String, Any>)
         }
     }
 
     fun saveString(): Map<String, Any?>{
         return hashMapOf(
-            SCENE_NAME to {if(scene != null){ scene!!.saveString() }else{ null}}(),
+            SCENE_NAME to {if(shortGameScene != null){ shortGameScene!!.saveString() }else{ null}}(),
             LOCATION_NAME to location.id,
             PLAYERS_NAME to players.map { player -> player.saveString() }
         )
@@ -72,7 +67,7 @@ class ShortStateGame {
         throw Exception("No player found!")
     }
 
-    fun shortPlayerForLongPlayer(player: Character): ShortStateCharacter?{
+    fun shortPlayerForLongPlayer(player: GameCharacter): ShortStateCharacter?{
         players.forEach {
             if(it.player == player){
                 return it
@@ -85,9 +80,9 @@ class ShortStateGame {
         return players.filter { it.energy > 0 }.sortedByDescending { it.energy }.getOrNull(0)
     }
 
-    fun sceneForPlayer(player: ShortStateCharacter): Scene?{
-        if(scene != null && scene!!.characters!!.contains(player)){
-            return scene
+    fun sceneForPlayer(player: ShortStateCharacter): ShortGameScene?{
+        if(shortGameScene != null && shortGameScene!!.characters!!.contains(player)){
+            return shortGameScene
         }
 
         return null

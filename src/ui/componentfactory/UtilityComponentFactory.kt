@@ -9,7 +9,13 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import main.Controller
+import shortstate.room.Room
+import shortstate.scenemaker.ConversationMaker
+import shortstate.scenemaker.GoToRoomSoloMaker
+import shortstate.scenemaker.SceneMaker
 import ui.MainUI
+import ui.selectionmodal.SelectionModal
+import ui.selectionmodal.Tab
 
 class UtilityComponentFactory {
 
@@ -22,14 +28,14 @@ class UtilityComponentFactory {
     fun sceneImage(): Pane {
         val imagePane = Pane()
         val backgroundView: ImageView
-        if(parent.scene?.characters!!.size > 1){
-            val otherPlayer = parent.scene!!.conversation!!.otherParticipant(parent.playingAs())
-            backgroundView = imageView(parent.scene!!.room.pictureText)
+        if(parent.shortGameScene?.characters!!.size > 1){
+            val otherPlayer = parent.shortGameScene!!.conversation!!.otherParticipant(parent.playingAs())
+            backgroundView = imageView(parent.shortGameScene!!.room.pictureText)
             val characterView = imageView(otherPlayer.player.pictureString)
             characterView.setOnMouseClicked { event -> parent.focusOn(otherPlayer.player) }
             imagePane.children.addAll(backgroundView, characterView)
         } else {
-            backgroundView = imageView(parent.scene!!.room.pictureText)
+            backgroundView = imageView(parent.shortGameScene!!.room.pictureText)
             imagePane.children.addAll(backgroundView)
         }
         return imagePane
@@ -75,6 +81,33 @@ class UtilityComponentFactory {
         retval.add(loadButton, 2,0)
 
         return retval
+    }
+
+    fun newSceneButton(): Button {
+        return parent.utilityComponents.shortButton("Go Somewhere Else",
+            EventHandler { _ -> parent.focusOn(
+                SelectionModal(parent, newSceneOptions(), { maker -> goToNewSceneIfApplicable(maker)})
+            )
+            }
+        )
+    }
+
+    private fun newSceneOptions(): List<Tab<SceneMaker>>{
+        val goToRoomMakers = parent.playingAs().player.location.rooms.map { room -> GoToRoomSoloMaker(parent.playingAs(), room) }
+        val goToRoomTab = Tab<SceneMaker>("Go to Room", goToRoomMakers)
+
+        val conversationMakers = parent.shortGame().players.minusElement(parent.playingAs())
+            .map { player -> ConversationMaker(parent.playingAs(), player, parent.playingAs().player.location.roomByType(
+                Room.RoomType.ETC)) }
+        val conversationTab = Tab<SceneMaker>("Conversation", conversationMakers)
+
+        return listOf(goToRoomTab, conversationTab)
+    }
+
+    private fun goToNewSceneIfApplicable(maker: SceneMaker){
+        parent.playingAs().nextSceneIWannaBeIn = maker
+        parent.shortThread().endScene(parent.shortGameScene!!)
+        parent.refocus()
     }
 
     fun shortButton(text: String, action: EventHandler<ActionEvent>?): Button {

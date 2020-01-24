@@ -2,7 +2,7 @@ package shortstate.dialog
 
 import aibrain.ConversationBrain
 import shortstate.Conversation
-import game.Character
+import game.GameCharacter
 import game.Game
 
 abstract class Line {
@@ -13,7 +13,7 @@ abstract class Line {
 
     abstract fun symbolicForm(): List<LineBlock>
 
-    abstract fun fullTextForm(speaker: Character, target: Character): String
+    abstract fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String
 
     abstract fun specialSaveString(): Map<String, Any>
 
@@ -36,5 +36,5 @@ abstract class Line {
 
     abstract fun specialEffect(conversation: Conversation)
 
-    abstract fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line
+    abstract fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line
  }

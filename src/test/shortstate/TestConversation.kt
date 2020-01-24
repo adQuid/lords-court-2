@@ -7,7 +7,7 @@ import shortstate.dialog.linetypes.Announcement
 import game.action.Action
 import game.Location
 import game.action.actionTypes.BakeCookies
-import game.Character
+import game.GameCharacter
 import org.junit.Test
 
 class TestConversation {
@@ -17,8 +17,8 @@ class TestConversation {
         val game = Game()
         val location = Location(game)
 
-        val character1 = Character("person1", "thisdoesn'tmatter", false, location, game)
-        val character2 = Character("person2", "thisdoesn'tmatter", false, location, game)
+        val character1 = GameCharacter("person1", "thisdoesn'tmatter", false, location, game)
+        val character2 = GameCharacter("person2", "thisdoesn'tmatter", false, location, game)
 
         game.locations.add(location)
         game.players.add(character1)

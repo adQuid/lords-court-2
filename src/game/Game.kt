@@ -14,11 +14,11 @@ class Game {
     val TURN_NAME = "turn"
     var turn = 1
     val PLAYERS_NAME = "players"
-    var players = mutableListOf<Character>()
+    var players = mutableListOf<GameCharacter>()
     val LOCATIONS_NAME = "locations"
     var locations = mutableListOf<Location>()
     val ACTIONS_NAME = "actions"
-    var actionsByPlayer = mutableMapOf<Character, List<Action>>()
+    var actionsByPlayer = mutableMapOf<GameCharacter, List<Action>>()
 
     //This is more of a "secondary" pointer, and is expected to be duplicated with anyone actually holding the titles.
     //These exist to prevent titles from vanishing when nobody is holding them
@@ -29,7 +29,7 @@ class Game {
     val DELICIOUSNESS_NAME = "deliciousness"
     var deliciousness = 0.0
     val HAS_MILK_NAME = "hasMilk"
-    var hasMilk = mutableListOf<Character>()
+    var hasMilk = mutableListOf<GameCharacter>()
 
     constructor(){
 
@@ -39,7 +39,7 @@ class Game {
         isLive = false
         turn = other.turn
         other.players.forEach{
-            this.players.add(Character(it))
+            this.players.add(GameCharacter(it))
         }
         locations = other.locations.toList().map { loc -> Location(loc) }.toMutableList()
         titles = other.titles.map { title -> Title(title)}.toMutableSet()
@@ -52,10 +52,10 @@ class Game {
         turn = saveString[TURN_NAME] as Int
         locations = (saveString[LOCATIONS_NAME] as List<Map<String, Any>>).map { map -> Location(this, map) }.toMutableList()
 
-        players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> Character(map, this) }.toMutableList()
+        players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> GameCharacter(map, this) }.toMutableList()
         (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
 
-        val tempActions = mutableMapOf<Character, List<Action>>()
+        val tempActions = mutableMapOf<GameCharacter, List<Action>>()
         (saveString[ACTIONS_NAME] as Map<Int, Any>).forEach { key, value -> tempActions[characterById(key.toInt())] =
             (value as List<Map<String,Any>>).map { map -> Action(GlobalActionTypeFactory.fromMap(map)) } }
         actionsByPlayer = tempActions
@@ -96,7 +96,7 @@ class Game {
         }
     }
 
-    fun imageFor(player: Character): Game{
+    fun imageFor(player: GameCharacter): Game{
         var retval = Game(this)
 
         players.forEach{
@@ -106,7 +106,7 @@ class Game {
     }
 
     //this needs to return at least one action for the AI fucks up
-    fun possibleActionsForPlayer(player: Character): List<Action>{
+    fun possibleActionsForPlayer(player: GameCharacter): List<Action>{
         var retval = ArrayList<Action>()
         if(!player.npc){
             retval.add(Action(BakeCookies()))
@@ -117,7 +117,7 @@ class Game {
         return retval
     }
 
-    fun commitActionsForPlayer(player: Character, actions: List<Action>){
+    fun commitActionsForPlayer(player: GameCharacter, actions: List<Action>){
         if(isLive){
             println("$player is comitting to $actions")
         }
@@ -134,7 +134,7 @@ class Game {
         turn++
     }
 
-    fun applyActions(actions: Collection<Action>, player: Character){
+    fun applyActions(actions: Collection<Action>, player: GameCharacter){
         actions.forEach {
             it.type.doAction(this, player).forEach{
                 it.apply(this)
@@ -142,12 +142,12 @@ class Game {
         }
     }
 
-    fun matchingPlayer(player: Character): Character?{
+    fun matchingPlayer(player: GameCharacter): GameCharacter?{
         players.forEach { if(it == player){ return it} }
         return null
     }
 
-     @Synchronized fun nextPlayerToForcast(): Character?{
+     @Synchronized fun nextPlayerToForcast(): GameCharacter?{
          for (player in players) {
                  if (player.brain.lastCasesOfConcern == null && (player.npc)) {
                      return player
@@ -156,11 +156,11 @@ class Game {
         return null
     }
 
-    fun playersAtLocation(location: Location): List<Character>{
+    fun playersAtLocation(location: Location): List<GameCharacter>{
         return players.filter { player -> player.location == location }
     }
 
-    fun playerCharacter(): Character {
+    fun playerCharacter(): GameCharacter {
         players.forEach {
             if(!it.npc){
                 return it
@@ -169,7 +169,7 @@ class Game {
         throw Exception("No player found!")
     }
 
-    fun applyTitleToCharacter(title: Title, character: Character){
+    fun applyTitleToCharacter(title: Title, character: GameCharacter){
         titles.add(title)
         character.titles.add(title)
     }
@@ -178,7 +178,7 @@ class Game {
         return locations.filter { it.id == id }[0]
     }
     
-    fun characterById(id: Int): Character {
+    fun characterById(id: Int): GameCharacter {
         return players.filter { it.id == id }[0]
     }
 }

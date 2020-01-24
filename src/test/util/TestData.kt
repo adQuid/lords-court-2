@@ -1,7 +1,7 @@
 package test.util
 
 import aibrain.Deal
-import game.Character
+import game.GameCharacter
 import game.Game
 import game.Location
 import game.titlemaker.TitleFactory
@@ -12,7 +12,7 @@ import game.action.Action
 import shortstate.dialog.linetypes.*
 import game.effects.AddDelicousness
 import shortstate.Conversation
-import shortstate.Scene
+import shortstate.ShortGameScene
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.DeliciousnessReport
 import shortstate.report.ReportType
@@ -23,7 +23,7 @@ fun soloTestGame(): Game{
 
     game.locations.add(defaultLocation)
 
-    val player1 = Character("NPC 1", "this should never come up in a test", true, defaultLocation, game)
+    val player1 = GameCharacter("NPC 1", "this should never come up in a test", true, defaultLocation, game)
     game.applyTitleToCharacter(TitleFactory.makeCountTitle("Cookies"), player1)
     game.players.add(player1)
 
@@ -65,8 +65,8 @@ fun soloTestShortgame(): ShortStateGame{
 
 fun soloTestShortgameWithEverythingOnIt(): ShortStateGame{
     val game = soloTestGameWithEverythingOnIt()
-    game.players.add(Character("NPC 2", "this should never come up in a test", true, game.locations[0], game))
+    game.players.add(GameCharacter("NPC 2", "this should never come up in a test", true, game.locations[0], game))
     val retval = ShortStateGame(game, game.locations[0])
-    retval.scene = Scene(listOf(retval.players[0], retval.players[1]), retval.location.rooms[0], Conversation(retval.players[0], retval.players[1]))
+    retval.shortGameScene = ShortGameScene(listOf(retval.players[0], retval.players[1]), retval.location.rooms[0], Conversation(retval.players[0], retval.players[1]))
     return retval
 }

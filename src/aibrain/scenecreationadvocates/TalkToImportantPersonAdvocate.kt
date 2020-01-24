@@ -1,7 +1,6 @@
 package aibrain.scenecreationadvocates
 
-import game.Character
-import shortstate.Scene
+import game.GameCharacter
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.room.Room
@@ -11,9 +10,9 @@ import shortstate.scenemaker.SceneMaker
 
 class TalkToImportantPersonAdvocate: SceneCreationAdvocate {
 
-    private val me: Character
+    private val me: GameCharacter
 
-    constructor(character: game.Character) : super(character) {
+    constructor(character: game.GameCharacter) : super(character) {
         me = character
     }
 

@@ -24,7 +24,7 @@ class RoomSelectModal {
         val pane = GridPane()
 
         for((index, room) in parent.playingAs().player.location.rooms.withIndex()){
-            pane.add(parent.generalComponents.shortWideButton("room", EventHandler { closeAction(room) }), 0,
+            pane.add(parent.utilityComponents.shortWideButton("room", EventHandler { closeAction(room) }), 0,
                 index
             )
         }

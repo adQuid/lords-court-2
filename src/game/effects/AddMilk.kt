@@ -1,15 +1,15 @@
 package game.effects
 
-import game.Character
+import game.GameCharacter
 import game.Effect
 import game.Game
 
 class AddMilk: Effect {
 
     override var probability: Double
-    val player: Character
+    val player: GameCharacter
 
-    constructor(probability: Double, player: Character){
+    constructor(probability: Double, player: GameCharacter){
         this.probability = probability
         this.player = player
     }

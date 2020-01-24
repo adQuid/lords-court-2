@@ -1,13 +1,12 @@
 package shortstate.dialog.linetypes
 
 import aibrain.ConversationBrain
-import aibrain.Deal
 import game.action.Action
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasAction
-import game.Character
+import game.GameCharacter
 import game.Game
 import shortstate.dialog.GlobalLineTypeFactory
 
@@ -36,7 +35,7 @@ class Announcement: Line, HasAction {
         return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "Action:___________" else "Action: "+action.toString()))
     }
 
-    override fun fullTextForm(speaker: Character, target: Character): String {
+    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
         return "I will "+action?.toString()+" by the end of the turn. Just wanted to let you know."
     }
 
@@ -67,7 +66,7 @@ class Announcement: Line, HasAction {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
         val action = action
 
         val effectsILike = brain.shortCharacter.player.brain.lastFavoriteEffects!!

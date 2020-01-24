@@ -4,11 +4,11 @@ import game.action.Action
 import game.Effect
 import game.effects.AddDelicousness
 import game.Game
-import game.Character
+import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 
 class BakeCookies: Action.ActionType() {
-    override fun doAction(game: Game, player: Character): List<Effect> {
+    override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf(AddDelicousness(1.0))
     }
 

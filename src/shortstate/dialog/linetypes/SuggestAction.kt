@@ -6,7 +6,7 @@ import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasAction
-import game.Character
+import game.GameCharacter
 import game.Game
 import shortstate.dialog.GlobalLineTypeFactory
 
@@ -40,7 +40,7 @@ class SuggestAction: Line, HasAction {
         return listOf(LineBlock("REQUEST:"), LineBlock(if(action == null) "Action:___________" else "Action: "+action.toString()))
     }
 
-    override fun fullTextForm(speaker: Character, target: Character): String {
+    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
         return "I think you should "+action?.toString()+" this turn."
     }
 
@@ -63,7 +63,7 @@ class SuggestAction: Line, HasAction {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: Character, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
         throw NotImplementedError()
     }
 }

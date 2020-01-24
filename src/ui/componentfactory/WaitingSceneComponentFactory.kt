@@ -16,14 +16,14 @@ class WaitingSceneComponentFactory {
 
     fun waitingPage(): Scene {
         val root = GridPane()
-        root.add(parent.generalComponents.bottomPane(listOf()), 0, 1)
+        root.add(parent.utilityComponents.bottomPane(listOf()), 0, 1)
         root.add(waitImage(), 0, 0)
         return Scene(root, parent.totalWidth, parent.totalHeight)
     }
 
     private fun waitImage(): Pane {
         val imagePane = StackPane()
-        val backgroundView = parent.generalComponents.imageView("assets//general//wait.png")
+        val backgroundView = parent.utilityComponents.imageView("assets//general//wait.png")
         imagePane.children.addAll(backgroundView)
         return imagePane
     }

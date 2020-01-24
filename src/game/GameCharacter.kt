@@ -5,7 +5,7 @@ import aibrain.ForecastBrain
 import aibrain.Treaty
 import shortstate.dialog.Memory
 
-class Character {
+class GameCharacter {
     val ID_NAME = "ID"
     val id: Int
     val NPC_NAME = "NPC"
@@ -43,7 +43,7 @@ class Character {
         this.acceptedTreaties = mutableListOf()
     }
 
-    constructor(other: Character){
+    constructor(other: GameCharacter){
         this.id = other.id
         this.name = other.name
         this.pictureString = other.pictureString
@@ -93,7 +93,7 @@ class Character {
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other is Character){
+        if(other is GameCharacter){
             return this.id == other.id
         }
         return false

@@ -1,8 +1,7 @@
 package shortstate.room
 
-import game.Character
+import game.GameCharacter
 import shortstate.ShortStateGame
-import shortstate.report.ReportType
 import shortstate.room.action.CommitToAction
 import shortstate.room.action.GoToBed
 import shortstate.room.action.MakeReport
@@ -49,7 +48,7 @@ class Room {
         return name
     }
 
-    fun getActions(player: Character): List<RoomAction>{
+    fun getActions(player: GameCharacter): List<RoomAction>{
         if(type == RoomType.WORKROOM){
             return baseActions()
                 .plus(player.titles.flatMap { title -> title.actionsEntitled.map { action -> CommitToAction(action) } })
