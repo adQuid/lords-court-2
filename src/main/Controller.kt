@@ -34,6 +34,11 @@ class Controller {
         newGame()
     }
 
+    //TODO: Make this work for more than one thread
+    fun shortThreadForPlayer(player: ShortStateCharacter): ShortStateController{
+        return shortThread!!
+    }
+
     fun sceneForPlayer(player: ShortStateCharacter): ShortGameScene?{
         return shortThread!!.shortGame!!.sceneForPlayer(player)
     }

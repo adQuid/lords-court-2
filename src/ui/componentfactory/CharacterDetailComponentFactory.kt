@@ -7,6 +7,7 @@ import javafx.scene.layout.*
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.scene.text.TextAlignment
+import shortstate.ShortStateCharacter
 import ui.MainUI
 
 class CharacterDetailComponentFactory {
@@ -17,9 +18,9 @@ class CharacterDetailComponentFactory {
         this.parent = parent
     }
 
-    fun characterFocusPage(): Scene {
+    fun characterFocusPage(perspective: ShortStateCharacter): Scene {
         val root = GridPane()
-        root.add(characterFocusButtons(), 0, 1)
+        root.add(characterFocusButtons(perspective), 0, 1)
         root.add(sceneImage(), 0, 0)
         val scene = Scene(root, parent.totalWidth, parent.totalHeight)
         return scene
@@ -27,8 +28,8 @@ class CharacterDetailComponentFactory {
 
     private fun sceneImage(): Pane {
         val imagePane = StackPane()
-        val backgroundView = parent.utilityComponents.imageView("assets//rooms//characterStage.png")
-        val characterView = parent.utilityComponents.imageView(parent.character!!.pictureString)
+        val backgroundView = UtilityComponentFactory.imageView("assets//rooms//characterStage.png")
+        val characterView = UtilityComponentFactory.imageView(parent.character!!.pictureString)
         backgroundView.setOnMouseClicked { event -> parent.defocus() }
         characterView.setOnMouseClicked { event -> parent.defocus() }
 
@@ -43,11 +44,11 @@ class CharacterDetailComponentFactory {
         return imagePane
     }
 
-    private fun characterFocusButtons(): Pane {
-        val cancelButton = parent.utilityComponents.shortButton(
+    private fun characterFocusButtons(perspective: ShortStateCharacter): Pane {
+        val cancelButton = UtilityComponentFactory.shortButton(
             "Cancel",
             EventHandler { parent.focusOn(parent.shortGameScene)})
 
-        return parent.utilityComponents.bottomPane(listOf(cancelButton))
+        return UtilityComponentFactory.bottomPane(listOf(cancelButton), perspective)
     }
 }

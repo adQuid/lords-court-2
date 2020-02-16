@@ -3,8 +3,10 @@ package ui.componentfactory
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.Button
+import javafx.scene.image.ImageView
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
+import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import shortstate.room.Room
 import shortstate.room.RoomAction
@@ -20,38 +22,54 @@ class SceneComponentFactory {
         this.parent = parent
     }
 
-    fun scenePage(): Scene {
+    fun scenePage(perspective: ShortStateCharacter): Scene {
         if(parent.shortGameScene!!.conversation != null){
-            return parent.conversationComponents.inConvoPage()
+            return parent.conversationComponents.inConvoPage(perspective)
         } else {
-            return outOfConvoPage()
+            return outOfConvoPage(perspective)
         }
     }
 
-    private fun outOfConvoPage(): Scene {
+    fun sceneImage(): Pane {
+        val imagePane = Pane()
+        val backgroundView: ImageView
+        if(parent.shortGameScene?.characters!!.size > 1){
+            val otherPlayer = parent.shortGameScene!!.conversation!!.otherParticipant(parent.playingAs())
+            backgroundView = UtilityComponentFactory.imageView(parent.shortGameScene!!.room.pictureText)
+            val characterView = UtilityComponentFactory.imageView(otherPlayer.player.pictureString)
+            characterView.setOnMouseClicked { event -> parent.focusOn(otherPlayer.player) }
+            imagePane.children.addAll(backgroundView, characterView)
+        } else {
+            backgroundView = UtilityComponentFactory.imageView(parent.shortGameScene!!.room.pictureText)
+            imagePane.children.addAll(backgroundView)
+        }
+        return imagePane
+    }
+
+    private fun outOfConvoPage(perspective: ShortStateCharacter): Scene {
         val root = GridPane()
-        root.add(outOfConvoButtons(), 0, 1)
-        root.add(parent.utilityComponents.sceneImage(), 0, 0)
+        root.add(outOfConvoButtons(perspective), 0, 1)
+        root.add(parent.sceneComponents.sceneImage(), 0, 0)
         val scene = Scene(root, parent.totalWidth, parent.totalHeight)
         return scene
     }
 
-    private fun outOfConvoButtons(): Pane {
-        val btn1 = parent.utilityComponents.shortButton("Personal Actions", null)
+    private fun outOfConvoButtons(perspective: ShortStateCharacter): Pane {
+        val btn1 = UtilityComponentFactory.shortButton("Personal Actions", null)
         val btn2 = if(parent.shortGameScene!!.room.getActions(parent.playingAs().player).isNotEmpty()){
-            parent.utilityComponents.shortButton("Actions Here", EventHandler { _ ->
+            UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
                 parent.focusOn(SelectionModal(parent, roomActionButtons(parent.shortGameScene!!.room), { action -> action.doAction(parent.shortThread(), parent.playingAs()); parent.refocus()}))
             })
         } else {
-            parent.utilityComponents.shortButton("No Actions In this Room", null)
+            UtilityComponentFactory.shortButton("No Actions In this Room", null)
         }
-        val btn3 = parent.utilityComponents.newSceneButton()
+        val btn3 = UtilityComponentFactory.newSceneButton(perspective)
         val btn4 = viewReportsButton()
-        return parent.utilityComponents.bottomPane(listOf(btn1,btn2,btn3,btn4))
+        return UtilityComponentFactory.bottomPane(listOf(btn1,btn2,btn3,btn4), perspective)
     }
 
     private fun viewReportsButton(): Button {
-        return parent.utilityComponents.shortButton("View Reports",
+        return UtilityComponentFactory.shortButton("View Reports",
                 EventHandler { _ -> parent.focusOn(
                     SelectionModal(parent, reports(), { report -> println(report)})
                 )

@@ -8,6 +8,7 @@ import javafx.scene.control.ListCell
 import javafx.scene.text.Text
 import shortstate.room.Room
 import ui.MainUI
+import ui.componentfactory.UtilityComponentFactory
 
 
 class RoomSelectModal {
@@ -24,7 +25,8 @@ class RoomSelectModal {
         val pane = GridPane()
 
         for((index, room) in parent.playingAs().player.location.rooms.withIndex()){
-            pane.add(parent.utilityComponents.shortWideButton("room", EventHandler { closeAction(room) }), 0,
+            pane.add(
+                UtilityComponentFactory.shortWideButton("room", EventHandler { closeAction(room) }), 0,
                 index
             )
         }

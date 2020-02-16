@@ -9,47 +9,29 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import main.Controller
+import shortstate.ShortStateCharacter
 import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
-import ui.MainUI
+import ui.SIZE_SCALE
 import ui.selectionmodal.SelectionModal
 import ui.selectionmodal.Tab
+import ui.totalHeight
+import ui.totalWidth
 
-class UtilityComponentFactory {
 
-    val parent: MainUI
-
-    constructor(parent: MainUI){
-        this.parent = parent
-    }
-
-    fun sceneImage(): Pane {
-        val imagePane = Pane()
-        val backgroundView: ImageView
-        if(parent.shortGameScene?.characters!!.size > 1){
-            val otherPlayer = parent.shortGameScene!!.conversation!!.otherParticipant(parent.playingAs())
-            backgroundView = imageView(parent.shortGameScene!!.room.pictureText)
-            val characterView = imageView(otherPlayer.player.pictureString)
-            characterView.setOnMouseClicked { event -> parent.focusOn(otherPlayer.player) }
-            imagePane.children.addAll(backgroundView, characterView)
-        } else {
-            backgroundView = imageView(parent.shortGameScene!!.room.pictureText)
-            imagePane.children.addAll(backgroundView)
-        }
-        return imagePane
-    }
+object UtilityComponentFactory {
 
     fun imageView(url: String): ImageView {
         val image = Image(url)
         val retval = ImageView(image)
-        retval.fitHeight = (parent.totalHeight) * (4.5 / 6.0)
-        retval.fitWidth = parent.totalWidth
+        retval.fitHeight = (totalHeight) * (4.5 / 6.0)
+        retval.fitWidth = totalWidth
         return retval
     }
 
-    fun bottomPane(buttons: List<Button>): Pane{
+    fun bottomPane(buttons: List<Button>, perspective: ShortStateCharacter): Pane{
 
         val buttonsPane = GridPane()
         for(index in 0..7){
@@ -61,58 +43,58 @@ class UtilityComponentFactory {
         }
 
         val retval = GridPane()
-        retval.add(middlePane(), 0, 0)
+        retval.add(middlePane(perspective), 0, 0)
         retval.add(buttonsPane, 0,1)
 
         return retval
     }
 
-    private fun middlePane(): Pane{
+    private fun middlePane(perspective: ShortStateCharacter): Pane{
         val retval = GridPane()
 
-        val statsDisplay = Label("Energy: " + parent.playingAs().energy + "/1000")
-        statsDisplay.setMinSize(parent.totalWidth/2, parent.totalWidth / 12)
+        val statsDisplay = Label("Energy: " + perspective.energy + "/1000")
+        statsDisplay.setMinSize(totalWidth/2, totalWidth / 12)
         retval.add(statsDisplay, 0,0)
 
         val saveButton = shortButton("Save", EventHandler { Controller.singleton!!.save()})
         retval.add(saveButton, 1,0)
 
-        val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); parent.refocus()})
+        val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); Controller.singleton!!.GUI!!.refocus()})
         retval.add(loadButton, 2,0)
 
         return retval
     }
 
-    fun newSceneButton(): Button {
-        return parent.utilityComponents.shortButton("Go Somewhere Else",
-            EventHandler { _ -> parent.focusOn(
-                SelectionModal(parent, newSceneOptions(), { maker -> goToNewSceneIfApplicable(maker)})
+    fun newSceneButton(perspective: ShortStateCharacter): Button {
+        return shortButton("Go Somewhere Else",
+            EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
+                SelectionModal(Controller.singleton!!.GUI!!, newSceneOptions(perspective), { maker -> goToNewSceneIfApplicable(maker, perspective)})
             )
             }
         )
     }
 
-    private fun newSceneOptions(): List<Tab<SceneMaker>>{
-        val goToRoomMakers = parent.playingAs().player.location.rooms.map { room -> GoToRoomSoloMaker(parent.playingAs(), room) }
+    private fun newSceneOptions(perspective: ShortStateCharacter): List<Tab<SceneMaker>>{
+        val goToRoomMakers = perspective.player.location.rooms.map { room -> GoToRoomSoloMaker(perspective, room) }
         val goToRoomTab = Tab<SceneMaker>("Go to Room", goToRoomMakers)
 
-        val conversationMakers = parent.shortGame().players.minusElement(parent.playingAs())
-            .map { player -> ConversationMaker(parent.playingAs(), player, parent.playingAs().player.location.roomByType(
+        val conversationMakers = Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.players.minusElement(perspective)
+            .map { player -> ConversationMaker(perspective, player,perspective.player.location.roomByType(
                 Room.RoomType.ETC)) }
         val conversationTab = Tab<SceneMaker>("Conversation", conversationMakers)
 
         return listOf(goToRoomTab, conversationTab)
     }
 
-    private fun goToNewSceneIfApplicable(maker: SceneMaker){
-        parent.playingAs().nextSceneIWannaBeIn = maker
-        parent.shortThread().endScene(parent.shortGameScene!!)
-        parent.refocus()
+    private fun goToNewSceneIfApplicable(maker: SceneMaker, perspective: ShortStateCharacter){
+        perspective.nextSceneIWannaBeIn = maker
+        Controller.singleton!!.shortThread!!.endScene(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.shortGameScene!!)
+        Controller.singleton!!.GUI!!.refocus()
     }
 
     fun shortButton(text: String, action: EventHandler<ActionEvent>?): Button {
         val retval = Button(text)
-        retval.setMinSize(parent.totalWidth / 4, parent.totalHeight / 12)
+        retval.setMinSize(totalWidth / 4, totalHeight / 12)
         if (action != null) {
             retval.onAction = action
         }
@@ -121,7 +103,7 @@ class UtilityComponentFactory {
 
     fun shortWideButton(text: String, action: EventHandler<ActionEvent>?): Button {
         val retval = Button(text)
-        retval.setMinSize(parent.totalWidth, parent.totalHeight / 12)
+        retval.setMinSize(totalWidth, totalHeight / 12)
         if (action != null) {
             retval.onAction = action
         }

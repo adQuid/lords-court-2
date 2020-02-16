@@ -17,11 +17,13 @@ import kotlin.system.exitProcess
 
 const val SIZE_SCALE = 0.8
 
+var totalWidth = 1200.0 * SIZE_SCALE
+var totalHeight = 1080.0 * SIZE_SCALE
+
 class MainUI() : Application() {
 
     private var stage: Stage? = null
 
-    var utilityComponents = UtilityComponentFactory(this)
     var sceneComponents = SceneComponentFactory(this)
     var conversationComponents = ConversationComponentFactory(this)
     var nonSceneComponents = WaitingSceneComponentFactory(this)
@@ -113,15 +115,15 @@ class MainUI() : Application() {
 
     fun display(){
         if(curFocus == Focus.CHARACTER){
-            setScene(characterDetailComponents.characterFocusPage())
+            setScene(characterDetailComponents.characterFocusPage(playingAs()))
         }else if(curFocus == Focus.SELECT_MODAL){
             setScene(selectModal!!.getScene())
         }else if(curFocus == Focus.LINE) {
-            setScene(conversationComponents.lineConstructionOptions())
+            setScene(conversationComponents.lineConstructionOptions(playingAs()))
         } else if(curFocus == Focus.SCENE){
-           setScene(sceneComponents.scenePage())
+           setScene(sceneComponents.scenePage(playingAs()))
         } else{
-           setScene(nonSceneComponents.waitingPage())
+           setScene(nonSceneComponents.waitingPage(playingAs()))
         }
 
         this.stage!!.show()
