@@ -37,7 +37,7 @@ class SceneComponentFactory {
             val otherPlayer = parent.shortGameScene!!.conversation!!.otherParticipant(parent.playingAs())
             backgroundView = UtilityComponentFactory.imageView(parent.shortGameScene!!.room.pictureText)
             val characterView = UtilityComponentFactory.imageView(otherPlayer.player.pictureString)
-            characterView.setOnMouseClicked { event -> parent.focusOn(otherPlayer.player) }
+            characterView.setOnMouseClicked { event -> parent.focusOn(otherPlayer) }
             imagePane.children.addAll(backgroundView, characterView)
         } else {
             backgroundView = UtilityComponentFactory.imageView(parent.shortGameScene!!.room.pictureText)

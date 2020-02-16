@@ -5,6 +5,7 @@ import aibrain.ConversationBrain
 import aibrain.SceneBrain
 import game.GameCharacter
 import game.Game
+import javafx.scene.Scene
 import shortstate.dialog.Line
 import shortstate.dialog.linetypes.Announcement
 import shortstate.dialog.linetypes.RequestReport
@@ -12,8 +13,10 @@ import shortstate.report.GlobalReportTypeFactory
 import shortstate.report.Report
 import shortstate.report.ReportType
 import shortstate.scenemaker.SceneMaker
+import ui.Displayable
+import ui.componentfactory.CharacterDetailComponentFactory
 
-class ShortStateCharacter {
+class ShortStateCharacter: Displayable {
 
     val PLAYER_NAME = "PLAYER"
     val player: GameCharacter
@@ -86,5 +89,10 @@ class ShortStateCharacter {
 
     fun reportOfType(type: ReportType): Report {
         return knownReports.filter { report -> report.type() == type }[0]
+    }
+
+    override fun display(perspective: ShortStateCharacter): Scene {
+        //remember, the constructor is the one being looked at
+        return CharacterDetailComponentFactory(this).characterFocusPage(perspective)
     }
 }

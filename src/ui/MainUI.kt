@@ -27,7 +27,6 @@ class MainUI() : Application() {
 
     var sceneComponents = SceneComponentFactory(this)
     var nonSceneComponents = WaitingSceneComponentFactory(this)
-    var characterDetailComponents = CharacterDetailComponentFactory(this)
 
     var totalWidth = 1200.0 * SIZE_SCALE
     var totalHeight = 1080.0 * SIZE_SCALE
@@ -35,7 +34,7 @@ class MainUI() : Application() {
     var shortGameScene: shortstate.ShortGameScene? = null
     var conversation: Conversation? = null
     var selectModal: SelectionModal<*>? = null
-    var character: game.GameCharacter? = null
+    var character: ShortStateCharacter? = null
 
     private var lastFocus: Focus = Focus.GENERAL
     private var curFocus = Focus.GENERAL
@@ -93,7 +92,7 @@ class MainUI() : Application() {
         } else if(focus is SelectionModal<*>){
             selectModal = focus
             curFocus = Focus.SELECT_MODAL
-        } else if(focus is game.GameCharacter){
+        } else if(focus is ShortStateCharacter){
             character = focus
             curFocus = Focus.CHARACTER
         } else {
@@ -115,7 +114,7 @@ class MainUI() : Application() {
 
     fun display(){
         if(curFocus == Focus.CHARACTER){
-            setScene(characterDetailComponents.characterFocusPage(playingAs()))
+            setScene(character!!.display(playingAs()))
         }else if(curFocus == Focus.SELECT_MODAL){
             setScene(selectModal!!.getScene())
         }else if(curFocus == Focus.CONVERSATION) {
