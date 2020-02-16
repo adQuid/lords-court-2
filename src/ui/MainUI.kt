@@ -113,7 +113,7 @@ class MainUI() : Application() {
         if(curFocus == Focus.CHARACTER){
             setScene(character!!.display(playingAs()))
         }else if(curFocus == Focus.SELECT_MODAL){
-            setScene(selectModal!!.getScene())
+            setScene(selectModal!!.display(playingAs()))
         }else if(curFocus == Focus.CONVERSATION) {
             setScene(shortGameScene!!.display(playingAs()))
         } else if(curFocus == Focus.SCENE){

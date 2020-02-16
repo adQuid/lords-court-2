@@ -10,11 +10,13 @@ import javafx.scene.control.ListCell
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
+import shortstate.ShortStateCharacter
+import ui.Displayable
 import ui.MainUI
 import ui.componentfactory.UtilityComponentFactory
 
 
-class SelectionModal<T> {
+class SelectionModal<T>: Displayable {
 
     val parent: MainUI
     val options: List<Tab<T>>
@@ -27,6 +29,10 @@ class SelectionModal<T> {
         this.options = options
         this.focusedTab = options[0]
         this.closeAction = action
+    }
+
+    override fun display(perspective: ShortStateCharacter): Scene {
+        return getScene()
     }
 
     fun getScene(): Scene {
