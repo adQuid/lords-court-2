@@ -1,10 +1,13 @@
 package shortstate
 
+import javafx.scene.Scene
 import shortstate.dialog.Line
 import shortstate.dialog.Memory
 import shortstate.dialog.GlobalLineTypeFactory
+import ui.Displayable
+import ui.componentfactory.ConversationComponentFactory
 
-class Conversation {
+class Conversation: Displayable {
 
     val INITIATOR_NAME = "INITER"
     val initiator: ShortStateCharacter
@@ -17,6 +20,9 @@ class Conversation {
     var lastLine: Line? = null
 
     var age = 0
+
+    //TODO: Loosen coupling
+    val display = ConversationComponentFactory(this)
 
     constructor(initiator: ShortStateCharacter, target: ShortStateCharacter){
         this.initiator = initiator
@@ -74,5 +80,9 @@ class Conversation {
             lastSpeaker = otherParticipant(lastSpeaker)
             otherParticipant(lastSpeaker).player.memory.add(Memory(line))
         }
+    }
+
+    override fun display(perspective: ShortStateCharacter): Scene {
+        return display.inConvoPage(perspective)
     }
 }

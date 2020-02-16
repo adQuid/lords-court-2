@@ -24,7 +24,7 @@ class SceneComponentFactory {
 
     fun scenePage(perspective: ShortStateCharacter): Scene {
         if(parent.shortGameScene!!.conversation != null){
-            return parent.conversationComponents.inConvoPage(perspective)
+            return parent.shortGameScene!!.conversation!!.display(perspective)
         } else {
             return outOfConvoPage(perspective)
         }

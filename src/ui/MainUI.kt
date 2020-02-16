@@ -7,6 +7,7 @@ import javafx.stage.Stage
 import javafx.scene.Scene
 import javafx.stage.WindowEvent
 import main.Controller
+import shortstate.Conversation
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
@@ -25,7 +26,6 @@ class MainUI() : Application() {
     private var stage: Stage? = null
 
     var sceneComponents = SceneComponentFactory(this)
-    var conversationComponents = ConversationComponentFactory(this)
     var nonSceneComponents = WaitingSceneComponentFactory(this)
     var characterDetailComponents = CharacterDetailComponentFactory(this)
 
@@ -33,7 +33,7 @@ class MainUI() : Application() {
     var totalHeight = 1080.0 * SIZE_SCALE
 
     var shortGameScene: shortstate.ShortGameScene? = null
-    var lineBeingConstructed: Line? = null
+    var conversation: Conversation? = null
     var selectModal: SelectionModal<*>? = null
     var character: game.GameCharacter? = null
 
@@ -41,7 +41,7 @@ class MainUI() : Application() {
     private var curFocus = Focus.GENERAL
 
     private enum class Focus{
-        GENERAL, SCENE, LINE, CHARACTER, SELECT_MODAL
+        GENERAL, SCENE, CONVERSATION, CHARACTER, SELECT_MODAL
     }
 
     override fun init(){
@@ -74,22 +74,22 @@ class MainUI() : Application() {
     }
 
     fun focusOn(focus: Any?){
-        if(curFocus != null){
+        if(curFocus != null && curFocus != Focus.SELECT_MODAL){
             lastFocus = curFocus
         }
         if(focus == null){
             shortGameScene = null
-            lineBeingConstructed = null
+            conversation = null
             curFocus = Focus.GENERAL
         } else if(focus is shortstate.ShortGameScene){
             shortGameScene = focus
-            lineBeingConstructed = null
+            conversation = null
             selectModal = null
             curFocus = Focus.SCENE
-        } else if(focus is Line){
-            lineBeingConstructed = focus
+        } else if(focus is Conversation){
+            conversation = focus
             selectModal = null
-            curFocus = Focus.LINE
+            curFocus = Focus.CONVERSATION
         } else if(focus is SelectionModal<*>){
             selectModal = focus
             curFocus = Focus.SELECT_MODAL
@@ -118,12 +118,12 @@ class MainUI() : Application() {
             setScene(characterDetailComponents.characterFocusPage(playingAs()))
         }else if(curFocus == Focus.SELECT_MODAL){
             setScene(selectModal!!.getScene())
-        }else if(curFocus == Focus.LINE) {
-            setScene(conversationComponents.lineConstructionOptions(playingAs()))
+        }else if(curFocus == Focus.CONVERSATION) {
+            setScene(sceneComponents.scenePage(playingAs()))
         } else if(curFocus == Focus.SCENE){
-           setScene(sceneComponents.scenePage(playingAs()))
+            setScene(sceneComponents.scenePage(playingAs()))
         } else{
-           setScene(nonSceneComponents.waitingPage(playingAs()))
+            setScene(nonSceneComponents.waitingPage(playingAs()))
         }
 
         this.stage!!.show()

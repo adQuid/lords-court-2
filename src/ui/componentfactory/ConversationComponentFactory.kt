@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.Controller
+import shortstate.Conversation
 import shortstate.ShortStateCharacter
 import shortstate.dialog.linetypes.traits.HasAction
 import shortstate.dialog.linetypes.traits.HasReportType
@@ -18,104 +19,106 @@ import ui.MainUI
 import ui.MyAnchorPane
 import ui.selectionmodal.SelectionModal
 import ui.selectionmodal.Tab
+import ui.totalHeight
+import ui.totalWidth
 
 
 class ConversationComponentFactory {
 
-    val parent: MainUI
+    val conversation: Conversation
+    var lineBeingConstructed: Line? = null
 
     var myLineSymbolic: Boolean = true
     var otherLineSymbolic: Boolean = false
 
-    constructor(parent: MainUI){
-        this.parent = parent
+    constructor(conversation: Conversation){
+        this.conversation = conversation
     }
 
     fun inConvoPage(perspective: ShortStateCharacter): Scene{
-        val actionButtons =
-        if(parent.shortGameScene!!.conversation!!.lastLine != null
-            && parent.shortGameScene!!.conversation!!.lastLine!!.possibleReplies().isNotEmpty()){
-            parent.shortGameScene!!.conversation!!.lastLine!!.possibleReplies()
-                .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {parent.focusOn(line); parent.display()}) }
+        val actionButtons = buttons(perspective)
+
+        val pane = GridPane()
+        pane.add(conversationBackgroundImage(perspective), 0,0)
+        pane.add(UtilityComponentFactory.bottomPane(actionButtons, perspective), 0, 1)
+        val scene = Scene(pane, totalWidth, totalHeight)
+        return scene
+    }
+
+    private fun buttons(perspective: ShortStateCharacter): List<Button> {
+        var retval = mutableListOf<Button>()
+        if(lineBeingConstructed != null){
+            if(lineBeingConstructed is HasAction){
+                retval.add(UtilityComponentFactory.shortButton("Select Action",
+                    EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
+                        SelectionModal(Controller.singleton!!.GUI!!,
+                            listOf(Tab("Basic Actions",Controller.singleton!!.game!!.possibleActionsForPlayer(perspective.player))),
+                            { action ->
+                                (lineBeingConstructed as HasAction).mySetAction(action); focusOnLine(lineBeingConstructed!!)
+                            })
+                    )})
+                )
+            }
+            if(lineBeingConstructed is HasReportType){
+                retval.add(UtilityComponentFactory.shortButton("Select Report",
+                    EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
+                        SelectionModal(Controller.singleton!!.GUI!!,
+                            listOf(Tab("Reports",Controller.singleton!!.GUI!!.playingAs().player.titles.flatMap { title -> title.reportsEntitled })),
+                            { reportType ->
+                                (lineBeingConstructed as HasReportType).mySetReportType(reportType); focusOnLine(lineBeingConstructed!!)
+                            })
+                    )})
+                )
+            }
+            if(lineBeingConstructed!!.validToSend()){
+                retval.add(UtilityComponentFactory.shortButton("Commit Line",
+                    EventHandler { _ -> conversation.submitLine(lineBeingConstructed!!, Controller.singleton!!.shortThreadForPlayer(perspective).shortGame);
+                        lineBeingConstructed = null; Controller.singleton!!.GUI!!.defocus()}))
+            }
+            retval.add(UtilityComponentFactory.shortButton(
+                "Cancel",
+                EventHandler { Controller.singleton!!.GUI!!.defocus()})
+            )
         } else {
-            parent.playingAs().defaultConversationLines().map{ line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler { parent.focusOn(line); parent.display() })}
+            if(conversation.lastLine != null
+                && conversation.lastLine!!.possibleReplies().isNotEmpty()){
+                retval = conversation.lastLine!!.possibleReplies()
+                    .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line)}) }.toMutableList()
+            } else {
+                retval = perspective.defaultConversationLines().map{ line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line)})}.toMutableList()
+            }
+            retval.add(UtilityComponentFactory.newSceneButton(perspective))
         }
-        val leaveButton = UtilityComponentFactory.newSceneButton(perspective)
 
-        val pane = GridPane()
-        pane.add(parent.conversationComponents.conversationBackgroundImage(), 0,0)
-        pane.add(UtilityComponentFactory.bottomPane(actionButtons + leaveButton, perspective), 0, 1)
-        val scene = Scene(pane, parent.totalWidth, parent.totalHeight)
-        return scene
+        return retval
     }
 
-    fun lineConstructionOptions(perspective: ShortStateCharacter): Scene {
+    fun conversationBackgroundImage(perspective: ShortStateCharacter): Pane {
+        val imagePane = SceneComponentFactory(Controller.singleton!!.GUI!!).sceneImage()
 
-        var buttonList = mutableListOf<Button>()
-        if(parent.lineBeingConstructed is HasAction){
-            buttonList.add(UtilityComponentFactory.shortButton("Select Action",
-                EventHandler { _ -> parent.focusOn(
-                    SelectionModal(parent,
-                        listOf(Tab("Basic Actions",Controller.singleton!!.game!!.possibleActionsForPlayer(parent.playingAs().player))),
-                        { action ->
-                            (parent.lineBeingConstructed as HasAction).mySetAction(action); parent.focusOn(parent.lineBeingConstructed)
-                        })
-                )})
-            )
-        }
-        if(parent.lineBeingConstructed is HasReportType){
-            buttonList.add(UtilityComponentFactory.shortButton("Select Report",
-                EventHandler { _ -> parent.focusOn(
-                    SelectionModal(parent,
-                        listOf(Tab("Reports",parent.playingAs().player.titles.flatMap { title -> title.reportsEntitled })),
-                        { reportType ->
-                            (parent.lineBeingConstructed as HasReportType).mySetReportType(reportType); parent.focusOn(parent.lineBeingConstructed)
-                        })
-                )})
-            )
-        }
-        if(parent.lineBeingConstructed!!.validToSend()){
-            buttonList.add(UtilityComponentFactory.shortButton("Commit Line",
-                EventHandler { _ -> parent.shortGameScene!!.conversation!!.submitLine(parent.lineBeingConstructed!!, parent.shortGame()); parent.lineBeingConstructed = null; parent.focusOn(parent.shortGameScene)}))
-        }
-        buttonList.add(UtilityComponentFactory.shortButton(
-            "Cancel",
-            EventHandler { parent.focusOn(parent.shortGameScene)})
-        )
-
-        val pane = GridPane()
-        pane.add(conversationBackgroundImage(), 0, 0)
-        pane.add(UtilityComponentFactory.bottomPane(buttonList, perspective), 0, 1)
-        val scene = Scene(pane, parent.totalWidth, parent.totalHeight)
-        return scene
-    }
-
-    fun conversationBackgroundImage(): Pane {
-        val imagePane = parent.sceneComponents.sceneImage()
-
-        if(parent.shortGameScene!!.conversation != null){
+        if(conversation != null){
             val npcSpeechView = UtilityComponentFactory.imageView("assets//general//leftSpeechBubble.png")
             val playerSpeechView = UtilityComponentFactory.imageView("assets//general//rightSpeechBubble.png")
             imagePane.children.addAll(npcSpeechView, playerSpeechView)
 
-            imagePane.children.add(descriptionPane())
+            imagePane.children.add(descriptionPane(perspective))
 
             val lineAnchorPane = MyAnchorPane()
-            linePane(lineAnchorPane, parent.lineBeingConstructed, myLineSymbolic, true)
-            linePane(lineAnchorPane, parent.shortGameScene!!.conversation!!.lastLine, otherLineSymbolic, false)
+            linePane(lineAnchorPane, lineBeingConstructed, myLineSymbolic, true)
+            linePane(lineAnchorPane, conversation.lastLine, otherLineSymbolic, false)
 
             imagePane.children.add(lineAnchorPane.realPane)
         }
         return imagePane
     }
 
-    private fun descriptionPane(): AnchorPane{
-        val nameText = Text(10.0, 50.0, parent.shortGameScene!!.conversation!!.otherParticipant(parent.playingAs()).toString())
+    private fun descriptionPane(perspective: ShortStateCharacter): AnchorPane{
+        val nameText = Text(10.0, 50.0, conversation.otherParticipant(perspective).toString())
         nameText.font = Font(24.0)
         val descriptionAnchorPane = MyAnchorPane()
         descriptionAnchorPane.realPane.children.add(nameText)
-        descriptionAnchorPane.setTopAnchor(nameText, parent.totalHeight * 0.03)
-        descriptionAnchorPane.setLeftAnchor(nameText, parent.totalWidth * 0.35)
+        descriptionAnchorPane.setTopAnchor(nameText, totalHeight * 0.03)
+        descriptionAnchorPane.setLeftAnchor(nameText, totalWidth * 0.35)
         return descriptionAnchorPane.realPane
     }
 
@@ -132,38 +135,44 @@ class ConversationComponentFactory {
             var index = 0 //gotta be a better way to do this
             line.symbolicForm().forEach { block ->
                 val playerLineText = Text(block.toString())
-                playerLineText.maxWidth(parent.totalWidth / 2)
-                if (parent.totalWidth > 600.0) {
+                playerLineText.maxWidth(totalWidth / 2)
+                if (totalWidth > 600.0) {
                     playerLineText.font = Font(20.0)
                 }
-                playerLineText.wrappingWidth = parent.totalWidth * 0.28
+                playerLineText.wrappingWidth = totalWidth * 0.28
                 (lineNode as GridPane).add(playerLineText, 0, index++)
             }
         } else {
-            lineNode = Text(line.fullTextForm(parent.shortGameScene!!.conversation!!.lastSpeaker.player, parent.shortGameScene!!.conversation!!.otherParticipant(parent.shortGameScene!!.conversation!!.lastSpeaker).player))
+            lineNode = Text(line.fullTextForm(conversation.lastSpeaker.player, conversation.otherParticipant(conversation.lastSpeaker).player))
 
-            lineNode.maxWidth(parent.totalWidth / 2)
-            if (parent.totalWidth > 800.0) {
+            lineNode.maxWidth(totalWidth / 2)
+            if (totalWidth > 800.0) {
                 lineNode.font = Font(16.0)
             }
-            lineNode.wrappingWidth = parent.totalWidth * 0.28
+            lineNode.wrappingWidth = totalWidth * 0.28
         }
 
         if(left){
-            lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; parent.display() }
+            lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; Controller.singleton!!.GUI!!.display() }
         } else {
-            lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; parent.display() }
+            lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; Controller.singleton!!.GUI!!.display() }
         }
 
         pane.realPane.children.add(lineNode)
 
-        pane.setTopAnchor(lineNode, parent.totalHeight * 0.03);
+        pane.setTopAnchor(lineNode, totalHeight * 0.03);
         if(left){
-            pane.setLeftAnchor(lineNode, parent.totalWidth * 0.03);
+            pane.setLeftAnchor(lineNode, totalWidth * 0.03);
         } else {
-            pane.setLeftAnchor(lineNode, parent.totalWidth * 0.693);
+            pane.setLeftAnchor(lineNode, totalWidth * 0.693);
         }
 
         return pane
     }
+
+    fun focusOnLine(line: Line){
+        lineBeingConstructed = line
+        Controller.singleton!!.GUI!!.focusOn(conversation)
+    }
+
 }

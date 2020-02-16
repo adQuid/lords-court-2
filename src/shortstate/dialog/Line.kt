@@ -4,6 +4,9 @@ import aibrain.ConversationBrain
 import shortstate.Conversation
 import game.GameCharacter
 import game.Game
+import javafx.scene.Scene
+import shortstate.ShortStateCharacter
+import ui.Displayable
 
 abstract class Line {
 
