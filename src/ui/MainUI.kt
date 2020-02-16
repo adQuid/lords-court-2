@@ -26,7 +26,6 @@ class MainUI() : Application() {
     private var stage: Stage? = null
 
     var sceneComponents = SceneComponentFactory(this)
-    var nonSceneComponents = WaitingSceneComponentFactory(this)
 
     var totalWidth = 1200.0 * SIZE_SCALE
     var totalHeight = 1080.0 * SIZE_SCALE
@@ -122,7 +121,7 @@ class MainUI() : Application() {
         } else if(curFocus == Focus.SCENE){
             setScene(sceneComponents.scenePage(playingAs()))
         } else{
-            setScene(nonSceneComponents.waitingPage(playingAs()))
+            setScene(WaitingSceneComponentFactory().waitingPage(playingAs()))
         }
 
         this.stage!!.show()
