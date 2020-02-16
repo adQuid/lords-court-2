@@ -25,8 +25,6 @@ class MainUI() : Application() {
 
     private var stage: Stage? = null
 
-    var sceneComponents = SceneComponentFactory(this)
-
     var totalWidth = 1200.0 * SIZE_SCALE
     var totalHeight = 1080.0 * SIZE_SCALE
 
@@ -117,9 +115,9 @@ class MainUI() : Application() {
         }else if(curFocus == Focus.SELECT_MODAL){
             setScene(selectModal!!.getScene())
         }else if(curFocus == Focus.CONVERSATION) {
-            setScene(sceneComponents.scenePage(playingAs()))
+            setScene(shortGameScene!!.display(playingAs()))
         } else if(curFocus == Focus.SCENE){
-            setScene(sceneComponents.scenePage(playingAs()))
+            setScene(shortGameScene!!.display(playingAs()))
         } else{
             setScene(WaitingSceneComponentFactory().waitingPage(playingAs()))
         }

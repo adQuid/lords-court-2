@@ -7,7 +7,7 @@ import shortstate.dialog.GlobalLineTypeFactory
 import ui.Displayable
 import ui.componentfactory.ConversationComponentFactory
 
-class Conversation: Displayable {
+class Conversation {
 
     val INITIATOR_NAME = "INITER"
     val initiator: ShortStateCharacter
@@ -80,9 +80,5 @@ class Conversation: Displayable {
             lastSpeaker = otherParticipant(lastSpeaker)
             otherParticipant(lastSpeaker).player.memory.add(Memory(line))
         }
-    }
-
-    override fun display(perspective: ShortStateCharacter): Scene {
-        return display.inConvoPage(perspective)
     }
 }

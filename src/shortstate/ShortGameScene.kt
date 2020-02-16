@@ -1,9 +1,12 @@
 package shortstate
 
 import game.GameCharacter
+import javafx.scene.Scene
 import shortstate.room.Room
+import ui.Displayable
+import ui.componentfactory.SceneComponentFactory
 
-class ShortGameScene {
+class ShortGameScene: Displayable {
 
     val CONVERSATION_NAME = "CONVO"
     val conversation: Conversation?
@@ -12,10 +15,14 @@ class ShortGameScene {
     val ROOM_NAME = "ROOM"
     val room: Room
 
+    //TODO: loosen coupling
+    val display: SceneComponentFactory
+
     constructor(characters: List<ShortStateCharacter>, room: Room, conversation: Conversation?){
         this.characters = characters
         this.room = room
         this.conversation = conversation
+        this.display = SceneComponentFactory(this)
     }
 
     constructor(parent: ShortStateGame, saveString: Map<String,Any?>){
@@ -26,6 +33,7 @@ class ShortGameScene {
         }
         this.characters = (saveString[CHARACTERS_NAME] as List<Int>).map { id -> parent.shortPlayerForLongPlayer(parent.game.characterById(id))!! }
         this.room = Room(parent, saveString[ROOM_NAME] as Map<String, Any>)
+        this.display = SceneComponentFactory(this)
     }
 
     fun saveString(): Map<String, Any?>{
@@ -55,5 +63,9 @@ class ShortGameScene {
 
     fun hasAPC(): Boolean{
         return characters.filter { char -> !char.player.npc }.isNotEmpty()
+    }
+
+    override fun display(perspective: ShortStateCharacter): Scene {
+        return display.scenePage(perspective)
     }
 }

@@ -35,17 +35,7 @@ class ConversationComponentFactory {
         this.conversation = conversation
     }
 
-    fun inConvoPage(perspective: ShortStateCharacter): Scene{
-        val actionButtons = buttons(perspective)
-
-        val pane = GridPane()
-        pane.add(conversationBackgroundImage(perspective), 0,0)
-        pane.add(UtilityComponentFactory.bottomPane(actionButtons, perspective), 0, 1)
-        val scene = Scene(pane, totalWidth, totalHeight)
-        return scene
-    }
-
-    private fun buttons(perspective: ShortStateCharacter): List<Button> {
+    fun buttons(perspective: ShortStateCharacter): List<Button> {
         var retval = mutableListOf<Button>()
         if(lineBeingConstructed != null){
             if(lineBeingConstructed is HasAction){
@@ -77,7 +67,7 @@ class ConversationComponentFactory {
             }
             retval.add(UtilityComponentFactory.shortButton(
                 "Cancel",
-                EventHandler { Controller.singleton!!.GUI!!.defocus()})
+                EventHandler { lineBeingConstructed = null; Controller.singleton!!.GUI!!.defocus()})
             )
         } else {
             if(conversation.lastLine != null
@@ -93,23 +83,22 @@ class ConversationComponentFactory {
         return retval
     }
 
-    fun conversationBackgroundImage(perspective: ShortStateCharacter): Pane {
-        val imagePane = SceneComponentFactory(Controller.singleton!!.GUI!!).sceneImage()
+    fun conversationPane(backgroundPane: Pane, perspective: ShortStateCharacter): Pane {
 
         if(conversation != null){
             val npcSpeechView = UtilityComponentFactory.imageView("assets//general//leftSpeechBubble.png")
             val playerSpeechView = UtilityComponentFactory.imageView("assets//general//rightSpeechBubble.png")
-            imagePane.children.addAll(npcSpeechView, playerSpeechView)
+            backgroundPane.children.addAll(npcSpeechView, playerSpeechView)
 
-            imagePane.children.add(descriptionPane(perspective))
+            backgroundPane.children.add(descriptionPane(perspective))
 
             val lineAnchorPane = MyAnchorPane()
             linePane(lineAnchorPane, lineBeingConstructed, myLineSymbolic, true)
             linePane(lineAnchorPane, conversation.lastLine, otherLineSymbolic, false)
 
-            imagePane.children.add(lineAnchorPane.realPane)
+            backgroundPane.children.add(lineAnchorPane.realPane)
         }
-        return imagePane
+        return backgroundPane
     }
 
     private fun descriptionPane(perspective: ShortStateCharacter): AnchorPane{
