@@ -44,7 +44,7 @@ class ConversationComponentFactory {
                         SelectionModal(Controller.singleton!!.GUI!!,
                             listOf(Tab("Basic Actions",Controller.singleton!!.game!!.possibleActionsForPlayer(perspective.player))),
                             { action ->
-                                (lineBeingConstructed as HasAction).mySetAction(action); focusOnLine(lineBeingConstructed!!)
+                                (lineBeingConstructed as HasAction).mySetAction(action); focusOnLine(lineBeingConstructed!!); Controller.singleton!!.GUI!!.defocus()
                             })
                     )})
                 )
@@ -55,7 +55,7 @@ class ConversationComponentFactory {
                         SelectionModal(Controller.singleton!!.GUI!!,
                             listOf(Tab("Reports",Controller.singleton!!.GUI!!.playingAs().player.titles.flatMap { title -> title.reportsEntitled })),
                             { reportType ->
-                                (lineBeingConstructed as HasReportType).mySetReportType(reportType); focusOnLine(lineBeingConstructed!!)
+                                (lineBeingConstructed as HasReportType).mySetReportType(reportType); focusOnLine(lineBeingConstructed!!); Controller.singleton!!.GUI!!.defocus()
                             })
                     )})
                 )
@@ -67,16 +67,18 @@ class ConversationComponentFactory {
             }
             retval.add(UtilityComponentFactory.shortButton(
                 "Cancel",
-                EventHandler { lineBeingConstructed = null; Controller.singleton!!.GUI!!.defocus()})
+                EventHandler { lineBeingConstructed = null; Controller.singleton!!.GUI!!.display()})
             )
         } else {
+            val linesList =
             if(conversation.lastLine != null
                 && conversation.lastLine!!.possibleReplies().isNotEmpty()){
-                retval = conversation.lastLine!!.possibleReplies()
-                    .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line)}) }.toMutableList()
+                conversation.lastLine!!.possibleReplies()
             } else {
-                retval = perspective.defaultConversationLines().map{ line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line)})}.toMutableList()
+                perspective.defaultConversationLines()
             }
+            retval = linesList
+                .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line); Controller.singleton!!.GUI!!.display()})}.toMutableList()
             retval.add(UtilityComponentFactory.newSceneButton(perspective))
         }
 
@@ -161,7 +163,6 @@ class ConversationComponentFactory {
 
     fun focusOnLine(line: Line){
         lineBeingConstructed = line
-        Controller.singleton!!.GUI!!.focusOn(conversation)
     }
 
 }

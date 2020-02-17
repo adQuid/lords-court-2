@@ -12,7 +12,6 @@ import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import shortstate.room.Room
 import shortstate.room.RoomAction
-import ui.MainUI
 import ui.selectionmodal.SelectionModal
 import ui.selectionmodal.Tab
 import ui.totalHeight
@@ -68,7 +67,7 @@ class SceneComponentFactory {
         val btn2 = if(scene.room.getActions(perspective.player).isNotEmpty()){
             UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
                 Controller.singleton!!.GUI!!.focusOn(SelectionModal(Controller.singleton!!.GUI!!, roomActionButtons(scene.room, perspective),
-                    { action -> action.doAction(Controller.singleton!!.shortThreadForPlayer(perspective), perspective); Controller.singleton!!.GUI!!.refocus()}))
+                    { action -> action.doAction(Controller.singleton!!.shortThreadForPlayer(perspective), perspective); Controller.singleton!!.GUI!!.resetFocus()}))
             })
         } else {
             UtilityComponentFactory.shortButton("No Actions In this Room", null)

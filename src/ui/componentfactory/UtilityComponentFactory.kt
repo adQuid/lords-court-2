@@ -14,7 +14,6 @@ import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
-import ui.SIZE_SCALE
 import ui.selectionmodal.SelectionModal
 import ui.selectionmodal.Tab
 import ui.totalHeight
@@ -59,7 +58,7 @@ object UtilityComponentFactory {
         val saveButton = shortButton("Save", EventHandler { Controller.singleton!!.save()})
         retval.add(saveButton, 1,0)
 
-        val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); Controller.singleton!!.GUI!!.refocus()})
+        val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); Controller.singleton!!.GUI!!.resetFocus()})
         retval.add(loadButton, 2,0)
 
         return retval
@@ -89,7 +88,7 @@ object UtilityComponentFactory {
     private fun goToNewSceneIfApplicable(maker: SceneMaker, perspective: ShortStateCharacter){
         perspective.nextSceneIWannaBeIn = maker
         Controller.singleton!!.shortThread!!.endScene(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.shortGameScene!!)
-        Controller.singleton!!.GUI!!.refocus()
+        Controller.singleton!!.GUI!!.resetFocus()
     }
 
     fun shortButton(text: String, action: EventHandler<ActionEvent>?): Button {
