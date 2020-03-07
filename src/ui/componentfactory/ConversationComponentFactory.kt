@@ -89,7 +89,9 @@ class ConversationComponentFactory {
 
         if(conversation != null){
             val npcSpeechView = UtilityComponentFactory.imageView("assets//general//leftSpeechBubble.png")
+            npcSpeechView.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; Controller.singleton!!.GUI!!.display() }
             val playerSpeechView = UtilityComponentFactory.imageView("assets//general//rightSpeechBubble.png")
+            playerSpeechView.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; Controller.singleton!!.GUI!!.display() }
             backgroundPane.children.addAll(npcSpeechView, playerSpeechView)
 
             backgroundPane.children.add(descriptionPane(perspective))
@@ -125,13 +127,21 @@ class ConversationComponentFactory {
 
             var index = 0 //gotta be a better way to do this
             line.symbolicForm().forEach { block ->
-                val playerLineText = Text(block.toString())
+                val playerLineText = block.textForm()
                 playerLineText.maxWidth(totalWidth / 2)
                 if (totalWidth > 600.0) {
                     playerLineText.font = Font(20.0)
                 }
                 playerLineText.wrappingWidth = totalWidth * 0.28
                 (lineNode as GridPane).add(playerLineText, 0, index++)
+
+                if(block.behavior==null){
+                    if(left){
+                        playerLineText.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; Controller.singleton!!.GUI!!.display() }
+                    } else {
+                        playerLineText.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; Controller.singleton!!.GUI!!.display() }
+                    }
+                }
             }
         } else {
             lineNode = Text(line.fullTextForm(conversation.lastSpeaker.player, conversation.otherParticipant(conversation.lastSpeaker).player))
@@ -141,12 +151,12 @@ class ConversationComponentFactory {
                 lineNode.font = Font(16.0)
             }
             lineNode.wrappingWidth = totalWidth * 0.28
-        }
 
-        if(left){
-            lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; Controller.singleton!!.GUI!!.display() }
-        } else {
-            lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; Controller.singleton!!.GUI!!.display() }
+            if(left){
+                lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; Controller.singleton!!.GUI!!.display() }
+            } else {
+                lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; Controller.singleton!!.GUI!!.display() }
+            }
         }
 
         pane.realPane.children.add(lineNode)

@@ -7,6 +7,7 @@ import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.GameCharacter
 import game.Game
+import main.Controller
 import shortstate.dialog.GlobalLineTypeFactory
 
 class OfferDeal: Line {
@@ -28,7 +29,12 @@ class OfferDeal: Line {
     }
 
     override fun symbolicForm(): List<LineBlock> {
-        return listOf(LineBlock("OFFER:"), LineBlock(if(deal == null) "Deal:___________" else "Deal: "+deal.toString()))
+        val dealBlock = if(deal==null){
+            LineBlock("Deal:___________")
+        } else {
+            LineBlock("Deal: [CLICK FOR DETAILS]", { Controller.singleton!!.GUI!!.focusOn(deal)})
+        }
+        return listOf(LineBlock("OFFER:"), dealBlock)
     }
 
     override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {

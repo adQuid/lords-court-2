@@ -4,7 +4,6 @@ import javafx.scene.Scene
 import shortstate.dialog.Line
 import shortstate.dialog.Memory
 import shortstate.dialog.GlobalLineTypeFactory
-import ui.Displayable
 import ui.componentfactory.ConversationComponentFactory
 
 class Conversation {

@@ -4,13 +4,20 @@ import game.action.Action
 import game.GameCharacter
 import game.Game
 import game.action.GlobalActionTypeFactory
+import javafx.scene.Scene
+import shortstate.ShortStateCharacter
+import ui.Displayable
+import ui.componentfactory.DealComponentFactory
 
-class Deal {
+class Deal: Displayable {
 
     val actions: Map<GameCharacter, List<Action>>
 
+    val display: DealComponentFactory
+
     constructor(actions: Map<GameCharacter, List<Action>>){
         this.actions = actions
+        display = DealComponentFactory(this)
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
@@ -19,6 +26,7 @@ class Deal {
                 (value as List<Map<String,Any>>).map { map -> Action(GlobalActionTypeFactory.fromMap(map)) } }
 
         actions = tempActions
+        display = DealComponentFactory(this)
     }
 
    fun saveString(): Map<String, Any> {
@@ -38,5 +46,9 @@ class Deal {
         val retval = actions.map{(character, actions) -> "${character.name} will ${actions.toString()}"}
 
         return retval.joinToString(", ")
+    }
+
+    override fun display(perspective: ShortStateCharacter): Scene {
+        return display.scenePage(perspective)
     }
 }
