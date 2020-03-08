@@ -40,7 +40,7 @@ class DealComponentFactory {
         val topPane = GridPane()
         var index = 0
         deal.actions.forEach {
-            val topic = Button(it.key.name)
+            val topic = Button("${it.key.name} will...")
             if(it.key == currentPage){
                 topic.font = Font(18.0)
             } else {
@@ -55,7 +55,9 @@ class DealComponentFactory {
     private fun actionList(actions: List<Action>): Pane {
         val retval = GridPane()
         for((index,action) in actions.withIndex()){
-            retval.add(Text(action.toString()), 0, index)
+            val toAdd = Text(action.toString())
+            toAdd.font = Font(20.0)
+            retval.add(toAdd, 0, index)
         }
         retval.setPrefSize(totalWidth, (5* totalHeight)/6)
         return retval
