@@ -3,6 +3,7 @@ package game
 import aibrain.Deal
 import aibrain.ForecastBrain
 import aibrain.Treaty
+import game.action.Action
 import shortstate.dialog.Memory
 
 class GameCharacter {
@@ -113,5 +114,9 @@ class GameCharacter {
         } else {
             return name
         }
+    }
+
+    fun actionsEntitled(): List<Action.ActionType>{
+        return titles.flatMap { title -> title.actionsEntitled }
     }
 }

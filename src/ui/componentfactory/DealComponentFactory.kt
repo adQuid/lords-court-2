@@ -3,9 +3,12 @@ package ui.componentfactory
 import aibrain.Deal
 import game.GameCharacter
 import game.action.Action
+import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.Button
+import javafx.scene.control.ListCell
+import javafx.scene.control.ListView
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
@@ -54,13 +57,30 @@ class DealComponentFactory {
 
     private fun actionList(actions: List<Action>): Pane {
         val retval = GridPane()
-        for((index,action) in actions.withIndex()){
-            val toAdd = Text(action.toString())
-            toAdd.font = Font(20.0)
-            retval.add(toAdd, 0, index)
-        }
+
+        val data = FXCollections.observableArrayList<Action>()
+        data.addAll(actions)
+        val listView = ListView<Action>(data)
+        listView.items = data
+        listView.setPrefSize(totalWidth,totalHeight * (5.0/6.0))
+        listView.setCellFactory({ _: ListView<Action> -> ActionPickCell({_ -> }) })
+
+        val newActionButton = UtilityComponentFactory.shortWideButton("Add Action", EventHandler { _ -> println("TEST")})
+
+        retval.add(listView, 0, 0)
+        retval.add(newActionButton, 0 , 1)
+
         retval.setPrefSize(totalWidth, (5* totalHeight)/6)
         return retval
     }
 
+    internal class ActionPickCell<T>(val closeAction: (T) -> Unit) : ListCell<T>() {
+        public override fun updateItem(item: T?, empty: Boolean) {
+            if(item != null){
+                super.updateItem(item, empty)
+                this.graphic = Text(item.toString())
+                this.onMouseClicked = EventHandler{_ -> closeAction(item)}
+            }
+        }
+    }
 }

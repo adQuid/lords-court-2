@@ -70,7 +70,6 @@ class SelectionModal<T>: Displayable {
     }
 
     internal class ActionPickCell<T>(val closeAction: (T) -> Unit) : ListCell<T>() {
-
         public override fun updateItem(item: T?, empty: Boolean) {
             if(item != null){
                 super.updateItem(item, empty)
