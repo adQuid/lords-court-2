@@ -11,6 +11,10 @@ import ui.componentfactory.DealComponentFactory
 
 abstract class Deal: Displayable {
     abstract fun theActions(): Map<GameCharacter, List<Action>>
+
+    abstract fun dialogText(speaker: GameCharacter, target: GameCharacter): String
+
+    abstract fun toFinishedDeal(): FinishedDeal
 }
 
 class FinishedDeal: Deal {
@@ -54,7 +58,7 @@ class FinishedDeal: Deal {
         return UnfinishedDeal(actions)
     }
 
-    fun dialogText(speaker: GameCharacter, target: GameCharacter): String {
+    override fun dialogText(speaker: GameCharacter, target: GameCharacter): String {
         val retval = actions.map{(character, actions) -> "${character.name} will ${actions.toString()}"}
 
         return retval.joinToString(", ")
@@ -62,6 +66,10 @@ class FinishedDeal: Deal {
 
     override fun display(perspective: ShortStateCharacter): Scene {
         return display.scenePage(perspective)
+    }
+
+    override fun toFinishedDeal(): FinishedDeal{
+        return this
     }
 }
 
@@ -85,8 +93,14 @@ class UnfinishedDeal: Deal{
         display = DealComponentFactory(this)
     }
 
-    fun toFinishedDeal(): FinishedDeal{
+    override fun toFinishedDeal(): FinishedDeal{
         return FinishedDeal(actions.toMap())
+    }
+
+    override fun dialogText(speaker: GameCharacter, target: GameCharacter): String {
+        val retval = actions.map{(character, actions) -> "${character.name} will ${actions.toString()}"}
+
+        return retval.joinToString(", ")
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {

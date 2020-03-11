@@ -15,9 +15,9 @@ class OfferDeal: Line {
 
     override val type: String
         get() = GlobalLineTypeFactory.OFFER_DEAL_TYPE_NAME
-    var deal: FinishedDeal? = null
+    var deal: Deal? = null
 
-    constructor(deal: FinishedDeal?){
+    constructor(deal: Deal?){
         this.deal = deal
     }
 
@@ -26,7 +26,11 @@ class OfferDeal: Line {
     }
 
     override fun tooltipName(): String {
-        return "Suggest Action"
+        if(deal == null){
+            return "Offer Deal"
+        } else {
+            return "Offer Counter-proposal"
+        }
     }
 
     override fun symbolicForm(): List<LineBlock> {
@@ -49,7 +53,7 @@ class OfferDeal: Line {
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             GlobalLineTypeFactory.TYPE_NAME to "OfferDeal",
-            "deal" to deal!!.saveString()
+            "deal" to (deal!! as FinishedDeal).saveString()
         )
     }
 
@@ -58,7 +62,8 @@ class OfferDeal: Line {
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf(AcceptDeal(deal), RejectDeal(deal))
+        val newDeal = deal!!.toFinishedDeal()
+        return listOf(AcceptDeal(newDeal), RejectDeal(newDeal), OfferDeal(newDeal.toUnfinishedDeal()))
     }
 
     override fun specialEffect(conversation: Conversation) {
@@ -66,6 +71,6 @@ class OfferDeal: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        return AcceptDeal(deal)
+        return AcceptDeal(deal!!.toFinishedDeal())
     }
 }
