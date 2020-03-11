@@ -1,13 +1,18 @@
 package ui.componentfactory
 
+import game.action.Action
+import javafx.collections.FXCollections
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.control.Button
 import javafx.scene.control.Label
+import javafx.scene.control.ListCell
+import javafx.scene.control.ListView
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
+import javafx.scene.text.Text
 import main.Controller
 import shortstate.ShortStateCharacter
 import shortstate.room.Room
@@ -89,6 +94,31 @@ object UtilityComponentFactory {
         perspective.nextSceneIWannaBeIn = maker
         Controller.singleton!!.shortThread!!.endScene(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.shortGameScene!!)
         Controller.singleton!!.GUI!!.resetFocus()
+    }
+
+    fun backButton(): Button{
+        return shortWideButton("Back", EventHandler { Controller.singleton!!.GUI!!.defocus()})
+    }
+
+    fun <T> basicList(items: List<T>, onClick: (T) -> Unit, width: Double, height: Double): ListView<T> {
+        val data = FXCollections.observableArrayList<T>()
+        data.addAll(items)
+        val listView = ListView<T>(data)
+        listView.items = data
+        listView.setPrefSize(width,height)
+        listView.setCellFactory({ _: ListView<T> -> ActionPickCell(onClick) })
+
+        return listView
+    }
+
+    internal class ActionPickCell<T>(val closeAction: (T) -> Unit) : ListCell<T>() {
+        public override fun updateItem(item: T?, empty: Boolean) {
+            if(item != null){
+                super.updateItem(item, empty)
+                this.graphic = Text(item.toString())
+                this.onMouseClicked = EventHandler{_ -> closeAction(item)}
+            }
+        }
     }
 
     fun shortButton(text: String, action: EventHandler<ActionEvent>?): Button {
