@@ -2,6 +2,7 @@ package shortstate.dialog.linetypes
 
 import aibrain.ConversationBrain
 import aibrain.Deal
+import aibrain.FinishedDeal
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
@@ -14,15 +15,15 @@ class AcceptDeal: Line {
     override val type: String
         get() = GlobalLineTypeFactory.ACCEPT_DEAL_TYPE_NAME
 
-    var deal: Deal? = null
+    var deal: FinishedDeal? = null
 
-    constructor(deal: Deal?){
+    constructor(deal: FinishedDeal?){
         this.deal = deal
     }
 
     constructor(saveString: Map<String, Any?>, game: Game){
         if(saveString["DEAL"] != null){
-            deal = Deal(saveString["DEAL"] as Map<String, Any>, game)
+            deal = FinishedDeal(saveString["DEAL"] as Map<String, Any>, game)
         }
     }
 

@@ -33,8 +33,8 @@ class GameCase {
 
     fun applyDeal(deal: Deal): GameCase{
         val retval = GameCase(this)
-        deal.actions.keys.forEach {
-            retval.baseGame.applyActions(deal.actions[it]!!, it)
+        deal.theActions().keys.forEach {
+            retval.baseGame.applyActions(deal.theActions()[it]!!, it)
         }
         retval.currentGame = retval.calculateGame()
         return retval

@@ -3,14 +3,14 @@ package aibrain
 import game.Game
 
 class Treaty {
-    val deal: Deal
+    val deal: FinishedDeal
 
-    constructor(deal: Deal){
+    constructor(deal: FinishedDeal){
         this.deal = deal
     }
 
     constructor(saveString: Map<String,Any>, game: Game){
-        deal = Deal(saveString, game)
+        deal = FinishedDeal(saveString, game)
     }
 
     fun saveString(): Map<String, Any> {

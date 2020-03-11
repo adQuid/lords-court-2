@@ -19,7 +19,7 @@ class ForecastBrain {
     //TODO: Why do both of these exist?
     var lastCasesOfConcern: List<GameCase>? = null
 
-    var dealsILike: List<Deal>? = null
+    var dealsILike: List<FinishedDeal>? = null
 
     var lastFavoriteEffects: List<Effect>? = null
     var lastActionsToCommitTo: List<Action>? = null
@@ -67,7 +67,7 @@ class ForecastBrain {
         return bestCaseEffects
     }
 
-    private fun dealsILike(game: Game): List<Deal> {
+    private fun dealsILike(game: Game): List<FinishedDeal> {
         return mostSignificantPlayersToMe(game).filter { it -> it != player }
             .map { character -> prospectiveDealsWithPlayer(character) }.flatten()
             .filter { dealValue(it) > 0 }
@@ -110,13 +110,13 @@ class ForecastBrain {
         return retval
     }
 
-    fun prospectiveDealsWithPlayer(target: GameCharacter): List<Deal>{
-        val badDeal = Deal(hashMapOf(
+    fun prospectiveDealsWithPlayer(target: GameCharacter): List<FinishedDeal>{
+        val badDeal = FinishedDeal(hashMapOf(
             player to listOf(Action(WasteTime())),
             target to listOf(Action(WasteTime()))
         ))
 
-        val goodDeal = Deal(hashMapOf(
+        val goodDeal = FinishedDeal(hashMapOf(
             player to listOf(Action(GetMilk(target)), Action(WasteTime())),
             target to listOf(Action(BakeCookies()))
         ))
@@ -126,7 +126,7 @@ class ForecastBrain {
 
     //returns the multiple of previous value. For example, if the total of gamecase value was 100 before the deal and 120 after,
     //this would return 0.2
-    private fun dealValue(deal: Deal): Double{
+    private fun dealValue(deal: FinishedDeal): Double{
         val casesWithDeal = lastCasesOfConcern!!.map { it.applyDeal(deal) }
         return (totalCaseValue(casesWithDeal) - totalCaseValue(lastCasesOfConcern!!)) /totalCaseValue(lastCasesOfConcern!!)
     }

@@ -1,6 +1,7 @@
 package game
 
 import aibrain.Deal
+import aibrain.FinishedDeal
 import aibrain.ForecastBrain
 import aibrain.Treaty
 import game.action.Action
@@ -26,7 +27,7 @@ class GameCharacter {
     val MEMORY_NAME = "MEMORY"
     val memory: MutableList<Memory>
     val ACCEPTED_DEALS_NAME = "ACCEPTEDDEALS"
-    val acceptedDeals: MutableList<Deal>
+    val acceptedDeals: MutableList<FinishedDeal>
     val ACCEPTED_TREATIES_NAME = "ACCEPTEDTREATIES"
     val acceptedTreaties: MutableList<Treaty>
 
@@ -73,7 +74,7 @@ class GameCharacter {
 
     fun finishConstruction(saveString: Map<String, Any>, game: Game){
         memory.addAll((saveString[MEMORY_NAME] as List<Map<String, Any>>).map { map -> Memory(map, game)})
-        acceptedDeals.addAll((saveString[ACCEPTED_DEALS_NAME] as List<Map<String, Any>>).map { map -> Deal(map, game)}.toMutableList())
+        acceptedDeals.addAll((saveString[ACCEPTED_DEALS_NAME] as List<Map<String, Any>>).map { map -> FinishedDeal(map, game)}.toMutableList())
         acceptedTreaties.addAll((saveString[ACCEPTED_TREATIES_NAME] as List<Map<String, Any>>).map { map -> Treaty(map, game)}.toMutableList())
     }
 

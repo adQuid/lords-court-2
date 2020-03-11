@@ -9,7 +9,11 @@ import shortstate.ShortStateCharacter
 import ui.Displayable
 import ui.componentfactory.DealComponentFactory
 
-class Deal: Displayable {
+abstract class Deal: Displayable {
+    abstract fun theActions(): Map<GameCharacter, List<Action>>
+}
+
+class FinishedDeal: Deal {
 
     val actions: Map<GameCharacter, List<Action>>
 
@@ -29,6 +33,10 @@ class Deal: Displayable {
         display = DealComponentFactory(this)
     }
 
+    override fun theActions(): Map<GameCharacter, List<Action>> {
+        return actions
+    }
+
    fun saveString(): Map<String, Any> {
        val actionMap = mutableMapOf<String, Any>()
        actions.forEach { (character, actions) -> actionMap[character.id.toString()] = actions.map{action -> action.saveString()}}
@@ -42,10 +50,43 @@ class Deal: Displayable {
         return "[DEAL]"
     }
 
+    fun toUnfinishedDeal(): UnfinishedDeal {
+        return UnfinishedDeal(actions)
+    }
+
     fun dialogText(speaker: GameCharacter, target: GameCharacter): String {
         val retval = actions.map{(character, actions) -> "${character.name} will ${actions.toString()}"}
 
         return retval.joinToString(", ")
+    }
+
+    override fun display(perspective: ShortStateCharacter): Scene {
+        return display.scenePage(perspective)
+    }
+}
+
+class UnfinishedDeal: Deal{
+    val actions: MutableMap<GameCharacter, MutableList<Action>>
+
+    val display: DealComponentFactory
+
+    override fun theActions(): Map<GameCharacter, List<Action>> {
+        return actions.toMap().mapValues { entry -> entry.value.toList() }
+    }
+
+    constructor(){
+        actions = mutableMapOf()
+        display = DealComponentFactory(this)
+    }
+
+    constructor(actions: Map<GameCharacter, List<Action>>){
+        this.actions = mutableMapOf()
+        actions.forEach{entry -> this.actions.put(entry.key, entry.value.toMutableList())}
+        display = DealComponentFactory(this)
+    }
+
+    fun toFinishedDeal(): FinishedDeal{
+        return FinishedDeal(actions.toMap())
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {

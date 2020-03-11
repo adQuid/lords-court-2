@@ -15,7 +15,7 @@ class ConversationBrain {
     }
 
     fun startConversation(speaker: GameCharacter, game: Game): Line {
-        val dealToOffer = shortCharacter.player.brain.dealsILike!!.filter { it.actions.keys.contains(speaker) }[0]
+        val dealToOffer = shortCharacter.player.brain.dealsILike!!.filter { it.theActions().keys.contains(speaker) }[0]
 
         val thingToSuggest = shortCharacter.player.brain.lastCasesOfConcern!!
             .filter{case -> case.valueToCharacter(shortCharacter.player.brain.player) > 0}

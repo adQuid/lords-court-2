@@ -1,6 +1,7 @@
 package test.util
 
 import aibrain.Deal
+import aibrain.FinishedDeal
 import game.GameCharacter
 import game.Game
 import game.Location
@@ -32,19 +33,20 @@ fun soloTestGame(): Game{
 
 fun soloTestGameWithEverythingOnIt(): Game{
     val game = soloTestGame()
-    game.players[0].memory.add(Memory(AcceptDeal(Deal(mapOf(
+    game.players[0].memory.add(Memory(AcceptDeal(FinishedDeal(mapOf(
         game.players[0] to listOf(Action(WasteTime()))
-    )))))
+    ))
+    )))
     game.players[0].memory.add(Memory(Announcement(Action(WasteTime()))))
     game.players[0].memory.add(Memory(Approve()))
     game.players[0].memory.add(Memory(CiteEffect(listOf(AddDelicousness(1.0)))))
     game.players[0].memory.add(Memory(Disapprove()))
     game.players[0].memory.add(Memory(GiveReport(DeliciousnessReport(17.8))))
-    game.players[0].memory.add(Memory(OfferDeal(Deal(mapOf(
+    game.players[0].memory.add(Memory(OfferDeal(FinishedDeal(mapOf(
         game.players[0] to listOf(Action(WasteTime()))
     )))))
     game.players[0].memory.add(Memory(QuestionSuggestion(SuggestAction(Action(WasteTime())))))
-    game.players[0].memory.add(Memory(RejectDeal(Deal(mapOf(
+    game.players[0].memory.add(Memory(RejectDeal(FinishedDeal(mapOf(
         game.players[0] to listOf(Action(WasteTime()))
     )))))
     game.players[0].memory.add(Memory(RequestReport(ReportType.DeliciousnessReportType)))

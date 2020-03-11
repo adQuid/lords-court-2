@@ -2,6 +2,7 @@ package shortstate.dialog.linetypes
 
 import aibrain.ConversationBrain
 import aibrain.Deal
+import aibrain.FinishedDeal
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
@@ -13,14 +14,14 @@ class RejectDeal: Line {
 
     override val type: String
         get() = GlobalLineTypeFactory.REJECT_DEAL_TYPE_NAME
-    var deal: Deal? = null
+    var deal: FinishedDeal? = null
 
-    constructor(deal: Deal?){
+    constructor(deal: FinishedDeal?){
         this.deal = deal
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
-        deal = Deal(saveString["deal"] as Map<String, Any>, game)
+        deal = FinishedDeal(saveString["deal"] as Map<String, Any>, game)
     }
 
     override fun tooltipName(): String {
