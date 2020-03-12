@@ -56,11 +56,11 @@ open class DealComponentFactory {
     private fun actionList(actions: List<Action>): Pane {
         val retval = GridPane()
 
-        retval.add(UtilityComponentFactory.basicList(actions, {_ -> println("I clicked on a deal's action")}, totalWidth,totalHeight * (5.0/6.0)), 0, 0)
+        retval.add(UtilityComponentFactory.basicList(actions, {action -> println("I clicked on a deal's action")}, totalWidth,totalHeight * (5.0/6.0)), 0, 0)
 
         if(deal is UnfinishedDeal){
             val newActionButton = UtilityComponentFactory.shortWideButton("Add Action",
-                EventHandler {_ -> Controller.singleton!!.GUI!!.focusOn(ActionChooser({println("testing adding an action")}))})
+                EventHandler {_ -> Controller.singleton!!.GUI!!.focusOn(ActionChooser({action -> deal.actions[currentPage]!!.add(Action(action)); Controller.singleton!!.GUI!!.defocus()}))})
             retval.add(newActionButton, 0 , 1)
         } else {
             retval.add(Text("dummy"),0,1)

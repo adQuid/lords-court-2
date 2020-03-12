@@ -22,13 +22,13 @@ class ActionChooserComponentFactory {
 
 //dummy model object when choosing an action. May need to make this a full object later.
 class ActionChooser: Displayable {
-    val action: (Action.ActionType) -> Unit
+    val callback: (Action.ActionType) -> Unit
 
     constructor(action: (Action.ActionType) -> Unit){
-        this.action = action
+        this.callback = action
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {
-        return ActionChooserComponentFactory().scenePage(perspective, action)
+        return ActionChooserComponentFactory().scenePage(perspective, callback)
     }
 }
