@@ -1,6 +1,5 @@
-package test.util
+package test.fixtures
 
-import aibrain.Deal
 import aibrain.FinishedDeal
 import game.GameCharacter
 import game.Game
@@ -71,4 +70,23 @@ fun soloTestShortgameWithEverythingOnIt(): ShortStateGame{
     val retval = ShortStateGame(game, game.locations[0])
     retval.shortGameScene = ShortGameScene(listOf(retval.players[0], retval.players[1]), retval.location.rooms[0], Conversation(retval.players[0], retval.players[1]))
     return retval
+}
+
+fun twoPlayerTestGame(): Game{
+    val game = Game()
+    val location = Location(game)
+
+    val character1 = GameCharacter("person1", "thisdoesn'tmatter", false, location, game)
+    val character2 = GameCharacter("person2", "thisdoesn'tmatter", false, location, game)
+
+    game.locations.add(location)
+    game.players.add(character1)
+    game.players.add(character2)
+
+    return game
+}
+
+fun twoPlayerShortGame(): ShortStateGame{
+    val game = twoPlayerTestGame()
+    return ShortStateGame(game, game.locations[0])
 }

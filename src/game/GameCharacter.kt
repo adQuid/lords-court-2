@@ -31,8 +31,8 @@ class GameCharacter {
     val ACCEPTED_TREATIES_NAME = "ACCEPTEDTREATIES"
     val acceptedTreaties: MutableList<Treaty>
 
-    //testing only
-    var dummyScore = 0.0
+    //testing only; starts at 1 to prevent infinite score
+    var dummyScore = 1.0
 
     constructor(name: String, picture: String, npc: Boolean, location: Location, game: Game) {
         this.id = game.nextID++

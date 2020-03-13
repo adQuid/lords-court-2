@@ -2,9 +2,8 @@ package test.shortstate
 
 import org.junit.Test
 import shortstate.ShortStateGame
-import test.util.soloTestGame
-import test.util.soloTestShortgame
-import test.util.soloTestShortgameWithEverythingOnIt
+import test.fixtures.soloTestShortgame
+import test.fixtures.soloTestShortgameWithEverythingOnIt
 
 class TestSave {
 

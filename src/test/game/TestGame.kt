@@ -2,8 +2,8 @@ package test.game
 
 import game.Game
 import org.junit.Test
-import test.util.soloTestGame
-import test.util.soloTestGameWithEverythingOnIt
+import test.fixtures.soloTestGame
+import test.fixtures.soloTestGameWithEverythingOnIt
 import kotlin.test.assertTrue
 
 class TestGame {

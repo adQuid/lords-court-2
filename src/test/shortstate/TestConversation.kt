@@ -1,30 +1,17 @@
 package test.shortstate
 
-import game.Game
 import shortstate.Conversation
-import shortstate.ShortStateGame
 import shortstate.dialog.linetypes.Announcement
 import game.action.Action
-import game.Location
 import game.action.actionTypes.BakeCookies
-import game.GameCharacter
+import test.fixtures.twoPlayerShortGame
 import org.junit.Test
 
 class TestConversation {
 
     @Test
     fun testBasicConvo(){
-        val game = Game()
-        val location = Location(game)
-
-        val character1 = GameCharacter("person1", "thisdoesn'tmatter", false, location, game)
-        val character2 = GameCharacter("person2", "thisdoesn'tmatter", false, location, game)
-
-        game.locations.add(location)
-        game.players.add(character1)
-        game.players.add(character2)
-
-        val shortGame = ShortStateGame(game, location)
+        val shortGame = twoPlayerShortGame()
 
         val convo = Conversation(shortGame.players[0], shortGame.players[1])
 

@@ -18,7 +18,6 @@ class ForecastBrain {
 
     //TODO: Why do both of these exist?
     var lastCasesOfConcern: List<GameCase>? = null
-
     var dealsILike: List<FinishedDeal>? = null
 
     var lastFavoriteEffects: List<Effect>? = null
@@ -124,9 +123,9 @@ class ForecastBrain {
         return listOf(badDeal, goodDeal)
     }
 
-    //returns the multiple of previous value. For example, if the total of gamecase value was 100 before the deal and 120 after,
+    //returns the marginal multiple of previous value. For example, if the total of gamecase value was 100 before the deal and 120 after,
     //this would return 0.2
-    private fun dealValue(deal: FinishedDeal): Double{
+    fun dealValue(deal: Deal): Double{
         val casesWithDeal = lastCasesOfConcern!!.map { it.applyDeal(deal) }
         return (totalCaseValue(casesWithDeal) - totalCaseValue(lastCasesOfConcern!!)) /totalCaseValue(lastCasesOfConcern!!)
     }

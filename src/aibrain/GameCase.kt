@@ -53,7 +53,7 @@ class GameCase {
     }
 
     fun valueToCharacter(character: game.GameCharacter): Double{
-        return gameValue(this.currentGame, character)
+        return gameValue(this.currentGame, this.currentGame.matchingPlayer(character)!!)
     }
 
     private fun gameValue(game: Game, player: game.GameCharacter): Double {
