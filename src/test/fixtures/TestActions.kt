@@ -43,8 +43,50 @@ class DummyGoodThing: Action.ActionType() {
     }
 }
 
+class DummyBadThing: Action.ActionType() {
+    override fun doAction(game: Game, player: GameCharacter): List<Effect> {
+        return listOf(DummyBadEffect(1.0))
+    }
+
+    override fun saveString(): Map<String, Any> {
+        //I'm not testing saving dummy actions
+        return mapOf()
+    }
+
+    class DummyBadEffect(override var probability: Double) : Effect() {
+        override fun equals(other: Any?): Boolean {
+            if(other is DummyBadEffect){
+                return true
+            }
+            return false
+        }
+
+        override fun apply(game: Game) {
+            game.players.forEach {
+                    player -> player.dummyScore--
+            }
+        }
+
+        override fun describe(): String {
+            return "dummy bad"
+        }
+
+        override fun saveString(): Map<String, Any> {
+            //I'm not testing saving dummy effects
+            return mapOf()
+        }
+
+    }
+}
+
 fun goodDeal(game: Game): Deal {
     val map = mutableMapOf<GameCharacter, List<Action>>()
     map[game.players[0]] = listOf(Action(DummyGoodThing()))
+    return FinishedDeal(map)
+}
+
+fun badDeal(game: Game): Deal {
+    val map = mutableMapOf<GameCharacter, List<Action>>()
+    map[game.players[0]] = listOf(Action(DummyBadThing()))
     return FinishedDeal(map)
 }

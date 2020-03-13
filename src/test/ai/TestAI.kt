@@ -32,4 +32,15 @@ class TestAI {
         assert(brain.dealValue(goodDeal(game)) > 0)
     }
 
+    @Test
+    fun testAIDislikesBadActions(){
+        val game = twoPlayerTestGame()
+
+        val character = game.players[0]
+        val brain = ForecastBrain(character) //should I be doing this? The Character class already makes a brain for itself...
+
+        brain.thinkAboutNextTurn(game)
+        assert(brain.dealValue(badDeal(game)) < 0)
+    }
+
 }
