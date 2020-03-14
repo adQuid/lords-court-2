@@ -29,7 +29,7 @@ class GetMilk: Action.ActionType {
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalActionTypeFactory.TYPE_NAME to "WasteTime",
+            GlobalActionTypeFactory.TYPE_NAME to "GetMilk",
             "player" to player.id
         )
     }

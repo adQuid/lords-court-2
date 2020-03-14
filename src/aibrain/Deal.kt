@@ -82,8 +82,11 @@ class UnfinishedDeal: Deal{
         return actions.toMap().mapValues { entry -> entry.value.toList() }
     }
 
-    constructor(){
+    constructor(players: List<GameCharacter>){
         actions = mutableMapOf()
+        players.forEach {
+            actions[it] = mutableListOf()
+        }
         display = DealComponentFactory(this)
     }
 

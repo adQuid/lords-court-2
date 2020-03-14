@@ -75,7 +75,7 @@ class ConversationComponentFactory {
                 && conversation.lastLine!!.possibleReplies().isNotEmpty()){
                 conversation.lastLine!!.possibleReplies()
             } else {
-                perspective.defaultConversationLines()
+                conversation.defaultConversationLines(perspective)
             }
             retval = linesList
                 .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line); Controller.singleton!!.GUI!!.display()})}.toMutableList()

@@ -3,11 +3,13 @@ package shortstate.dialog.linetypes
 import aibrain.ConversationBrain
 import aibrain.Deal
 import aibrain.FinishedDeal
+import aibrain.UnfinishedDeal
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.GameCharacter
 import game.Game
+import game.action.Action
 import main.Controller
 import shortstate.dialog.GlobalLineTypeFactory
 
@@ -15,9 +17,9 @@ class OfferDeal: Line {
 
     override val type: String
         get() = GlobalLineTypeFactory.OFFER_DEAL_TYPE_NAME
-    var deal: Deal? = null
+    var deal: Deal
 
-    constructor(deal: Deal?){
+    constructor(deal: Deal){
         this.deal = deal
     }
 
@@ -26,7 +28,7 @@ class OfferDeal: Line {
     }
 
     override fun tooltipName(): String {
-        if(deal == null){
+        if(!validToSend()){
             return "Offer Deal"
         } else {
             return "Offer Counter-proposal"
@@ -58,7 +60,7 @@ class OfferDeal: Line {
     }
 
     override fun validToSend(): Boolean {
-        return deal != null
+        return deal.theActions().values.fold(0, {acc: Int, list: List<Action> ->  acc+list.size}) > 0
     }
 
     override fun possibleReplies(): List<Line> {
@@ -71,6 +73,11 @@ class OfferDeal: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        return AcceptDeal(deal!!.toFinishedDeal())
+        if(brain.shortCharacter.player.brain.dealValue(deal) > 0){
+            println(brain.shortCharacter.player.brain.dealValue(deal))
+            return AcceptDeal(deal.toFinishedDeal())
+        } else {
+            return RejectDeal(deal.toFinishedDeal())
+        }
     }
 }

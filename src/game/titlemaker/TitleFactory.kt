@@ -2,6 +2,7 @@ package game.titlemaker
 
 import game.Title
 import game.action.actionTypes.BakeCookies
+import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
 import shortstate.report.ReportType
 
@@ -11,6 +12,10 @@ object TitleFactory {
         return Title("Count of $name",
             listOf(BakeCookies(), WasteTime()),
             listOf(ReportType.DeliciousnessReportType))
+    }
+
+    fun makeMilkmanTitle(): Title {
+        return Title("Milkman", listOf(GetMilk()), listOf(ReportType.DeliciousnessReportType))
     }
 
 }

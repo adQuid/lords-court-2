@@ -1,9 +1,13 @@
 package shortstate
 
+import aibrain.UnfinishedDeal
 import javafx.scene.Scene
 import shortstate.dialog.Line
 import shortstate.dialog.Memory
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.dialog.linetypes.Announcement
+import shortstate.dialog.linetypes.OfferDeal
+import shortstate.dialog.linetypes.RequestReport
 import ui.componentfactory.ConversationComponentFactory
 
 class Conversation {
@@ -61,6 +65,14 @@ class Conversation {
 
     fun participants(): List<ShortStateCharacter>{
         return listOf(initiator, target)
+    }
+
+    fun defaultConversationLines(perspective: ShortStateCharacter): List<Line>{
+        return listOf(
+            Announcement(null),
+            RequestReport(null),
+            OfferDeal(UnfinishedDeal(participants().map { it.player }))
+        )
     }
 
     override fun equals(other: Any?): Boolean {

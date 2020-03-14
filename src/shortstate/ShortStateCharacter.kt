@@ -8,6 +8,7 @@ import game.Game
 import javafx.scene.Scene
 import shortstate.dialog.Line
 import shortstate.dialog.linetypes.Announcement
+import shortstate.dialog.linetypes.OfferDeal
 import shortstate.dialog.linetypes.RequestReport
 import shortstate.report.GlobalReportTypeFactory
 import shortstate.report.Report
@@ -78,13 +79,6 @@ class ShortStateCharacter: Displayable {
 
     fun decideNextScene(game: ShortStateGame){
         nextSceneIWannaBeIn = sceneBrain.nextSceneIWantToBeIn(this, game)
-    }
-
-    fun defaultConversationLines(): List<Line>{
-        return listOf(
-            Announcement(null),
-            RequestReport(null)
-        )
     }
 
     fun reportOfType(type: ReportType): Report {
