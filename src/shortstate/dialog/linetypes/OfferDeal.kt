@@ -74,7 +74,6 @@ class OfferDeal: Line {
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
         if(brain.shortCharacter.player.brain.dealValue(deal) > 0){
-            println(brain.shortCharacter.player.brain.dealValue(deal))
             return AcceptDeal(deal.toFinishedDeal())
         } else {
             return RejectDeal(deal.toFinishedDeal())

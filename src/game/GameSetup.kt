@@ -14,8 +14,7 @@ class GameSetup {
         game.players.add(PC)
 
         val NPC = GameCharacter("Frip", "assets//portraits//faceman.png", true, defaultLocation, game)
-        NPC.titles.add(TitleFactory.makeCountTitle("Eating Cookies"))
-        NPC.titles.add(TitleFactory.makeCountTitle("Nomz, munch, and food-related goodness"))
+        NPC.titles.add(TitleFactory.makeMilkmanTitle())
         game.players.add(NPC)
     }
 
