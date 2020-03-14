@@ -6,6 +6,7 @@ import aibrain.ForecastBrain
 import aibrain.Treaty
 import game.action.Action
 import shortstate.dialog.Memory
+import game.titlemaker.TitleFactory
 
 class GameCharacter {
     val ID_NAME = "ID"
@@ -64,7 +65,7 @@ class GameCharacter {
         npc = saveString[NPC_NAME] as Boolean
         name = saveString[NAME_NAME] as String
         pictureString = saveString[PICTURE_NAME] as String
-        titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> Title(map) }.toMutableSet()
+        titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> TitleFactory.titleFromSaveString(map) }.toMutableSet()
         location = game.locationById(saveString[LOCATION_NAME] as Int)
         //To avoid circular references these are populated in finishConstruction
         memory = mutableListOf()
@@ -117,7 +118,7 @@ class GameCharacter {
         }
     }
 
-    fun actionsEntitled(): List<Action.ActionType>{
-        return titles.flatMap { title -> title.actionsEntitled }
+    fun actionsReguarding(players: List<GameCharacter>): List<Action.ActionType>{
+        return titles.flatMap { title -> title.actionsReguarding(players) }
     }
 }

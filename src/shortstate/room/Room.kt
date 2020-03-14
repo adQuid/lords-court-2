@@ -51,7 +51,7 @@ class Room {
     fun getActions(player: GameCharacter): List<RoomAction>{
         if(type == RoomType.WORKROOM){
             return baseActions()
-                .plus(player.actionsEntitled().map { action -> CommitToAction(action) })
+                .plus(player.actionsReguarding(listOf(player)).map { action -> CommitToAction(action) })
                 .plus(player.titles.flatMap { title -> title.reportsEntitled.map { type -> MakeReport(type)} })
         } else {
             return baseActions()

@@ -5,6 +5,7 @@ import game.action.GlobalActionTypeFactory
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
+import game.titlemaker.TitleFactory
 
 
 class Game {
@@ -42,7 +43,7 @@ class Game {
             this.players.add(GameCharacter(it))
         }
         locations = other.locations.toList().map { loc -> Location(loc) }.toMutableList()
-        titles = other.titles.map { title -> Title(title)}.toMutableSet()
+        titles = other.titles.map { title -> title.clone()}.toMutableSet()
         deliciousness = other.deliciousness
         hasMilk = other.hasMilk.toMutableList()
     }
@@ -60,7 +61,7 @@ class Game {
             (value as List<Map<String,Any>>).map { map -> Action(GlobalActionTypeFactory.fromMap(map)) } }
         actionsByPlayer = tempActions
 
-        titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> Title(map) }.toMutableSet()
+        titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> TitleFactory.titleFromSaveString(map) }.toMutableSet()
 
         deliciousness = saveString[DELICIOUSNESS_NAME] as Double
         hasMilk = (saveString[HAS_MILK_NAME] as List<Int>).map { id -> characterById(id)}.toMutableList()

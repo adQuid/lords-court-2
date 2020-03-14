@@ -11,17 +11,16 @@ import ui.totalWidth
 
 class ActionChooserComponentFactory {
 
-    val player: GameCharacter
+    val players: List<GameCharacter>
 
-    constructor(player: GameCharacter){
-        this.player = player
+    constructor(player: List<GameCharacter>){
+        this.players = player
     }
 
     fun scenePage(perspective: ShortStateCharacter, action: (Action.ActionType) -> Unit): Scene {
         val root = GridPane()
 
-        println(player.actionsEntitled())
-        root.add(UtilityComponentFactory.basicList(player.actionsEntitled(), action, totalWidth, (5* totalHeight)/6), 0,0)
+        root.add(UtilityComponentFactory.basicList(perspective.player.actionsReguarding(players), action, totalWidth, (5* totalHeight)/6), 0,0)
         root.add(UtilityComponentFactory.backButton(), 0,1)
 
         return Scene(root, totalWidth, totalHeight)
@@ -30,15 +29,15 @@ class ActionChooserComponentFactory {
 
 //dummy model object when choosing an action. May need to make this a full object later.
 class ActionChooser: Displayable {
-    val player: GameCharacter
+    val players: List<GameCharacter>
     val callback: (Action.ActionType) -> Unit
 
-    constructor(player: GameCharacter, action: (Action.ActionType) -> Unit){
-        this.player = player
+    constructor(players: List<GameCharacter>, action: (Action.ActionType) -> Unit){
+        this.players = players
         this.callback = action
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {
-        return ActionChooserComponentFactory(player).scenePage(perspective, callback)
+        return ActionChooserComponentFactory(players).scenePage(perspective, callback)
     }
 }

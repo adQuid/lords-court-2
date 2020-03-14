@@ -61,7 +61,7 @@ open class DealComponentFactory {
                 Controller.singleton!!.GUI!!.display()}, totalWidth,totalHeight * (5.0/6.0)), 0, 0)
 
             val newActionButton = UtilityComponentFactory.shortWideButton("Add Action",
-                EventHandler {_ -> Controller.singleton!!.GUI!!.focusOn(ActionChooser(currentPage,
+                EventHandler {_ -> Controller.singleton!!.GUI!!.focusOn(ActionChooser(deal.actions.keys.toList(),
                     {action -> deal.actions[currentPage]!!.add(Action(action)); Controller.singleton!!.GUI!!.defocus()}))})
             retval.add(newActionButton, 0 , 1)
         } else {
