@@ -6,6 +6,7 @@ import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.GameCharacter
 import game.Game
+import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
 
 class QuestionSuggestion: Line {
@@ -26,17 +27,17 @@ class QuestionSuggestion: Line {
         return "why?"
     }
 
-    override fun symbolicForm(): List<LineBlock> {
+    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         var retval = mutableListOf(LineBlock("QUESTION:"))
         if(line == null){
             retval.add(LineBlock("Line:___________"))
         } else {
-            retval.addAll(line!!.symbolicForm().map{block -> block.tab()})
+            retval.addAll(line!!.symbolicForm(speaker, target).map{block -> block.tab()})
         }
         return retval
     }
 
-    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
+    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "Why would you say that?"
     }
 

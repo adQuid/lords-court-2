@@ -8,7 +8,12 @@ import shortstate.dialog.linetypes.traits.HasReportType
 import shortstate.report.ReportType
 import game.GameCharacter
 import game.Game
+import main.Controller
+import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.dialog.linetypes.traits.HasAction
+import ui.selectionmodal.SelectionModal
+import ui.selectionmodal.Tab
 
 class RequestReport: Line, HasReportType {
 
@@ -28,11 +33,18 @@ class RequestReport: Line, HasReportType {
         return "Request Report"
     }
 
-    override fun symbolicForm(): List<LineBlock> {
-        return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString()))
+    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+        return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString(),
+            {Controller.singleton!!.GUI!!.focusOn(
+                SelectionModal(Controller.singleton!!.GUI!!,
+                    listOf(Tab("Reports",Controller.singleton!!.GUI!!.playingAs().player.titles.flatMap { title -> title.reportsEntitled })),
+                    { reportType ->
+                        mySetReportType(reportType); Controller.singleton!!.GUI!!.defocus();
+                    })
+            )}))
     }
 
-    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
+    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "What can you tell me of "+report?.toString()+"?"
     }
 

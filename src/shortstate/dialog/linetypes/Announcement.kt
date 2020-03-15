@@ -8,7 +8,11 @@ import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasAction
 import game.GameCharacter
 import game.Game
+import main.Controller
+import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import ui.selectionmodal.SelectionModal
+import ui.selectionmodal.Tab
 
 class Announcement: Line, HasAction {
 
@@ -31,11 +35,22 @@ class Announcement: Line, HasAction {
         return "Declare Action"
     }
 
-    override fun symbolicForm(): List<LineBlock> {
-        return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "Action:___________" else "Action: "+action.toString()))
+    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+        return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "Action:___________" else "Action: "+action.toString(),
+            {perspective -> Controller.singleton!!.GUI!!.focusOn(
+                SelectionModal(
+                    Controller.singleton!!.GUI!!,
+                    listOf(
+                        Tab("Basic Actions",
+                            Controller.singleton!!.game!!.possibleActionsForPlayer(perspective.player))
+                    ),
+                    { action ->
+                        mySetAction(action); Controller.singleton!!.GUI!!.defocus();
+                    })
+            )}))
     }
 
-    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
+    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "I will "+action?.toString()+" by the end of the turn. Just wanted to let you know."
     }
 

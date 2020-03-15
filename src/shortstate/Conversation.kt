@@ -83,7 +83,7 @@ class Conversation {
     }
 
     fun submitLine(line: Line, game: ShortStateGame){
-        println("\"${line.fullTextForm(lastSpeaker.player, otherParticipant(lastSpeaker).player)}\" submitted by ${otherParticipant(lastSpeaker)}")
+        println("\"${line.fullTextForm(lastSpeaker, otherParticipant(lastSpeaker))}\" submitted by ${otherParticipant(lastSpeaker)}")
         if(line.validToSend()){
             line.specialEffect(this)
             age++

@@ -7,6 +7,7 @@ import shortstate.dialog.LineBlock
 import shortstate.report.Report
 import game.GameCharacter
 import game.Game
+import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.GlobalReportTypeFactory
 
@@ -28,11 +29,11 @@ class GiveReport: Line {
         return "Submit Report"
     }
 
-    override fun symbolicForm(): List<LineBlock> {
+    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("GIVE REPORT:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString()))
     }
 
-    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
+    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "I have discovered that ${report.toString()}"
     }
 

@@ -9,6 +9,7 @@ import game.GameCharacter
 import game.Game
 import shortstate.dialog.GlobalLineTypeFactory
 import game.effects.GlobalEffectFactory
+import shortstate.ShortStateCharacter
 
 class CiteEffect: Line {
 
@@ -31,7 +32,7 @@ class CiteEffect: Line {
         return "Give Reason"
     }
 
-    override fun symbolicForm(): List<LineBlock> {
+    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         var retval = mutableListOf(LineBlock("CITE:"))
         if(effects == null){
             retval.add(LineBlock("Effect:___________"))
@@ -42,7 +43,7 @@ class CiteEffect: Line {
         return retval
     }
 
-    override fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String {
+    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "I have some very good reasons: " + effects!!.map { effect -> effect.describe() }
     }
 

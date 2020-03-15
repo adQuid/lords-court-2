@@ -38,28 +38,6 @@ class ConversationComponentFactory {
     fun buttons(perspective: ShortStateCharacter): List<Button> {
         var retval = mutableListOf<Button>()
         if(lineBeingConstructed != null){
-            if(lineBeingConstructed is HasAction){
-                retval.add(UtilityComponentFactory.shortButton("Select Action",
-                    EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
-                        SelectionModal(Controller.singleton!!.GUI!!,
-                            listOf(Tab("Basic Actions",Controller.singleton!!.game!!.possibleActionsForPlayer(perspective.player))),
-                            { action ->
-                                (lineBeingConstructed as HasAction).mySetAction(action); focusOnLine(lineBeingConstructed!!); Controller.singleton!!.GUI!!.defocus()
-                            })
-                    )})
-                )
-            }
-            if(lineBeingConstructed is HasReportType){
-                retval.add(UtilityComponentFactory.shortButton("Select Report",
-                    EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
-                        SelectionModal(Controller.singleton!!.GUI!!,
-                            listOf(Tab("Reports",Controller.singleton!!.GUI!!.playingAs().player.titles.flatMap { title -> title.reportsEntitled })),
-                            { reportType ->
-                                (lineBeingConstructed as HasReportType).mySetReportType(reportType); focusOnLine(lineBeingConstructed!!); Controller.singleton!!.GUI!!.defocus()
-                            })
-                    )})
-                )
-            }
             if(lineBeingConstructed!!.validToSend()){
                 retval.add(UtilityComponentFactory.shortButton("Commit Line",
                     EventHandler { _ -> conversation.submitLine(lineBeingConstructed!!, Controller.singleton!!.shortThreadForPlayer(perspective).shortGame);
@@ -97,8 +75,8 @@ class ConversationComponentFactory {
             backgroundPane.children.add(descriptionPane(perspective))
 
             val lineAnchorPane = MyAnchorPane()
-            linePane(lineAnchorPane, lineBeingConstructed, myLineSymbolic, true)
-            linePane(lineAnchorPane, conversation.lastLine, otherLineSymbolic, false)
+            linePane(perspective, lineAnchorPane, lineBeingConstructed, myLineSymbolic, true)
+            linePane(perspective, lineAnchorPane, conversation.lastLine, otherLineSymbolic, false)
 
             backgroundPane.children.add(lineAnchorPane.realPane)
         }
@@ -115,7 +93,7 @@ class ConversationComponentFactory {
         return descriptionAnchorPane.realPane
     }
 
-    private fun linePane(pane: MyAnchorPane, line: Line?, symbolic: Boolean, left: Boolean): MyAnchorPane {
+    private fun linePane(perspective: ShortStateCharacter, pane: MyAnchorPane, line: Line?, symbolic: Boolean, left: Boolean): MyAnchorPane {
         if(line == null){
             return pane
         }
@@ -126,8 +104,8 @@ class ConversationComponentFactory {
             lineNode = GridPane()
 
             var index = 0 //gotta be a better way to do this
-            line.symbolicForm().forEach { block ->
-                val playerLineText = block.textForm()
+            line.symbolicForm(conversation.lastSpeaker, conversation.otherParticipant(conversation.lastSpeaker)).forEach { block ->
+                val playerLineText = block.textForm(perspective)
                 playerLineText.maxWidth(totalWidth / 2)
                 if (totalWidth > 600.0) {
                     playerLineText.font = Font(20.0)
@@ -144,7 +122,7 @@ class ConversationComponentFactory {
                 }
             }
         } else {
-            lineNode = Text(line.fullTextForm(conversation.lastSpeaker.player, conversation.otherParticipant(conversation.lastSpeaker).player))
+            lineNode = Text(line.fullTextForm(conversation.lastSpeaker, conversation.otherParticipant(conversation.lastSpeaker)))
 
             lineNode.maxWidth(totalWidth / 2)
             if (totalWidth > 800.0) {

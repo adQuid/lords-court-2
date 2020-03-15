@@ -14,9 +14,9 @@ abstract class Line {
 
     abstract fun tooltipName(): String
 
-    abstract fun symbolicForm(): List<LineBlock>
+    abstract fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock>
 
-    abstract fun fullTextForm(speaker: GameCharacter, target: GameCharacter): String
+    abstract fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String
 
     abstract fun specialSaveString(): Map<String, Any>
 
