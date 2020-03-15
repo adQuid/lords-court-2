@@ -116,7 +116,7 @@ class ForecastBrain {
         ))
 
         val goodDeal = FinishedDeal(hashMapOf(
-            player to listOf(Action(GetMilk(target)), Action(WasteTime())),
+            player to listOf(Action(GetMilk(target))),
             target to listOf(Action(BakeCookies()))
         ))
 

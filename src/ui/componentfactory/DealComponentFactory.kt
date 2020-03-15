@@ -56,17 +56,20 @@ open class DealComponentFactory {
     private fun actionList(actions: List<Action>): Pane {
         val retval = GridPane()
 
+        var behavior: (action: Action) -> Unit
         if(deal is UnfinishedDeal){
-            retval.add(UtilityComponentFactory.basicList(actions, {action -> (deal as UnfinishedDeal).actions[currentPage]!!.remove(action);
-                Controller.singleton!!.GUI!!.display()}, totalWidth,totalHeight * (5.0/6.0)), 0, 0)
+            behavior = {action -> (deal as UnfinishedDeal).actions[currentPage]!!.remove(action);
+                Controller.singleton!!.GUI!!.display()}
 
             val newActionButton = UtilityComponentFactory.shortWideButton("Add Action",
                 EventHandler {_ -> Controller.singleton!!.GUI!!.focusOn(ActionChooser(currentPage, deal.actions.keys.toList(),
                     {action -> deal.actions[currentPage]!!.add(Action(action)); Controller.singleton!!.GUI!!.defocus()}))})
             retval.add(newActionButton, 0 , 1)
-        } else {
-            retval.add(Text("dummy"),0,1)
+        }else{
+                behavior = {}
         }
+
+        retval.add(UtilityComponentFactory.basicList(actions, behavior, totalWidth,totalHeight * (5.0/6.0)), 0, 0)
 
         retval.setPrefSize(totalWidth, (5* totalHeight)/6)
         return retval
