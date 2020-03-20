@@ -6,9 +6,9 @@ class Location {
 
     val id: Int
     var rooms: List<Room> = listOf(
-        Room("Bedchamber", "assets//rooms//bedroom.png", Room.RoomType.BEDROOM),
-        Room("Hallway", "assets//rooms//testRoom.png", Room.RoomType.ETC),
-        Room("Workroom", "assets//rooms//workRoom.png", Room.RoomType.WORKROOM)
+        Room("Bedchamber", "assets/rooms/bedroom.png", Room.RoomType.BEDROOM),
+        Room("Hallway", "assets/rooms/testRoom.png", Room.RoomType.ETC),
+        Room("Workroom", "assets/rooms/workRoom.png", Room.RoomType.WORKROOM)
     )
 
     constructor(game: Game){

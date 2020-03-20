@@ -32,7 +32,7 @@ class CharacterDetailComponentFactory {
 
     private fun sceneImage(): Pane {
         val imagePane = StackPane()
-        val backgroundView = UtilityComponentFactory.imageView("assets//rooms//characterStage.png")
+        val backgroundView = UtilityComponentFactory.imageView("assets/rooms/characterStage.png")
         val characterView = UtilityComponentFactory.imageView(character.player.pictureString)
         backgroundView.setOnMouseClicked { event -> Controller.singleton!!.GUI!!.defocus() }
         characterView.setOnMouseClicked { event -> Controller.singleton!!.GUI!!.defocus() }

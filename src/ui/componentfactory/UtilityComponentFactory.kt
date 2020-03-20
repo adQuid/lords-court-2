@@ -23,12 +23,16 @@ import ui.selectionmodal.SelectionModal
 import ui.selectionmodal.Tab
 import ui.totalHeight
 import ui.totalWidth
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 
 object UtilityComponentFactory {
 
     fun imageView(url: String): ImageView {
-        val image = Image(url)
+        val path = url.replace("//","\\")
+        val image = Image(path)
         val retval = ImageView(image)
         retval.fitHeight = (totalHeight) * (4.5 / 6.0)
         retval.fitWidth = totalWidth

@@ -66,9 +66,9 @@ class ConversationComponentFactory {
     fun conversationPane(backgroundPane: Pane, perspective: ShortStateCharacter): Pane {
 
         if(conversation != null){
-            val npcSpeechView = UtilityComponentFactory.imageView("assets//general//leftSpeechBubble.png")
+            val npcSpeechView = UtilityComponentFactory.imageView("assets/general/leftSpeechBubble.png")
             npcSpeechView.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; Controller.singleton!!.GUI!!.display() }
-            val playerSpeechView = UtilityComponentFactory.imageView("assets//general//rightSpeechBubble.png")
+            val playerSpeechView = UtilityComponentFactory.imageView("assets/general/rightSpeechBubble.png")
             playerSpeechView.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; Controller.singleton!!.GUI!!.display() }
             backgroundPane.children.addAll(npcSpeechView, playerSpeechView)
 
