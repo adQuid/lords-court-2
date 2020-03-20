@@ -36,7 +36,7 @@ class Announcement: Line, HasAction {
     }
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
-        return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "Action:___________" else "Action: "+action.toString(),
+        return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "SELECT ACTION" else "Action: "+action.toString(),
             {perspective -> Controller.singleton!!.GUI!!.focusOn(
                 SelectionModal(
                     Controller.singleton!!.GUI!!,
@@ -51,7 +51,7 @@ class Announcement: Line, HasAction {
     }
 
     override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        return "I will "+action?.toString()+" by the end of the turn. Just wanted to let you know."
+        return "I will "+if(action != null) action.toString() else "______"+" by the end of the turn. Just wanted to let you know."
     }
 
     override fun specialSaveString(): Map<String, Any> {

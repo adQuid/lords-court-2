@@ -1,5 +1,6 @@
 package shortstate.dialog
 
+import javafx.scene.paint.Color
 import javafx.scene.text.Text
 import shortstate.ShortStateCharacter
 
@@ -34,6 +35,7 @@ class LineBlock{
         val retval = Text(toString())
         if(behavior != null){
             retval.setOnMouseClicked { _ -> behavior.invoke(perspective) }
+            retval.fill = Color.DARKTURQUOISE
         }
         return retval
     }

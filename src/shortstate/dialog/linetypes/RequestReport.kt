@@ -34,7 +34,7 @@ class RequestReport: Line, HasReportType {
     }
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
-        return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString(),
+        return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "SELECT REPORT" else "Report: "+report.toString(),
             {Controller.singleton!!.GUI!!.focusOn(
                 SelectionModal(Controller.singleton!!.GUI!!,
                     listOf(Tab("Reports",Controller.singleton!!.GUI!!.playingAs().player.titles.flatMap { title -> title.reportsEntitled })),
@@ -45,7 +45,7 @@ class RequestReport: Line, HasReportType {
     }
 
     override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        return "What can you tell me of "+report?.toString()+"?"
+        return "What can you tell me of "+if(report != null) report.toString() else "______"+"?"
     }
 
     override fun specialSaveString(): Map<String, Any> {
