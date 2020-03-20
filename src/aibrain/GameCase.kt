@@ -7,7 +7,10 @@ class GameCase {
     val baseGame: Game
     var currentGame: Game
     val plan: Plan
-    var effects = listOf<Effect>()
+    //effects imposed on the inside from outside the simulation
+    var initialEffects = listOf<Effect>()
+    //all effects that applied to this game after simulation
+    var finalEffects = listOf<Effect>()
 
     constructor(game: Game, plan: Plan, effects: List<Effect>){
         this.baseGame = Game(game)
@@ -19,15 +22,16 @@ class GameCase {
     constructor(other: GameCase){
         this.baseGame = Game(other.baseGame)
         this.plan = other.plan
-        other.effects.forEach { addEffect(it) }
+        other.initialEffects.forEach { addEffect(it) }
         this.currentGame = calculateGame()
     }
 
     private fun calculateGame(): Game{
         val tempGame = Game(baseGame)
+        initialEffects.forEach { it.apply(tempGame) }
         tempGame.commitActionsForPlayer(plan.player, plan.actions)
-        tempGame.endTurn()
-        effects.forEach { it.apply(tempGame) }
+        //this has the side effect of actually ending the turn
+        finalEffects = listOf(initialEffects, tempGame.endTurn()).flatten()
         return tempGame
     }
 
@@ -41,7 +45,7 @@ class GameCase {
     }
 
     fun addEffect(effect: Effect){
-        effects = effects + effect
+        initialEffects = initialEffects + effect
     }
 
     fun probability(): Double{

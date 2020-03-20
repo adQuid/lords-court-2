@@ -125,21 +125,25 @@ class Game {
         actionsByPlayer[player] = actions
     }
 
-    fun endTurn(){
-        actionsByPlayer.entries.forEach{ entry ->
-            applyActions(entry.value, entry.key)
+    fun endTurn(): List<Effect>{
+        val effects = actionsByPlayer.entries.flatMap{ entry ->
+            doActions(entry.value, entry.key)
         }
 
-        actionsByPlayer.clear()
+        effects.forEach { it.apply(this) }
 
+        actionsByPlayer.clear()
         turn++
+        return effects
     }
 
     fun applyActions(actions: Collection<Action>, player: GameCharacter){
-        actions.forEach {
-            it.type.doAction(this, player).forEach{
-                it.apply(this)
-            }
+        doActions(actions, player).forEach { it.apply(this) }
+    }
+
+    private fun doActions(actions: Collection<Action>, player: GameCharacter): List<Effect>{
+        return actions.flatMap{
+            it.type.doAction(this, player)
         }
     }
 

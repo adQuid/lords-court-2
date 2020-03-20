@@ -51,17 +51,10 @@ class ForecastBrain {
         val modCases = HashMap<GameCase, Double>()
         cases.forEach { case -> modCases[case] = (case.valueToCharacter(player) - averageScore) * case.probability() }
 
-        var orderedCaseList = modCases.toList().sortedBy { (key, value) -> value }
+        var orderedCaseList = modCases.toList().sortedBy { (key, value) -> -value }
 
-        val bestCase = orderedCaseList[orderedCaseList.size-1].first
-        var bestCaseEffects = bestCase.effects.toMutableList()
-
-        //in very primitive logic, if any case is below average, assume all effects are bad and remove them from the best case
-        orderedCaseList.forEach{
-            if(it.second < 0){
-                //bestCaseEffects.removeAll(it.first.effects)
-            }
-        }
+        val bestCase = orderedCaseList[0].first
+        var bestCaseEffects = bestCase.finalEffects.toMutableList()
 
         return bestCaseEffects
     }
