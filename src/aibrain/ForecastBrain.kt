@@ -120,6 +120,9 @@ class ForecastBrain {
         return DealCase(deal).dealValue(lastCasesOfConcern!!)[player]!!
     }
 
+    fun justifyDeal(deal: Deal, subject: GameCharacter): List<Effect>{
+        return DealCase(deal).effectsOfDeal(lastCasesOfConcern!!)
+    }
 
     private fun mostSignificantPlayersToMe(game: Game): List<GameCharacter>{
         var retval = mutableListOf<GameCharacter>()

@@ -61,6 +61,6 @@ class QuestionOffer: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        return CiteEffect(brain.shortCharacter.player.brain.lastFavoriteEffects)
+        return CiteEffect(brain.shortCharacter.player.brain.justifyDeal(line!!.deal, brain.shortCharacter.player))
     }
 }
