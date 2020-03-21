@@ -48,7 +48,6 @@ fun soloTestGameWithEverythingOnIt(): Game{
         game.players[0] to listOf(Action(WasteTime()))
     )))))
     game.players[0].memory.add(Memory(RequestReport(ReportType.DeliciousnessReportType)))
-    game.players[0].memory.add(Memory(SuggestAction(Action(WasteTime()))))
 
     //If these two aren't equal, then there's probably a type of line we aren't accounting for
     assert(game.players[0].memory.size == GlobalLineTypeFactory.typeMap.size)

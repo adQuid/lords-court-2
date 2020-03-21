@@ -23,9 +23,8 @@ class ConversationBrain {
 
         if(dealToOffer != null){
             return OfferDeal(dealToOffer)
-        }else if(thingToSuggest.isNotEmpty()){
-            return SuggestAction(thingToSuggest[0].plan.actions[0])
         }
+
         return Approve()
     }
 
