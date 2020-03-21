@@ -116,16 +116,10 @@ class ForecastBrain {
         return listOf(badDeal, goodDeal)
     }
 
-    //returns the marginal multiple of previous value. For example, if the total of gamecase value was 100 before the deal and 120 after,
-    //this would return 0.2
     fun dealValue(deal: Deal): Double{
-        val casesWithDeal = lastCasesOfConcern!!.map { it.applyDeal(deal) }
-        return (totalCaseValue(casesWithDeal) - totalCaseValue(lastCasesOfConcern!!)) /totalCaseValue(lastCasesOfConcern!!)
+        return DealCase(deal).dealValue(lastCasesOfConcern!!)[player]!!
     }
 
-    private fun totalCaseValue(reality: List<GameCase>): Double{
-        return reality.fold(0.0, { acc, case -> acc + case.valueToCharacter(player) })
-    }
 
     private fun mostSignificantPlayersToMe(game: Game): List<GameCharacter>{
         var retval = mutableListOf<GameCharacter>()
