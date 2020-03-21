@@ -50,6 +50,7 @@ class GameCharacter {
         this.id = other.id
         this.name = other.name
         this.pictureString = other.pictureString
+        this.titles = other.titles.map{ title -> title}.toMutableSet()
         this.npc = other.npc
         this.location = other.location
         this.memory = other.memory.map{ memory -> Memory(memory)}.toMutableList()

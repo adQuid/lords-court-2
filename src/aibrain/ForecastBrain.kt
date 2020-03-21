@@ -140,7 +140,7 @@ class ForecastBrain {
 
     private fun actionPossibilitiesForPlayer(game: Game, player: GameCharacter): List<Plan>{
         var planWeights = HashMap<Action,Double>()
-        val rawActions = game.possibleActionsForPlayer(player)
+        val rawActions = player.actionsReguarding(mostSignificantPlayersToMe(game)).map { type -> Action(type) }
 
         rawActions.forEach {
             action ->

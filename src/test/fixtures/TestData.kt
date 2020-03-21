@@ -23,10 +23,7 @@ fun soloTestGame(): Game{
 
     game.locations.add(defaultLocation)
 
-    val player1 = GameCharacter("NPC 1", "this should never come up in a test", true, defaultLocation, game)
-    game.applyTitleToCharacter(TitleFactory.makeCountTitle("Cookies"), player1)
-    game.players.add(player1)
-
+    game.addPlayer(basicMilkman("NPC", game, defaultLocation))
     return game
 }
 
@@ -66,7 +63,7 @@ fun soloTestShortgame(): ShortStateGame{
 
 fun soloTestShortgameWithEverythingOnIt(): ShortStateGame{
     val game = soloTestGameWithEverythingOnIt()
-    game.players.add(GameCharacter("NPC 2", "this should never come up in a test", true, game.locations[0], game))
+    game.addPlayer(basicMilkman("Extra NPC", game, game.locations[0]))
     val retval = ShortStateGame(game, game.locations[0])
     retval.shortGameScene = ShortGameScene(listOf(retval.players[0], retval.players[1]), retval.location.rooms[0], Conversation(retval.players[0], retval.players[1]))
     return retval
@@ -76,12 +73,9 @@ fun twoPlayerTestGame(): Game{
     val game = Game()
     val location = Location(game)
 
-    val character1 = GameCharacter("person1", "thisdoesn'tmatter", false, location, game)
-    val character2 = GameCharacter("person2", "thisdoesn'tmatter", false, location, game)
-
     game.locations.add(location)
-    game.players.add(character1)
-    game.players.add(character2)
+    game.addPlayer(basicMilkman("person1", game, location))
+    game.addPlayer(basicMilkman("person2", game, location))
 
     return game
 }
@@ -89,4 +83,10 @@ fun twoPlayerTestGame(): Game{
 fun twoPlayerShortGame(): ShortStateGame{
     val game = twoPlayerTestGame()
     return ShortStateGame(game, game.locations[0])
+}
+
+private fun basicMilkman(name: String, game: Game, location: Location): GameCharacter{
+    val retval = GameCharacter(name, "this should never come up in a test", true, location, game)
+    game.applyTitleToCharacter(TitleFactory.makeMilkmanTitle(), retval)
+    return retval
 }

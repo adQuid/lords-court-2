@@ -107,9 +107,9 @@ class Game {
     }
 
     //this needs to return at least one action for the AI fucks up
-    fun possibleActionsForPlayer(player: GameCharacter): List<Action>{
+    fun possibleActionsForPlayerReguardingPlayer(playingas: GameCharacter, reguarding: GameCharacter): List<Action>{
         var retval = ArrayList<Action>()
-        if(!player.npc){
+        if(!playingas.npc){
             retval.add(Action(BakeCookies()))
         } else {
             players.forEach { retval.add(Action(GetMilk(it))) }
@@ -145,6 +145,11 @@ class Game {
         return actions.flatMap{
             it.type.doAction(this, player)
         }
+    }
+
+    fun addPlayer(player: GameCharacter){
+        players.add(player)
+        player.titles.forEach{ title -> titles.add(title)}
     }
 
     fun matchingPlayer(player: GameCharacter): GameCharacter?{

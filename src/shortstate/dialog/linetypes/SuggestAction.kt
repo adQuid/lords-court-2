@@ -47,10 +47,10 @@ class SuggestAction: Line, HasAction {
                     Controller.singleton!!.GUI!!,
                     listOf(
                         Tab("Basic Actions",
-                            Controller.singleton!!.game!!.possibleActionsForPlayer(perspective.player))
+                            speaker.player.actionsReguarding(listOf(target.player)))
                     ),
                     { action ->
-                        mySetAction(action); Controller.singleton!!.GUI!!.defocus();
+                        mySetAction(Action(action)); Controller.singleton!!.GUI!!.defocus();
                     })
             )}))
     }
