@@ -10,7 +10,7 @@ class GameSetup {
         game.locations.add(defaultLocation)
 
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, defaultLocation, game)
-        game.applyTitleToCharacter(TitleFactory.makeCountTitle("Cookies"), PC)
+        game.applyTitleToCharacter(TitleFactory.makeBakerTitle("Cookies"), PC)
         game.addPlayer(PC)
 
         val NPC = GameCharacter("Frip", "assets/portraits/faceman.png", true, defaultLocation, game)

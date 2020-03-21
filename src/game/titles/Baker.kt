@@ -8,12 +8,12 @@ import game.action.actionTypes.WasteTime
 import game.titlemaker.TitleFactory
 import shortstate.report.ReportType
 
-class Count: Title{
+class Baker: Title{
     override val name: String
     override val reportsEntitled: List<ReportType>
 
     constructor(name: String){
-       this.name = "Count of $name"
+       this.name = "Baker of $name"
        reportsEntitled = listOf(ReportType.DeliciousnessReportType)
     }
 
@@ -22,8 +22,8 @@ class Count: Title{
         reportsEntitled = listOf(ReportType.DeliciousnessReportType)
     }
 
-    override fun clone(): Count {
-        return Count(name)
+    override fun clone(): Baker {
+        return Baker(name)
     }
 
     override fun saveString(): Map<String, Any> {
