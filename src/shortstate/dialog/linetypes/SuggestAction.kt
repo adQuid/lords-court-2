@@ -71,7 +71,7 @@ class SuggestAction: Line, HasAction {
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf(Announcement(action), QuestionSuggestion(this))
+        return listOf(Announcement(action))
     }
 
     override fun specialEffect(conversation: Conversation) {

@@ -1,7 +1,6 @@
 package shortstate.dialog
 
 import game.Game
-import shortstate.ShortStateGame
 import shortstate.dialog.linetypes.*
 
 object GlobalLineTypeFactory {
@@ -13,7 +12,7 @@ object GlobalLineTypeFactory {
     val DISAPPROVE_TYPE_NAME = "Disaprve"
     val GIVE_REPORT_TYPE_NAME = "GveRprt"
     val OFFER_DEAL_TYPE_NAME = "OfrDeal"
-    val QUESTION_SUGGESTION_TYPE_NAME = "QstnSug"
+    val QUESTION_OFFER_TYPE_NAME = "QstnOfr"
     val REJECT_DEAL_TYPE_NAME = "RjctDeal"
     val REQUEST_REPORT_TYPE_NAME = "RqstRprt"
     val SUGGEST_ACTION_TYPE_NAME = "SgstActn"
@@ -27,7 +26,7 @@ object GlobalLineTypeFactory {
         DISAPPROVE_TYPE_NAME to {map, game -> Disapprove() },
         GIVE_REPORT_TYPE_NAME to {map, game -> GiveReport(map)},
         OFFER_DEAL_TYPE_NAME to {map, game -> OfferDeal(map, game)},
-        QUESTION_SUGGESTION_TYPE_NAME to {map, game -> QuestionSuggestion(map, game)},
+        QUESTION_OFFER_TYPE_NAME to { map, game -> QuestionOffer(map, game)},
         REJECT_DEAL_TYPE_NAME to {map, game -> RejectDeal(map, game)},
         REQUEST_REPORT_TYPE_NAME to {map, game -> RequestReport(map)},
         SUGGEST_ACTION_TYPE_NAME to {map, game -> SuggestAction(map, game)}

@@ -9,22 +9,22 @@ import game.Game
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
 
-class QuestionSuggestion: Line {
+class QuestionOffer: Line {
 
     override val type: String
-        get() = GlobalLineTypeFactory.QUESTION_SUGGESTION_TYPE_NAME
-    var line: SuggestAction? = null
+        get() = GlobalLineTypeFactory.QUESTION_OFFER_TYPE_NAME
+    var line: OfferDeal? = null
 
-    constructor(line: SuggestAction?){
+    constructor(line: OfferDeal?){
         this.line = line
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
-        line = SuggestAction(saveString["line"] as Map<String, Any>, game)
+        line = OfferDeal(saveString["line"] as Map<String, Any>, game)
     }
 
     override fun tooltipName(): String {
-        return "why?"
+        return "Why?"
     }
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {

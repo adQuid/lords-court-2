@@ -66,7 +66,7 @@ class OfferDeal: Line {
 
     override fun possibleReplies(): List<Line> {
         val newDeal = deal!!.toFinishedDeal()
-        return listOf(AcceptDeal(newDeal), RejectDeal(newDeal), OfferDeal(newDeal.toUnfinishedDeal()))
+        return listOf(AcceptDeal(newDeal), RejectDeal(newDeal), OfferDeal(newDeal.toUnfinishedDeal()), QuestionOffer(this))
     }
 
     override fun specialEffect(conversation: Conversation) {

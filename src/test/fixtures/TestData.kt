@@ -41,7 +41,9 @@ fun soloTestGameWithEverythingOnIt(): Game{
     game.players[0].memory.add(Memory(OfferDeal(FinishedDeal(mapOf(
         game.players[0] to listOf(Action(WasteTime()))
     )))))
-    game.players[0].memory.add(Memory(QuestionSuggestion(SuggestAction(Action(WasteTime())))))
+    game.players[0].memory.add(Memory(QuestionOffer(OfferDeal(FinishedDeal(mapOf(
+        game.players[0] to listOf(Action(WasteTime()))
+    ))))))
     game.players[0].memory.add(Memory(RejectDeal(FinishedDeal(mapOf(
         game.players[0] to listOf(Action(WasteTime()))
     )))))
