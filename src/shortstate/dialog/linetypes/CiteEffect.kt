@@ -1,17 +1,25 @@
 package shortstate.dialog.linetypes
 
-import aibrain.ConversationBrain
-import aibrain.Deal
-import aibrain.FinishedDeal
+import aibrain.*
 import game.Effect
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.GameCharacter
 import game.Game
+import game.effects.AddDelicousness
 import shortstate.dialog.GlobalLineTypeFactory
 import game.effects.GlobalEffectFactory
+import javafx.scene.Scene
+import javafx.scene.layout.GridPane
+import main.Controller
 import shortstate.ShortStateCharacter
+import ui.Displayable
+import ui.commoncomponents.AppendableList
+import ui.componentfactory.EffectChooser
+import ui.componentfactory.UtilityComponentFactory
+import ui.totalHeight
+import ui.totalWidth
 
 class CiteEffect: Line {
 
@@ -19,21 +27,25 @@ class CiteEffect: Line {
         get() = GlobalLineTypeFactory.CITE_EFFECT_TYPE_NAME
 
     val deal: FinishedDeal
-    var effects: List<Effect>? = null
+    var effects: MutableList<Effect>
+    val effectsDisplayList = AppendableList<Effect>()
 
     constructor(deal: FinishedDeal){
         this.deal = deal
+        effects = mutableListOf()
     }
 
-    constructor(deal: FinishedDeal, effects: List<Effect>?){
-        this.effects = effects
+    constructor(deal: FinishedDeal, effects: List<Effect>){
+        this.effects = effects.toMutableList()
         this.deal = deal
     }
 
     constructor(saveString: Map<String, Any?>, game: Game){
         this.deal = FinishedDeal(saveString["deal"] as Map<String, Any>, game)
         if(saveString["effects"] != null){
-            effects =  (saveString["effects"] as List<Map<String, Any>>).map { map -> GlobalEffectFactory.fromMap(map, game) }
+            effects =  (saveString["effects"] as List<Map<String, Any>>).map { map -> GlobalEffectFactory.fromMap(map, game) }.toMutableList()
+        } else {
+            effects = mutableListOf()
         }
     }
 
@@ -43,8 +55,8 @@ class CiteEffect: Line {
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         var retval = mutableListOf(LineBlock("CITE:"))
-        if(effects == null){
-            retval.add(LineBlock("Effect:___________"))
+        if(effects.isEmpty()){
+            retval.add(LineBlock("Effect:___________", { Controller.singleton!!.GUI!!.focusOn(action(speaker))}))
         } else {
             retval.addAll(effects!!.map{ effect -> LineBlock("Effect: ${effect.toString()}")})
         }
@@ -78,5 +90,11 @@ class CiteEffect: Line {
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
        throw NotImplementedError()
+    }
+
+    private fun action(speaker: ShortStateCharacter): EffectChooser{
+        return EffectChooser(
+            DealCase(deal).effectsOfDeal(listOf(GameCase(Controller.singleton!!.game!!.imageFor(speaker.player), speaker.player))),
+        { effect -> effects.add(effect); Controller.singleton!!.GUI!!.defocus()})
     }
 }

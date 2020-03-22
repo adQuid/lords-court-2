@@ -137,8 +137,10 @@ class Game {
         return effects
     }
 
-    fun applyActions(actions: Collection<Action>, player: GameCharacter){
-        doActions(actions, player).forEach { it.apply(this) }
+    fun applyActions(actions: Collection<Action>, player: GameCharacter): List<Effect>{
+        val effects = doActions(actions, player)
+        effects.forEach { it.apply(this) }
+        return effects
     }
 
     private fun doActions(actions: Collection<Action>, player: GameCharacter): List<Effect>{

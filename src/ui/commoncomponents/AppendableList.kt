@@ -1,13 +1,10 @@
 package ui.commoncomponents
 
-import aibrain.UnfinishedDeal
-import game.action.Action
 import javafx.event.EventHandler
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import main.Controller
 import ui.Displayable
-import ui.componentfactory.ActionChooser
 import ui.componentfactory.UtilityComponentFactory
 import ui.totalHeight
 import ui.totalWidth
@@ -18,7 +15,7 @@ class AppendableList<T> {
         val retval = GridPane()
 
         var behavior: (T) -> Unit
-        if(collection is MutableCollection){
+        if(addSelector != null){
             behavior = {action -> (collection as MutableCollection).remove(action);
                 Controller.singleton!!.GUI!!.display()}
 

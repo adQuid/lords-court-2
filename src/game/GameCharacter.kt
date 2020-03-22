@@ -13,6 +13,7 @@ class GameCharacter {
     val id: Int
     val NPC_NAME = "NPC"
     var npc: Boolean
+    //This brain is still sometimes used by non-NPC characters to determine effects to deals
     var brain = ForecastBrain(this)
 
     val NAME_NAME = "NAME"

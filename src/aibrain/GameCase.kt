@@ -2,6 +2,7 @@ package aibrain
 
 import game.Effect
 import game.Game
+import game.GameCharacter
 
 class GameCase {
     val baseGame: Game
@@ -10,7 +11,13 @@ class GameCase {
     //effects imposed on the inside from outside the simulation
     var initialEffects = listOf<Effect>()
     //all effects that applied to this game after simulation
-    var finalEffects = listOf<Effect>()
+    var finalEffects = mutableListOf<Effect>()
+
+    constructor(game: Game, player: GameCharacter){
+        this.baseGame = game
+        this.plan = Plan(player, listOf(), 1.0)
+        this.currentGame = calculateGame()
+    }
 
     constructor(game: Game, plan: Plan, effects: List<Effect>){
         this.baseGame = Game(game)
@@ -31,14 +38,14 @@ class GameCase {
         initialEffects.forEach { it.apply(tempGame) }
         tempGame.commitActionsForPlayer(plan.player, plan.actions)
         //this has the side effect of actually ending the turn
-        finalEffects = listOf(initialEffects, tempGame.endTurn()).flatten()
+        finalEffects.addAll(listOf(initialEffects, tempGame.endTurn()).flatten().toMutableList())
         return tempGame
     }
 
     fun applyDeal(deal: Deal): GameCase{
         val retval = GameCase(this)
         deal.theActions().keys.forEach {
-            retval.baseGame.applyActions(deal.theActions()[it]!!, it)
+            retval.finalEffects.addAll(retval.baseGame.applyActions(deal.theActions()[it]!!, it))
         }
         retval.currentGame = retval.calculateGame()
         return retval

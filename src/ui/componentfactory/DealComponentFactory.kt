@@ -10,7 +10,6 @@ import javafx.scene.control.Button
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
-import javafx.scene.text.Text
 import main.Controller
 import shortstate.ShortStateCharacter
 import ui.commoncomponents.AppendableList
