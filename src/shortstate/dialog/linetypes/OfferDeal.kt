@@ -77,7 +77,7 @@ class OfferDeal: Line {
         if(brain.shortCharacter.player.brain.dealValue(deal) > 0){
             return AcceptDeal(deal.toFinishedDeal())
         } else {
-            return RejectDeal(deal.toFinishedDeal())
+            return QuestionOffer(this)
         }
     }
 }

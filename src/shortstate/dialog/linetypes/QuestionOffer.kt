@@ -53,7 +53,7 @@ class QuestionOffer: Line {
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf(CiteEffect(null))
+        return listOf(CiteEffect(line!!.deal.toFinishedDeal()))
     }
 
     override fun specialEffect(conversation: Conversation) {
@@ -61,6 +61,6 @@ class QuestionOffer: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        return CiteEffect(brain.shortCharacter.player.brain.justifyDeal(line!!.deal, brain.shortCharacter.player))
+        return CiteEffect(line!!.deal.toFinishedDeal(), brain.shortCharacter.player.brain.justifyDeal(line!!.deal, brain.shortCharacter.player))
     }
 }

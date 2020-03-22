@@ -1,6 +1,8 @@
 package shortstate.dialog.linetypes
 
 import aibrain.ConversationBrain
+import aibrain.Deal
+import aibrain.FinishedDeal
 import game.Effect
 import shortstate.Conversation
 import shortstate.dialog.Line
@@ -16,13 +18,20 @@ class CiteEffect: Line {
     override val type: String
         get() = GlobalLineTypeFactory.CITE_EFFECT_TYPE_NAME
 
+    val deal: FinishedDeal
     var effects: List<Effect>? = null
 
-    constructor(effects: List<Effect>?){
+    constructor(deal: FinishedDeal){
+        this.deal = deal
+    }
+
+    constructor(deal: FinishedDeal, effects: List<Effect>?){
         this.effects = effects
+        this.deal = deal
     }
 
     constructor(saveString: Map<String, Any?>, game: Game){
+        this.deal = FinishedDeal(saveString["deal"] as Map<String, Any>, game)
         if(saveString["effects"] != null){
             effects =  (saveString["effects"] as List<Map<String, Any>>).map { map -> GlobalEffectFactory.fromMap(map, game) }
         }
@@ -44,13 +53,14 @@ class CiteEffect: Line {
     }
 
     override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        return "I have some very good reasons: " + effects!!.map { effect -> effect.describe() }
+        return "I have some very good reasons: " + effects?.map { effect -> effect.describe() }
     }
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             GlobalLineTypeFactory.TYPE_NAME to "CiteEffect",
-            "effects" to effects!!.map { effect -> effect.saveString() }
+            "effects" to effects!!.map { effect -> effect.saveString() },
+            "deal" to deal.saveString()
         )
     }
     

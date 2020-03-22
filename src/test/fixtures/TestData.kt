@@ -35,7 +35,9 @@ fun soloTestGameWithEverythingOnIt(): Game{
     )))
     game.players[0].memory.add(Memory(Announcement(Action(WasteTime()))))
     game.players[0].memory.add(Memory(Approve()))
-    game.players[0].memory.add(Memory(CiteEffect(listOf(AddDelicousness(1.0)))))
+    game.players[0].memory.add(Memory(CiteEffect(FinishedDeal(mapOf(
+        game.players[0] to listOf(Action(WasteTime()))
+    )), listOf(AddDelicousness(1.0)))))
     game.players[0].memory.add(Memory(Disapprove()))
     game.players[0].memory.add(Memory(GiveReport(DeliciousnessReport(17.8))))
     game.players[0].memory.add(Memory(OfferDeal(FinishedDeal(mapOf(
