@@ -1,4 +1,4 @@
-package ui.selectionmodal
+package ui.commoncomponents.selectionmodal
 
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
@@ -43,7 +43,11 @@ class SelectionModal<T>: Displayable {
         val listView = ListView<T>(data)
         listView.items = data
         listView.setPrefSize(parent.totalWidth,parent.totalHeight * (5.0/6.0))
-        listView.setCellFactory({ _: ListView<T> -> ActionPickCell(closeAction) })
+        listView.setCellFactory({ _: ListView<T> ->
+            ActionPickCell(
+                closeAction
+            )
+        })
 
         val btn8 = UtilityComponentFactory.shortWideButton("Cancel", EventHandler { parent.defocus()})
         pane.add(topPane(),0,0)

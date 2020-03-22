@@ -1,4 +1,4 @@
-package ui.selectionmodal
+package ui.commoncomponents.selectionmodal
 
 class Tab<T> {
 

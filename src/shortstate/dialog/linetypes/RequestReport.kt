@@ -11,9 +11,8 @@ import game.Game
 import main.Controller
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
-import shortstate.dialog.linetypes.traits.HasAction
-import ui.selectionmodal.SelectionModal
-import ui.selectionmodal.Tab
+import ui.commoncomponents.selectionmodal.SelectionModal
+import ui.commoncomponents.selectionmodal.Tab
 
 class RequestReport: Line, HasReportType {
 
@@ -37,7 +36,11 @@ class RequestReport: Line, HasReportType {
         return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "SELECT REPORT" else "Report: "+report.toString(),
             {Controller.singleton!!.GUI!!.focusOn(
                 SelectionModal(Controller.singleton!!.GUI!!,
-                    listOf(Tab("Reports",Controller.singleton!!.GUI!!.playingAs().player.titles.flatMap { title -> title.reportsEntitled })),
+                    listOf(
+                        Tab(
+                            "Reports",
+                            Controller.singleton!!.GUI!!.playingAs().player.titles.flatMap { title -> title.reportsEntitled })
+                    ),
                     { reportType ->
                         mySetReportType(reportType); Controller.singleton!!.GUI!!.defocus();
                     })

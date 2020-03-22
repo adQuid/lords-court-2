@@ -1,4 +1,4 @@
-package ui.selectionmodal.modals
+package ui.commoncomponents.selectionmodal.modals
 
 import game.action.Action
 import javafx.event.EventHandler

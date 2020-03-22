@@ -13,6 +13,7 @@ import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.Controller
 import shortstate.ShortStateCharacter
+import ui.commoncomponents.AppendableList
 import ui.totalHeight
 import ui.totalWidth
 
@@ -20,17 +21,24 @@ open class DealComponentFactory {
 
     val deal: Deal
     var currentPage: GameCharacter
+    val actionLists: Map<GameCharacter, AppendableList<Action>>
 
     constructor(deal: Deal){
         this.deal = deal
         currentPage = deal.theActions().keys.first()
+        actionLists = deal.theActions().entries.associate { entry -> entry.key to AppendableList<Action>() }
+    }
+
+    private fun action(): ActionChooser{
+        return ActionChooser(currentPage, (deal as UnfinishedDeal).actions.keys.toList(),
+            {action -> deal.actions[currentPage]!!.add(Action(action)); Controller.singleton!!.GUI!!.defocus()})
     }
 
     fun scenePage(perspective: ShortStateCharacter): Scene {
         val root = GridPane()
 
         root.add(topBar(),0,0)
-        root.add(actionList(deal.theActions()[currentPage]!!),0,1)
+        root.add(actionList(),0,1)
         root.add(UtilityComponentFactory.backButton(),0,2)
 
         val scene = Scene(root, totalWidth, totalHeight)
@@ -53,25 +61,11 @@ open class DealComponentFactory {
         return topPane
     }
 
-    private fun actionList(actions: List<Action>): Pane {
-        val retval = GridPane()
-
-        var behavior: (action: Action) -> Unit
+    private fun actionList(): Pane {
         if(deal is UnfinishedDeal){
-            behavior = {action -> (deal as UnfinishedDeal).actions[currentPage]!!.remove(action);
-                Controller.singleton!!.GUI!!.display()}
-
-            val newActionButton = UtilityComponentFactory.shortWideButton("Add Action",
-                EventHandler {_ -> Controller.singleton!!.GUI!!.focusOn(ActionChooser(currentPage, deal.actions.keys.toList(),
-                    {action -> deal.actions[currentPage]!!.add(Action(action)); Controller.singleton!!.GUI!!.defocus()}))})
-            retval.add(newActionButton, 0 , 1)
-        }else{
-                behavior = {}
+            return actionLists[currentPage]!!.actionList(deal.actions[currentPage]!!, action())
+        } else {
+            return actionLists[currentPage]!!.actionList(deal.theActions()[currentPage]!!, null)
         }
-
-        retval.add(UtilityComponentFactory.basicList(actions, behavior, totalWidth,totalHeight * (5.0/6.0)), 0, 0)
-
-        retval.setPrefSize(totalWidth, (5* totalHeight)/6)
-        return retval
     }
 }

@@ -79,7 +79,7 @@ class UnfinishedDeal: Deal{
     val display: DealComponentFactory
 
     override fun theActions(): Map<GameCharacter, List<Action>> {
-        return actions.toMap().mapValues { entry -> entry.value.toList() }
+        return actions.toMap().mapValues { entry -> entry.value.toMutableList() }
     }
 
     constructor(players: List<GameCharacter>){

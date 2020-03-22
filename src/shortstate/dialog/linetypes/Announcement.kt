@@ -11,8 +11,8 @@ import game.Game
 import main.Controller
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
-import ui.selectionmodal.SelectionModal
-import ui.selectionmodal.Tab
+import ui.commoncomponents.selectionmodal.SelectionModal
+import ui.commoncomponents.selectionmodal.Tab
 
 class Announcement: Line, HasAction {
 
@@ -41,8 +41,10 @@ class Announcement: Line, HasAction {
                 SelectionModal(
                     Controller.singleton!!.GUI!!,
                     listOf(
-                        Tab("Basic Actions",
-                            speaker.player.actionsReguarding(listOf(target.player)))
+                        Tab(
+                            "Basic Actions",
+                            speaker.player.actionsReguarding(listOf(target.player))
+                        )
                     ),
                     { action ->
                         mySetAction(Action(action)); Controller.singleton!!.GUI!!.defocus();

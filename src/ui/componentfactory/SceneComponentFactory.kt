@@ -12,8 +12,8 @@ import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import shortstate.room.Room
 import shortstate.room.RoomAction
-import ui.selectionmodal.SelectionModal
-import ui.selectionmodal.Tab
+import ui.commoncomponents.selectionmodal.SelectionModal
+import ui.commoncomponents.selectionmodal.Tab
 import ui.totalHeight
 import ui.totalWidth
 
@@ -66,8 +66,16 @@ class SceneComponentFactory {
         val btn1 = UtilityComponentFactory.shortButton("Personal Actions", null)
         val btn2 = if(scene.room.getActions(perspective.player).isNotEmpty()){
             UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
-                Controller.singleton!!.GUI!!.focusOn(SelectionModal(Controller.singleton!!.GUI!!, roomActionButtons(scene.room, perspective),
-                    { action -> action.doAction(Controller.singleton!!.shortThreadForPlayer(perspective), perspective); Controller.singleton!!.GUI!!.resetFocus()}))
+                Controller.singleton!!.GUI!!.focusOn(
+                    SelectionModal(Controller.singleton!!.GUI!!,
+                        roomActionButtons(scene.room, perspective),
+                        { action ->
+                            action.doAction(
+                                Controller.singleton!!.shortThreadForPlayer(perspective),
+                                perspective
+                            ); Controller.singleton!!.GUI!!.resetFocus()
+                        })
+                )
             })
         } else {
             UtilityComponentFactory.shortButton("No Actions In this Room", null)
@@ -80,7 +88,10 @@ class SceneComponentFactory {
     private fun viewReportsButton(perspective: ShortStateCharacter): Button {
         return UtilityComponentFactory.shortButton("View Reports",
                 EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
-                    SelectionModal(Controller.singleton!!.GUI!!, reports(perspective), { report -> println(report)})
+                    SelectionModal(
+                        Controller.singleton!!.GUI!!,
+                        reports(perspective),
+                        { report -> println(report) })
                 )
             }
         )

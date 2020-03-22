@@ -1,6 +1,5 @@
 package ui.componentfactory
 
-import game.action.Action
 import javafx.collections.FXCollections
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
@@ -19,13 +18,10 @@ import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
-import ui.selectionmodal.SelectionModal
-import ui.selectionmodal.Tab
+import ui.commoncomponents.selectionmodal.SelectionModal
+import ui.commoncomponents.selectionmodal.Tab
 import ui.totalHeight
 import ui.totalWidth
-import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
 
 
 object UtilityComponentFactory {
@@ -76,7 +72,10 @@ object UtilityComponentFactory {
     fun newSceneButton(perspective: ShortStateCharacter): Button {
         return shortButton("Go Somewhere Else",
             EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
-                SelectionModal(Controller.singleton!!.GUI!!, newSceneOptions(perspective), { maker -> goToNewSceneIfApplicable(maker, perspective)})
+                SelectionModal(
+                    Controller.singleton!!.GUI!!,
+                    newSceneOptions(perspective),
+                    { maker -> goToNewSceneIfApplicable(maker, perspective) })
             )
             }
         )

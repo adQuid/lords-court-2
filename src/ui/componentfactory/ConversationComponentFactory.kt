@@ -3,7 +3,6 @@ package ui.componentfactory
 import shortstate.dialog.Line
 import javafx.event.EventHandler
 import javafx.scene.Node
-import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
@@ -13,12 +12,7 @@ import javafx.scene.text.Text
 import main.Controller
 import shortstate.Conversation
 import shortstate.ShortStateCharacter
-import shortstate.dialog.linetypes.traits.HasAction
-import shortstate.dialog.linetypes.traits.HasReportType
-import ui.MainUI
 import ui.MyAnchorPane
-import ui.selectionmodal.SelectionModal
-import ui.selectionmodal.Tab
 import ui.totalHeight
 import ui.totalWidth
 
