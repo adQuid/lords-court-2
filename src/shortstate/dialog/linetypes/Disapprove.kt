@@ -27,7 +27,7 @@ class Disapprove: Line {
     }
 
     override fun fullTextForm(sspeaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        return "NOOO!!!"
+        return "I don't like this."
     }
 
     override fun specialSaveString(): Map<String, Any> {

@@ -77,7 +77,7 @@ class CiteEffect: Line {
     }
     
     override fun validToSend(): Boolean {
-        return effects != null
+        return effects.isNotEmpty()
     }
 
     override fun possibleReplies(): List<Line> {
@@ -89,7 +89,7 @@ class CiteEffect: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-       throw NotImplementedError()
+        return Disapprove()
     }
 
     private fun action(speaker: ShortStateCharacter): EffectChooser{
