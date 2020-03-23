@@ -32,6 +32,8 @@ class GameCharacter {
     val acceptedDeals: MutableList<FinishedDeal>
     val ACCEPTED_TREATIES_NAME = "ACCEPTEDTREATIES"
     val acceptedTreaties: MutableList<Treaty>
+    val WRITS_NAME = "WRITS"
+    val writs: MutableList<Writ>
 
     //testing only; starts positive to prevent infinite relative scores
     var dummyScore = 10.0
@@ -45,6 +47,7 @@ class GameCharacter {
         this.memory = mutableListOf()
         this.acceptedDeals = mutableListOf()
         this.acceptedTreaties = mutableListOf()
+        this.writs = mutableListOf()
     }
 
     constructor(other: GameCharacter){
@@ -55,8 +58,9 @@ class GameCharacter {
         this.npc = other.npc
         this.location = other.location
         this.memory = other.memory.map{ memory -> Memory(memory)}.toMutableList()
-        this.acceptedDeals = mutableListOf()
-        this.acceptedTreaties = mutableListOf()
+        this.acceptedDeals = mutableListOf() //TODO: Fix this
+        this.acceptedTreaties = mutableListOf() //TODO: Fix this
+        this.writs = other.writs.map { writ -> Writ(writ) }.toMutableList()
 
         //testing only
         this.dummyScore = other.dummyScore
@@ -73,12 +77,14 @@ class GameCharacter {
         memory = mutableListOf()
         acceptedDeals = mutableListOf()
         acceptedTreaties = mutableListOf()
+        writs = mutableListOf()
     }
 
     fun finishConstruction(saveString: Map<String, Any>, game: Game){
         memory.addAll((saveString[MEMORY_NAME] as List<Map<String, Any>>).map { map -> Memory(map, game)})
         acceptedDeals.addAll((saveString[ACCEPTED_DEALS_NAME] as List<Map<String, Any>>).map { map -> FinishedDeal(map, game)}.toMutableList())
         acceptedTreaties.addAll((saveString[ACCEPTED_TREATIES_NAME] as List<Map<String, Any>>).map { map -> Treaty(map, game)}.toMutableList())
+        writs.addAll((saveString[WRITS_NAME] as List<Map<String, Any>>).map{map -> Writ(map, game)})
     }
 
     fun saveString(): Map<String, Any>{
@@ -93,6 +99,7 @@ class GameCharacter {
         retval[MEMORY_NAME] = memory.map { memory -> memory.saveString() }
         retval[ACCEPTED_DEALS_NAME] = acceptedDeals.map { deal -> deal.saveString() }
         retval[ACCEPTED_TREATIES_NAME] = acceptedTreaties.map { treaty -> treaty.saveString() }
+        retval[WRITS_NAME] = writs.map { writ -> writ.saveString() }
 
         return retval
     }

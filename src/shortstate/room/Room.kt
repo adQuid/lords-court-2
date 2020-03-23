@@ -69,7 +69,7 @@ class Room {
     }
 
     enum class RoomType{
-        BEDROOM, WORKROOM, ETC
+        BEDROOM, WORKROOM, THRONEROOM, ETC
     }
 
 }

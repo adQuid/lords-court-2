@@ -4,6 +4,7 @@ import game.Game
 import org.junit.Test
 import test.fixtures.soloTestGame
 import test.fixtures.soloTestGameWithEverythingOnIt
+import test.fixtures.twoPlayerGameWithWrits
 import kotlin.test.assertTrue
 
 class TestGame {
@@ -27,6 +28,7 @@ class TestGame {
     fun testSaveGame() {
         testSaveHelper(soloTestGame())
         testSaveHelper(soloTestGameWithEverythingOnIt())
+        testSaveHelper(twoPlayerGameWithWrits())
     }
 
     private fun testSaveHelper(game: Game){

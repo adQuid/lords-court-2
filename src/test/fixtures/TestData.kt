@@ -3,6 +3,7 @@ package test.fixtures
 import aibrain.FinishedDeal
 import game.GameCharacter
 import game.Game
+import game.Writ
 import game.Location
 import game.titlemaker.TitleFactory
 import shortstate.ShortStateGame
@@ -80,6 +81,12 @@ fun twoPlayerTestGame(): Game{
     game.addPlayer(basicMilkman("person1", game, location))
     game.addPlayer(basicMilkman("person2", game, location))
 
+    return game
+}
+
+fun twoPlayerGameWithWrits(): Game{
+    val game = twoPlayerTestGame()
+    game.players[0].writs.add(Writ(neutralDeal(game.players)))
     return game
 }
 

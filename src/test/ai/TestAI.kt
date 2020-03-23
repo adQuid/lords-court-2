@@ -29,7 +29,7 @@ class TestAI {
         val brain = ForecastBrain(character) //should I be doing this? The Character class already makes a brain for itself...
 
         brain.thinkAboutNextTurn(game)
-        assert(brain.dealValue(goodDeal(game)) > 0)
+        assert(brain.dealValue(goodDeal(game.players)) > 0)
     }
 
     @Test
@@ -40,7 +40,7 @@ class TestAI {
         val brain = ForecastBrain(character) //should I be doing this? The Character class already makes a brain for itself...
 
         brain.thinkAboutNextTurn(game)
-        assert(brain.dealValue(badDeal(game)) < 0)
+        assert(brain.dealValue(badDeal(game.players)) < 0)
     }
 
 }
