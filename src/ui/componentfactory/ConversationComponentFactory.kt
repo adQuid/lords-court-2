@@ -31,17 +31,7 @@ class ConversationComponentFactory {
 
     fun buttons(perspective: ShortStateCharacter): List<Button> {
         var retval = mutableListOf<Button>()
-        if(lineBeingConstructed != null){
-            if(lineBeingConstructed!!.validToSend()){
-                retval.add(UtilityComponentFactory.shortButton("Commit Line",
-                    EventHandler { _ -> conversation.submitLine(lineBeingConstructed!!, Controller.singleton!!.shortThreadForPlayer(perspective).shortGame);
-                        lineBeingConstructed = null; Controller.singleton!!.GUI!!.defocus()}))
-            }
-            retval.add(UtilityComponentFactory.shortButton(
-                "Cancel",
-                EventHandler { lineBeingConstructed = null; Controller.singleton!!.GUI!!.display()})
-            )
-        } else {
+        if(lineBeingConstructed == null){
             val linesList =
             if(conversation.lastLine != null
                 && conversation.lastLine!!.possibleReplies().isNotEmpty()){
@@ -65,6 +55,18 @@ class ConversationComponentFactory {
             val playerSpeechView = UtilityComponentFactory.imageView("assets/general/rightSpeechBubble.png")
             playerSpeechView.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; Controller.singleton!!.GUI!!.display() }
             backgroundPane.children.addAll(npcSpeechView, playerSpeechView)
+
+            if(lineBeingConstructed != null){
+                if(lineBeingConstructed!!.validToSend()){
+                    val sendButton = UtilityComponentFactory.imageView("assets/general/talkButton.png")
+                    sendButton.setOnMouseClicked { _ -> conversation.submitLine(lineBeingConstructed!!, Controller.singleton!!.shortThreadForPlayer(perspective).shortGame);
+                        lineBeingConstructed = null; Controller.singleton!!.GUI!!.defocus()}
+                    backgroundPane.children.add(sendButton)
+                }
+                val cancelButton = UtilityComponentFactory.imageView("assets/general/cancelLineButton.png")
+                cancelButton.setOnMouseClicked { lineBeingConstructed = null; Controller.singleton!!.GUI!!.display()}
+                backgroundPane.children.add(cancelButton)
+            }
 
             backgroundPane.children.add(descriptionPane(perspective))
 
