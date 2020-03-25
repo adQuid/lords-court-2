@@ -77,7 +77,9 @@ class SelectionModal<T>: Displayable {
         public override fun updateItem(item: T?, empty: Boolean) {
             if(item != null){
                 super.updateItem(item, empty)
-                this.graphic = Text(item.toString())
+                val text = Text(item.toString())
+                text.font = Font(20.0)
+                this.graphic = text
                 this.onMouseClicked = EventHandler{_ -> closeAction(item)}
             }
         }
