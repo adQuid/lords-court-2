@@ -73,7 +73,7 @@ class SceneComponentFactory {
                             action.doAction(
                                 Controller.singleton!!.shortThreadForPlayer(perspective),
                                 perspective
-                            ); Controller.singleton!!.GUI!!.resetFocus()
+                            ); Controller.singleton!!.GUI!!.display()
                         })
                 )
             })

@@ -3,6 +3,7 @@ package shortstate.room
 import game.GameCharacter
 import shortstate.ShortStateGame
 import shortstate.room.action.CommitToAction
+import shortstate.room.action.DraftWrit
 import shortstate.room.action.GoToBed
 import shortstate.room.action.MakeReport
 
@@ -62,7 +63,7 @@ class Room {
         if(type == RoomType.BEDROOM){
             return listOf(GoToBed())
         } else if(type == RoomType.WORKROOM){
-           return listOf()
+           return listOf(DraftWrit())
         } else {
             return listOf()
         }
