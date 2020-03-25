@@ -125,12 +125,7 @@ object UtilityComponentFactory {
     }
 
     fun shortButton(text: String, action: EventHandler<ActionEvent>?): Button {
-        val retval = Button(text)
-        retval.setMinSize(totalWidth / 4, totalHeight / 12)
-        if (action != null) {
-            retval.onAction = action
-        }
-        return retval
+        return shortButton(text, action, 1)
     }
 
     fun shortButton(text: String, action: EventHandler<ActionEvent>?, specialWidth: Int): Button {

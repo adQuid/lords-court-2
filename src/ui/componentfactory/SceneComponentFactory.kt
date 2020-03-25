@@ -1,5 +1,6 @@
 package ui.componentfactory
 
+import game.Writ
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.Button
@@ -82,7 +83,8 @@ class SceneComponentFactory {
         }
         val btn3 = UtilityComponentFactory.newSceneButton(perspective)
         val btn4 = viewReportsButton(perspective)
-        return UtilityComponentFactory.bottomPane(listOf(btn1,btn2,btn3,btn4), perspective)
+        val btn5 = viewWritsButton(perspective)
+        return UtilityComponentFactory.bottomPane(listOf(btn1,btn2,btn3,btn4,btn5), perspective)
     }
 
     private fun viewReportsButton(perspective: ShortStateCharacter): Button {
@@ -97,11 +99,30 @@ class SceneComponentFactory {
         )
     }
 
-    fun reports(perspective: ShortStateCharacter): List<Tab<Report>>{
+    private fun reports(perspective: ShortStateCharacter): List<Tab<Report>>{
         val reportOptions = perspective.knownReports.map{ report -> report }
         val reportTab = Tab<Report>("Reports", reportOptions)
 
         return listOf(reportTab)
+    }
+
+    private fun viewWritsButton(perspective: ShortStateCharacter): Button {
+        return UtilityComponentFactory.shortButton("View Writs",
+            EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
+                SelectionModal(
+                    Controller.singleton!!.GUI!!,
+                    writs(perspective),
+                    { report -> println(report) })
+            )
+            }
+        )
+    }
+
+    private fun writs(perspective: ShortStateCharacter): List<Tab<Writ>>{
+        val writList = perspective.player.writs
+        val retval = Tab<Writ>("Writs", writList)
+
+        return listOf(retval)
     }
 
     private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomAction>>{

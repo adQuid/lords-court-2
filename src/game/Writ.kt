@@ -34,4 +34,8 @@ class Writ {
             "signatories" to signatories.map { it.id }
         )
     }
+
+    override fun toString(): String {
+        return "signed by "+ signatories.fold("", {acc, character -> acc +","+character.fullName()})
+    }
 }
