@@ -63,7 +63,7 @@ class SelectionModal<T>: Displayable {
         options.forEach {
             val topic = Button(it.title)
             if(it == focusedTab){
-                topic.font = Font(18.0)
+                topic.font = Font(28.0)
             } else {
                 topic.onAction = EventHandler {_ -> focusedTab = it; parent.display()}
             }

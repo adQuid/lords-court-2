@@ -33,4 +33,8 @@ class Writ {
     override fun toString(): String {
         return "signed by "+ signatories.fold("", {acc, character -> acc +", "+character.toString()}).drop(2)
     }
+
+    fun complete(): Boolean{
+        return deal.actions.keys.equals(signatories.toSet())
+    }
 }

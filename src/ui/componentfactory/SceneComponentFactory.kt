@@ -119,10 +119,12 @@ class SceneComponentFactory {
     }
 
     private fun writs(perspective: ShortStateCharacter): List<Tab<Writ>>{
-        val writList = perspective.player.writs
-        val retval = Tab<Writ>("Writs", writList)
+        val complete = perspective.player.writs.filter { it.complete() }
+        val completeTab = Tab<Writ>("Complete", complete)
+        val incomplete = perspective.player.writs.filter { !it.complete() }
+        val incompleteTab = Tab<Writ>("Incomplete", incomplete)
 
-        return listOf(retval)
+        return listOf(completeTab, incompleteTab)
     }
 
     private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomAction>>{
