@@ -86,7 +86,7 @@ fun twoPlayerTestGame(): Game{
 
 fun twoPlayerGameWithWrits(): Game{
     val game = twoPlayerTestGame()
-    game.players[0].writs.add(Writ(neutralDeal(game.players)))
+    game.players[0].writs.add(Writ(neutralDeal(game.players), listOf(game.players[0])))
     return game
 }
 

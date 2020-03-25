@@ -8,11 +8,6 @@ class Writ {
     val deal: FinishedDeal
     val signatories: MutableList<GameCharacter>
 
-    constructor(deal: Deal){
-        this.deal = deal.toFinishedDeal()
-        signatories = mutableListOf()
-    }
-
     constructor(deal: Deal, signatories: List<GameCharacter>){
         this.deal = deal.toFinishedDeal()
         this.signatories = signatories.toMutableList()
@@ -36,6 +31,6 @@ class Writ {
     }
 
     override fun toString(): String {
-        return "signed by "+ signatories.fold("", {acc, character -> acc +","+character.fullName()})
+        return "signed by "+ signatories.fold("", {acc, character -> acc +", "+character.toString()}).drop(2)
     }
 }

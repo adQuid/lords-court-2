@@ -1,6 +1,7 @@
 package ui
 
 import aibrain.UnfinishedDeal
+import game.GameCharacter
 import game.Writ
 import javafx.scene.Scene
 import shortstate.ShortStateCharacter
@@ -19,7 +20,10 @@ class WritConstructor: Displayable {
         return display.scenePage(perspective)
     }
 
-    fun generateWrit(): Writ {
-        return Writ(deal.toFinishedDeal())
+    fun generateWrit(firstSigner: GameCharacter): Writ {
+        if(deal.isEmpty()){
+            throw Exception("Tried to make an empty Writ!")
+        }
+        return Writ(deal.toFinishedDeal(), listOf(firstSigner))
     }
 }

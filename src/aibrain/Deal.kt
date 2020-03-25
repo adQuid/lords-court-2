@@ -96,6 +96,10 @@ class UnfinishedDeal: Deal{
         display = DealComponentFactory(this)
     }
 
+    fun isEmpty(): Boolean{
+        return actions.values.sumBy { list -> list.size } == 0
+    }
+
     override fun toFinishedDeal(): FinishedDeal{
         return FinishedDeal(actions.toMap())
     }
