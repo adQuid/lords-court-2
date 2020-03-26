@@ -20,6 +20,8 @@ class Game {
     var locations = mutableListOf<Location>()
     val ACTIONS_NAME = "actions"
     var actionsByPlayer = mutableMapOf<GameCharacter, List<Action>>()
+    val CONCLUDED_PLAYERS_NAME = "concludedPlayers"
+    var concludedPlayers = mutableSetOf<GameCharacter>()
 
     //This is more of a "secondary" pointer, and is expected to be duplicated with anyone actually holding the titles.
     //These exist to prevent titles from vanishing when nobody is holding them
@@ -61,6 +63,8 @@ class Game {
             (value as List<Map<String,Any>>).map { map -> Action(GlobalActionTypeFactory.fromMap(map)) } }
         actionsByPlayer = tempActions
 
+        concludedPlayers = (saveString[CONCLUDED_PLAYERS_NAME] as List<Int>).map { id -> characterById(id) }.toMutableSet()
+
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> TitleFactory.titleFromSaveString(map) }.toMutableSet()
 
         deliciousness = saveString[DELICIOUSNESS_NAME] as Double
@@ -77,6 +81,7 @@ class Game {
         val saveActions = mutableMapOf<Int, List<Map<String,Any>>>()
         actionsByPlayer.forEach{(character, actions) -> saveActions[character.id] = actions.map { it.saveString() }}
         retval[ACTIONS_NAME] = saveActions
+        retval[CONCLUDED_PLAYERS_NAME] = concludedPlayers.map { player -> player.id }
         retval[TITLES_NAME] = titles.map { it.saveString() }
 
         retval[DELICIOUSNESS_NAME] = deliciousness
@@ -91,7 +96,8 @@ class Game {
             this.isLive == other.isLive &&
             this.turn == other.turn &&
             this.locations == other.locations &&
-            this.actionsByPlayer == other.actionsByPlayer
+            this.actionsByPlayer == other.actionsByPlayer &&
+            this.concludedPlayers == other.concludedPlayers
         } else {
             return false
         }

@@ -1,5 +1,7 @@
 package main
 
+import game.GameCharacter
+import game.action.Action
 import ui.Displayable
 import ui.MainUI
 
@@ -23,6 +25,10 @@ object UIGlobals {
 
     fun focusOn(focus: Displayable?){
         GUI().focusOn(focus)
+    }
+
+    fun appendActionsForPlayer(player: GameCharacter, actions: List<Action>){
+        Controller.singleton!!.commitActionsForPlayer(player, actions)
     }
 
 }

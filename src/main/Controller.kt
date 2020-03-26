@@ -49,7 +49,11 @@ class Controller {
 
     fun commitActionsForPlayer(player: GameCharacter, actions: List<Action>){
         game!!.commitActionsForPlayer(player, actions)
-        if(game!!.actionsByPlayer.keys.size == game!!.players.size){
+    }
+
+    fun concludeTurnForPlayer(player: GameCharacter){
+        game!!.concludedPlayers.add(player)
+        if(game!!.concludedPlayers.size == game!!.players.size){
             println("ENDING TURN ${game!!.turn}")
             game!!.endTurn()
             val shortGame = ShortStateGame(game!!, game!!.locations[0])

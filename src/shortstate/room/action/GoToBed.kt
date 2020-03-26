@@ -12,6 +12,7 @@ class GoToBed: RoomAction() {
         player.energy = 0
         shortGameController.endScene(shortGameController.shortGame.sceneForPlayer(player)!!)
         Controller.singleton!!.commitActionsForPlayer(player.player, player.prospectiveActions)
+        Controller.singleton!!.concludeTurnForPlayer(player.player)
     }
 
     override fun toString(): String {
