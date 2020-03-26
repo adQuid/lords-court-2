@@ -68,7 +68,7 @@ open class DealComponentFactory {
             if(it.key == currentPage){
                 topic.font = Font(18.0)
             } else {
-                topic.onAction = EventHandler {_ -> currentPage = it.key; UIGlobals.GUI().display()}
+                topic.onAction = EventHandler {_ -> currentPage = it.key; UIGlobals.refresh()}
             }
             topic.setMinSize(totalWidth / deal.theActions().size, totalHeight / 12)
             topPane.add(topic, index++, 0)

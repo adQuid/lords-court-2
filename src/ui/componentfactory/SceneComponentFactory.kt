@@ -75,7 +75,7 @@ class SceneComponentFactory {
                             action.doAction(
                                 Controller.singleton!!.shortThreadForPlayer(perspective),
                                 perspective
-                            ); UIGlobals.GUI().display()
+                            ); UIGlobals.refresh()
                         })
                 )
             })

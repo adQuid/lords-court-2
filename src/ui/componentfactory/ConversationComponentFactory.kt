@@ -41,7 +41,7 @@ class ConversationComponentFactory {
                 conversation.defaultConversationLines(perspective)
             }
             retval = linesList
-                .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line); UIGlobals.GUI().display()})}.toMutableList()
+                .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line); UIGlobals.refresh()})}.toMutableList()
             retval.add(UtilityComponentFactory.newSceneButton(perspective))
         }
 
@@ -52,9 +52,9 @@ class ConversationComponentFactory {
 
         if(conversation != null){
             val npcSpeechView = UtilityComponentFactory.imageView("assets/general/leftSpeechBubble.png")
-            npcSpeechView.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.GUI().display() }
+            npcSpeechView.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.refresh() }
             val playerSpeechView = UtilityComponentFactory.imageView("assets/general/rightSpeechBubble.png")
-            playerSpeechView.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.GUI().display() }
+            playerSpeechView.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.refresh() }
             backgroundPane.children.addAll(npcSpeechView, playerSpeechView)
 
             if(lineBeingConstructed != null){
@@ -65,7 +65,7 @@ class ConversationComponentFactory {
                     backgroundPane.children.add(sendButton)
                 }
                 val cancelButton = UtilityComponentFactory.imageView("assets/general/cancelLineButton.png")
-                cancelButton.setOnMouseClicked { lineBeingConstructed = null; UIGlobals.GUI().display()}
+                cancelButton.setOnMouseClicked { lineBeingConstructed = null; UIGlobals.refresh()}
                 backgroundPane.children.add(cancelButton)
             }
 
@@ -112,9 +112,9 @@ class ConversationComponentFactory {
 
                 if(block.behavior==null){
                     if(left){
-                        playerLineText.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.GUI().display() }
+                        playerLineText.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.refresh() }
                     } else {
-                        playerLineText.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.GUI().display() }
+                        playerLineText.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.refresh() }
                     }
                 }
             }
@@ -128,9 +128,9 @@ class ConversationComponentFactory {
             lineNode.wrappingWidth = totalWidth * 0.28
 
             if(left){
-                lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.GUI().display() }
+                lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.refresh() }
             } else {
-                lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.GUI().display() }
+                lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.refresh() }
             }
         }
 

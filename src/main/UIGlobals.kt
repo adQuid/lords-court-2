@@ -8,4 +8,8 @@ object UIGlobals {
         return Controller.singleton!!.GUI!!
     }
 
+    fun refresh(){
+        Controller.singleton!!.GUI!!.display()
+    }
+
 }

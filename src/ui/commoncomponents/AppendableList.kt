@@ -18,7 +18,7 @@ class AppendableList<T> {
         var behavior: (T) -> Unit
         if(addSelector != null){
             behavior = {action -> (collection as MutableCollection).remove(action);
-                UIGlobals.GUI().display()}
+                UIGlobals.refresh()}
 
             val newActionButton = UtilityComponentFactory.shortWideButton("Add Action",
                 EventHandler {_ -> UIGlobals.GUI().focusOn(addSelector)})
