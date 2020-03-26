@@ -1,25 +1,25 @@
 package shortstate.room.action
 
-import aibrain.UnfinishedDeal
 import game.Writ
 import main.Controller
-import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
 import shortstate.room.RoomAction
-import ui.WritConstructor
 
-class DraftWrit: RoomAction {
+class EnactWrit: RoomAction {
 
-    constructor(){
+    val writ: Writ
 
+    constructor(writ: Writ){
+        this.writ = writ
     }
 
     override fun doAction(shortGameController: ShortStateController, player: ShortStateCharacter) {
-        UIGlobals.GUI().focusOn(WritConstructor(UnfinishedDeal(listOf(player.player))))
-    }
+        if(!writ.complete()){
+            throw Exception("Trying to enact an imcomplete writ!")
+        }
+        writ.deal.actions.keys.forEach {
 
-    override fun toString(): String {
-        return "Draft new Writ"
+        }
     }
 }

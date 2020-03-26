@@ -11,6 +11,7 @@ import game.GameCharacter
 import game.Game
 import game.action.Action
 import main.Controller
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
 
@@ -40,7 +41,7 @@ class OfferDeal: Line {
         val dealBlock = if(deal==null){
             LineBlock("Deal:___________")
         } else {
-            LineBlock("Deal: [CLICK FOR DETAILS]", { Controller.singleton!!.GUI!!.focusOn(deal)})
+            LineBlock("Deal: [CLICK FOR DETAILS]", { UIGlobals.GUI().focusOn(deal)})
         }
         return listOf(LineBlock("OFFER:"), dealBlock)
     }

@@ -2,6 +2,7 @@ package shortstate
 
 import javafx.application.Platform
 import main.Controller
+import main.UIGlobals
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
 
@@ -27,7 +28,7 @@ class ShortStateController: Runnable {
             Thread.sleep(100) //Very weak logic to prevent the threads from crashing the GUI
         }
         println("starting run")
-        Platform.runLater { Controller.singleton!!.GUI!!.resetFocus() }
+        Platform.runLater { UIGlobals.GUI().resetFocus() }
         var nextPlayer = shortGame.nextActingPlayer()
         while(nextPlayer != null){
             if(shortGame.shortGameScene == null){
@@ -38,7 +39,7 @@ class ShortStateController: Runnable {
             } else if(shortGame.shortGameScene!!.nextPlayerToDoSomething().player.npc){
                 doAIIfAppropriate()
                 if(shortGame.shortGameScene != null && shortGame.shortGameScene!!.hasAPC()){
-                    Platform.runLater { Controller.singleton!!.GUI!!.resetFocus() }
+                    Platform.runLater { UIGlobals.GUI().resetFocus() }
                 }
             }
             Thread.sleep(200)
@@ -66,7 +67,7 @@ class ShortStateController: Runnable {
         }
         player.nextSceneIWannaBeIn = null
         try{
-            Platform.runLater { Controller.singleton!!.GUI!!.resetFocus() }
+            Platform.runLater { UIGlobals.GUI().resetFocus() }
         } catch(exception: Exception){
             println("exception caught on addScene UI update")
             //Do nothing. This is scotch tape because sort state games might be made before UI starts
@@ -84,7 +85,7 @@ class ShortStateController: Runnable {
             shortGame.shortGameScene = null
         }
         if(shortGameScene.characters.filter { char -> !char.player.npc }.isNotEmpty()){
-            Platform.runLater { Controller.singleton!!.GUI!!.resetFocus() }
+            Platform.runLater { UIGlobals.GUI().resetFocus() }
         }
     }
 }

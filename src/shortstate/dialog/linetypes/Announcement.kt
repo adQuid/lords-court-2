@@ -9,6 +9,7 @@ import shortstate.dialog.linetypes.traits.HasAction
 import game.GameCharacter
 import game.Game
 import main.Controller
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
 import ui.commoncomponents.selectionmodal.SelectionModal
@@ -37,9 +38,9 @@ class Announcement: Line, HasAction {
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "SELECT ACTION" else "Action: "+action.toString(),
-            {perspective -> Controller.singleton!!.GUI!!.focusOn(
+            {perspective -> UIGlobals.GUI().focusOn(
                 SelectionModal(
-                    Controller.singleton!!.GUI!!,
+                    UIGlobals.GUI(),
                     listOf(
                         Tab(
                             "Basic Actions",
@@ -47,7 +48,7 @@ class Announcement: Line, HasAction {
                         )
                     ),
                     { action ->
-                        mySetAction(Action(action)); Controller.singleton!!.GUI!!.defocus();
+                        mySetAction(Action(action)); UIGlobals.GUI().defocus();
                     })
             )}))
     }

@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
 import main.Controller
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.commoncomponents.AppendableList
 import ui.totalHeight
@@ -36,7 +37,7 @@ open class DealComponentFactory {
 
     private fun action(): ActionChooser{
         return ActionChooser(currentPage, actions.keys.toList(),
-            {action -> actions[currentPage]!!.add(Action(action)); Controller.singleton!!.GUI!!.defocus()})
+            {action -> actions[currentPage]!!.add(Action(action)); UIGlobals.GUI().defocus()})
     }
 
     fun scenePage(perspective: ShortStateCharacter): Scene {
@@ -47,8 +48,8 @@ open class DealComponentFactory {
 
         val bottomPane = GridPane()
         if(deal is UnfinishedDeal){
-            bottomPane.add(UtilityComponentFactory.shortButton("Cancel", EventHandler { resetActions(); Controller.singleton!!.GUI!!.defocus()}),0,0)
-            bottomPane.add(UtilityComponentFactory.shortButton("Complete", EventHandler { deal.actions.entries.forEach { deal.actions[it.key] = actions[it.key]!! }; Controller.singleton!!.GUI!!.defocus()}, 3),1,0)
+            bottomPane.add(UtilityComponentFactory.shortButton("Cancel", EventHandler { resetActions(); UIGlobals.GUI().defocus()}),0,0)
+            bottomPane.add(UtilityComponentFactory.shortButton("Complete", EventHandler { deal.actions.entries.forEach { deal.actions[it.key] = actions[it.key]!! }; UIGlobals.GUI().defocus()}, 3),1,0)
         } else {
             bottomPane.add(UtilityComponentFactory.backButton(), 0,0)
         }
@@ -67,7 +68,7 @@ open class DealComponentFactory {
             if(it.key == currentPage){
                 topic.font = Font(18.0)
             } else {
-                topic.onAction = EventHandler {_ -> currentPage = it.key; Controller.singleton!!.GUI!!.display()}
+                topic.onAction = EventHandler {_ -> currentPage = it.key; UIGlobals.GUI().display()}
             }
             topic.setMinSize(totalWidth / deal.theActions().size, totalHeight / 12)
             topPane.add(topic, index++, 0)

@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.Controller
+import main.UIGlobals
 import shortstate.Conversation
 import shortstate.ShortStateCharacter
 import ui.MyAnchorPane
@@ -40,7 +41,7 @@ class ConversationComponentFactory {
                 conversation.defaultConversationLines(perspective)
             }
             retval = linesList
-                .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line); Controller.singleton!!.GUI!!.display()})}.toMutableList()
+                .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line); UIGlobals.GUI().display()})}.toMutableList()
             retval.add(UtilityComponentFactory.newSceneButton(perspective))
         }
 
@@ -51,20 +52,20 @@ class ConversationComponentFactory {
 
         if(conversation != null){
             val npcSpeechView = UtilityComponentFactory.imageView("assets/general/leftSpeechBubble.png")
-            npcSpeechView.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; Controller.singleton!!.GUI!!.display() }
+            npcSpeechView.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.GUI().display() }
             val playerSpeechView = UtilityComponentFactory.imageView("assets/general/rightSpeechBubble.png")
-            playerSpeechView.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; Controller.singleton!!.GUI!!.display() }
+            playerSpeechView.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.GUI().display() }
             backgroundPane.children.addAll(npcSpeechView, playerSpeechView)
 
             if(lineBeingConstructed != null){
                 if(lineBeingConstructed!!.validToSend()){
                     val sendButton = UtilityComponentFactory.imageView("assets/general/talkButton.png")
                     sendButton.setOnMouseClicked { _ -> conversation.submitLine(lineBeingConstructed!!, Controller.singleton!!.shortThreadForPlayer(perspective).shortGame);
-                        lineBeingConstructed = null; Controller.singleton!!.GUI!!.defocus()}
+                        lineBeingConstructed = null; UIGlobals.GUI().defocus()}
                     backgroundPane.children.add(sendButton)
                 }
                 val cancelButton = UtilityComponentFactory.imageView("assets/general/cancelLineButton.png")
-                cancelButton.setOnMouseClicked { lineBeingConstructed = null; Controller.singleton!!.GUI!!.display()}
+                cancelButton.setOnMouseClicked { lineBeingConstructed = null; UIGlobals.GUI().display()}
                 backgroundPane.children.add(cancelButton)
             }
 
@@ -111,9 +112,9 @@ class ConversationComponentFactory {
 
                 if(block.behavior==null){
                     if(left){
-                        playerLineText.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; Controller.singleton!!.GUI!!.display() }
+                        playerLineText.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.GUI().display() }
                     } else {
-                        playerLineText.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; Controller.singleton!!.GUI!!.display() }
+                        playerLineText.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.GUI().display() }
                     }
                 }
             }
@@ -127,9 +128,9 @@ class ConversationComponentFactory {
             lineNode.wrappingWidth = totalWidth * 0.28
 
             if(left){
-                lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; Controller.singleton!!.GUI!!.display() }
+                lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.GUI().display() }
             } else {
-                lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; Controller.singleton!!.GUI!!.display() }
+                lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.GUI().display() }
             }
         }
 

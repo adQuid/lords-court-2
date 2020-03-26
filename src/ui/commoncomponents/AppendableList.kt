@@ -4,6 +4,7 @@ import javafx.event.EventHandler
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import main.Controller
+import main.UIGlobals
 import ui.Displayable
 import ui.componentfactory.UtilityComponentFactory
 import ui.totalHeight
@@ -17,10 +18,10 @@ class AppendableList<T> {
         var behavior: (T) -> Unit
         if(addSelector != null){
             behavior = {action -> (collection as MutableCollection).remove(action);
-                Controller.singleton!!.GUI!!.display()}
+                UIGlobals.GUI().display()}
 
             val newActionButton = UtilityComponentFactory.shortWideButton("Add Action",
-                EventHandler {_ -> Controller.singleton!!.GUI!!.focusOn(addSelector)})
+                EventHandler {_ -> UIGlobals.GUI().focusOn(addSelector)})
             retval.add(newActionButton, 0 , 1)
         }else{
             behavior = {}

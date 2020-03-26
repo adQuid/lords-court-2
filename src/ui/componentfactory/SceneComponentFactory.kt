@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import main.Controller
+import main.UIGlobals
 import shortstate.ShortGameScene
 import shortstate.ShortStateCharacter
 import shortstate.report.Report
@@ -54,7 +55,7 @@ class SceneComponentFactory {
             val otherPlayer = scene.conversation!!.otherParticipant(perspective)
             backgroundView = UtilityComponentFactory.imageView(scene.room.pictureText)
             val characterView = UtilityComponentFactory.imageView(otherPlayer.player.pictureString)
-            characterView.setOnMouseClicked { event -> Controller.singleton!!.GUI!!.focusOn(otherPlayer) }
+            characterView.setOnMouseClicked { event -> UIGlobals.GUI().focusOn(otherPlayer) }
             imagePane.children.addAll(backgroundView, characterView)
         } else {
             backgroundView = UtilityComponentFactory.imageView(scene.room.pictureText)
@@ -67,14 +68,14 @@ class SceneComponentFactory {
         val btn1 = UtilityComponentFactory.shortButton("Personal Actions", null)
         val btn2 = if(scene.room.getActions(perspective.player).isNotEmpty()){
             UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
-                Controller.singleton!!.GUI!!.focusOn(
-                    SelectionModal(Controller.singleton!!.GUI!!,
+                UIGlobals.GUI().focusOn(
+                    SelectionModal(UIGlobals.GUI(),
                         roomActionButtons(scene.room, perspective),
                         { action ->
                             action.doAction(
                                 Controller.singleton!!.shortThreadForPlayer(perspective),
                                 perspective
-                            ); Controller.singleton!!.GUI!!.display()
+                            ); UIGlobals.GUI().display()
                         })
                 )
             })
@@ -89,9 +90,9 @@ class SceneComponentFactory {
 
     private fun viewReportsButton(perspective: ShortStateCharacter): Button {
         return UtilityComponentFactory.shortButton("View Reports",
-                EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
+                EventHandler { _ -> UIGlobals.GUI().focusOn(
                     SelectionModal(
-                        Controller.singleton!!.GUI!!,
+                        UIGlobals.GUI(),
                         reports(perspective),
                         { report -> println(report) })
                 )
@@ -108,9 +109,9 @@ class SceneComponentFactory {
 
     private fun viewWritsButton(perspective: ShortStateCharacter): Button {
         return UtilityComponentFactory.shortButton("View Writs",
-            EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
+            EventHandler { _ -> UIGlobals.GUI().focusOn(
                 SelectionModal(
-                    Controller.singleton!!.GUI!!,
+                    UIGlobals.GUI(),
                     writs(perspective),
                     { report -> println(report) })
             )

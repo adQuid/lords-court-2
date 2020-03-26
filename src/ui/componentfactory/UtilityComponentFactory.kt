@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Text
 import main.Controller
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
@@ -63,7 +64,7 @@ object UtilityComponentFactory {
         val saveButton = shortButton("Save", EventHandler { Controller.singleton!!.save()})
         retval.add(saveButton, 1,0)
 
-        val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); Controller.singleton!!.GUI!!.resetFocus()})
+        val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); UIGlobals.GUI().resetFocus()})
         retval.add(loadButton, 2,0)
 
         return retval
@@ -71,7 +72,7 @@ object UtilityComponentFactory {
 
     fun newSceneButton(perspective: ShortStateCharacter): Button {
         return shortButton("Go Somewhere Else",
-            EventHandler { _ -> Controller.singleton!!.GUI!!.focusOn(
+            EventHandler { _ -> UIGlobals.GUI().focusOn(
                 SelectionModal(
                     Controller.singleton!!.GUI!!,
                     newSceneOptions(perspective),
@@ -96,11 +97,11 @@ object UtilityComponentFactory {
     private fun goToNewSceneIfApplicable(maker: SceneMaker, perspective: ShortStateCharacter){
         perspective.nextSceneIWannaBeIn = maker
         Controller.singleton!!.shortThread!!.endScene(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.shortGameScene!!)
-        Controller.singleton!!.GUI!!.resetFocus()
+        UIGlobals.GUI().resetFocus()
     }
 
     fun backButton(): Button{
-        return shortWideButton("Back", EventHandler { Controller.singleton!!.GUI!!.defocus()})
+        return shortWideButton("Back", EventHandler { UIGlobals.GUI().defocus()})
     }
 
     fun <T> basicList(items: List<T>, onClick: (T) -> Unit, width: Double, height: Double): ListView<T> {

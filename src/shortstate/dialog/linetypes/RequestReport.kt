@@ -9,6 +9,7 @@ import shortstate.report.ReportType
 import game.GameCharacter
 import game.Game
 import main.Controller
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
 import ui.commoncomponents.selectionmodal.SelectionModal
@@ -34,15 +35,16 @@ class RequestReport: Line, HasReportType {
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "SELECT REPORT" else "Report: "+report.toString(),
-            {Controller.singleton!!.GUI!!.focusOn(
-                SelectionModal(Controller.singleton!!.GUI!!,
+            {
+                UIGlobals.GUI().focusOn(
+                SelectionModal(UIGlobals.GUI(),
                     listOf(
                         Tab(
                             "Reports",
-                            Controller.singleton!!.GUI!!.playingAs().player.titles.flatMap { title -> title.reportsEntitled })
+                            UIGlobals.GUI().playingAs().player.titles.flatMap { title -> title.reportsEntitled })
                     ),
                     { reportType ->
-                        mySetReportType(reportType); Controller.singleton!!.GUI!!.defocus();
+                        mySetReportType(reportType); UIGlobals.GUI().defocus();
                     })
             )}))
     }

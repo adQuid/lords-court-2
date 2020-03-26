@@ -8,6 +8,7 @@ import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.scene.text.TextAlignment
 import main.Controller
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.MainUI
 import ui.totalHeight
@@ -34,8 +35,8 @@ class CharacterDetailComponentFactory {
         val imagePane = StackPane()
         val backgroundView = UtilityComponentFactory.imageView("assets/rooms/characterStage.png")
         val characterView = UtilityComponentFactory.imageView(character.player.pictureString)
-        backgroundView.setOnMouseClicked { event -> Controller.singleton!!.GUI!!.defocus() }
-        characterView.setOnMouseClicked { event -> Controller.singleton!!.GUI!!.defocus() }
+        backgroundView.setOnMouseClicked { event -> UIGlobals.GUI().defocus() }
+        characterView.setOnMouseClicked { event -> UIGlobals.GUI().defocus() }
 
         val nameText = Text(10.0, 50.0, character.player.fullName())
         nameText.font = Font(24.0)
@@ -51,7 +52,7 @@ class CharacterDetailComponentFactory {
     private fun characterFocusButtons(perspective: ShortStateCharacter): Pane {
         val cancelButton = UtilityComponentFactory.shortButton(
             "Cancel",
-            EventHandler { Controller.singleton!!.GUI!!.defocus()})
+            EventHandler { UIGlobals.GUI().defocus()})
 
         return UtilityComponentFactory.bottomPane(listOf(cancelButton), perspective)
     }
