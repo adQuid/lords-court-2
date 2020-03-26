@@ -64,7 +64,7 @@ object UtilityComponentFactory {
         val saveButton = shortButton("Save", EventHandler { Controller.singleton!!.save()})
         retval.add(saveButton, 1,0)
 
-        val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); UIGlobals.GUI().resetFocus()})
+        val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); UIGlobals.resetFocus()})
         retval.add(loadButton, 2,0)
 
         return retval

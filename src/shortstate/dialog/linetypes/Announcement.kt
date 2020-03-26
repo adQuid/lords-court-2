@@ -38,7 +38,7 @@ class Announcement: Line, HasAction {
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "SELECT ACTION" else "Action: "+action.toString(),
-            {perspective -> UIGlobals.GUI().focusOn(
+            {perspective -> UIGlobals.focusOn(
                 SelectionModal(
                     UIGlobals.GUI(),
                     listOf(
@@ -48,7 +48,7 @@ class Announcement: Line, HasAction {
                         )
                     ),
                     { action ->
-                        mySetAction(Action(action)); UIGlobals.GUI().defocus();
+                        mySetAction(Action(action)); UIGlobals.defocus();
                     })
             )}))
     }

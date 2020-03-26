@@ -1,5 +1,6 @@
 package main
 
+import ui.Displayable
 import ui.MainUI
 
 object UIGlobals {
@@ -18,6 +19,10 @@ object UIGlobals {
 
     fun defocus(){
         GUI().defocus()
+    }
+
+    fun focusOn(focus: Displayable?){
+        GUI().focusOn(focus)
     }
 
 }

@@ -41,7 +41,7 @@ class OfferDeal: Line {
         val dealBlock = if(deal==null){
             LineBlock("Deal:___________")
         } else {
-            LineBlock("Deal: [CLICK FOR DETAILS]", { UIGlobals.GUI().focusOn(deal)})
+            LineBlock("Deal: [CLICK FOR DETAILS]", { UIGlobals.focusOn(deal)})
         }
         return listOf(LineBlock("OFFER:"), dealBlock)
     }

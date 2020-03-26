@@ -55,7 +55,7 @@ class SceneComponentFactory {
             val otherPlayer = scene.conversation!!.otherParticipant(perspective)
             backgroundView = UtilityComponentFactory.imageView(scene.room.pictureText)
             val characterView = UtilityComponentFactory.imageView(otherPlayer.player.pictureString)
-            characterView.setOnMouseClicked { event -> UIGlobals.GUI().focusOn(otherPlayer) }
+            characterView.setOnMouseClicked { event -> UIGlobals.focusOn(otherPlayer) }
             imagePane.children.addAll(backgroundView, characterView)
         } else {
             backgroundView = UtilityComponentFactory.imageView(scene.room.pictureText)
@@ -68,7 +68,7 @@ class SceneComponentFactory {
         val btn1 = UtilityComponentFactory.shortButton("Personal Actions", null)
         val btn2 = if(scene.room.getActions(perspective.player).isNotEmpty()){
             UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
-                UIGlobals.GUI().focusOn(
+                UIGlobals.focusOn(
                     SelectionModal(UIGlobals.GUI(),
                         roomActionButtons(scene.room, perspective),
                         { action ->
@@ -90,7 +90,7 @@ class SceneComponentFactory {
 
     private fun viewReportsButton(perspective: ShortStateCharacter): Button {
         return UtilityComponentFactory.shortButton("View Reports",
-                EventHandler { _ -> UIGlobals.GUI().focusOn(
+                EventHandler { _ -> UIGlobals.focusOn(
                     SelectionModal(
                         UIGlobals.GUI(),
                         reports(perspective),
@@ -109,7 +109,7 @@ class SceneComponentFactory {
 
     private fun viewWritsButton(perspective: ShortStateCharacter): Button {
         return UtilityComponentFactory.shortButton("View Writs",
-            EventHandler { _ -> UIGlobals.GUI().focusOn(
+            EventHandler { _ -> UIGlobals.focusOn(
                 SelectionModal(
                     UIGlobals.GUI(),
                     writs(perspective),

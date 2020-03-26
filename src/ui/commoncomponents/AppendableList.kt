@@ -21,7 +21,7 @@ class AppendableList<T> {
                 UIGlobals.refresh()}
 
             val newActionButton = UtilityComponentFactory.shortWideButton("Add Action",
-                EventHandler {_ -> UIGlobals.GUI().focusOn(addSelector)})
+                EventHandler {_ -> UIGlobals.focusOn(addSelector)})
             retval.add(newActionButton, 0 , 1)
         }else{
             behavior = {}

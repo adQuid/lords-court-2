@@ -22,7 +22,7 @@ class WritConstructorComponentFactory {
     fun scenePage(perspective: ShortStateCharacter): Scene {
         val root = GridPane()
 
-        root.add(UtilityComponentFactory.shortWideButton("Modify Deal Directly", EventHandler { _ -> UIGlobals.GUI().focusOn(parent.deal) }), 0,0)
+        root.add(UtilityComponentFactory.shortWideButton("Modify Deal Directly", EventHandler { _ -> UIGlobals.focusOn(parent.deal) }), 0,0)
         val bottomPane = GridPane()
         bottomPane.add(UtilityComponentFactory.shortButton("Cancel", EventHandler { UIGlobals.defocus()}),0,0)
         if(parent.deal.isEmpty()){

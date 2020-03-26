@@ -57,7 +57,7 @@ class CiteEffect: Line {
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         var retval = mutableListOf(LineBlock("CITE:"))
         if(effects.isEmpty()){
-            retval.add(LineBlock("Effect:___________", { UIGlobals.GUI().focusOn(action(speaker))}))
+            retval.add(LineBlock("Effect:___________", { UIGlobals.focusOn(action(speaker))}))
         } else {
             retval.addAll(effects!!.map{ effect -> LineBlock("Effect: ${effect.toString()}")})
         }
@@ -96,6 +96,6 @@ class CiteEffect: Line {
     private fun action(speaker: ShortStateCharacter): EffectChooser{
         return EffectChooser(
             DealCase(deal).effectsOfDeal(listOf(GameCase(Controller.singleton!!.game!!.imageFor(speaker.player), speaker.player))),
-        { effect -> effects.add(effect); UIGlobals.GUI().defocus()})
+        { effect -> effects.add(effect); UIGlobals.defocus()})
     }
 }

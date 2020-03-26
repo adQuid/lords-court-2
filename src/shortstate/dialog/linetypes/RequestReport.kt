@@ -36,7 +36,7 @@ class RequestReport: Line, HasReportType {
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "SELECT REPORT" else "Report: "+report.toString(),
             {
-                UIGlobals.GUI().focusOn(
+                UIGlobals.focusOn(
                 SelectionModal(UIGlobals.GUI(),
                     listOf(
                         Tab(
@@ -44,7 +44,7 @@ class RequestReport: Line, HasReportType {
                             UIGlobals.GUI().playingAs().player.titles.flatMap { title -> title.reportsEntitled })
                     ),
                     { reportType ->
-                        mySetReportType(reportType); UIGlobals.GUI().defocus();
+                        mySetReportType(reportType); UIGlobals.defocus();
                     })
             )}))
     }

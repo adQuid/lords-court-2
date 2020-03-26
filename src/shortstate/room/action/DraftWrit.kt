@@ -16,7 +16,7 @@ class DraftWrit: RoomAction {
     }
 
     override fun doAction(shortGameController: ShortStateController, player: ShortStateCharacter) {
-        UIGlobals.GUI().focusOn(WritConstructor(UnfinishedDeal(listOf(player.player))))
+        UIGlobals.focusOn(WritConstructor(UnfinishedDeal(listOf(player.player))))
     }
 
     override fun toString(): String {
