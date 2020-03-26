@@ -8,6 +8,10 @@ object UIGlobals {
         return Controller.singleton!!.GUI!!
     }
 
+    fun resetFocus(){
+        GUI().resetFocus()
+    }
+
     fun refresh(){
         Controller.singleton!!.GUI!!.display()
     }

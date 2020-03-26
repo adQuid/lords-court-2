@@ -97,7 +97,7 @@ object UtilityComponentFactory {
     private fun goToNewSceneIfApplicable(maker: SceneMaker, perspective: ShortStateCharacter){
         perspective.nextSceneIWannaBeIn = maker
         Controller.singleton!!.shortThread!!.endScene(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.shortGameScene!!)
-        UIGlobals.GUI().resetFocus()
+        UIGlobals.resetFocus()
     }
 
     fun backButton(): Button{
