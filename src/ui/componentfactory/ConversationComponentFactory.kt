@@ -61,7 +61,7 @@ class ConversationComponentFactory {
                 if(lineBeingConstructed!!.validToSend()){
                     val sendButton = UtilityComponentFactory.imageView("assets/general/talkButton.png")
                     sendButton.setOnMouseClicked { _ -> conversation.submitLine(lineBeingConstructed!!, Controller.singleton!!.shortThreadForPlayer(perspective).shortGame);
-                        lineBeingConstructed = null; UIGlobals.GUI().defocus()}
+                        lineBeingConstructed = null; UIGlobals.defocus()}
                     backgroundPane.children.add(sendButton)
                 }
                 val cancelButton = UtilityComponentFactory.imageView("assets/general/cancelLineButton.png")

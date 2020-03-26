@@ -16,4 +16,8 @@ object UIGlobals {
         Controller.singleton!!.GUI!!.display()
     }
 
+    fun defocus(){
+        GUI().defocus()
+    }
+
 }

@@ -101,7 +101,7 @@ object UtilityComponentFactory {
     }
 
     fun backButton(): Button{
-        return shortWideButton("Back", EventHandler { UIGlobals.GUI().defocus()})
+        return shortWideButton("Back", EventHandler { UIGlobals.defocus()})
     }
 
     fun <T> basicList(items: List<T>, onClick: (T) -> Unit, width: Double, height: Double): ListView<T> {

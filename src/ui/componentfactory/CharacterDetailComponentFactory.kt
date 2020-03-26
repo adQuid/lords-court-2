@@ -35,8 +35,8 @@ class CharacterDetailComponentFactory {
         val imagePane = StackPane()
         val backgroundView = UtilityComponentFactory.imageView("assets/rooms/characterStage.png")
         val characterView = UtilityComponentFactory.imageView(character.player.pictureString)
-        backgroundView.setOnMouseClicked { event -> UIGlobals.GUI().defocus() }
-        characterView.setOnMouseClicked { event -> UIGlobals.GUI().defocus() }
+        backgroundView.setOnMouseClicked { event -> UIGlobals.defocus() }
+        characterView.setOnMouseClicked { event -> UIGlobals.defocus() }
 
         val nameText = Text(10.0, 50.0, character.player.fullName())
         nameText.font = Font(24.0)
@@ -52,7 +52,7 @@ class CharacterDetailComponentFactory {
     private fun characterFocusButtons(perspective: ShortStateCharacter): Pane {
         val cancelButton = UtilityComponentFactory.shortButton(
             "Cancel",
-            EventHandler { UIGlobals.GUI().defocus()})
+            EventHandler { UIGlobals.defocus()})
 
         return UtilityComponentFactory.bottomPane(listOf(cancelButton), perspective)
     }
