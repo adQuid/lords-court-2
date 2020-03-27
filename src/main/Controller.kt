@@ -48,7 +48,7 @@ class Controller {
     }
 
     fun commitActionsForPlayer(player: GameCharacter, actions: List<Action>){
-        game!!.commitActionsForPlayer(player, actions)
+        game!!.appendActionsForPlayer(player, actions)
     }
 
     fun concludeTurnForPlayer(player: GameCharacter){

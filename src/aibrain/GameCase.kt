@@ -36,7 +36,7 @@ class GameCase {
     private fun calculateGame(): Game{
         val tempGame = Game(baseGame)
         initialEffects.forEach { it.apply(tempGame) }
-        tempGame.commitActionsForPlayer(plan.player, plan.actions)
+        tempGame.appendActionsForPlayer(plan.player, plan.actions)
         //this has the side effect of actually ending the turn
         finalEffects.addAll(listOf(initialEffects, tempGame.endTurn()).flatten().toMutableList())
         return tempGame

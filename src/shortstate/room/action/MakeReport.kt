@@ -1,5 +1,6 @@
 package shortstate.room.action
 
+import main.UIGlobals
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
@@ -19,6 +20,10 @@ class MakeReport: RoomAction{
         println("looked up deliciousness")
         player.knownReports.add(generateReport(game.shortGame.game, type))
         player.energy -= 10
+    }
+
+    override fun defocusAfter(): Boolean {
+        return true
     }
 
     override fun toString(): String {

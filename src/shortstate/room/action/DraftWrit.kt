@@ -19,6 +19,10 @@ class DraftWrit: RoomAction {
         UIGlobals.focusOn(WritConstructor(UnfinishedDeal(listOf(player.player))))
     }
 
+    override fun defocusAfter(): Boolean {
+        return false
+    }
+
     override fun toString(): String {
         return "Draft new Writ"
     }

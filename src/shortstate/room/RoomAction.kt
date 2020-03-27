@@ -8,4 +8,6 @@ abstract class RoomAction {
 
     abstract fun doAction(shortGameController: ShortStateController, player: ShortStateCharacter)
 
+    abstract fun defocusAfter(): Boolean
+
 }

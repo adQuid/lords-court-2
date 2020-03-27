@@ -19,7 +19,7 @@ class Game {
     val LOCATIONS_NAME = "locations"
     var locations = mutableListOf<Location>()
     val ACTIONS_NAME = "actions"
-    var actionsByPlayer = mutableMapOf<GameCharacter, List<Action>>()
+    var actionsByPlayer = mutableMapOf<GameCharacter, MutableList<Action>>()
     val CONCLUDED_PLAYERS_NAME = "concludedPlayers"
     var concludedPlayers = mutableSetOf<GameCharacter>()
 
@@ -58,9 +58,9 @@ class Game {
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> GameCharacter(map, this) }.toMutableList()
         (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
 
-        val tempActions = mutableMapOf<GameCharacter, List<Action>>()
+        val tempActions = mutableMapOf<GameCharacter, MutableList<Action>>()
         (saveString[ACTIONS_NAME] as Map<Int, Any>).forEach { key, value -> tempActions[characterById(key.toInt())] =
-            (value as List<Map<String,Any>>).map { map -> Action(GlobalActionTypeFactory.fromMap(map)) } }
+            (value as List<Map<String,Any>>).map { map -> Action(GlobalActionTypeFactory.fromMap(map)) }.toMutableList() }
         actionsByPlayer = tempActions
 
         concludedPlayers = (saveString[CONCLUDED_PLAYERS_NAME] as List<Int>).map { id -> characterById(id) }.toMutableSet()
@@ -107,7 +107,7 @@ class Game {
         var retval = Game(this)
 
         players.forEach{
-            retval.actionsByPlayer[it] = listOf()
+            retval.actionsByPlayer[it] = mutableListOf()
         }
         return retval
     }
@@ -124,11 +124,15 @@ class Game {
         return retval
     }
 
-    fun commitActionsForPlayer(player: GameCharacter, actions: List<Action>){
+    fun appendActionsForPlayer(player: GameCharacter, actions: List<Action>){
         if(isLive){
             println("$player is comitting to $actions")
         }
-        actionsByPlayer[player] = actions
+        if(actionsByPlayer.containsKey(player)){
+            actionsByPlayer[player]!!.addAll(actions)
+        } else {
+            actionsByPlayer[player] = actions.toMutableList()
+        }
     }
 
     fun endTurn(): List<Effect>{

@@ -15,6 +15,10 @@ class GoToBed: RoomAction() {
         Controller.singleton!!.concludeTurnForPlayer(player.player)
     }
 
+    override fun defocusAfter(): Boolean {
+        return false
+    }
+
     override fun toString(): String {
         return "Go to Bed (End Turn)"
     }

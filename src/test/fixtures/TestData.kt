@@ -55,7 +55,7 @@ fun soloTestGameWithEverythingOnIt(): Game{
     //If these two aren't equal, then there's probably a type of line we aren't accounting for
     assert(game.players[0].memory.size == GlobalLineTypeFactory.typeMap.size)
 
-    game.actionsByPlayer.put(game.players[0], listOf(Action(WasteTime())))
+    game.actionsByPlayer.put(game.players[0], mutableListOf(Action(WasteTime())))
 
     return game
 }

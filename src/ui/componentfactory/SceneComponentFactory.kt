@@ -14,6 +14,7 @@ import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import shortstate.room.Room
 import shortstate.room.RoomAction
+import shortstate.room.action.MakeReport
 import ui.commoncomponents.selectionmodal.SelectionModal
 import ui.commoncomponents.selectionmodal.Tab
 import ui.totalHeight
@@ -75,7 +76,7 @@ class SceneComponentFactory {
                             action.doAction(
                                 Controller.singleton!!.shortThreadForPlayer(perspective),
                                 perspective
-                            ); UIGlobals.refresh()
+                            ); if(action.defocusAfter()){UIGlobals.defocus()}
                         })
                 )
             })
