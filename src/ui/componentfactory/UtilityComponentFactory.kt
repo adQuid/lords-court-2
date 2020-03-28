@@ -130,17 +130,18 @@ object UtilityComponentFactory {
     }
 
     fun shortButton(text: String, action: EventHandler<ActionEvent>?, specialWidth: Int): Button {
-        val retval = Button(text)
-        retval.setMinSize(specialWidth * totalWidth / 4, totalHeight / 12)
-        if (action != null) {
-            retval.onAction = action
-        }
+        val retval = proportionalButton(text, action, 4.0)
+        retval.setMinSize(retval.minWidth*specialWidth, retval.minHeight)
         return retval
     }
 
     fun shortWideButton(text: String, action: EventHandler<ActionEvent>?): Button {
+        return proportionalButton(text, action, 1.0)
+    }
+
+    fun proportionalButton(text: String, action: EventHandler<ActionEvent>?, proportion: Double): Button{
         val retval = Button(text)
-        retval.setMinSize(totalWidth, totalHeight / 12)
+        retval.setMinSize(totalWidth / proportion, totalHeight / 12)
         if (action != null) {
             retval.onAction = action
         }

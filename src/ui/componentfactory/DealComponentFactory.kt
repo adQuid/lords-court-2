@@ -64,15 +64,15 @@ open class DealComponentFactory {
         val topPane = GridPane()
         var index = 0
         actions.forEach {
-            val topic = Button("${it.key.name} will...")
+            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", EventHandler {_ -> currentPage = it.key; UIGlobals.refresh()}, (actions.size+1).toDouble())
             if(it.key == currentPage){
                 topic.font = Font(18.0)
-            } else {
-                topic.onAction = EventHandler {_ -> currentPage = it.key; UIGlobals.refresh()}
+                topic.onAction = null
             }
-            topic.setMinSize(totalWidth / deal.theActions().size, totalHeight / 12)
+            topic.setMinSize(totalWidth / (deal.theActions().size+1), totalHeight / 12)
             topPane.add(topic, index++, 0)
         }
+        topPane.add(UtilityComponentFactory.proportionalButton("Add Character", null, (actions.size+1).toDouble()),index++,0)
         return topPane
     }
 
