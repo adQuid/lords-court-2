@@ -10,6 +10,7 @@ import javafx.scene.control.ListCell
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.Displayable
 import ui.MainUI
@@ -18,14 +19,13 @@ import ui.componentfactory.UtilityComponentFactory
 
 class SelectionModal<T>: Displayable {
 
-    val parent: MainUI
+    val parent = UIGlobals.GUI()
     val options: List<Tab<T>>
     val closeAction: (T) -> Unit
 
     var focusedTab: Tab<T>
 
-    constructor(parent: MainUI, options: List<Tab<T>>, action: (T) -> Unit){
-        this.parent = parent
+    constructor(options: List<Tab<T>>, action: (T) -> Unit){
         this.options = options
         this.focusedTab = options[0]
         this.closeAction = action

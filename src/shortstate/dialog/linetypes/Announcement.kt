@@ -40,7 +40,6 @@ class Announcement: Line, HasAction {
         return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "SELECT ACTION" else "Action: "+action.toString(),
             {perspective -> UIGlobals.focusOn(
                 SelectionModal(
-                    UIGlobals.GUI(),
                     listOf(
                         Tab(
                             "Basic Actions",

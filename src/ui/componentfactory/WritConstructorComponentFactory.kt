@@ -1,13 +1,11 @@
 package ui.componentfactory
 
-import game.Writ
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
-import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
-import ui.WritConstructor
+import ui.contructorobjects.WritConstructor
 import ui.totalHeight
 import ui.totalWidth
 

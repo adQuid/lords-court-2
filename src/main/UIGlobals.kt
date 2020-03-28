@@ -1,11 +1,16 @@
 package main
 
+import game.Game
 import game.GameCharacter
 import game.action.Action
 import ui.Displayable
 import ui.MainUI
 
 object UIGlobals {
+
+    fun activeGame(): Game {
+        return Controller.singleton!!.game!!
+    }
 
     fun GUI(): MainUI {
         return Controller.singleton!!.GUI!!

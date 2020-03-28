@@ -70,7 +70,7 @@ class SceneComponentFactory {
         val btn2 = if(scene.room.getActions(perspective.player).isNotEmpty()){
             UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
                 UIGlobals.focusOn(
-                    SelectionModal(UIGlobals.GUI(),
+                    SelectionModal(
                         roomActionButtons(scene.room, perspective),
                         { action ->
                             action.doAction(
@@ -93,7 +93,6 @@ class SceneComponentFactory {
         return UtilityComponentFactory.shortButton("View Reports",
                 EventHandler { _ -> UIGlobals.focusOn(
                     SelectionModal(
-                        UIGlobals.GUI(),
                         reports(perspective),
                         { report -> println(report) })
                 )
@@ -112,7 +111,6 @@ class SceneComponentFactory {
         return UtilityComponentFactory.shortButton("View Writs",
             EventHandler { _ -> UIGlobals.focusOn(
                 SelectionModal(
-                    UIGlobals.GUI(),
                     writs(perspective),
                     { report -> println(report) })
             )

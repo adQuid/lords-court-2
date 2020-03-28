@@ -1,10 +1,11 @@
-package ui
+package ui.contructorobjects
 
 import aibrain.UnfinishedDeal
 import game.GameCharacter
 import game.Writ
 import javafx.scene.Scene
 import shortstate.ShortStateCharacter
+import ui.Displayable
 import ui.componentfactory.WritConstructorComponentFactory
 
 class WritConstructor: Displayable {

@@ -37,7 +37,7 @@ class RequestReport: Line, HasReportType {
         return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "SELECT REPORT" else "Report: "+report.toString(),
             {
                 UIGlobals.focusOn(
-                SelectionModal(UIGlobals.GUI(),
+                SelectionModal(
                     listOf(
                         Tab(
                             "Reports",

@@ -74,7 +74,6 @@ object UtilityComponentFactory {
         return shortButton("Go Somewhere Else",
             EventHandler { _ -> UIGlobals.GUI().focusOn(
                 SelectionModal(
-                    Controller.singleton!!.GUI!!,
                     newSceneOptions(perspective),
                     { maker -> goToNewSceneIfApplicable(maker, perspective) })
             )

@@ -2,6 +2,7 @@ package ui.componentfactory
 
 import aibrain.Deal
 import aibrain.UnfinishedDeal
+import game.Game
 import game.GameCharacter
 import game.action.Action
 import javafx.event.EventHandler
@@ -14,25 +15,29 @@ import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.commoncomponents.AppendableList
+import ui.commoncomponents.selectionmodal.SelectionModal
+import ui.commoncomponents.selectionmodal.Tab
+import ui.contructorobjects.CharacterSelector
 import ui.totalHeight
 import ui.totalWidth
 
 open class DealComponentFactory {
 
     val deal: Deal
-    var actions: Map<GameCharacter, MutableList<Action>>
+    var actions: MutableMap<GameCharacter, MutableList<Action>>
     var currentPage: GameCharacter
-    val actionLists: Map<GameCharacter, AppendableList<Action>>
+    var actionLists: MutableMap<GameCharacter, AppendableList<Action>>
 
     constructor(deal: Deal){
         this.deal = deal
-        this.actions = deal.theActions().mapValues { entry -> entry.value.toMutableList() }
+        this.actions = deal.theActions().mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
         currentPage = actions.keys.first()
-        actionLists = actions.entries.associate { entry -> entry.key to AppendableList<Action>() }
+        actionLists = actions.entries.associate { entry -> entry.key to AppendableList<Action>() }.toMutableMap()
     }
 
     private fun resetActions(){
-        actions = deal.theActions().mapValues { entry -> entry.value.toMutableList() }
+        actions = deal.theActions().mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
+        actionLists = actions.entries.associate { entry -> entry.key to AppendableList<Action>() }.toMutableMap()
     }
 
     private fun action(): ActionChooser{
@@ -72,7 +77,7 @@ open class DealComponentFactory {
             topic.setMinSize(totalWidth / (deal.theActions().size+1), totalHeight / 12)
             topPane.add(topic, index++, 0)
         }
-        topPane.add(UtilityComponentFactory.proportionalButton("Add Character", null, (actions.size+1).toDouble()),index++,0)
+        topPane.add(UtilityComponentFactory.proportionalButton("Add Character", EventHandler { _ -> UIGlobals.focusOn(characterSelector()) }, (actions.size+1).toDouble()),index++,0)
         return topPane
     }
 
@@ -82,5 +87,17 @@ open class DealComponentFactory {
         } else {
             return actionLists[currentPage]!!.actionList(actions[currentPage]!!, null)
         }
+    }
+
+    private fun characterSelector(): SelectionModal<GameCharacter>{
+        val tabs = listOf(Tab<GameCharacter>("Characters", UIGlobals.activeGame().players.toList()))
+        val selectModal = SelectionModal(tabs, {player -> addCharacterToDeal(player); UIGlobals.defocus()})
+        return selectModal
+    }
+
+    private fun addCharacterToDeal(character: GameCharacter){
+        (deal as UnfinishedDeal).actions[character] = mutableListOf()
+        actions[character] = mutableListOf<Action>()
+        actionLists[character] = AppendableList()
     }
 }
