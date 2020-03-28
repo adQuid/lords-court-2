@@ -39,7 +39,6 @@ class RejectDeal: Line {
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalLineTypeFactory.TYPE_NAME to "RejectDeal",
             "deal" to deal!!.saveString()
         )
     }

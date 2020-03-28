@@ -71,7 +71,6 @@ class CiteEffect: Line {
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalLineTypeFactory.TYPE_NAME to "CiteEffect",
             "effects" to effects!!.map { effect -> effect.saveString() },
             "deal" to deal.saveString()
         )

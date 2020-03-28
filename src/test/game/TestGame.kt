@@ -26,12 +26,13 @@ class TestGame {
 
     @Test
     fun testSaveGame() {
-        testSaveHelper(soloTestGame())
+        //testSaveHelper(soloTestGame())
         testSaveHelper(soloTestGameWithEverythingOnIt())
-        testSaveHelper(twoPlayerGameWithWrits())
+        //testSaveHelper(twoPlayerGameWithWrits())
     }
 
     private fun testSaveHelper(game: Game){
+        println(game.saveString())
         val game2 = Game(game.saveString())
         assertTrue(game == game2)
         assertTrue(game.players[0].acceptedDeals == game2.players[0].acceptedDeals)

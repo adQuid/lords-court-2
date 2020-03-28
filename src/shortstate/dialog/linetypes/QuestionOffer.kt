@@ -43,7 +43,6 @@ class QuestionOffer: Line {
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalLineTypeFactory.TYPE_NAME to "QuestionSuggestion",
             "line" to line!!.saveString()
         )
     }

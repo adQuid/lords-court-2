@@ -1,5 +1,6 @@
 package test.fixtures
 
+import aibrain.Deal
 import aibrain.FinishedDeal
 import game.GameCharacter
 import game.Game
@@ -15,6 +16,7 @@ import game.effects.AddDelicousness
 import shortstate.Conversation
 import shortstate.ShortGameScene
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.dialog.Line
 import shortstate.report.DeliciousnessReport
 import shortstate.report.ReportType
 
@@ -30,27 +32,8 @@ fun soloTestGame(): Game{
 
 fun soloTestGameWithEverythingOnIt(): Game{
     val game = soloTestGame()
-    game.players[0].memory.add(Memory(AcceptDeal(FinishedDeal(mapOf(
-        game.players[0] to listOf(Action(WasteTime()))
-    ))
-    )))
-    game.players[0].memory.add(Memory(Announcement(Action(WasteTime()))))
-    game.players[0].memory.add(Memory(Approve()))
-    game.players[0].memory.add(Memory(CiteEffect(FinishedDeal(mapOf(
-        game.players[0] to listOf(Action(WasteTime()))
-    )), listOf(AddDelicousness(1.0)))))
-    game.players[0].memory.add(Memory(Disapprove()))
-    game.players[0].memory.add(Memory(GiveReport(DeliciousnessReport(17.8))))
-    game.players[0].memory.add(Memory(OfferDeal(FinishedDeal(mapOf(
-        game.players[0] to listOf(Action(WasteTime()))
-    )))))
-    game.players[0].memory.add(Memory(QuestionOffer(OfferDeal(FinishedDeal(mapOf(
-        game.players[0] to listOf(Action(WasteTime()))
-    ))))))
-    game.players[0].memory.add(Memory(RejectDeal(FinishedDeal(mapOf(
-        game.players[0] to listOf(Action(WasteTime()))
-    )))))
-    game.players[0].memory.add(Memory(RequestReport(ReportType.DeliciousnessReportType)))
+
+    game.players[0].memory.addAll(fullMemory(game.players[0]))
 
     //If these two aren't equal, then there's probably a type of line we aren't accounting for
     assert(game.players[0].memory.size == GlobalLineTypeFactory.typeMap.size)
@@ -99,4 +82,25 @@ private fun basicMilkman(name: String, game: Game, location: Location): GameChar
     val retval = GameCharacter(name, "this should never come up in a test", true, location, game)
     game.applyTitleToCharacter(TitleFactory.makeMilkmanTitle(), retval)
     return retval
+}
+
+private fun fullMemory(dealDummy: GameCharacter): List<Memory>{
+    return listOf(
+    Memory(AcceptDeal(savableDeal(dealDummy))),
+    Memory(Announcement(Action(WasteTime()))),
+    Memory(Approve()),
+    Memory(CiteEffect(savableDeal(dealDummy))),
+    Memory(Disapprove()),
+    Memory(GiveReport(DeliciousnessReport(17.8))),
+    Memory(OfferDeal(savableDeal(dealDummy))),
+    Memory(QuestionOffer(OfferDeal(savableDeal(dealDummy)))),
+    Memory(RejectDeal(savableDeal(dealDummy))),
+    Memory(RequestReport(ReportType.DeliciousnessReportType)),
+    Memory(OfferWrit(Writ(savableDeal(dealDummy), listOf(dealDummy))))
+    )
+}
+
+private fun savableDeal(dealDummy: GameCharacter): FinishedDeal {
+    return FinishedDeal(mapOf(
+        dealDummy to listOf(Action(WasteTime()))))
 }

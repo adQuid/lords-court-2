@@ -7,6 +7,7 @@ import shortstate.dialog.Memory
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.dialog.linetypes.Announcement
 import shortstate.dialog.linetypes.OfferDeal
+import shortstate.dialog.linetypes.OfferWrit
 import shortstate.dialog.linetypes.RequestReport
 import ui.componentfactory.ConversationComponentFactory
 
@@ -71,7 +72,8 @@ class Conversation {
         return listOf(
             Announcement(null),
             RequestReport(null),
-            OfferDeal(UnfinishedDeal(participants().map { it.player }))
+            OfferDeal(UnfinishedDeal(participants().map { it.player })),
+            OfferWrit(null)
         )
     }
 

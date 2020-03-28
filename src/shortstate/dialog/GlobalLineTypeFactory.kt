@@ -15,6 +15,7 @@ object GlobalLineTypeFactory {
     val QUESTION_OFFER_TYPE_NAME = "QstnOfr"
     val REJECT_DEAL_TYPE_NAME = "RjctDeal"
     val REQUEST_REPORT_TYPE_NAME = "RqstRprt"
+    val OFFER_WRIT_TYPE_NAME = "OfrWrt"
 
     val TYPE_NAME = "TYPE"
     val typeMap: HashMap<String, (map: Map<String, Any>, game: Game) -> Line> = hashMapOf(
@@ -27,7 +28,8 @@ object GlobalLineTypeFactory {
         OFFER_DEAL_TYPE_NAME to {map, game -> OfferDeal(map, game)},
         QUESTION_OFFER_TYPE_NAME to { map, game -> QuestionOffer(map, game)},
         REJECT_DEAL_TYPE_NAME to {map, game -> RejectDeal(map, game)},
-        REQUEST_REPORT_TYPE_NAME to {map, game -> RequestReport(map)}
+        REQUEST_REPORT_TYPE_NAME to {map, game -> RequestReport(map)},
+        OFFER_WRIT_TYPE_NAME to {map, game -> OfferWrit(map, game)}
     )
 
     fun fromMap(map: Map<String, Any>, game: Game): Line {

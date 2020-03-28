@@ -9,64 +9,60 @@ import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.GameCharacter
 import game.Game
+import game.Writ
 import game.action.Action
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
 
-class OfferDeal: Line {
+class OfferWrit: Line {
 
     override val type: String
-        get() = GlobalLineTypeFactory.OFFER_DEAL_TYPE_NAME
-    var deal: Deal
+        get() = GlobalLineTypeFactory.OFFER_WRIT_TYPE_NAME
+    var writ: Writ?
 
-    constructor(deal: Deal){
-        this.deal = deal
+    constructor(writ: Writ?){
+        this.writ = writ
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
-        deal = FinishedDeal(saveString["deal"] as Map<String, Any>, game)
+        writ = Writ(saveString["writ"] as Map<String, Any>, game)
     }
 
     override fun tooltipName(): String {
-        if(!validToSend()){
-            return "Offer Deal"
-        } else {
-            return "Offer Counter-proposal"
-        }
+         return "Offer Writ"
     }
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
-        val dealBlock = if(deal==null){
-            LineBlock("Deal:___________")
+        val dealBlock = if(writ==null){
+            LineBlock("Writ: [SELECT]")
         } else {
-            LineBlock("Deal: [CLICK FOR DETAILS]", { UIGlobals.focusOn(deal)})
+            LineBlock("Writ: ${writ.toString()}")
         }
         return listOf(LineBlock("OFFER:"), dealBlock)
     }
 
     override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        if(deal != null){
-            return "I would like to offer a deal: ${deal!!.dialogText(speaker.player, target.player)}"
+        if(writ != null){
+            return "Would you like to sign this?"
         } else {
-            return "I would like to offer a deal: _________"
+            return "Would you like to sign..."
         }
     }
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            "deal" to (deal!! as FinishedDeal).saveString()
+            "writ" to writ!!.saveString()
         )
     }
 
     override fun validToSend(): Boolean {
-        return deal.theActions().values.fold(0, {acc: Int, list: List<Action> ->  acc+list.size}) > 0
+        return writ != null
     }
 
     override fun possibleReplies(): List<Line> {
-        val newDeal = deal!!.toFinishedDeal()
-        return listOf(AcceptDeal(newDeal), RejectDeal(newDeal), OfferDeal(newDeal.toUnfinishedDeal()), QuestionOffer(this))
+        return listOf(Approve())
     }
 
     override fun specialEffect(conversation: Conversation) {
@@ -74,10 +70,6 @@ class OfferDeal: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        if(brain.shortCharacter.player.brain.dealValue(deal) > 0){
-            return AcceptDeal(deal.toFinishedDeal())
-        } else {
-            return QuestionOffer(this)
-        }
+        return Approve()
     }
 }

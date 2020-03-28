@@ -55,7 +55,6 @@ class RequestReport: Line, HasReportType {
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalLineTypeFactory.TYPE_NAME to "RequestReport",
             "report" to report.toString()
         )
     }

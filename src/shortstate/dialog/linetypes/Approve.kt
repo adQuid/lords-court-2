@@ -31,7 +31,7 @@ class Approve: Line {
     }
 
     override fun specialSaveString(): Map<String, Any> {
-        return hashMapOf(GlobalLineTypeFactory.TYPE_NAME to "Approve")
+        return hashMapOf()
     }
 
     override fun validToSend(): Boolean {
