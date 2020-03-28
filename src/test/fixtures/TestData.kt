@@ -38,7 +38,7 @@ fun soloTestGameWithEverythingOnIt(): Game{
     //If these two aren't equal, then there's probably a type of line we aren't accounting for
     assert(game.players[0].memory.size == GlobalLineTypeFactory.typeMap.size)
 
-    game.actionsByPlayer.put(game.players[0], mutableListOf(Action(WasteTime())))
+    game.actionsByPlayer.put(game.players[0], mutableListOf(WasteTime()))
 
     return game
 }
@@ -87,7 +87,7 @@ private fun basicMilkman(name: String, game: Game, location: Location): GameChar
 private fun fullMemory(dealDummy: GameCharacter): List<Memory>{
     return listOf(
     Memory(AcceptDeal(savableDeal(dealDummy))),
-    Memory(Announcement(Action(WasteTime()))),
+    Memory(Announcement(WasteTime())),
     Memory(Approve()),
     Memory(CiteEffect(savableDeal(dealDummy))),
     Memory(Disapprove()),
@@ -102,5 +102,5 @@ private fun fullMemory(dealDummy: GameCharacter): List<Memory>{
 
 private fun savableDeal(dealDummy: GameCharacter): FinishedDeal {
     return FinishedDeal(mapOf(
-        dealDummy to listOf(Action(WasteTime()))))
+        dealDummy to listOf(WasteTime())))
 }

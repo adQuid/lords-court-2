@@ -87,7 +87,7 @@ class ForecastBrain {
                 for (plan in likelyPlans[otherPlayer]!!) {
                     for (action in plan.actions) {
                         effects.addAll(
-                            action.type.doAction(myGame,plan.player).map { effect -> effect.layerProbability(plan.probability) })
+                            action.doAction(myGame,plan.player).map { effect -> effect.layerProbability(plan.probability) })
                     }
                 }
             }
@@ -104,13 +104,13 @@ class ForecastBrain {
 
     fun prospectiveDealsWithPlayer(target: GameCharacter): List<FinishedDeal>{
         val badDeal = FinishedDeal(hashMapOf(
-            player to listOf(Action(WasteTime())),
-            target to listOf(Action(WasteTime()))
+            player to listOf(WasteTime()),
+            target to listOf(WasteTime())
         ))
 
         val goodDeal = FinishedDeal(hashMapOf(
-            player to listOf(Action(GetMilk(target))),
-            target to listOf(Action(BakeCookies()))
+            player to listOf(GetMilk(target)),
+            target to listOf(BakeCookies())
         ))
 
         return listOf(badDeal, goodDeal)
@@ -137,7 +137,7 @@ class ForecastBrain {
 
     private fun actionPossibilitiesForPlayer(game: Game, player: GameCharacter): List<Plan>{
         var planWeights = HashMap<Action,Double>()
-        val rawActions = player.actionsReguarding(mostSignificantPlayersToMe(game)).map { type -> Action(type) }
+        val rawActions = player.actionsReguarding(mostSignificantPlayersToMe(game))
 
         rawActions.forEach {
             action ->

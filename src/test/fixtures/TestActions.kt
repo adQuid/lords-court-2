@@ -8,7 +8,7 @@ import game.GameCharacter
 import game.action.Action
 import game.action.actionTypes.WasteTime
 
-class DummyGoodThing: Action.ActionType() {
+class DummyGoodThing: Action() {
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf(DummyGoodEffect(1.0))
     }
@@ -44,7 +44,7 @@ class DummyGoodThing: Action.ActionType() {
     }
 }
 
-class DummyBadThing: Action.ActionType() {
+class DummyBadThing: Action() {
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf(DummyBadEffect(1.0))
     }
@@ -80,7 +80,7 @@ class DummyBadThing: Action.ActionType() {
     }
 }
 
-class DummyNeutralThing: Action.ActionType() {
+class DummyNeutralThing: Action() {
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf()
     }
@@ -103,10 +103,10 @@ fun neutralDeal(players: List<GameCharacter>): Deal {
     return deal(players, WasteTime()) //TODO: change this to a proper test timewasting action that can save
 }
 
-private fun deal(players: List<GameCharacter>, action: Action.ActionType): Deal{
+private fun deal(players: List<GameCharacter>, action: Action): Deal{
     val map = mutableMapOf<GameCharacter, List<Action>>()
     players.forEach {
-        map[it] = listOf(Action(action))
+        map[it] = listOf(action)
     }
     return FinishedDeal(map)
 }

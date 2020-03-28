@@ -6,7 +6,12 @@ import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 
-class WasteTime: Action.ActionType() {
+class WasteTime: Action {
+
+    constructor(){
+
+    }
+
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf()
     }

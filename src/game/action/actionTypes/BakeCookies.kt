@@ -7,7 +7,10 @@ import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 
-class BakeCookies: Action.ActionType() {
+class BakeCookies: Action{
+
+    constructor(){}
+
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf(AddDelicousness(1.0))
     }

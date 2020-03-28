@@ -127,7 +127,7 @@ class GameCharacter {
         }
     }
 
-    fun actionsReguarding(players: List<GameCharacter>): List<Action.ActionType>{
+    fun actionsReguarding(players: List<GameCharacter>): List<Action>{
         return titles.flatMap { title -> title.actionsReguarding(players) }
     }
 }

@@ -28,5 +28,5 @@ abstract class Title {
 
     abstract fun clone(): Title
 
-    abstract fun actionsReguarding(players: List<GameCharacter>): List<Action.ActionType>
+    abstract fun actionsReguarding(players: List<GameCharacter>): List<Action>
 }

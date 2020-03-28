@@ -35,7 +35,7 @@ class Milkman: Title{
         )
     }
 
-    override fun actionsReguarding(players: List<GameCharacter>): List<Action.ActionType> {
+    override fun actionsReguarding(players: List<GameCharacter>): List<Action> {
         return players.map { player -> GetMilk(player) }
     }
 }

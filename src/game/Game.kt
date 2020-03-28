@@ -60,7 +60,7 @@ class Game {
 
         val tempActions = mutableMapOf<GameCharacter, MutableList<Action>>()
         (saveString[ACTIONS_NAME] as Map<Int, Any>).forEach { key, value -> tempActions[characterById(key.toInt())] =
-            (value as List<Map<String,Any>>).map { map -> Action(GlobalActionTypeFactory.fromMap(map)) }.toMutableList() }
+            (value as List<Map<String,Any>>).map { map -> GlobalActionTypeFactory.fromMap(map) }.toMutableList() }
         actionsByPlayer = tempActions
 
         concludedPlayers = (saveString[CONCLUDED_PLAYERS_NAME] as List<Int>).map { id -> characterById(id) }.toMutableSet()
@@ -116,11 +116,11 @@ class Game {
     fun possibleActionsForPlayerReguardingPlayer(playingas: GameCharacter, reguarding: GameCharacter): List<Action>{
         var retval = ArrayList<Action>()
         if(!playingas.npc){
-            retval.add(Action(BakeCookies()))
+            retval.add(BakeCookies())
         } else {
-            players.forEach { retval.add(Action(GetMilk(it))) }
+            players.forEach { retval.add(GetMilk(it)) }
         }
-        retval.add(Action(WasteTime()))
+        retval.add(WasteTime())
         return retval
     }
 
@@ -155,7 +155,7 @@ class Game {
 
     private fun doActions(actions: Collection<Action>, player: GameCharacter): List<Effect>{
         return actions.flatMap{
-            it.type.doAction(this, player)
+            it.doAction(this, player)
         }
     }
 

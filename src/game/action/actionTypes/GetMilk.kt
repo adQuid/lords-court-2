@@ -7,7 +7,7 @@ import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 
-class GetMilk: Action.ActionType {
+class GetMilk: Action {
 
     val player: GameCharacter
 
@@ -30,7 +30,7 @@ class GetMilk: Action.ActionType {
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
             GlobalActionTypeFactory.TYPE_NAME to "GetMilk",
-            "player" to player.id
+            "target" to player.id
         )
     }
 }

@@ -5,6 +5,7 @@ import aibrain.ConversationBrain
 import aibrain.SceneBrain
 import game.GameCharacter
 import game.Game
+import game.action.GlobalActionTypeFactory
 import javafx.scene.Scene
 import shortstate.dialog.Line
 import shortstate.dialog.linetypes.Announcement
@@ -45,7 +46,7 @@ class ShortStateCharacter: Displayable {
         sceneBrain = SceneBrain(player.brain)
         convoBrain = ConversationBrain(this)
         knownReports = (saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> GlobalReportTypeFactory.fromMap(map) }.toMutableList()
-        prospectiveActions = (saveString[ACTIONS_NAME] as List<Map<String, Any>>).map { map -> Action(parent, map)}.toMutableList()
+        prospectiveActions = (saveString[ACTIONS_NAME] as List<Map<String, Any>>).map { map -> GlobalActionTypeFactory.fromMap(map)}.toMutableList()
     }
 
     fun saveString(): Map<String, Any>{

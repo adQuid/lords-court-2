@@ -34,7 +34,7 @@ class Baker: Title{
         )
     }
 
-    override fun actionsReguarding(players: List<GameCharacter>): List<Action.ActionType> {
+    override fun actionsReguarding(players: List<GameCharacter>): List<Action> {
         return listOf(BakeCookies(), WasteTime())
     }
 }

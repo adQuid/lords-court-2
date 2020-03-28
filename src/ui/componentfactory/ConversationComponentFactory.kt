@@ -52,7 +52,8 @@ class ConversationComponentFactory {
 
         if(conversation != null){
             val npcSpeechView = UtilityComponentFactory.imageView("assets/general/leftSpeechBubble.png")
-            npcSpeechView.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.refresh() }
+            //TODO: Do I really want this behavior?
+            //npcSpeechView.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.refresh() }
             val playerSpeechView = UtilityComponentFactory.imageView("assets/general/rightSpeechBubble.png")
             playerSpeechView.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.refresh() }
             backgroundPane.children.addAll(npcSpeechView, playerSpeechView)

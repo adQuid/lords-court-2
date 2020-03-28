@@ -14,6 +14,7 @@ import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
 import ui.commoncomponents.selectionmodal.SelectionModal
 import ui.commoncomponents.selectionmodal.Tab
+import game.action.GlobalActionTypeFactory
 
 class Announcement: Line, HasAction {
 
@@ -28,7 +29,7 @@ class Announcement: Line, HasAction {
 
     constructor(saveString: Map<String, Any?>, game: Game){
         if(saveString["ACTION"] != null){
-            action = Action(game, saveString["ACTION"] as Map<String, Any>)
+            action = GlobalActionTypeFactory.fromMap(saveString["ACTION"] as Map<String, Any>)
         }
     }
 
@@ -47,7 +48,7 @@ class Announcement: Line, HasAction {
                         )
                     ),
                     { action ->
-                        mySetAction(Action(action)); UIGlobals.defocus();
+                        mySetAction(action); UIGlobals.defocus();
                     })
             )}))
     }
@@ -86,7 +87,7 @@ class Announcement: Line, HasAction {
         val action = action
 
         val effectsILike = brain.shortCharacter.player.brain.lastFavoriteEffects!!
-        val effectsOfAction = action!!.type.doAction(game, speaker)
+        val effectsOfAction = action!!.doAction(game, speaker)
 
         if(effectsILike.intersect(effectsOfAction).isNotEmpty()){
             return Approve()

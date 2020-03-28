@@ -42,7 +42,7 @@ open class DealComponentFactory {
 
     private fun action(): ActionChooser{
         return ActionChooser(currentPage, actions.keys.toList(),
-            {action -> actions[currentPage]!!.add(Action(action)); UIGlobals.defocus()})
+            {action -> actions[currentPage]!!.add(action); UIGlobals.defocus()})
     }
 
     fun scenePage(perspective: ShortStateCharacter): Scene {

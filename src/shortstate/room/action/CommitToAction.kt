@@ -10,14 +10,14 @@ import shortstate.room.RoomAction
 
 class CommitToAction: RoomAction {
 
-    val type: Action.ActionType
+    val type: Action
 
-    constructor(type: Action.ActionType){
+    constructor(type: Action){
         this.type = type
     }
 
     override fun doAction(game: ShortStateController, player: ShortStateCharacter) {
-        player.prospectiveActions.add(Action(type))
+        player.prospectiveActions.add(type)
         player.energy -= 10
     }
 

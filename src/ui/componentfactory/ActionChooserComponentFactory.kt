@@ -19,7 +19,7 @@ class ActionChooserComponentFactory {
         this.context = context
     }
 
-    fun scenePage(perspective: ShortStateCharacter, action: (Action.ActionType) -> Unit): Scene {
+    fun scenePage(perspective: ShortStateCharacter, action: (Action) -> Unit): Scene {
         val root = GridPane()
 
         root.add(UtilityComponentFactory.basicList(player.actionsReguarding(context), action, totalWidth, (5* totalHeight)/6), 0,0)
@@ -33,9 +33,9 @@ class ActionChooserComponentFactory {
 class ActionChooser: Displayable {
     val player: GameCharacter
     val context: List<GameCharacter>
-    val callback: (Action.ActionType) -> Unit
+    val callback: (Action) -> Unit
 
-    constructor(player: GameCharacter, context: List<GameCharacter>, action: (Action.ActionType) -> Unit){
+    constructor(player: GameCharacter, context: List<GameCharacter>, action: (Action) -> Unit){
         this.player = player
         this.context = context
         this.callback = action

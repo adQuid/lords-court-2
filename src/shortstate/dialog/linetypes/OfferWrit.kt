@@ -15,6 +15,8 @@ import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import ui.commoncomponents.selectionmodal.SelectionModal
+import ui.commoncomponents.selectionmodal.Tab
 
 class OfferWrit: Line {
 
@@ -36,7 +38,7 @@ class OfferWrit: Line {
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         val dealBlock = if(writ==null){
-            LineBlock("Writ: [SELECT]")
+            LineBlock("Writ: [SELECT]", {perspective -> UIGlobals.focusOn(SelectionModal(listOf(Tab("Writs", perspective.player.writs)), {}))})
         } else {
             LineBlock("Writ: ${writ.toString()}")
         }
