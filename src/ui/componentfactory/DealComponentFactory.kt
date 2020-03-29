@@ -1,6 +1,7 @@
 package ui.componentfactory
 
 import aibrain.Deal
+import aibrain.FinishedDeal
 import aibrain.UnfinishedDeal
 import game.Game
 import game.GameCharacter
@@ -77,7 +78,9 @@ open class DealComponentFactory {
             topic.setMinSize(totalWidth / (deal.theActions().size+1), totalHeight / 12)
             topPane.add(topic, index++, 0)
         }
-        topPane.add(UtilityComponentFactory.proportionalButton("Add Character", EventHandler { _ -> UIGlobals.focusOn(characterSelector()) }, (actions.size+1).toDouble()),index++,0)
+        if(deal is UnfinishedDeal){
+            topPane.add(UtilityComponentFactory.proportionalButton("Add Character", EventHandler { _ -> UIGlobals.focusOn(characterSelector()) }, (actions.size+1).toDouble()),index++,0)
+        }
         return topPane
     }
 

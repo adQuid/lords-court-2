@@ -75,7 +75,7 @@ class RequestReport: Line, HasReportType {
         return report
     }
 
-    override fun specialEffect(conversation: Conversation) {
+    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
         //No special effects
     }
 

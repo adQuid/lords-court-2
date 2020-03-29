@@ -54,7 +54,7 @@ class AcceptDeal: Line {
         return listOf()
     }
 
-    override fun specialEffect(conversation: Conversation) {
+    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
         conversation.initiator.player.acceptedDeals.add(deal!!)
         conversation.target.player.acceptedDeals.add(deal!!)
     }

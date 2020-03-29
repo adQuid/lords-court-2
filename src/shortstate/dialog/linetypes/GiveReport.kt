@@ -51,7 +51,7 @@ class GiveReport: Line {
         return listOf(Approve(), Disapprove())
     }
 
-    override fun specialEffect(conversation: Conversation) {
+    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
         conversation.lastSpeaker.knownReports.add(report!!)
     }
 

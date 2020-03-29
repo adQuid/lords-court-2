@@ -42,7 +42,7 @@ class Disapprove: Line {
         return listOf()
     }
 
-    override fun specialEffect(conversation: Conversation) {
+    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
         //No special effects
     }
 

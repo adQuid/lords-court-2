@@ -69,7 +69,7 @@ class OfferDeal: Line {
         return listOf(AcceptDeal(newDeal), RejectDeal(newDeal), OfferDeal(newDeal.toUnfinishedDeal()), QuestionOffer(this))
     }
 
-    override fun specialEffect(conversation: Conversation) {
+    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
         //No special effects
     }
 

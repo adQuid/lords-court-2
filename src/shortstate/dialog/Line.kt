@@ -37,7 +37,7 @@ abstract class Line {
 
     abstract fun possibleReplies(): List<Line>
 
-    abstract fun specialEffect(conversation: Conversation)
+    abstract fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter)
 
     abstract fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line
  }

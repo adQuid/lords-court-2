@@ -67,15 +67,15 @@ class OfferWrit: Line {
         return listOf(Approve())
     }
 
-    override fun specialEffect(conversation: Conversation) {
+    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
         //No special effects
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
         if(brain.shortCharacter.player.brain.dealValueToMe(writ!!.deal) > 0){
-            return Approve()
+            return AcceptWrit(writ!!)
         } else {
-            return Disapprove()
+            return RejectDeal(writ!!.deal)
         }
 
     }
