@@ -1,5 +1,6 @@
 package game.action
 
+import game.Game
 import game.GameCharacter
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
@@ -8,14 +9,14 @@ import game.action.actionTypes.WasteTime
 object GlobalActionTypeFactory {
 
     val TYPE_NAME = "TYPE"
-    val typeMap: HashMap<String, (map: Map<String, Any>) -> Action> = hashMapOf(
-        "WasteTime" to {map -> WasteTime()},
-        "BakeCookies" to {map -> BakeCookies()},
-        "GetMilk" to {map -> GetMilk(map["target"] as GameCharacter) }
+    val typeMap: HashMap<String, (map: Map<String, Any>, Game) -> Action> = hashMapOf(
+        "WasteTime" to {map, game -> WasteTime()},
+        "BakeCookies" to {map, game -> BakeCookies()},
+        "GetMilk" to {map, game -> GetMilk(game.characterById(map["target"] as Int)) }
     )
 
-    fun fromMap(map: Map<String, Any>): Action {
-        return typeMap[map[TYPE_NAME]]!!(map)
+    fun fromMap(map: Map<String, Any>, game: Game): Action {
+        return typeMap[map[TYPE_NAME]]!!(map, game)
     }
 
 }

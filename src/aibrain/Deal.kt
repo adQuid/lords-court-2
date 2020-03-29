@@ -31,7 +31,7 @@ class FinishedDeal: Deal {
     constructor(saveString: Map<String, Any>, game: Game){
         val tempActions = mutableMapOf<GameCharacter, List<Action>>()
         (saveString["ACTIONS"] as Map<String, Any>).forEach { key, value -> tempActions[game.characterById(key.toInt())] =
-                (value as List<Map<String,Any>>).map { map -> GlobalActionTypeFactory.fromMap(map) } }
+                (value as List<Map<String,Any>>).map { map -> GlobalActionTypeFactory.fromMap(map, game) } }
 
         actions = tempActions
         display = DealComponentFactory(this)

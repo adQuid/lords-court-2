@@ -29,7 +29,7 @@ class Announcement: Line, HasAction {
 
     constructor(saveString: Map<String, Any?>, game: Game){
         if(saveString["ACTION"] != null){
-            action = GlobalActionTypeFactory.fromMap(saveString["ACTION"] as Map<String, Any>)
+            action = GlobalActionTypeFactory.fromMap(saveString["ACTION"] as Map<String, Any>, game)
         }
     }
 

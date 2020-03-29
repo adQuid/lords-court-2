@@ -60,7 +60,7 @@ class Game {
 
         val tempActions = mutableMapOf<GameCharacter, MutableList<Action>>()
         (saveString[ACTIONS_NAME] as Map<Int, Any>).forEach { key, value -> tempActions[characterById(key.toInt())] =
-            (value as List<Map<String,Any>>).map { map -> GlobalActionTypeFactory.fromMap(map) }.toMutableList() }
+            (value as List<Map<String,Any>>).map { map -> GlobalActionTypeFactory.fromMap(map, this) }.toMutableList() }
         actionsByPlayer = tempActions
 
         concludedPlayers = (saveString[CONCLUDED_PLAYERS_NAME] as List<Int>).map { id -> characterById(id) }.toMutableSet()

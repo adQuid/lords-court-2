@@ -102,7 +102,7 @@ class ConversationComponentFactory {
             lineNode = GridPane()
 
             var index = 0 //gotta be a better way to do this
-            line.symbolicForm(conversation.lastSpeaker, conversation.otherParticipant(conversation.lastSpeaker)).forEach { block ->
+            line.symbolicForm( conversation.otherParticipant(conversation.lastSpeaker), conversation.lastSpeaker).forEach { block ->
                 val playerLineText = block.textForm(perspective)
                 playerLineText.maxWidth(totalWidth / 2)
                 if (totalWidth > 600.0) {
