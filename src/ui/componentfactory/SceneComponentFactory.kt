@@ -39,11 +39,10 @@ class SceneComponentFactory {
 
         if(scene.conversation != null){
             root.add(conversationComponentFactory!!.conversationPane(sceneImage(perspective), perspective), 0, 0)
-            root.add(UtilityComponentFactory.bottomPane(conversationComponentFactory!!.buttons(perspective), perspective), 0, 1)
         } else {
             root.add(sceneImage(perspective), 0, 0)
-            root.add(outOfConvoButtons(perspective), 0, 1)
         }
+        root.add(outOfConvoButtons(perspective), 0, 1)
 
         val scene = Scene(root, totalWidth, totalHeight)
         return scene
