@@ -22,6 +22,7 @@ class EnactWrit: RoomAction {
         writ.deal.actions.keys.forEach {
             UIGlobals.appendActionsForPlayer(it, writ.deal.actions[it]!!)
         }
+        player.player.writs.remove(writ)
     }
 
     override fun defocusAfter(): Boolean {
