@@ -66,7 +66,6 @@ class SceneComponentFactory {
     }
 
     private fun outOfConvoButtons(perspective: ShortStateCharacter): Pane {
-        val btn1 = UtilityComponentFactory.shortButton("Personal Actions", null)
         val btn2 = if(scene.room.getActions(perspective.player).isNotEmpty()){
             UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
                 UIGlobals.focusOn(
@@ -86,7 +85,7 @@ class SceneComponentFactory {
         val btn3 = UtilityComponentFactory.newSceneButton(perspective)
         val btn4 = viewReportsButton(perspective)
         val btn5 = viewWritsButton(perspective)
-        return UtilityComponentFactory.bottomPane(listOf(btn1,btn2,btn3,btn4,btn5), perspective)
+        return UtilityComponentFactory.bottomPane(listOf(btn2,btn3,btn4,btn5), perspective)
     }
 
     private fun viewReportsButton(perspective: ShortStateCharacter): Button {

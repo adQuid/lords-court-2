@@ -13,6 +13,7 @@ import main.Controller
 import main.UIGlobals
 import shortstate.Conversation
 import shortstate.ShortStateCharacter
+import shortstate.dialog.LineBlock
 import ui.MyAnchorPane
 import ui.totalHeight
 import ui.totalWidth
@@ -33,13 +34,8 @@ class ConversationComponentFactory {
     fun buttons(perspective: ShortStateCharacter): List<Button> {
         var retval = mutableListOf<Button>()
         if(lineBeingConstructed == null){
-            val linesList =
-            if(conversation.lastLine != null
-                && conversation.lastLine!!.possibleReplies().isNotEmpty()){
-                conversation.lastLine!!.possibleReplies()
-            } else {
-                conversation.defaultConversationLines(perspective)
-            }
+            val linesList = lineOptions(perspective)
+
             retval = linesList
                 .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line); UIGlobals.refresh()})}.toMutableList()
             retval.add(UtilityComponentFactory.newSceneButton(perspective))
@@ -78,6 +74,7 @@ class ConversationComponentFactory {
 
             backgroundPane.children.add(lineAnchorPane.realPane)
         }
+
         return backgroundPane
     }
 
@@ -92,17 +89,19 @@ class ConversationComponentFactory {
     }
 
     private fun linePane(perspective: ShortStateCharacter, pane: MyAnchorPane, line: Line?, symbolic: Boolean, left: Boolean): MyAnchorPane {
-        if(line == null){
-            return pane
-        }
-
         var lineNode: Node? = null
 
         if(symbolic){
             lineNode = GridPane()
 
+            val textBlocks = if(line != null){
+                line.symbolicForm( conversation.otherParticipant(conversation.lastSpeaker), conversation.lastSpeaker)
+            } else {
+                lineOptions(perspective).map { line -> LineBlock(line.tooltipName(), {focusOnLine(line); UIGlobals.refresh()}) }
+            }
+
             var index = 0 //gotta be a better way to do this
-            line.symbolicForm( conversation.otherParticipant(conversation.lastSpeaker), conversation.lastSpeaker).forEach { block ->
+            textBlocks.forEach { block ->
                 val playerLineText = block.textForm(perspective)
                 playerLineText.maxWidth(totalWidth / 2)
                 if (totalWidth > 600.0) {
@@ -112,26 +111,26 @@ class ConversationComponentFactory {
                 (lineNode as GridPane).add(playerLineText, 0, index++)
 
                 if(block.behavior==null){
-                    if(left){
-                        playerLineText.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.refresh() }
-                    } else {
+                    if(!left) {
                         playerLineText.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.refresh() }
                     }
                 }
             }
         } else {
-            lineNode = Text(line.fullTextForm(conversation.lastSpeaker, conversation.otherParticipant(conversation.lastSpeaker)))
+            if(line != null){
+                lineNode = Text(line.fullTextForm(conversation.lastSpeaker, conversation.otherParticipant(conversation.lastSpeaker)))
 
-            lineNode.maxWidth(totalWidth / 2)
-            if (totalWidth > 800.0) {
-                lineNode.font = Font(16.0)
-            }
-            lineNode.wrappingWidth = totalWidth * 0.28
+                lineNode.maxWidth(totalWidth / 2)
+                if (totalWidth > 800.0) {
+                    lineNode.font = Font(16.0)
+                }
+                lineNode.wrappingWidth = totalWidth * 0.28
 
-            if(left){
-                lineNode.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.refresh() }
+                if(!left) {
+                    lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.refresh() }
+                }
             } else {
-                lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.refresh() }
+                return pane
             }
         }
 
@@ -145,6 +144,15 @@ class ConversationComponentFactory {
         }
 
         return pane
+    }
+
+    private fun lineOptions(perspective: ShortStateCharacter): List<Line>{
+        if(conversation.lastLine != null
+            && conversation.lastLine!!.possibleReplies().isNotEmpty()){
+            return conversation.lastLine!!.possibleReplies()
+        } else {
+            return conversation.defaultConversationLines(perspective)
+        }
     }
 
     fun focusOnLine(line: Line){
