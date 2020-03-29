@@ -62,7 +62,7 @@ class ForecastBrain {
     private fun dealsILike(game: Game): List<FinishedDeal> {
         return mostSignificantPlayersToMe(game).filter { it -> it != player }
             .map { character -> prospectiveDealsWithPlayer(character) }.flatten()
-            .filter { dealValue(it) > 0 }
+            .filter { dealValueToMe(it) > 0 }
     }
 
     private fun actionsToDo(game: Game): List<Action> {
@@ -116,8 +116,8 @@ class ForecastBrain {
         return listOf(badDeal, goodDeal)
     }
 
-    fun dealValue(deal: Deal): Double{
-        return DealCase(deal).dealValue(lastCasesOfConcern!!)[player]!!
+    fun dealValueToMe(deal: Deal): Double{
+        return DealCase(deal).dealValue(lastCasesOfConcern!!, listOf(player))[player]!!
     }
 
     fun justifyDeal(deal: Deal, subject: GameCharacter): List<Effect>{

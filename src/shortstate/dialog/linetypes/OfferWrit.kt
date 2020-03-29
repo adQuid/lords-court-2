@@ -38,7 +38,7 @@ class OfferWrit: Line {
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         val dealBlock = if(writ==null){
-            LineBlock("Writ: [SELECT]", {perspective -> UIGlobals.focusOn(SelectionModal(listOf(Tab("Writs", perspective.player.writs)), {}))})
+            LineBlock("Writ: [SELECT]", {perspective -> UIGlobals.focusOn(SelectionModal(listOf(Tab("Writs", perspective.player.writs)), {selectedWrit -> this.writ = selectedWrit; UIGlobals.defocus()}))})
         } else {
             LineBlock("Writ: ${writ.toString()}")
         }
@@ -72,6 +72,11 @@ class OfferWrit: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        return Approve()
+        if(brain.shortCharacter.player.brain.dealValueToMe(writ!!.deal) > 0){
+            return Approve()
+        } else {
+            return Disapprove()
+        }
+
     }
 }

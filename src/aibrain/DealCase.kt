@@ -14,10 +14,9 @@ class DealCase {
 
     //returns the marginal multiple of previous value. For example, if the total of gamecase value was 100 before the deal and 120 after,
     //this would return 0.2
-    fun dealValue(cases: List<GameCase>): Map<GameCharacter, Double>{
+    fun dealValue(cases: List<GameCase>, perspectives: Collection<GameCharacter>): Map<GameCharacter, Double>{
         val casesWithDeal = cases!!.map { it.applyDeal(deal) }
-        return deal.theActions().entries.associate { entry ->
-            entry.key to (totalCaseValue(casesWithDeal, entry.key) - totalCaseValue(cases!!, entry.key)) / totalCaseValue(cases!!, entry.key) }
+        return perspectives.associateWith { entry -> (totalCaseValue(casesWithDeal, entry) - totalCaseValue(cases!!, entry)) / totalCaseValue(cases!!, entry) }
     }
 
     private fun totalCaseValue(reality: List<GameCase>, player: GameCharacter): Double{

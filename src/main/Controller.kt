@@ -27,7 +27,7 @@ class Controller {
     var shortThread: ShortStateController? = null
     var GUI: MainUI? = null
 
-    private val brainThread1 = Thread(BrainThread(this))
+    private var brainThread1 = Thread(BrainThread(this))
 
     constructor(){
         singleton = this
@@ -84,6 +84,9 @@ class Controller {
         game = Game(loadMap["game"] as Map<String,Any>)
         val shortGame = ShortStateGame(game!!, loadMap["shortGame"] as Map<String, Any>)
         shortThread = ShortStateController(shortGame)
+
+        brainThread1 = Thread(BrainThread(this))
+
         startPlaying()
     }
 
