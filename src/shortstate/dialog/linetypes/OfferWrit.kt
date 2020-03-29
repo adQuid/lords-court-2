@@ -38,7 +38,11 @@ class OfferWrit: Line {
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         val dealBlock = if(writ==null){
-            LineBlock("Writ: [SELECT]", {perspective -> UIGlobals.focusOn(SelectionModal(listOf(Tab("Writs", perspective.player.writs)), {selectedWrit -> this.writ = selectedWrit; UIGlobals.defocus()}))})
+            LineBlock("Writ: [SELECT]", {perspective -> UIGlobals.focusOn(
+                SelectionModal(listOf(
+                    Tab("Writs", perspective.player.writs.filter { !it.signatories.contains(target.player) })), {selectedWrit -> this.writ = selectedWrit; UIGlobals.defocus()}
+                )
+            )})
         } else {
             LineBlock("Writ: ${writ.toString()}")
         }
