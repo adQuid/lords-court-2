@@ -3,6 +3,7 @@ package main
 import game.Game
 import game.GameCharacter
 import game.action.Action
+import shortstate.ShortStateCharacter
 import ui.Displayable
 import ui.MainUI
 
@@ -14,6 +15,10 @@ object UIGlobals {
 
     fun GUI(): MainUI {
         return Controller.singleton!!.GUI!!
+    }
+
+    fun playingAs(): ShortStateCharacter{
+        return GUI().playingAs()
     }
 
     fun resetFocus(){

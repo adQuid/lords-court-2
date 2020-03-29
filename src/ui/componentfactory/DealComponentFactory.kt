@@ -69,7 +69,7 @@ open class DealComponentFactory {
         val topPane = GridPane()
         var index = 0
         actions.forEach {
-            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", EventHandler {_ -> currentPage = it.key; UIGlobals.refresh()}, (actions.size+1).toDouble())
+            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", EventHandler {_ -> currentPage = it.key; trimTabs(); UIGlobals.refresh()}, (actions.size+1).toDouble())
             if(it.key == currentPage){
                 topic.font = Font(18.0)
                 topic.onAction = null
@@ -91,7 +91,7 @@ open class DealComponentFactory {
 
     private fun characterSelector(): SelectionModal<GameCharacter>{
         val tabs = listOf(Tab<GameCharacter>("Characters", UIGlobals.activeGame().players.toList()))
-        val selectModal = SelectionModal(tabs, {player -> addCharacterToDeal(player); UIGlobals.defocus()})
+        val selectModal = SelectionModal(tabs, {player -> addCharacterToDeal(player); currentPage = player; trimTabs(); UIGlobals.defocus()})
         return selectModal
     }
 
@@ -99,5 +99,10 @@ open class DealComponentFactory {
         (deal as UnfinishedDeal).actions[character] = mutableListOf()
         actions[character] = mutableListOf<Action>()
         actionLists[character] = AppendableList()
+    }
+    
+    private fun trimTabs(){
+        actions = actions.filter { entry -> (entry.value.size > 0 || entry.key == currentPage)}.toMutableMap()
+        actionLists = actionLists.filter { entry -> actions.containsKey(entry.key) }.toMutableMap()
     }
 }
