@@ -3,10 +3,9 @@ package ui.componentfactory
 import game.Effect
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.Displayable
-import ui.totalHeight
-import ui.totalWidth
 
 class EffectChooserComponentFactory {
     val context: List<Effect>
@@ -18,10 +17,10 @@ class EffectChooserComponentFactory {
     fun scenePage(perspective: ShortStateCharacter, action: (Effect) -> Unit): Scene {
         val root = GridPane()
 
-        root.add(UtilityComponentFactory.basicList(context, action, totalWidth, (5* totalHeight)/6), 0,0)
+        root.add(UtilityComponentFactory.basicList(context, action, UIGlobals.totalWidth(), (5* UIGlobals.totalHeight())/6), 0,0)
         root.add(UtilityComponentFactory.backButton(), 0,1)
 
-        return Scene(root, totalWidth, totalHeight)
+        return Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
     }
 }
 

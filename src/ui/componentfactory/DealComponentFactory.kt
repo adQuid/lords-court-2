@@ -19,8 +19,6 @@ import ui.commoncomponents.AppendableList
 import ui.commoncomponents.selectionmodal.SelectionModal
 import ui.commoncomponents.selectionmodal.Tab
 import ui.contructorobjects.CharacterSelector
-import ui.totalHeight
-import ui.totalWidth
 
 open class DealComponentFactory {
 
@@ -62,7 +60,7 @@ open class DealComponentFactory {
 
         root.add(bottomPane, 0,2)
 
-        val scene = Scene(root, totalWidth, totalHeight)
+        val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene
     }
 
@@ -75,7 +73,7 @@ open class DealComponentFactory {
                 topic.font = Font(18.0)
                 topic.onAction = null
             }
-            topic.setMinSize(totalWidth / (deal.theActions().size+1), totalHeight / 12)
+            topic.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 12)
             topPane.add(topic, index++, 0)
         }
         if(deal is UnfinishedDeal){

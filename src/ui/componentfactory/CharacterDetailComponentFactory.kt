@@ -11,8 +11,6 @@ import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.MainUI
-import ui.totalHeight
-import ui.totalWidth
 import javax.naming.ldap.Control
 
 class CharacterDetailComponentFactory {
@@ -27,7 +25,7 @@ class CharacterDetailComponentFactory {
         val root = GridPane()
         root.add(characterFocusButtons(perspective), 0, 1)
         root.add(sceneImage(), 0, 0)
-        val scene = Scene(root, totalWidth, totalHeight)
+        val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene
     }
 
@@ -40,7 +38,7 @@ class CharacterDetailComponentFactory {
 
         val nameText = Text(10.0, 50.0, character.player.fullName())
         nameText.font = Font(24.0)
-        nameText.wrappingWidth = totalWidth * 0.7
+        nameText.wrappingWidth = UIGlobals.totalWidth() * 0.7
         nameText.textAlignment = TextAlignment.CENTER
 
         imagePane.children.addAll(backgroundView, characterView, nameText)

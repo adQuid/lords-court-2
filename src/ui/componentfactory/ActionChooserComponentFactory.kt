@@ -4,10 +4,9 @@ import game.GameCharacter
 import game.action.Action
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.Displayable
-import ui.totalHeight
-import ui.totalWidth
 
 class ActionChooserComponentFactory {
 
@@ -22,10 +21,10 @@ class ActionChooserComponentFactory {
     fun scenePage(perspective: ShortStateCharacter, action: (Action) -> Unit): Scene {
         val root = GridPane()
 
-        root.add(UtilityComponentFactory.basicList(player.actionsReguarding(context), action, totalWidth, (5* totalHeight)/6), 0,0)
+        root.add(UtilityComponentFactory.basicList(player.actionsReguarding(context), action, UIGlobals.totalWidth(), (5* UIGlobals.totalHeight())/6), 0,0)
         root.add(UtilityComponentFactory.backButton(), 0,1)
 
-        return Scene(root, totalWidth, totalHeight)
+        return Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
     }
 }
 

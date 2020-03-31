@@ -17,8 +17,6 @@ import shortstate.room.RoomAction
 import shortstate.room.action.MakeReport
 import ui.commoncomponents.selectionmodal.SelectionModal
 import ui.commoncomponents.selectionmodal.Tab
-import ui.totalHeight
-import ui.totalWidth
 
 class SceneComponentFactory {
 
@@ -44,7 +42,7 @@ class SceneComponentFactory {
         }
         root.add(outOfConvoButtons(perspective), 0, 1)
 
-        val scene = Scene(root, totalWidth, totalHeight)
+        val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene
     }
 

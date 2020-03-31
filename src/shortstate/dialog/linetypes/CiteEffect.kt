@@ -19,8 +19,6 @@ import ui.Displayable
 import ui.commoncomponents.AppendableList
 import ui.componentfactory.EffectChooser
 import ui.componentfactory.UtilityComponentFactory
-import ui.totalHeight
-import ui.totalWidth
 
 class CiteEffect: Line {
 

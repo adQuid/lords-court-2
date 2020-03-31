@@ -41,4 +41,11 @@ object UIGlobals {
         Controller.singleton!!.commitActionsForPlayer(player, actions)
     }
 
+    fun totalHeight(): Double{
+        return GUI().totalHeight
+    }
+
+    fun totalWidth(): Double{
+        return GUI().totalWidth
+    }
 }

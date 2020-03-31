@@ -21,8 +21,6 @@ import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
 import ui.commoncomponents.selectionmodal.SelectionModal
 import ui.commoncomponents.selectionmodal.Tab
-import ui.totalHeight
-import ui.totalWidth
 
 
 object UtilityComponentFactory {
@@ -31,8 +29,8 @@ object UtilityComponentFactory {
         val path = url.replace("//","\\")
         val image = Image(path)
         val retval = ImageView(image)
-        retval.fitHeight = (totalHeight) * (4.5 / 6.0)
-        retval.fitWidth = totalWidth
+        retval.fitHeight = (UIGlobals.totalHeight()) * (4.5 / 6.0)
+        retval.fitWidth = UIGlobals.totalWidth()
         return retval
     }
 
@@ -58,14 +56,20 @@ object UtilityComponentFactory {
         val retval = GridPane()
 
         val statsDisplay = Label("Energy: " + perspective.energy + "/1000")
-        statsDisplay.setMinSize(totalWidth/2, totalWidth / 12)
+        statsDisplay.setMinSize(UIGlobals.totalWidth()/2, UIGlobals.totalWidth() / 12)
         retval.add(statsDisplay, 0,0)
 
+        val sizeButton1 = shortButton("Size-", EventHandler { UIGlobals.GUI().rotateSize(-1)}, 0.5)
+        retval.add(sizeButton1, 1,0)
+
+        val sizeButton2 = shortButton("Size+", EventHandler { UIGlobals.GUI().rotateSize(1)}, 0.5)
+        retval.add(sizeButton2, 2,0)
+
         val saveButton = shortButton("Save", EventHandler { Controller.singleton!!.save()})
-        retval.add(saveButton, 1,0)
+        retval.add(saveButton, 3,0)
 
         val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); UIGlobals.resetFocus()})
-        retval.add(loadButton, 2,0)
+        retval.add(loadButton, 4,0)
 
         return retval
     }
@@ -129,6 +133,10 @@ object UtilityComponentFactory {
     }
 
     fun shortButton(text: String, action: EventHandler<ActionEvent>?, specialWidth: Int): Button {
+        return shortButton(text, action, specialWidth.toDouble())
+    }
+
+    fun shortButton(text: String, action: EventHandler<ActionEvent>?, specialWidth: Double): Button {
         val retval = proportionalButton(text, action, 4.0)
         retval.setMinSize(retval.minWidth*specialWidth, retval.minHeight)
         return retval
@@ -140,7 +148,7 @@ object UtilityComponentFactory {
 
     fun proportionalButton(text: String, action: EventHandler<ActionEvent>?, proportion: Double): Button{
         val retval = Button(text)
-        retval.setMinSize(totalWidth / proportion, totalHeight / 12)
+        retval.setMinSize(UIGlobals.totalWidth() / proportion, UIGlobals.totalHeight() / 12)
         if (action != null) {
             retval.onAction = action
         }

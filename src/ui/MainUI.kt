@@ -13,10 +13,7 @@ import ui.componentfactory.*
 import java.util.*
 import kotlin.system.exitProcess
 
-const val SIZE_SCALE = 0.8
-
-var totalWidth = 1200.0 * SIZE_SCALE
-var totalHeight = 1080.0 * SIZE_SCALE
+var SIZE_SCALE = 0.8
 
 class MainUI() : Application() {
 
@@ -82,5 +79,17 @@ class MainUI() : Application() {
         Platform.runLater {
             this.stage!!.scene = scene
         }
+    }
+
+    fun rotateSize(direction: Int){
+        if(direction > 0 && SIZE_SCALE < 1.1){
+            SIZE_SCALE += 0.1
+        } else if(direction < 0 && SIZE_SCALE > 0.6){
+            SIZE_SCALE -= 0.1
+        }
+
+        totalWidth = 1200.0 * SIZE_SCALE
+        totalHeight = 1080.0 * SIZE_SCALE
+        display()
     }
 }

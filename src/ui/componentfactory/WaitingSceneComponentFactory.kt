@@ -4,10 +4,9 @@ import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.layout.StackPane
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.MainUI
-import ui.totalHeight
-import ui.totalWidth
 
 class WaitingSceneComponentFactory {
 
@@ -15,7 +14,7 @@ class WaitingSceneComponentFactory {
         val root = GridPane()
         root.add(UtilityComponentFactory.bottomPane(listOf(), perspective), 0, 1)
         root.add(waitImage(), 0, 0)
-        return Scene(root, totalWidth, totalHeight)
+        return Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
     }
 
     private fun waitImage(): Pane {

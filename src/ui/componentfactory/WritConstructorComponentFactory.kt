@@ -6,8 +6,6 @@ import javafx.scene.layout.GridPane
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.contructorobjects.WritConstructor
-import ui.totalHeight
-import ui.totalWidth
 
 class WritConstructorComponentFactory {
 
@@ -30,7 +28,7 @@ class WritConstructorComponentFactory {
         }
         root.add(bottomPane,0,1)
 
-        val scene = Scene(root, totalWidth, totalHeight)
+        val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene
     }
 }

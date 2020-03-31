@@ -15,8 +15,6 @@ import shortstate.Conversation
 import shortstate.ShortStateCharacter
 import shortstate.dialog.LineBlock
 import ui.MyAnchorPane
-import ui.totalHeight
-import ui.totalWidth
 
 
 class ConversationComponentFactory {
@@ -83,8 +81,8 @@ class ConversationComponentFactory {
         nameText.font = Font(24.0)
         val descriptionAnchorPane = MyAnchorPane()
         descriptionAnchorPane.realPane.children.add(nameText)
-        descriptionAnchorPane.setTopAnchor(nameText, totalHeight * 0.03)
-        descriptionAnchorPane.setLeftAnchor(nameText, totalWidth * 0.35)
+        descriptionAnchorPane.setTopAnchor(nameText, UIGlobals.totalHeight() * 0.03)
+        descriptionAnchorPane.setLeftAnchor(nameText, UIGlobals.totalWidth() * 0.35)
         return descriptionAnchorPane.realPane
     }
 
@@ -103,11 +101,11 @@ class ConversationComponentFactory {
             var index = 0 //gotta be a better way to do this
             textBlocks.forEach { block ->
                 val playerLineText = block.textForm(perspective)
-                playerLineText.maxWidth(totalWidth / 2)
-                if (totalWidth > 600.0) {
+                playerLineText.maxWidth(UIGlobals.totalWidth() / 2)
+                if (UIGlobals.totalWidth() > 600.0) {
                     playerLineText.font = Font(20.0)
                 }
-                playerLineText.wrappingWidth = totalWidth * 0.28
+                playerLineText.wrappingWidth = UIGlobals.totalWidth() * 0.28
                 (lineNode as GridPane).add(playerLineText, 0, index++)
 
                 if(block.behavior==null){
@@ -120,11 +118,11 @@ class ConversationComponentFactory {
             if(line != null){
                 lineNode = Text(line.fullTextForm(conversation.lastSpeaker, conversation.otherParticipant(conversation.lastSpeaker)))
 
-                lineNode.maxWidth(totalWidth / 2)
-                if (totalWidth > 800.0) {
+                lineNode.maxWidth(UIGlobals.totalWidth() / 2)
+                if (UIGlobals.totalWidth() > 800.0) {
                     lineNode.font = Font(16.0)
                 }
-                lineNode.wrappingWidth = totalWidth * 0.28
+                lineNode.wrappingWidth = UIGlobals.totalWidth() * 0.28
 
                 if(!left) {
                     lineNode.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.refresh() }
@@ -136,11 +134,11 @@ class ConversationComponentFactory {
 
         pane.realPane.children.add(lineNode)
 
-        pane.setTopAnchor(lineNode, totalHeight * 0.03);
+        pane.setTopAnchor(lineNode, UIGlobals.totalHeight() * 0.03);
         if(left){
-            pane.setLeftAnchor(lineNode, totalWidth * 0.03);
+            pane.setLeftAnchor(lineNode, UIGlobals.totalWidth() * 0.03);
         } else {
-            pane.setLeftAnchor(lineNode, totalWidth * 0.693);
+            pane.setLeftAnchor(lineNode, UIGlobals.totalWidth() * 0.693);
         }
 
         return pane

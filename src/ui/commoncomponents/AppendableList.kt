@@ -7,8 +7,6 @@ import main.Controller
 import main.UIGlobals
 import ui.Displayable
 import ui.componentfactory.UtilityComponentFactory
-import ui.totalHeight
-import ui.totalWidth
 
 class AppendableList<T> {
 
@@ -27,9 +25,9 @@ class AppendableList<T> {
             behavior = {}
         }
 
-        retval.add(UtilityComponentFactory.basicList(collection.toList(), behavior, totalWidth, totalHeight * (5.0/6.0)), 0, 0)
+        retval.add(UtilityComponentFactory.basicList(collection.toList(), behavior, UIGlobals.totalWidth(), UIGlobals.totalHeight() * (5.0/6.0)), 0, 0)
 
-        retval.setPrefSize(totalWidth, (5* totalHeight)/6)
+        retval.setPrefSize(UIGlobals.totalWidth(), (5* UIGlobals.totalHeight())/6)
         return retval
     }
 }
