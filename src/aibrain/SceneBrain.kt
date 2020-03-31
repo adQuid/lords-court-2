@@ -5,6 +5,7 @@ import aibrain.scenecreationadvocates.GoToWorkroomAdvocate
 import aibrain.scenecreationadvocates.SceneCreationAdvocate
 import aibrain.scenecreationadvocates.TalkToImportantPersonAdvocate
 import aibrain.scenereactionadvocates.*
+import game.GameCharacter
 import shortstate.ShortGameScene
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter

@@ -104,13 +104,13 @@ class ForecastBrain {
 
     fun prospectiveDealsWithPlayer(target: GameCharacter): List<FinishedDeal>{
         val badDeal = FinishedDeal(hashMapOf(
-            player to listOf(WasteTime()),
-            target to listOf(WasteTime())
+            player to setOf(WasteTime()),
+            target to setOf(WasteTime())
         ))
 
         val goodDeal = FinishedDeal(hashMapOf(
-            player to listOf(GetMilk(target)),
-            target to listOf(BakeCookies())
+            player to setOf(GetMilk(target)),
+            target to setOf(BakeCookies())
         ))
 
         return listOf(badDeal, goodDeal)

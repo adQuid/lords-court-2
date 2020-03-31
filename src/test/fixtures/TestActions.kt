@@ -104,9 +104,9 @@ fun neutralDeal(players: List<GameCharacter>): Deal {
 }
 
 private fun deal(players: List<GameCharacter>, action: Action): Deal{
-    val map = mutableMapOf<GameCharacter, List<Action>>()
+    val map = mutableMapOf<GameCharacter, Set<Action>>()
     players.forEach {
-        map[it] = listOf(action)
+        map[it] = setOf(action)
     }
     return FinishedDeal(map)
 }

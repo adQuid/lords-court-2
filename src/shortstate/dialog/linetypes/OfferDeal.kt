@@ -61,7 +61,7 @@ class OfferDeal: Line {
     }
 
     override fun validToSend(): Boolean {
-        return deal.theActions().values.fold(0, {acc: Int, list: List<Action> ->  acc+list.size}) > 0
+        return deal.theActions().values.fold(0, {acc: Int, list: Set<Action> ->  acc+list.size}) > 0
     }
 
     override fun possibleReplies(): List<Line> {
@@ -70,7 +70,7 @@ class OfferDeal: Line {
     }
 
     override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
-        //No special effects
+        conversation.participants().forEach { it.convoBrain.putOrAddDealToMemory(conversation.otherParticipant(it).player, deal) }
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {

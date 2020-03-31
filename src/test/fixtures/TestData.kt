@@ -102,5 +102,5 @@ private fun fullMemory(dealDummy: GameCharacter): List<Memory>{
 
 private fun savableDeal(dealDummy: GameCharacter): FinishedDeal {
     return FinishedDeal(mapOf(
-        dealDummy to listOf(WasteTime())))
+        dealDummy to setOf(WasteTime())))
 }

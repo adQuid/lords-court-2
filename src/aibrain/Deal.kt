@@ -10,7 +10,7 @@ import ui.Displayable
 import ui.componentfactory.DealComponentFactory
 
 abstract class Deal: Displayable {
-    abstract fun theActions(): Map<GameCharacter, List<Action>>
+    abstract fun theActions(): Map<GameCharacter, Set<Action>>
 
     abstract fun dialogText(speaker: GameCharacter, target: GameCharacter): String
 
@@ -19,25 +19,25 @@ abstract class Deal: Displayable {
 
 class FinishedDeal: Deal {
 
-    val actions: Map<GameCharacter, List<Action>>
+    val actions: Map<GameCharacter, Set<Action>>
 
     val display: DealComponentFactory
 
-    constructor(actions: Map<GameCharacter, List<Action>>){
+    constructor(actions: Map<GameCharacter, Set<Action>>){
         this.actions = actions
         display = DealComponentFactory(this)
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
-        val tempActions = mutableMapOf<GameCharacter, List<Action>>()
+        val tempActions = mutableMapOf<GameCharacter, Set<Action>>()
         (saveString["ACTIONS"] as Map<String, Any>).forEach { key, value -> tempActions[game.characterById(key.toInt())] =
-                (value as List<Map<String,Any>>).map { map -> GlobalActionTypeFactory.fromMap(map, game) } }
+                (value as List<Map<String,Any>>).map { map -> GlobalActionTypeFactory.fromMap(map, game) }.toSet() }
 
         actions = tempActions
         display = DealComponentFactory(this)
     }
 
-    override fun theActions(): Map<GameCharacter, List<Action>> {
+    override fun theActions(): Map<GameCharacter, Set<Action>> {
         return actions
     }
 
@@ -49,6 +49,14 @@ class FinishedDeal: Deal {
            "ACTIONS" to actionMap
        )
    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other is Deal){
+            return this.actions == other.theActions()
+        } else {
+            return false
+        }
+    }
 
     override fun toString(): String {
         return "[DEAL]"
@@ -74,26 +82,34 @@ class FinishedDeal: Deal {
 }
 
 class UnfinishedDeal: Deal{
-    val actions: MutableMap<GameCharacter, MutableList<Action>>
+    val actions: MutableMap<GameCharacter, MutableSet<Action>>
 
     val display: DealComponentFactory
 
-    override fun theActions(): Map<GameCharacter, List<Action>> {
-        return actions.toMap().mapValues { entry -> entry.value.toMutableList() }
+    override fun theActions(): Map<GameCharacter, Set<Action>> {
+        return actions.toMap().mapValues { entry -> entry.value.toMutableSet() }
     }
 
     constructor(players: List<GameCharacter>){
         actions = mutableMapOf()
         players.forEach {
-            actions[it] = mutableListOf()
+            actions[it] = mutableSetOf()
         }
         display = DealComponentFactory(this)
     }
 
-    constructor(actions: Map<GameCharacter, List<Action>>){
+    constructor(actions: Map<GameCharacter, Set<Action>>){
         this.actions = mutableMapOf()
-        actions.forEach{entry -> this.actions.put(entry.key, entry.value.toMutableList())}
+        actions.forEach{entry -> this.actions.put(entry.key, entry.value.toMutableSet())}
         display = DealComponentFactory(this)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other is Deal){
+            return this.actions == other.theActions()
+        } else {
+            return false
+        }
     }
 
     fun isEmpty(): Boolean{

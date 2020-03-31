@@ -55,7 +55,7 @@ open class DealComponentFactory {
         val bottomPane = GridPane()
         if(deal is UnfinishedDeal){
             bottomPane.add(UtilityComponentFactory.shortButton("Cancel", EventHandler { resetActions(); UIGlobals.defocus()}),0,0)
-            bottomPane.add(UtilityComponentFactory.shortButton("Complete", EventHandler { deal.actions.entries.forEach { deal.actions[it.key] = actions[it.key]!! }; UIGlobals.defocus()}, 3),1,0)
+            bottomPane.add(UtilityComponentFactory.shortButton("Complete", EventHandler { deal.actions.entries.forEach { deal.actions[it.key] = actions[it.key]!!.toMutableSet() }; UIGlobals.defocus()}, 3),1,0)
         } else {
             bottomPane.add(UtilityComponentFactory.backButton(), 0,0)
         }
@@ -99,7 +99,7 @@ open class DealComponentFactory {
     }
 
     private fun addCharacterToDeal(character: GameCharacter){
-        (deal as UnfinishedDeal).actions[character] = mutableListOf()
+        (deal as UnfinishedDeal).actions[character] = mutableSetOf()
         actions[character] = mutableListOf<Action>()
         actionLists[character] = AppendableList()
     }

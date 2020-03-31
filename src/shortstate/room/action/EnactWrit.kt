@@ -20,7 +20,7 @@ class EnactWrit: RoomAction {
             throw Exception("Trying to enact an imcomplete writ!")
         }
         writ.deal.actions.keys.forEach {
-            UIGlobals.appendActionsForPlayer(it, writ.deal.actions[it]!!)
+            UIGlobals.appendActionsForPlayer(it, writ.deal.actions[it]!!.toList())
         }
         player.player.writs.remove(writ)
     }
