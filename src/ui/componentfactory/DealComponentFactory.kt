@@ -1,24 +1,19 @@
 package ui.componentfactory
 
 import aibrain.Deal
-import aibrain.FinishedDeal
 import aibrain.UnfinishedDeal
-import game.Game
 import game.GameCharacter
 import game.action.Action
 import javafx.event.EventHandler
 import javafx.scene.Scene
-import javafx.scene.control.Button
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
-import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.commoncomponents.AppendableList
-import ui.commoncomponents.selectionmodal.SelectionModal
-import ui.commoncomponents.selectionmodal.Tab
-import ui.contructorobjects.CharacterSelector
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 
 open class DealComponentFactory {
 
@@ -90,9 +85,16 @@ open class DealComponentFactory {
         }
     }
 
-    private fun characterSelector(): SelectionModal<GameCharacter>{
-        val tabs = listOf(Tab<GameCharacter>("Characters", UIGlobals.activeGame().players.toList()))
-        val selectModal = SelectionModal(tabs, {player -> addCharacterToDeal(player); currentPage = player; trimTabs(); UIGlobals.defocus()})
+    private fun characterSelector(): SelectionModal<GameCharacter> {
+        val tabs = listOf(
+            Tab<GameCharacter>(
+                "Characters",
+                UIGlobals.activeGame().players.toList()
+            )
+        )
+        val selectModal = SelectionModal(
+            tabs,
+            { player -> addCharacterToDeal(player); currentPage = player; trimTabs(); UIGlobals.defocus() })
         return selectModal
     }
 

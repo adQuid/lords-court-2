@@ -8,12 +8,11 @@ import shortstate.dialog.LineBlock
 import shortstate.dialog.linetypes.traits.HasAction
 import game.GameCharacter
 import game.Game
-import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
-import ui.commoncomponents.selectionmodal.SelectionModal
-import ui.commoncomponents.selectionmodal.Tab
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 import game.action.GlobalActionTypeFactory
 
 class Announcement: Line, HasAction {

@@ -1,4 +1,4 @@
-package ui.commoncomponents.selectionmodal
+package ui.specialdisplayables.selectionmodal
 
 class Tab<T> {
 

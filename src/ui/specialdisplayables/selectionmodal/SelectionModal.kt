@@ -1,4 +1,4 @@
-package ui.commoncomponents.selectionmodal
+package ui.specialdisplayables.selectionmodal
 
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
@@ -13,7 +13,6 @@ import javafx.scene.text.Text
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.Displayable
-import ui.MainUI
 import ui.componentfactory.UtilityComponentFactory
 
 

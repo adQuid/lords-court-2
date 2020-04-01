@@ -19,8 +19,9 @@ import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
-import ui.commoncomponents.selectionmodal.SelectionModal
-import ui.commoncomponents.selectionmodal.Tab
+import ui.specialdisplayables.OptionsMenu
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 
 
 object UtilityComponentFactory {
@@ -59,17 +60,8 @@ object UtilityComponentFactory {
         statsDisplay.setMinSize(UIGlobals.totalWidth()/2, UIGlobals.totalWidth() / 12)
         retval.add(statsDisplay, 0,0)
 
-        val sizeButton1 = shortButton("Size-", EventHandler { UIGlobals.GUI().rotateSize(-1)}, 0.5)
-        retval.add(sizeButton1, 1,0)
-
-        val sizeButton2 = shortButton("Size+", EventHandler { UIGlobals.GUI().rotateSize(1)}, 0.5)
-        retval.add(sizeButton2, 2,0)
-
-        val saveButton = shortButton("Save", EventHandler { Controller.singleton!!.save()})
-        retval.add(saveButton, 3,0)
-
-        val loadButton = shortButton("Load", EventHandler { Controller.singleton!!.load(); UIGlobals.resetFocus()})
-        retval.add(loadButton, 4,0)
+        val optionsButton = UtilityComponentFactory.shortButton("Options", EventHandler { UIGlobals.focusOn(OptionsMenu()) })
+        retval.add(optionsButton, 1,0)
 
         return retval
     }

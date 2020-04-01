@@ -14,9 +14,8 @@ import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import shortstate.room.Room
 import shortstate.room.RoomAction
-import shortstate.room.action.MakeReport
-import ui.commoncomponents.selectionmodal.SelectionModal
-import ui.commoncomponents.selectionmodal.Tab
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 
 class SceneComponentFactory {
 
@@ -72,7 +71,9 @@ class SceneComponentFactory {
                             action.doAction(
                                 Controller.singleton!!.shortThreadForPlayer(perspective),
                                 perspective
-                            ); if(action.defocusAfter()){UIGlobals.defocus()}
+                            ); if (action.defocusAfter()) {
+                            UIGlobals.defocus()
+                        }
                         })
                 )
             })

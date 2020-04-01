@@ -1,22 +1,17 @@
 package shortstate.dialog.linetypes
 
 import aibrain.ConversationBrain
-import aibrain.Deal
-import aibrain.FinishedDeal
-import aibrain.UnfinishedDeal
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.GameCharacter
 import game.Game
 import game.Writ
-import game.action.Action
-import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
-import ui.commoncomponents.selectionmodal.SelectionModal
-import ui.commoncomponents.selectionmodal.Tab
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 
 class OfferWrit: Line {
 
@@ -40,7 +35,10 @@ class OfferWrit: Line {
         val dealBlock = if(writ==null){
             LineBlock("Writ: [SELECT]", {perspective -> UIGlobals.focusOn(
                 SelectionModal(listOf(
-                    Tab("Writs", perspective.player.writs.filter { !it.signatories.contains(target.player) })), {selectedWrit -> this.writ = selectedWrit; UIGlobals.defocus()}
+                    Tab(
+                        "Writs",
+                        perspective.player.writs.filter { !it.signatories.contains(target.player) })
+                ), { selectedWrit -> this.writ = selectedWrit; UIGlobals.defocus() }
                 )
             )})
         } else {
