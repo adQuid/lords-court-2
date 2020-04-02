@@ -3,7 +3,7 @@ package shortstate.report
 import game.Game
 
 enum class ReportType{
-    DeliciousnessReportType
+    NoneReportType, DeliciousnessReportType
 }
 
 fun generateReport(game: Game, type: ReportType): Report{
@@ -12,4 +12,8 @@ fun generateReport(game: Game, type: ReportType): Report{
     }
 
     throw Exception("Report Type not recognized!")
+}
+
+fun generateEmptyReport(): Report{
+    return EmptyReport()
 }

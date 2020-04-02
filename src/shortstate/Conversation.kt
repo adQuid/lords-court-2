@@ -92,6 +92,8 @@ class Conversation {
             lastLine = line
             lastSpeaker = otherParticipant(lastSpeaker)
             otherParticipant(lastSpeaker).player.memory.add(Memory(line))
+        } else {
+            throw Exception("Tried to send invalid line!")
         }
     }
 }

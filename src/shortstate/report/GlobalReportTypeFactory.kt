@@ -2,6 +2,7 @@ package shortstate.report
 
 object GlobalReportTypeFactory {
 
+    val EMPTY_REPORT_TYPE_NAME = "None"
     val DELICIOUSNESS_REPORT_TYPE_NAME = "Delic"
 
     val TYPE_NAME = "TYPE"

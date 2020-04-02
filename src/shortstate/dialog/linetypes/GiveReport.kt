@@ -7,9 +7,13 @@ import shortstate.dialog.LineBlock
 import shortstate.report.Report
 import game.GameCharacter
 import game.Game
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.report.EmptyReport
 import shortstate.report.GlobalReportTypeFactory
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 
 class GiveReport: Line {
 
@@ -30,11 +34,22 @@ class GiveReport: Line {
     }
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
-        return listOf(LineBlock("GIVE REPORT:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString()))
+        return listOf(LineBlock("GIVE REPORT:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString(), {perspective -> UIGlobals.focusOn(
+            SelectionModal(listOf(
+                Tab(
+                    "Reports",
+                    perspective.knownReports)
+            ), { selectedReport -> this.report = selectedReport; UIGlobals.defocus() }
+            )
+        )}))
     }
 
     override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        return "I have discovered that ${report.toString()}"
+        if(report is EmptyReport){
+            return report.toString()
+        } else {
+            return "I have discovered that ${report.toString()}"
+        }
     }
 
     override fun specialSaveString(): Map<String, Any> {
@@ -52,7 +67,9 @@ class GiveReport: Line {
     }
 
     override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
-        conversation.lastSpeaker.knownReports.add(report!!)
+        if(!(report is EmptyReport)){
+            conversation.lastSpeaker.knownReports.add(report!!)
+        }
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {

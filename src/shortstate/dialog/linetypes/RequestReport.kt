@@ -11,6 +11,7 @@ import game.Game
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.report.generateEmptyReport
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -63,7 +64,7 @@ class RequestReport: Line, HasReportType {
     }
 
     override fun possibleReplies(): List<Line> {
-        return listOf(GiveReport(null)) //AI needs to think about matching reports manually
+        return listOf(GiveReport(null))
     }
 
     override fun mySetReportType(type: ReportType) {
@@ -82,7 +83,7 @@ class RequestReport: Line, HasReportType {
         if(brain.shortCharacter.knownReports.filter { report -> report.type() == myGetReportType() }.isNotEmpty()){
             return GiveReport(brain.shortCharacter.knownReports.filter { report -> report.type() == myGetReportType() }[0])
         } else {
-            return Approve()
+            return GiveReport(generateEmptyReport())
         }
     }
 }
