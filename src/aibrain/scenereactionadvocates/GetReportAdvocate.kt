@@ -3,6 +3,7 @@ package aibrain.scenereactionadvocates
 import shortstate.ShortGameScene
 import shortstate.ShortStateController
 import shortstate.report.ReportType
+import shortstate.room.Room
 import shortstate.room.action.MakeReport
 
 class GetReportAdvocate: SceneReactionAdvocate {
@@ -13,8 +14,11 @@ class GetReportAdvocate: SceneReactionAdvocate {
         me = character
     }
 
-    override fun weight(shortGameScene: ShortGameScene): Double {
-        return 15.0 - (15.0 * shortGameScene.shortPlayerForLongPlayer(me)!!.knownReports.size)
+    override fun weight(scene: ShortGameScene): Double {
+        if(scene.room.type != Room.RoomType.WORKROOM){
+            return 0.0
+        }
+        return 15.0 - (15.0 * scene.shortPlayerForLongPlayer(me)!!.knownReports.size)
     }
 
     override fun doToScene(shortStateController: ShortStateController, shortGameScene: ShortGameScene) {

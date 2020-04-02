@@ -1,14 +1,15 @@
 package aibrain.scenecreationadvocates
 
+import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.scenemaker.SceneMaker
 
 abstract class SceneCreationAdvocate {
 
-    constructor(character: game.GameCharacter)
+    constructor(character: ShortStateCharacter)
 
     abstract fun weight(game: ShortStateGame): Double
 
-    abstract fun createScene(game: ShortStateGame, player: shortstate.ShortStateCharacter): SceneMaker
+    abstract fun createScene(game: ShortStateGame, player: ShortStateCharacter): SceneMaker
 
 }

@@ -19,7 +19,7 @@ class SceneBrain {
     private val reactionAdvocates: List<SceneReactionAdvocate>
     private val creationAdvocates: List<SceneCreationAdvocate>
 
-    constructor(longBrain: ForecastBrain){
+    constructor(character: ShortStateCharacter, longBrain: ForecastBrain){
         this.longBrain = longBrain
         reactionAdvocates = listOf(
             TalkMoreAdvocate(longBrain.player),
@@ -27,9 +27,9 @@ class SceneBrain {
             LeaveSceneAdvocate(longBrain.player),
             GetReportAdvocate(longBrain.player))
         creationAdvocates = listOf(
-            GoToBedroomAdvocate(longBrain.player),
-            GoToWorkroomAdvocate(longBrain.player),
-            TalkToImportantPersonAdvocate(longBrain.player))
+            GoToBedroomAdvocate(character),
+            GoToWorkroomAdvocate(character),
+            TalkToImportantPersonAdvocate(character))
     }
 
     fun reactToScene(shortGameScene: ShortGameScene, game: ShortStateController){

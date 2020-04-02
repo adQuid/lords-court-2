@@ -80,7 +80,7 @@ class ShortStateController: Runnable {
             shortGameScene!!.characters.forEach { player -> player.energy -= 1}
             //if there was a conversation, characters might have learned something in this time
             if(shortGameScene!!.conversation != null){
-                shortGameScene!!.characters.filter { character -> character.player.npc }.forEach { character -> character.player.brain.thinkAboutNextTurn(shortGame.game) }
+                shortGameScene!!.characters.filter { character -> character.player.npc }.forEach { character -> character.player.brain.thinkAboutNextTurn(shortGame.game); character.decideNextScene(shortGame) }
             }
             shortGame.shortGameScene = null
         }

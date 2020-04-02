@@ -36,14 +36,14 @@ class ShortStateCharacter: Displayable {
     constructor(player: GameCharacter){
         this.player = player
         this.energy = 1000
-        sceneBrain = SceneBrain(player.brain)
+        sceneBrain = SceneBrain(this, player.brain)
         convoBrain = ConversationBrain(this)
     }
 
     constructor(parent: Game, saveString: Map<String, Any>){
         this.player = parent.matchingPlayer(parent.characterById(saveString[PLAYER_NAME] as Int))!!
         this.energy = saveString[ENERGY_NAME] as Int
-        sceneBrain = SceneBrain(player.brain)
+        sceneBrain = SceneBrain(this, player.brain)
         convoBrain = ConversationBrain(this)
         knownReports = (saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> GlobalReportTypeFactory.fromMap(map) }.toMutableList()
         prospectiveActions = (saveString[ACTIONS_NAME] as List<Map<String, Any>>).map { map -> GlobalActionTypeFactory.fromMap(map, parent)}.toMutableList()

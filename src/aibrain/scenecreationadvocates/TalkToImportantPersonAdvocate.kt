@@ -3,6 +3,7 @@ package aibrain.scenecreationadvocates
 import game.GameCharacter
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
+import shortstate.dialog.linetypes.Approve
 import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
@@ -10,32 +11,44 @@ import shortstate.scenemaker.SceneMaker
 
 class TalkToImportantPersonAdvocate: SceneCreationAdvocate {
 
-    private val me: GameCharacter
+    private val me: ShortStateCharacter
 
-    constructor(character: game.GameCharacter) : super(character) {
+    constructor(character: ShortStateCharacter) : super(character) {
         me = character
     }
 
     override fun weight(game: ShortStateGame): Double{
-        if(me.brain.lastCasesOfConcern != null && me.brain.lastCasesOfConcern!!.isNotEmpty()){
-            return 10.0
+        if(characterIWantToTalkTo() == null){
+            return 0.0
+        }
+        if(!(me.convoBrain.startConversation(characterIWantToTalkTo()!!, game.game) is Approve)){
+            return 100.0
         }
         return 0.0
     }
 
-    override fun createScene(game: ShortStateGame, player: shortstate.ShortStateCharacter): SceneMaker{
-        var sortedCases = player.player.brain.lastCasesOfConcern
+    override fun createScene(game: ShortStateGame, player: ShortStateCharacter): SceneMaker{
+        val target = characterIWantToTalkTo()
 
-        while(sortedCases != null && sortedCases!!.isNotEmpty()){
-            val hopefulCase = sortedCases!![0]
-            sortedCases = sortedCases!!.filter { it.plan.player != hopefulCase.plan.player }
-            if(hopefulCase.plan.player != player.player && game.shortPlayerForLongPlayer(hopefulCase.plan.player) != null){
-                return ConversationMaker(player, game.shortPlayerForLongPlayer(hopefulCase.plan.player)!!,
-                    roomToMeetCharacterIn(game.shortPlayerForLongPlayer(hopefulCase.plan.player)!!, game))
-            }
+        if(target != null){
+            return ConversationMaker(player, game.shortPlayerForLongPlayer(target!!)!!,
+                roomToMeetCharacterIn(game.shortPlayerForLongPlayer(target!!)!!, game))
         }
 
         return GoToRoomSoloMaker(player, game.location.startRoom())
+    }
+
+    private fun characterIWantToTalkTo(): GameCharacter?{
+        var sortedCases = me.player.brain.lastCasesOfConcern
+
+        while(sortedCases != null && sortedCases!!.isNotEmpty()){
+            val hopefulCase = sortedCases!![0]
+            sortedCases = sortedCases!!.subList(1,sortedCases!!.size)
+            if(hopefulCase.plan.player != me.player){
+                return hopefulCase.plan.player
+            }
+        }
+        return null
     }
 
     private fun roomToMeetCharacterIn(target: ShortStateCharacter, game: ShortStateGame): Room {
