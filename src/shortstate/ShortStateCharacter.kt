@@ -82,8 +82,8 @@ class ShortStateCharacter: Displayable {
         nextSceneIWannaBeIn = sceneBrain.nextSceneIWantToBeIn(this, game)
     }
 
-    fun reportOfType(type: ReportType): Report {
-        return knownReports.filter { report -> report.type() == type }[0]
+    fun reportOfType(type: ReportType): Report? {
+        return knownReports.filter { report -> report.type() == type }.getOrNull(0)
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {

@@ -11,6 +11,7 @@ import game.Game
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.report.EmptyReport
 import shortstate.report.generateEmptyReport
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
@@ -64,7 +65,7 @@ class RequestReport: Line, HasReportType {
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
-        return listOf(GiveReport(null))
+        return listOf(GiveReport(EmptyReport()), GiveReport(perspective.reportOfType(report!!)))
     }
 
     override fun mySetReportType(type: ReportType) {
@@ -80,8 +81,9 @@ class RequestReport: Line, HasReportType {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        if(brain.shortCharacter.knownReports.filter { report -> report.type() == myGetReportType() }.isNotEmpty()){
-            return GiveReport(brain.shortCharacter.knownReports.filter { report -> report.type() == myGetReportType() }[0])
+        val relatedReport = brain.shortCharacter.reportOfType(report!!)
+        if(relatedReport != null){
+            return GiveReport(relatedReport)
         } else {
             return GiveReport(generateEmptyReport())
         }

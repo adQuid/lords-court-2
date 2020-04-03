@@ -12,6 +12,7 @@ import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.EmptyReport
 import shortstate.report.GlobalReportTypeFactory
+import shortstate.report.ReportType
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -30,6 +31,9 @@ class GiveReport: Line {
     }
 
     override fun tooltipName(): String {
+        if(report != null && report!!.type() == ReportType.NoneReportType){
+            return "No Report"
+        }
         return "Submit Report"
     }
 

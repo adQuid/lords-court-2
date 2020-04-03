@@ -29,19 +29,6 @@ class ConversationComponentFactory {
         this.conversation = conversation
     }
 
-    fun buttons(perspective: ShortStateCharacter): List<Button> {
-        var retval = mutableListOf<Button>()
-        if(lineBeingConstructed == null){
-            val linesList = lineOptions(perspective)
-
-            retval = linesList
-                .map { line -> UtilityComponentFactory.shortButton(line.tooltipName(), EventHandler {focusOnLine(line); UIGlobals.refresh()})}.toMutableList()
-            retval.add(UtilityComponentFactory.newSceneButton(perspective))
-        }
-
-        return retval
-    }
-
     fun conversationPane(backgroundPane: Pane, perspective: ShortStateCharacter): Pane {
 
         if(conversation != null){
@@ -94,8 +81,10 @@ class ConversationComponentFactory {
 
             val textBlocks = if(line != null){
                 line.symbolicForm( conversation.otherParticipant(conversation.lastSpeaker), conversation.lastSpeaker)
-            } else {
+            } else if(left){
                 lineOptions(perspective).map { line -> LineBlock(line.tooltipName(), {focusOnLine(line); UIGlobals.refresh()}) }
+            } else {
+                listOf()
             }
 
             var index = 0 //gotta be a better way to do this
