@@ -51,7 +51,7 @@ class QuestionOffer: Line {
         return line != null
     }
 
-    override fun possibleReplies(): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
         return listOf(CiteEffect(line!!.deal.toFinishedDeal()))
     }
 

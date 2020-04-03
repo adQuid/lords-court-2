@@ -17,7 +17,7 @@ class TestConversation {
 
         val line1 = Announcement(BakeCookies())
         convo.submitLine(line1, shortGame)
-        val line2 = line1.possibleReplies()[0]
+        val line2 = line1.possibleReplies(shortGame.players[1])[0]
         convo.submitLine(line2, shortGame)
     }
 }

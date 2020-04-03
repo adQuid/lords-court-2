@@ -48,7 +48,7 @@ class RejectDeal: Line {
         return deal != null
     }
 
-    override fun possibleReplies(): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
         return listOf()
     }
 

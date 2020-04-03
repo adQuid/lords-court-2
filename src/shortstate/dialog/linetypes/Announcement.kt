@@ -66,7 +66,7 @@ class Announcement: Line, HasAction {
         return action != null
     }
 
-    override fun possibleReplies(): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
         return listOf(Approve(), Disapprove())
     }
 

@@ -62,7 +62,7 @@ class GiveReport: Line {
         return report != null
     }
 
-    override fun possibleReplies(): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
         return listOf(Approve(), Disapprove())
     }
 

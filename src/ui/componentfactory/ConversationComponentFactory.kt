@@ -146,8 +146,8 @@ class ConversationComponentFactory {
 
     private fun lineOptions(perspective: ShortStateCharacter): List<Line>{
         if(conversation.lastLine != null
-            && conversation.lastLine!!.possibleReplies().isNotEmpty()){
-            return conversation.lastLine!!.possibleReplies()
+            && conversation.lastLine!!.possibleReplies(perspective).isNotEmpty()){
+            return conversation.lastLine!!.possibleReplies(perspective)
         } else {
             return conversation.defaultConversationLines(perspective)
         }
