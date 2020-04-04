@@ -1,8 +1,10 @@
 package shortstate.room
 
 import game.GameCharacter
+import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.room.action.*
+import ui.contructorobjects.WritConstructor.Companion.COST_TO_MAKE_WRIT
 
 class Room {
 
@@ -46,14 +48,18 @@ class Room {
         return name
     }
 
-    fun getActions(player: GameCharacter): List<RoomAction>{
+    fun getActions(player: ShortStateCharacter): List<RoomAction>{
         if(type == RoomType.WORKROOM){
-            return baseActions()
-                .plus(player.titles.flatMap { title -> title.reportsEntitled.map { type -> MakeReport(type)} })
-                .plus(listOf(DraftWrit()))
+            var retval = baseActions()
+                .plus(player.player.titles.flatMap { title -> title.reportsEntitled.map { type -> MakeReport(type)} })
+
+            if(player.energy >= COST_TO_MAKE_WRIT){
+                retval = retval.plus(listOf(DraftWrit()))
+            }
+            return retval
         } else if(type == RoomType.THRONEROOM){
             return baseActions()
-                .plus(player.writs.map { writ -> EnactWrit(writ) })
+                .plus(player.player.writs.map { writ -> EnactWrit(writ) })
         } else if(type == RoomType.BEDROOM){
             return baseActions()
                 .plus(listOf(GoToBed()))

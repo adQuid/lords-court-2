@@ -68,7 +68,7 @@ class SceneComponentFactory {
     }
 
     private fun outOfConvoButtons(perspective: ShortStateCharacter): List<Button> {
-        val btn2 = if(scene.room.getActions(perspective.player).isNotEmpty()){
+        val btn2 = if(scene.room.getActions(perspective).isNotEmpty()){
             UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
                 UIGlobals.focusOn(
                     SelectionModal(
@@ -129,7 +129,7 @@ class SceneComponentFactory {
     }
 
     private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomAction>>{
-        val tab = Tab<RoomAction>(room.name, room.getActions(perspective.player))
+        val tab = Tab(room.name, room.getActions(perspective))
 
         return listOf(tab)
     }

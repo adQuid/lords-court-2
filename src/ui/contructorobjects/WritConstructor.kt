@@ -9,6 +9,10 @@ import ui.Displayable
 import ui.componentfactory.WritConstructorComponentFactory
 
 class WritConstructor: Displayable {
+    companion object{
+        val COST_TO_MAKE_WRIT = 80
+    }
+
     var name: String = "Untitled Writ"
     val deal: UnfinishedDeal
 
@@ -27,5 +31,13 @@ class WritConstructor: Displayable {
             throw Exception("Tried to make an empty Writ!")
         }
         return Writ(name, deal.toFinishedDeal(), listOf(firstSigner))
+    }
+
+    fun addWritToCharacter(character: ShortStateCharacter): Boolean{
+        if(character.addEnergy(-COST_TO_MAKE_WRIT)){
+            character.player.writs.add(generateWrit(character.player))
+            return true
+        }
+        return false
     }
 }

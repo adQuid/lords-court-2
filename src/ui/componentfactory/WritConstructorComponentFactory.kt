@@ -27,11 +27,23 @@ class WritConstructorComponentFactory {
         if(parent.deal.isEmpty()){
             bottomPane.add(UtilityComponentFactory.shortButton("(Writ is Empty)", EventHandler {}, 3),1,0)
         } else {
-            bottomPane.add(UtilityComponentFactory.shortButton("Create Writ", EventHandler { parent.name = textField.text; perspective.player.writs.add(parent.generateWrit(perspective.player)); UIGlobals.defocus()}, 3),1,0)
+            bottomPane.add(UtilityComponentFactory.shortButton("Create Writ", EventHandler {finish(perspective)}, 3),1,0)
         }
         root.add(bottomPane,0,2)
 
         val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene
+    }
+
+    private fun finish(perspective: ShortStateCharacter){
+        parent.name = textField.text
+        if(parent.addWritToCharacter(perspective)){
+            //TODO: send a warning
+            UIGlobals.defocus()
+            UIGlobals.defocus()
+        } else {
+            UIGlobals.defocus()
+            UIGlobals.defocus()
+        }
     }
 }
