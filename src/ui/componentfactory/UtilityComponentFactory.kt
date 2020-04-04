@@ -1,12 +1,12 @@
 package ui.componentfactory
 
 import javafx.collections.FXCollections
-import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Text
@@ -118,21 +118,21 @@ object UtilityComponentFactory {
         }
     }
 
-    fun shortButton(text: String, action: EventHandler<ActionEvent>?): Button {
+    fun shortButton(text: String, action: EventHandler<MouseEvent>?): Button {
         return shortButton(text, action, 1)
     }
 
-    fun shortButton(text: String, action: EventHandler<ActionEvent>?, specialWidth: Int): Button {
+    fun shortButton(text: String, action: EventHandler<MouseEvent>?, specialWidth: Int): Button {
         return shortButton(text, action, specialWidth.toDouble())
     }
 
-    fun shortButton(text: String, action: EventHandler<ActionEvent>?, specialWidth: Double): Button {
+    fun shortButton(text: String, action: EventHandler<MouseEvent>?, specialWidth: Double): Button {
         val retval = proportionalButton(text, action, 4.0)
         retval.setMinSize(retval.minWidth*specialWidth, retval.minHeight)
         return retval
     }
 
-    fun shortWideButton(text: String, action: EventHandler<ActionEvent>?): Button {
+    fun shortWideButton(text: String, action: EventHandler<MouseEvent>?): Button {
         return proportionalButton(text, action, 1.0)
     }
 
@@ -142,11 +142,11 @@ object UtilityComponentFactory {
         return retval
     }
 
-    fun proportionalButton(text: String, action: EventHandler<ActionEvent>?, proportion: Double): Button{
+    fun proportionalButton(text: String, action: EventHandler<MouseEvent>?, proportion: Double): Button{
         val retval = Button(text)
         setSize(retval, proportion)
         if (action != null) {
-            retval.onAction = action
+            retval.onMouseClicked = action
         }
         return retval
     }

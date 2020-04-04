@@ -4,8 +4,10 @@ import aibrain.Deal
 import aibrain.UnfinishedDeal
 import game.GameCharacter
 import game.action.Action
+import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.Scene
+import javafx.scene.input.MouseButton
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
@@ -14,23 +16,25 @@ import shortstate.ShortStateCharacter
 import ui.commoncomponents.AppendableList
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
+import javafx.scene.input.MouseEvent
+
 
 open class DealComponentFactory {
 
     val deal: Deal
-    var actions: MutableMap<GameCharacter, MutableList<Action>>
+    var actions: MutableMap<GameCharacter, MutableSet<Action>>
     var currentPage: GameCharacter
     var actionLists: MutableMap<GameCharacter, AppendableList<Action>>
 
     constructor(deal: Deal){
         this.deal = deal
-        this.actions = deal.theActions().mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
+        this.actions = deal.theActions().mapValues { entry -> entry.value.toMutableSet() }.toMutableMap()
         currentPage = actions.keys.first()
         actionLists = actions.entries.associate { entry -> entry.key to AppendableList<Action>() }.toMutableMap()
     }
 
     private fun resetActions(){
-        actions = deal.theActions().mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
+        actions = deal.theActions().mapValues { entry -> entry.value.toMutableSet() }.toMutableMap()
         actionLists = actions.entries.associate { entry -> entry.key to AppendableList<Action>() }.toMutableMap()
     }
 
@@ -48,7 +52,7 @@ open class DealComponentFactory {
         val bottomPane = GridPane()
         if(deal is UnfinishedDeal){
             bottomPane.add(UtilityComponentFactory.shortButton("Cancel", EventHandler { resetActions(); UIGlobals.defocus()}),0,0)
-            bottomPane.add(UtilityComponentFactory.shortButton("Complete", EventHandler { deal.actions.entries.forEach { deal.actions[it.key] = actions[it.key]!!.toMutableSet() }; UIGlobals.defocus()}, 3),1,0)
+            bottomPane.add(UtilityComponentFactory.shortButton("Complete", EventHandler { deal.actions = actions ; UIGlobals.defocus()}, 3),1,0)
         } else {
             bottomPane.add(UtilityComponentFactory.backButton(), 0,0)
         }
@@ -63,7 +67,7 @@ open class DealComponentFactory {
         val topPane = GridPane()
         var index = 0
         actions.forEach {
-            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", EventHandler {_ -> currentPage = it.key; trimTabs(); UIGlobals.refresh()}, (actions.size+1).toDouble())
+            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", tapClickAction(it.key), (actions.size+1).toDouble())
             if(it.key == currentPage){
                 topic.font = Font(18.0)
                 topic.onAction = null
@@ -75,6 +79,22 @@ open class DealComponentFactory {
             topPane.add(UtilityComponentFactory.proportionalButton("Add Character", EventHandler { _ -> UIGlobals.focusOn(characterSelector()) }, (actions.size+1).toDouble()),index++,0)
         }
         return topPane
+    }
+
+    private fun tapClickAction(tab: GameCharacter): EventHandler<MouseEvent>{
+        return EventHandler { event ->
+            if((event as MouseEvent).button == MouseButton.SECONDARY){
+                (deal as UnfinishedDeal).actions.remove(tab)
+                actions = actions.filter { entry -> (entry.key != tab)}.toMutableMap()
+                actionLists = actionLists.filter { entry -> actions.containsKey(entry.key) }.toMutableMap()
+                if(actionLists[currentPage] == null){
+                    currentPage = actionLists.keys.first()
+                }
+            } else{
+                currentPage = tab
+            }
+            UIGlobals.refresh()
+        }
     }
 
     private fun actionList(): Pane {
@@ -94,18 +114,13 @@ open class DealComponentFactory {
         )
         val selectModal = SelectionModal(
             tabs,
-            { player -> addCharacterToDeal(player); currentPage = player; trimTabs(); UIGlobals.defocus() })
+            { player -> addCharacterToDeal(player); currentPage = player; UIGlobals.defocus() })
         return selectModal
     }
 
     private fun addCharacterToDeal(character: GameCharacter){
         (deal as UnfinishedDeal).actions[character] = mutableSetOf()
-        actions[character] = mutableListOf<Action>()
+        actions[character] = mutableSetOf()
         actionLists[character] = AppendableList()
-    }
-    
-    private fun trimTabs(){
-        actions = actions.filter { entry -> (entry.value.size > 0 || entry.key == currentPage)}.toMutableMap()
-        actionLists = actionLists.filter { entry -> actions.containsKey(entry.key) }.toMutableMap()
     }
 }

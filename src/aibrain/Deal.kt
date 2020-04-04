@@ -82,7 +82,7 @@ class FinishedDeal: Deal {
 }
 
 class UnfinishedDeal: Deal{
-    val actions: MutableMap<GameCharacter, MutableSet<Action>>
+    var actions: MutableMap<GameCharacter, MutableSet<Action>>
 
     val display: DealComponentFactory
 
