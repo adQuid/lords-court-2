@@ -69,7 +69,7 @@ fun twoPlayerTestGame(): Game{
 
 fun twoPlayerGameWithWrits(): Game{
     val game = twoPlayerTestGame()
-    game.players[0].writs.add(Writ(neutralDeal(game.players), listOf(game.players[0])))
+    game.players[0].writs.add(Writ("test writ", neutralDeal(game.players), listOf(game.players[0])))
     return game
 }
 
@@ -96,7 +96,7 @@ private fun fullMemory(dealDummy: GameCharacter): List<Memory>{
     Memory(QuestionOffer(OfferDeal(savableDeal(dealDummy)))),
     Memory(RejectDeal(savableDeal(dealDummy))),
     Memory(RequestReport(ReportType.DeliciousnessReportType)),
-    Memory(OfferWrit(Writ(savableDeal(dealDummy), listOf(dealDummy))))
+    Memory(OfferWrit(Writ("test writ", savableDeal(dealDummy), listOf(dealDummy))))
     )
 }
 

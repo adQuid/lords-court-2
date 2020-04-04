@@ -3,10 +3,8 @@ package ui.componentfactory
 import javafx.collections.FXCollections
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
-import javafx.scene.control.Button
-import javafx.scene.control.Label
-import javafx.scene.control.ListCell
-import javafx.scene.control.ListView
+import javafx.scene.Node
+import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.GridPane
@@ -138,12 +136,22 @@ object UtilityComponentFactory {
         return proportionalButton(text, action, 1.0)
     }
 
+    fun shortWideTextField(text: String): TextField{
+        val retval = TextField(text)
+        setSize(retval, 1.0)
+        return retval
+    }
+
     fun proportionalButton(text: String, action: EventHandler<ActionEvent>?, proportion: Double): Button{
         val retval = Button(text)
-        retval.setMinSize(UIGlobals.totalWidth() / proportion, UIGlobals.totalHeight() / 12)
+        setSize(retval, proportion)
         if (action != null) {
             retval.onAction = action
         }
         return retval
+    }
+
+    private fun setSize(node: Control, proportion: Double){
+        node.setMinSize(UIGlobals.totalWidth() / proportion, UIGlobals.totalHeight() / 12)
     }
 }

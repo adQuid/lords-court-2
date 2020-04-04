@@ -9,6 +9,7 @@ import ui.Displayable
 import ui.componentfactory.WritConstructorComponentFactory
 
 class WritConstructor: Displayable {
+    var name: String = "Untitled Writ"
     val deal: UnfinishedDeal
 
     val display = WritConstructorComponentFactory(this)
@@ -25,6 +26,6 @@ class WritConstructor: Displayable {
         if(deal.isEmpty()){
             throw Exception("Tried to make an empty Writ!")
         }
-        return Writ(deal.toFinishedDeal(), listOf(firstSigner))
+        return Writ(name, deal.toFinishedDeal(), listOf(firstSigner))
     }
 }
