@@ -2,7 +2,6 @@ package ui.componentfactory
 
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
-import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView

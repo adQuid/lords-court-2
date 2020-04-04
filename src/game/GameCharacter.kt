@@ -1,6 +1,5 @@
 package game
 
-import aibrain.Deal
 import aibrain.FinishedDeal
 import aibrain.ForecastBrain
 import aibrain.Treaty

@@ -1,7 +1,6 @@
 package game
 
 import game.action.Action
-import game.action.GlobalActionTypeFactory
 import shortstate.report.ReportType
 
 abstract class Title {

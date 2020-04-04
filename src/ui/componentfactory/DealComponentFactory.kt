@@ -4,7 +4,6 @@ import aibrain.Deal
 import aibrain.UnfinishedDeal
 import game.GameCharacter
 import game.action.Action
-import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.input.MouseButton
