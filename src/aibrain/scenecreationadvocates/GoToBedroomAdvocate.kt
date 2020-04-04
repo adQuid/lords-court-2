@@ -15,7 +15,7 @@ class GoToBedroomAdvocate: SceneCreationAdvocate {
     }
 
     override fun weight(game: ShortStateGame): Double{
-        return 950.0 - me.energy
+        return (800.0 / (me.energy + 0.1))
     }
 
     override fun createScene(game: ShortStateGame, player: shortstate.ShortStateCharacter): SceneMaker{

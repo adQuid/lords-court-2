@@ -34,12 +34,14 @@ class SceneComponentFactory {
     fun scenePage(perspective: ShortStateCharacter): Scene {
         val root = GridPane()
 
+        var bottomButtonList = universalButtons(perspective)
         if(scene.conversation != null){
             root.add(conversationComponentFactory!!.conversationPane(sceneImage(perspective), perspective), 0, 0)
         } else {
+            bottomButtonList = bottomButtonList.plus(outOfConvoButtons(perspective))
             root.add(sceneImage(perspective), 0, 0)
         }
-        root.add(outOfConvoButtons(perspective), 0, 1)
+        root.add(UtilityComponentFactory.bottomPane(bottomButtonList, perspective), 0, 1)
 
         val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene
@@ -61,7 +63,11 @@ class SceneComponentFactory {
         return imagePane
     }
 
-    private fun outOfConvoButtons(perspective: ShortStateCharacter): Pane {
+    private fun universalButtons(perspective: ShortStateCharacter): List<Button> {
+        return listOf(UtilityComponentFactory.newSceneButton(perspective), viewReportsButton(perspective), viewWritsButton(perspective))
+    }
+
+    private fun outOfConvoButtons(perspective: ShortStateCharacter): List<Button> {
         val btn2 = if(scene.room.getActions(perspective.player).isNotEmpty()){
             UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
                 UIGlobals.focusOn(
@@ -80,10 +86,8 @@ class SceneComponentFactory {
         } else {
             UtilityComponentFactory.shortButton("No Actions In this Room", null)
         }
-        val btn3 = UtilityComponentFactory.newSceneButton(perspective)
-        val btn4 = viewReportsButton(perspective)
-        val btn5 = viewWritsButton(perspective)
-        return UtilityComponentFactory.bottomPane(listOf(btn2,btn3,btn4,btn5), perspective)
+
+        return listOf(btn2)
     }
 
     private fun viewReportsButton(perspective: ShortStateCharacter): Button {

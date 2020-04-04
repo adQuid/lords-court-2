@@ -47,6 +47,6 @@ class Disapprove: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        return Disapprove()
+        return brain.startConversation(speaker, game)
     }
 }

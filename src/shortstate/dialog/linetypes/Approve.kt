@@ -47,6 +47,6 @@ class Approve: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        return Approve()
+        return brain.startConversation(speaker, game)
     }
 }

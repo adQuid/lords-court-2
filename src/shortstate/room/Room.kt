@@ -50,22 +50,20 @@ class Room {
         if(type == RoomType.WORKROOM){
             return baseActions()
                 .plus(player.titles.flatMap { title -> title.reportsEntitled.map { type -> MakeReport(type)} })
+                .plus(listOf(DraftWrit()))
         } else if(type == RoomType.THRONEROOM){
             return baseActions()
                 .plus(player.writs.map { writ -> EnactWrit(writ) })
+        } else if(type == RoomType.BEDROOM){
+            return baseActions()
+                .plus(listOf(GoToBed()))
         } else {
             return baseActions()
         }
     }
 
     private fun baseActions(): List<RoomAction>{
-        if(type == RoomType.BEDROOM){
-            return listOf(GoToBed())
-        } else if(type == RoomType.WORKROOM){
-           return listOf(DraftWrit())
-        } else {
-            return listOf()
-        }
+        return listOf(Wait())
     }
 
     enum class RoomType{
