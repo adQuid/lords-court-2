@@ -64,6 +64,10 @@ class OfferDeal: Line {
         return deal.theActions().values.fold(0, {acc: Int, list: Set<Action> ->  acc+list.size}) > 0
     }
 
+    override fun canChangeTopic(): Boolean {
+        return false
+    }
+
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
         val newDeal = deal!!.toFinishedDeal()
         return listOf(AcceptDeal(newDeal), RejectDeal(newDeal), OfferDeal(newDeal.toUnfinishedDeal()), QuestionOffer(this))

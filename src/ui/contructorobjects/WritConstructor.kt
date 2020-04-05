@@ -10,7 +10,7 @@ import ui.componentfactory.WritConstructorComponentFactory
 
 class WritConstructor: Displayable {
     companion object{
-        val COST_TO_MAKE_WRIT = 80
+        const val COST_TO_MAKE_WRIT = 80
     }
 
     var name: String = "Untitled Writ"

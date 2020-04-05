@@ -35,6 +35,8 @@ abstract class Line {
 
     abstract fun validToSend(): Boolean
 
+    abstract fun canChangeTopic(): Boolean
+
     abstract fun possibleReplies(perspective: ShortStateCharacter): List<Line>
 
     abstract fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter)

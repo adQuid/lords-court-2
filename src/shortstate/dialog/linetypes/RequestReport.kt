@@ -64,6 +64,10 @@ class RequestReport: Line, HasReportType {
         return report != null
     }
 
+    override fun canChangeTopic(): Boolean {
+        return false
+    }
+
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
         return listOf(GiveReport(EmptyReport()), GiveReport(perspective.reportOfType(report!!)))
     }

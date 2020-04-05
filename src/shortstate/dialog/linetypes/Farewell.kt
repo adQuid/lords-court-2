@@ -1,37 +1,38 @@
 package shortstate.dialog.linetypes
 
 import aibrain.ConversationBrain
-import shortstate.Conversation
-import shortstate.dialog.Line
-import shortstate.dialog.LineBlock
-import game.GameCharacter
 import game.Game
+import game.GameCharacter
+import shortstate.Conversation
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.dialog.Line
+import shortstate.dialog.LineBlock
+import shortstate.scenemaker.GoToRoomSoloMaker
 
-class Approve: Line {
+class Farewell: Line {
 
     override val type: String
         get() = GlobalLineTypeFactory.APPROVE_TYPE_NAME
 
-    constructor() {
+    constructor(){
 
     }
 
     override fun tooltipName(): String {
-        return "Approve"
+        return "Goodbye"
     }
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
-        return listOf(LineBlock("Approve"))
+        return listOf(LineBlock("Farewell"))
     }
 
     override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        return "I like this."
+        return "Goodbye"
     }
 
     override fun specialSaveString(): Map<String, Any> {
-        return hashMapOf()
+        return mapOf()
     }
 
     override fun validToSend(): Boolean {
@@ -47,10 +48,10 @@ class Approve: Line {
     }
 
     override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
-        //No special effects
+
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        return brain.startConversation(speaker, game)
+        return Farewell()
     }
 }

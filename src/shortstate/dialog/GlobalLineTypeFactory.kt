@@ -16,6 +16,7 @@ object GlobalLineTypeFactory {
     val REJECT_DEAL_TYPE_NAME = "RjctDeal"
     val REQUEST_REPORT_TYPE_NAME = "RqstRprt"
     val OFFER_WRIT_TYPE_NAME = "OfrWrt"
+    val FAREWELL_TYPE_NAME = "Farewell"
 
     val TYPE_NAME = "TYPE"
     val typeMap: HashMap<String, (map: Map<String, Any>, game: Game) -> Line> = hashMapOf(

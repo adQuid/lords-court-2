@@ -66,6 +66,10 @@ class GiveReport: Line {
         return report != null
     }
 
+    override fun canChangeTopic(): Boolean {
+        return false
+    }
+
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
         return listOf(Approve(), Disapprove())
     }

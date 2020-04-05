@@ -78,6 +78,10 @@ class CiteEffect: Line {
         return effects.isNotEmpty()
     }
 
+    override fun canChangeTopic(): Boolean {
+        return false
+    }
+
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
         return listOf()
     }

@@ -134,12 +134,15 @@ class ConversationComponentFactory {
     }
 
     private fun lineOptions(perspective: ShortStateCharacter): List<Line>{
+        var retval = listOf<Line>()
         if(conversation.lastLine != null
             && conversation.lastLine!!.possibleReplies(perspective).isNotEmpty()){
-            return conversation.lastLine!!.possibleReplies(perspective)
-        } else {
-            return conversation.defaultConversationLines(perspective)
+            retval = conversation.lastLine!!.possibleReplies(perspective)
         }
+        if(conversation.lastLine == null || conversation.lastLine!!.canChangeTopic() || retval.size == 0){
+            retval = retval.plus(conversation.defaultConversationLines(perspective))
+        }
+        return retval
     }
 
     fun focusOnLine(line: Line){

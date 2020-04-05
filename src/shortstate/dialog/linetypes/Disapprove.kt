@@ -38,8 +38,12 @@ class Disapprove: Line {
         return true
     }
 
+    override fun canChangeTopic(): Boolean {
+        return true
+    }
+
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
-        return listOf()
+        return listOf(Farewell())
     }
 
     override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {

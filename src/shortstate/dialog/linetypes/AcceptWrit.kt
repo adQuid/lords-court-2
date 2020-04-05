@@ -51,6 +51,10 @@ class AcceptWrit: Line {
         return true
     }
 
+    override fun canChangeTopic(): Boolean {
+        return false
+    }
+
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
         return listOf()
     }

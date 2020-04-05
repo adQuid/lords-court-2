@@ -12,7 +12,7 @@ import shortstate.dialog.linetypes.RequestReport
 import ui.componentfactory.ConversationComponentFactory
 
 class Conversation {
-
+    
     val INITIATOR_NAME = "INITER"
     val initiator: ShortStateCharacter
     val TARGET_NAME = "TARGET"
