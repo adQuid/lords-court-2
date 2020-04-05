@@ -30,7 +30,8 @@ object GlobalLineTypeFactory {
         QUESTION_OFFER_TYPE_NAME to { map, game -> QuestionOffer(map, game)},
         REJECT_DEAL_TYPE_NAME to {map, game -> RejectDeal(map, game)},
         REQUEST_REPORT_TYPE_NAME to {map, game -> RequestReport(map)},
-        OFFER_WRIT_TYPE_NAME to {map, game -> OfferWrit(map, game)}
+        OFFER_WRIT_TYPE_NAME to {map, game -> OfferWrit(map, game)},
+        FAREWELL_TYPE_NAME to {map, game -> Farewell()}
     )
 
     fun fromMap(map: Map<String, Any>, game: Game): Line {

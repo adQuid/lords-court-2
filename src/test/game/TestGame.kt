@@ -26,9 +26,9 @@ class TestGame {
 
     @Test
     fun testSaveGame() {
-        //testSaveHelper(soloTestGame())
+        testSaveHelper(soloTestGame())
         testSaveHelper(soloTestGameWithEverythingOnIt())
-        //testSaveHelper(twoPlayerGameWithWrits())
+        testSaveHelper(twoPlayerGameWithWrits())
     }
 
     private fun testSaveHelper(game: Game){
