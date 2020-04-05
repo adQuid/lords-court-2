@@ -5,6 +5,8 @@ import main.Controller
 import main.UIGlobals
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
+import ui.specialdisplayables.NewSceneSelector
+import ui.specialdisplayables.selectionmodal.SelectionModal
 
 class ShortStateController: Runnable {
 
@@ -31,9 +33,17 @@ class ShortStateController: Runnable {
         Platform.runLater { UIGlobals.resetFocus() }
         var nextPlayer = shortGame.nextActingPlayer()
         while(nextPlayer != null){
+            Thread.sleep(20)
             if(shortGame.shortGameScene == null){
-                if(nextPlayer.player.npc && nextPlayer.nextSceneIWannaBeIn == null){
-                    nextPlayer.decideNextScene(shortGame)
+                if(nextPlayer.nextSceneIWannaBeIn == null){
+                    if(nextPlayer.player.npc){
+                        nextPlayer.decideNextScene(shortGame)
+                    } else {
+                        if(UIGlobals.GUI().curFocus.isEmpty() || !(UIGlobals.GUI().curFocus.peek() is SelectionModal<*>)){ //super sketchy check to see if the player is already looking at a scene selector
+                            UIGlobals.focusOn(NewSceneSelector.newSceneSelector(nextPlayer))
+                        }
+                        continue
+                    }
                 }
                 addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)//because of the starting scene, this should NEVER be null
             } else if(shortGame.shortGameScene!!.nextPlayerToDoSomething().player.npc){
@@ -42,7 +52,6 @@ class ShortStateController: Runnable {
                     Platform.runLater { UIGlobals.resetFocus() }
                 }
             }
-            Thread.sleep(20)
             nextPlayer = shortGame.nextActingPlayer()
         }
         println("finished run")

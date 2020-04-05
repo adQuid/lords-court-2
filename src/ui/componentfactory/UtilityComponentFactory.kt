@@ -16,6 +16,7 @@ import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
+import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.OptionsMenu
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
@@ -65,32 +66,14 @@ object UtilityComponentFactory {
 
     fun newSceneButton(perspective: ShortStateCharacter): Button {
         return shortButton("Go Somewhere Else",
-            EventHandler { _ -> UIGlobals.GUI().focusOn(
-                SelectionModal(
-                    newSceneOptions(perspective),
-                    { maker -> goToNewSceneIfApplicable(maker, perspective) })
-            )
+                EventHandler { _ -> UIGlobals.GUI().focusOn(
+                    NewSceneSelector.newSceneSelector(perspective)
+                )
             }
         )
     }
 
-    private fun newSceneOptions(perspective: ShortStateCharacter): List<Tab<SceneMaker>>{
-        val goToRoomMakers = perspective.player.location.rooms.map { room -> GoToRoomSoloMaker(perspective, room) }
-        val goToRoomTab = Tab<SceneMaker>("Go to Room", goToRoomMakers)
 
-        val conversationMakers = Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.players.minusElement(perspective)
-            .map { player -> ConversationMaker(perspective, player,perspective.player.location.roomByType(
-                Room.RoomType.ETC)) }
-        val conversationTab = Tab<SceneMaker>("Conversation", conversationMakers)
-
-        return listOf(goToRoomTab, conversationTab)
-    }
-
-    private fun goToNewSceneIfApplicable(maker: SceneMaker, perspective: ShortStateCharacter){
-        perspective.nextSceneIWannaBeIn = maker
-        Controller.singleton!!.shortThread!!.endScene(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.shortGameScene!!)
-        UIGlobals.resetFocus()
-    }
 
     fun backButton(): Button{
         return shortWideButton("Back", EventHandler { UIGlobals.defocus()})
