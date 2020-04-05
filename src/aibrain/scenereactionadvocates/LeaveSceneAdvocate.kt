@@ -11,7 +11,7 @@ class LeaveSceneAdvocate: SceneReactionAdvocate {
         me = character
     }
 
-    override fun weight(shortGameScene: ShortGameScene): Double {
+    override fun weight(shortStateController: ShortStateController, shortGameScene: ShortGameScene): Double {
         return 1.0
     }
 

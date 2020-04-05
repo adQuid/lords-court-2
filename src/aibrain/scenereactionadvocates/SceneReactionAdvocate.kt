@@ -7,7 +7,7 @@ abstract class SceneReactionAdvocate {
 
     constructor(character: game.GameCharacter)
 
-    abstract fun weight(shortGameScene: ShortGameScene): Double
+    abstract fun weight(shortStateController: ShortStateController, shortGameScene: ShortGameScene): Double
 
     abstract fun doToScene(shortStateController: ShortStateController, shortGameScene: ShortGameScene)
 

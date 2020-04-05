@@ -8,6 +8,7 @@ import game.GameCharacter
 import game.Game
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.room.Room
 
 class QuestionOffer: Line {
 
@@ -59,7 +60,7 @@ class QuestionOffer: Line {
         return listOf(CiteEffect(line!!.deal.toFinishedDeal()))
     }
 
-    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
         //No special effects
     }
 

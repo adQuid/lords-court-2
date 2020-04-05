@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import shortstate.room.Room
 import ui.Displayable
 import ui.commoncomponents.AppendableList
 import ui.componentfactory.EffectChooser
@@ -86,7 +87,7 @@ class CiteEffect: Line {
         return listOf()
     }
 
-    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
         //No special effects
     }
 

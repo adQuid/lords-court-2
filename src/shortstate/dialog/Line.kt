@@ -6,6 +6,7 @@ import game.GameCharacter
 import game.Game
 import javafx.scene.Scene
 import shortstate.ShortStateCharacter
+import shortstate.room.Room
 import ui.Displayable
 
 abstract class Line {
@@ -39,7 +40,7 @@ abstract class Line {
 
     abstract fun possibleReplies(perspective: ShortStateCharacter): List<Line>
 
-    abstract fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter)
+    abstract fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter)
 
     abstract fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line
  }

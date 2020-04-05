@@ -1,7 +1,10 @@
 package aibrain.scenereactionadvocates
 
+import shortstate.Conversation
 import shortstate.ShortGameScene
 import shortstate.ShortStateController
+import shortstate.dialog.Line
+import shortstate.dialog.linetypes.Farewell
 
 class TalkMoreAdvocate: SceneReactionAdvocate {
 
@@ -11,10 +14,12 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
         me = character
     }
 
-    override fun weight(shortGameScene: ShortGameScene): Double {
+    override fun weight(shortStateController: ShortStateController, shortGameScene: ShortGameScene): Double {
         if(shortGameScene!!.conversation != null){
             if(shortGameScene!!.conversation!!.otherParticipant(shortGameScene!!.conversation!!.lastSpeaker).player.npc){
-                return 8.0 - shortGameScene!!.conversation!!.age
+                if(!(nextLineIWouldSay(shortStateController, shortGameScene) is Farewell)){
+                    return 8.0 - shortGameScene.conversation!!.age
+                }
             }
             return 0.0
         }
@@ -23,10 +28,15 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
 
     override fun doToScene(shortStateController: ShortStateController, shortGameScene: ShortGameScene) {
         val convo = shortGameScene.conversation!!
+        convo.submitLine(nextLineIWouldSay(shortStateController, shortGameScene), shortStateController.shortGame)
+    }
+
+    private fun nextLineIWouldSay(shortStateController: ShortStateController, shortGameScene: ShortGameScene): Line {
+        val convo = shortGameScene.conversation!!
         if(convo.lastLine != null){
-            convo.submitLine(convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker.player, shortStateController.shortGame.game), shortStateController.shortGame)
+            return convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker.player, shortStateController.shortGame.game)
         } else {
-            convo.submitLine(convo.otherParticipant(convo.lastSpeaker).convoBrain.startConversation(convo.lastSpeaker.player, shortStateController.shortGame.game), shortStateController.shortGame)
+            return convo.otherParticipant(convo.lastSpeaker).convoBrain.startConversation(convo.lastSpeaker.player, shortStateController.shortGame.game)
         }
     }
 }

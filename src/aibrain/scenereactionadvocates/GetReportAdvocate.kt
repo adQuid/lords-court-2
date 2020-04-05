@@ -14,7 +14,7 @@ class GetReportAdvocate: SceneReactionAdvocate {
         me = character
     }
 
-    override fun weight(scene: ShortGameScene): Double {
+    override fun weight(shortStateController: ShortStateController, scene: ShortGameScene): Double {
         if(scene.room.type != Room.RoomType.WORKROOM){
             return 0.0
         }

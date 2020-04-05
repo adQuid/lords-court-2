@@ -8,6 +8,7 @@ import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
+import shortstate.room.Room
 import shortstate.scenemaker.GoToRoomSoloMaker
 
 class Farewell: Line {
@@ -47,8 +48,8 @@ class Farewell: Line {
         return listOf(Farewell())
     }
 
-    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
-
+    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
+        speaker.nextSceneIWannaBeIn = GoToRoomSoloMaker(speaker, room)
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {

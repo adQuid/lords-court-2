@@ -4,14 +4,12 @@ import aibrain.UnfinishedDeal
 import game.GameCharacter
 import game.Writ
 import javafx.scene.Scene
+import shortstate.GameRules
 import shortstate.ShortStateCharacter
 import ui.Displayable
 import ui.componentfactory.WritConstructorComponentFactory
 
 class WritConstructor: Displayable {
-    companion object{
-        const val COST_TO_MAKE_WRIT = 80
-    }
 
     var name: String = "Untitled Writ"
     val deal: UnfinishedDeal
@@ -34,7 +32,7 @@ class WritConstructor: Displayable {
     }
 
     fun addWritToCharacter(character: ShortStateCharacter): Boolean{
-        if(character.addEnergy(-COST_TO_MAKE_WRIT)){
+        if(character.addEnergy(-GameRules.COST_TO_MAKE_WRIT)){
             character.player.writs.add(generateWrit(character.player))
             return true
         }

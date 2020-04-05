@@ -13,6 +13,7 @@ import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.EmptyReport
 import shortstate.report.GlobalReportTypeFactory
 import shortstate.report.ReportType
+import shortstate.room.Room
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -74,7 +75,7 @@ class GiveReport: Line {
         return listOf(Approve(), Disapprove())
     }
 
-    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
         if(!(report is EmptyReport)){
             conversation.lastSpeaker.knownReports.add(report!!)
         }

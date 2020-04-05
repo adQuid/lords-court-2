@@ -9,10 +9,13 @@ import shortstate.dialog.linetypes.Announcement
 import shortstate.dialog.linetypes.OfferDeal
 import shortstate.dialog.linetypes.OfferWrit
 import shortstate.dialog.linetypes.RequestReport
+import shortstate.room.Room
 import ui.componentfactory.ConversationComponentFactory
 
 class Conversation {
-    
+
+    val ROOM_NAME = "ROOM"
+    val room: Room
     val INITIATOR_NAME = "INITER"
     val initiator: ShortStateCharacter
     val TARGET_NAME = "TARGET"
@@ -28,13 +31,15 @@ class Conversation {
     //TODO: Loosen coupling
     val display = ConversationComponentFactory(this)
 
-    constructor(initiator: ShortStateCharacter, target: ShortStateCharacter){
+    constructor(room: Room, initiator: ShortStateCharacter, target: ShortStateCharacter){
+        this.room = room
         this.initiator = initiator
         this.target = target
         this.lastSpeaker = target //the inititator still hasn't said anything at this point
     }
 
     constructor(parent: ShortStateGame, saveString: Map<String, Any?>){
+        room = Room(parent, saveString[ROOM_NAME] as Map<String, Any>)
         initiator = parent.shortPlayerForLongPlayer(parent.game.characterById(saveString[INITIATOR_NAME] as Int)!!)!!
         target = parent.shortPlayerForLongPlayer(parent.game.characterById(saveString[TARGET_NAME] as Int)!!)!!
         lastSpeaker = parent.shortPlayerForLongPlayer(parent.game.characterById(saveString[LAST_SPEAKER_NAME] as Int)!!)!!
@@ -47,6 +52,7 @@ class Conversation {
 
     fun saveString(): Map<String, Any?>{
         return hashMapOf(
+            ROOM_NAME to room.saveString(),
             INITIATOR_NAME to initiator.player.id,
             TARGET_NAME to target.player.id,
             LAST_SPEAKER_NAME to lastSpeaker.player.id,
@@ -79,7 +85,7 @@ class Conversation {
 
     override fun equals(other: Any?): Boolean {
         if(other is Conversation){
-           return this.initiator == other.initiator && this.target == other.target
+           return this.room == other.room && this.initiator == other.initiator && this.target == other.target
         }
         return false
     }
@@ -87,7 +93,7 @@ class Conversation {
     fun submitLine(line: Line, game: ShortStateGame){
         println("\"${line.fullTextForm(lastSpeaker, otherParticipant(lastSpeaker))}\"(${line::class}) submitted by ${otherParticipant(lastSpeaker)}")
         if(line.validToSend()){
-            line.specialEffect(this, otherParticipant(lastSpeaker))
+            line.specialEffect(room, this, otherParticipant(lastSpeaker))
             age++
             lastLine = line
             lastSpeaker = otherParticipant(lastSpeaker)

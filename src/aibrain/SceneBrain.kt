@@ -33,7 +33,7 @@ class SceneBrain {
     }
 
     fun reactToScene(shortGameScene: ShortGameScene, game: ShortStateController){
-        reactionAdvocates.sortedByDescending { adv -> adv.weight(shortGameScene) }[0].doToScene(game, shortGameScene)
+        reactionAdvocates.sortedByDescending { adv -> adv.weight(game, shortGameScene) }[0].doToScene(game, shortGameScene)
     }
 
     fun nextSceneIWantToBeIn(player: ShortStateCharacter, game: ShortStateGame): SceneMaker?{

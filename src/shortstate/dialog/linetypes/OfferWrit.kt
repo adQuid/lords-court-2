@@ -10,6 +10,7 @@ import game.Writ
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.room.Room
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -73,7 +74,7 @@ class OfferWrit: Line {
         return listOf(Approve())
     }
 
-    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
         //No special effects
     }
 

@@ -42,7 +42,7 @@ class ShortStateController: Runnable {
                     Platform.runLater { UIGlobals.resetFocus() }
                 }
             }
-            Thread.sleep(200)
+            Thread.sleep(20)
             nextPlayer = shortGame.nextActingPlayer()
         }
         println("finished run")
@@ -77,7 +77,7 @@ class ShortStateController: Runnable {
     fun endScene(shortGameScene: ShortGameScene){
         if(shortGame.shortGameScene == shortGameScene){
             println("scene ended")
-            shortGameScene!!.characters.forEach { player -> player.energy -= 1}
+            shortGameScene!!.characters.forEach { player -> player.energy -= GameRules.COST_TO_END_SCENE}
             //if there was a conversation, characters might have learned something in this time
             if(shortGameScene!!.conversation != null){
                 shortGameScene!!.characters.filter { character -> character.player.npc }.forEach { character -> character.player.brain.thinkAboutNextTurn(shortGame.game); character.decideNextScene(shortGame) }

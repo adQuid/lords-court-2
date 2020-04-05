@@ -13,7 +13,7 @@ class TestConversation {
     fun testBasicConvo(){
         val shortGame = twoPlayerShortGame()
 
-        val convo = Conversation(shortGame.players[0], shortGame.players[1])
+        val convo = Conversation(shortGame.location.rooms[0], shortGame.players[0], shortGame.players[1])
 
         val line1 = Announcement(BakeCookies())
         convo.submitLine(line1, shortGame)

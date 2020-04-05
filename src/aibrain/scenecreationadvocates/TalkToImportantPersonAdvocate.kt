@@ -4,6 +4,7 @@ import game.GameCharacter
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.dialog.linetypes.Approve
+import shortstate.dialog.linetypes.Farewell
 import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
@@ -21,7 +22,7 @@ class TalkToImportantPersonAdvocate: SceneCreationAdvocate {
         if(characterIWantToTalkTo() == null){
             return 0.0
         }
-        if(!(me.convoBrain.startConversation(characterIWantToTalkTo()!!, game.game) is Approve)){
+        if(!(me.convoBrain.startConversation(characterIWantToTalkTo()!!, game.game) is Farewell)){
             return 100.0
         }
         return 0.0

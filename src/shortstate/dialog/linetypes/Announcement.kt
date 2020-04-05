@@ -14,6 +14,7 @@ import shortstate.dialog.GlobalLineTypeFactory
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 import game.action.GlobalActionTypeFactory
+import shortstate.room.Room
 
 class Announcement: Line, HasAction {
 
@@ -82,7 +83,7 @@ class Announcement: Line, HasAction {
         return this.action
     }
 
-    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
         //No special effects
     }
 

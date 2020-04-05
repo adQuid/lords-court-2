@@ -11,6 +11,7 @@ import game.Game
 import game.Writ
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.room.Room
 
 class AcceptWrit: Line {
 
@@ -59,7 +60,7 @@ class AcceptWrit: Line {
         return listOf()
     }
 
-    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
         writ.signatories.add(speaker.player)
     }
 

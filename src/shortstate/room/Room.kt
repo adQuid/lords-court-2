@@ -1,10 +1,10 @@
 package shortstate.room
 
 import game.GameCharacter
+import shortstate.GameRules
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.room.action.*
-import ui.contructorobjects.WritConstructor.Companion.COST_TO_MAKE_WRIT
 
 class Room {
 
@@ -53,7 +53,7 @@ class Room {
             var retval = baseActions()
                 .plus(player.player.titles.flatMap { title -> title.reportsEntitled.map { type -> MakeReport(type)} })
 
-            if(player.energy >= COST_TO_MAKE_WRIT){
+            if(player.energy >= GameRules.COST_TO_MAKE_WRIT){
                 retval = retval.plus(listOf(DraftWrit()))
             }
             return retval

@@ -10,6 +10,7 @@ import game.GameCharacter
 import game.Game
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.room.Room
 
 class AcceptDeal: Line {
 
@@ -58,7 +59,7 @@ class AcceptDeal: Line {
         return listOf()
     }
 
-    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
         conversation.initiator.player.acceptedDeals.add(deal!!)
         conversation.target.player.acceptedDeals.add(deal!!)
     }

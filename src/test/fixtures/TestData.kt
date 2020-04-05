@@ -52,7 +52,7 @@ fun soloTestShortgameWithEverythingOnIt(): ShortStateGame{
     val game = soloTestGameWithEverythingOnIt()
     game.addPlayer(basicMilkman("Extra NPC", game, game.locations[0]))
     val retval = ShortStateGame(game, game.locations[0])
-    retval.shortGameScene = ShortGameScene(listOf(retval.players[0], retval.players[1]), retval.location.rooms[0], Conversation(retval.players[0], retval.players[1]))
+    retval.shortGameScene = ShortGameScene(listOf(retval.players[0], retval.players[1]), retval.location.rooms[0], Conversation(retval.location.rooms[0], retval.players[0], retval.players[1]))
     return retval
 }
 

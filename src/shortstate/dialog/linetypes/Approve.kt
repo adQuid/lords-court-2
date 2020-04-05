@@ -8,6 +8,7 @@ import game.GameCharacter
 import game.Game
 import shortstate.ShortStateCharacter
 import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.room.Room
 
 class Approve: Line {
 
@@ -46,7 +47,7 @@ class Approve: Line {
         return listOf(Farewell())
     }
 
-    override fun specialEffect(conversation: Conversation, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
         //No special effects
     }
 

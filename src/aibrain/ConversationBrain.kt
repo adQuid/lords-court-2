@@ -35,7 +35,7 @@ class ConversationBrain {
             return OfferDeal(dealToOffer)
         }
 
-        return Approve()
+        return Farewell()
     }
 
 }
