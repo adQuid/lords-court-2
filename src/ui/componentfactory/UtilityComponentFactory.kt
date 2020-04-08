@@ -66,7 +66,7 @@ object UtilityComponentFactory {
 
     fun newSceneButton(perspective: ShortStateCharacter): Button {
         return shortButton("Go Somewhere Else",
-                EventHandler { _ -> UIGlobals.GUI().focusOn(
+                EventHandler { _ -> UIGlobals.focusOn(
                     NewSceneSelector.newSceneSelector(perspective)
                 )
             }

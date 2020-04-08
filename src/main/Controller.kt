@@ -31,7 +31,6 @@ class Controller {
 
     constructor(){
         singleton = this
-        newGame()
     }
 
     //TODO: Make this work for more than one thread
@@ -107,4 +106,5 @@ class Controller {
 
 fun main() {
     Controller.singleton = Controller()
+    Controller.singleton!!.newGame()
 }

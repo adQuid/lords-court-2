@@ -43,7 +43,7 @@ class RequestReport: Line, HasReportType {
                         listOf(
                             Tab(
                                 "Reports",
-                                UIGlobals.GUI().playingAs().player.titles.flatMap { title -> title.reportsEntitled })
+                                UIGlobals.playingAs().player.titles.flatMap { title -> title.reportsEntitled })
                         ),
                         { reportType ->
                             mySetReportType(reportType); UIGlobals.defocus();

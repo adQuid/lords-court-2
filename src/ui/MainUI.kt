@@ -7,6 +7,7 @@ import javafx.stage.Stage
 import javafx.scene.Scene
 import javafx.stage.WindowEvent
 import main.Controller
+import main.UIGlobals
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import ui.componentfactory.*
@@ -31,9 +32,11 @@ class MainUI() : Application() {
     override fun start(primaryStage: Stage) {
         primaryStage.onCloseRequest = EventHandler<WindowEvent> { exitProcess(0) }
         stage = primaryStage
-        resetFocus()
+        if(!UIGlobals.disabledForTesting){
+            resetFocus()
 
-        display()
+            display()
+        }
     }
 
     fun shortGame(): ShortStateGame {
@@ -64,6 +67,9 @@ class MainUI() : Application() {
     }
 
     fun display(){
+        if(UIGlobals.disabledForTesting){
+            return
+        }
         if(curFocus.size > 0){
             setScene(curFocus.peek()!!.display(playingAs()))
         }else{
