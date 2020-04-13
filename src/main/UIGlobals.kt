@@ -9,10 +9,12 @@ import ui.MainUI
 
 object UIGlobals {
 
-    var disabledForTesting = false
-
     fun activeGame(): Game {
         return Controller.singleton!!.game!!
+    }
+
+    private fun guiOrNull(): MainUI? {
+        return Controller.singleton!!.GUI
     }
 
     fun GUI(): MainUI {
@@ -24,25 +26,25 @@ object UIGlobals {
     }
 
     fun resetFocus(){
-        if(!disabledForTesting){
+        if(guiOrNull() != null){
             GUI().resetFocus()
         }
     }
 
     fun refresh(){
-        if(!disabledForTesting){
+        if(guiOrNull() != null){
             Controller.singleton!!.GUI!!.display()
         }
     }
 
     fun defocus(){
-        if(!disabledForTesting){
+        if(guiOrNull() != null){
             GUI().defocus()
         }
     }
 
     fun focusOn(focus: Displayable?){
-        if(!disabledForTesting){
+        if(guiOrNull() != null){
             GUI().focusOn(focus)
         }
     }

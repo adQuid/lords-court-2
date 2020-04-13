@@ -26,11 +26,11 @@ class ShortStateController: Runnable {
     }
 
     override fun run(){
-        while(Controller.singleton!!.GUI == null){
+        /*while(Controller.singleton!!.GUI == null){
             Thread.sleep(100) //Very weak logic to prevent the threads from crashing the GUI
-        }
+        }*/
         println("starting run")
-        Platform.runLater { UIGlobals.resetFocus() }
+        //Platform.runLater { UIGlobals.resetFocus() }
         var nextPlayer = shortGame.nextActingPlayer()
         while(nextPlayer != null){
             Thread.sleep(20)

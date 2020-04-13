@@ -32,11 +32,9 @@ class MainUI() : Application() {
     override fun start(primaryStage: Stage) {
         primaryStage.onCloseRequest = EventHandler<WindowEvent> { exitProcess(0) }
         stage = primaryStage
-        if(!UIGlobals.disabledForTesting){
-            resetFocus()
+        resetFocus()
 
-            display()
-        }
+        display()
     }
 
     fun shortGame(): ShortStateGame {
@@ -67,9 +65,6 @@ class MainUI() : Application() {
     }
 
     fun display(){
-        if(UIGlobals.disabledForTesting){
-            return
-        }
         if(curFocus.size > 0){
             setScene(curFocus.peek()!!.display(playingAs()))
         }else{
