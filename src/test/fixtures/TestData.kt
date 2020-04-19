@@ -10,15 +10,14 @@ import game.titlemaker.TitleFactory
 import shortstate.ShortStateGame
 import shortstate.dialog.Memory
 import game.action.actionTypes.*
-import game.action.Action
 import shortstate.dialog.linetypes.*
-import game.effects.AddDelicousness
 import shortstate.Conversation
 import shortstate.ShortGameScene
 import shortstate.dialog.GlobalLineTypeFactory
-import shortstate.dialog.Line
 import shortstate.report.DeliciousnessReport
 import shortstate.report.ReportType
+import game.titles.Milkman
+import game.titles.Baker
 
 fun soloTestGame(): Game{
     val game = Game()
@@ -67,6 +66,13 @@ fun twoPlayerTestGame(): Game{
     return game
 }
 
+fun twoPlayerTestGameResultingInDeliciousness(): Game{
+    val game = twoPlayerTestGame()
+    game.applyTitleToCharacter(Milkman(), game.players[0])
+    game.applyTitleToCharacter(Baker("test"), game.players[1])
+    return game
+}
+
 fun twoPlayerGameWithWrits(): Game{
     val game = twoPlayerTestGame()
     game.players[0].writs.add(Writ("test writ", neutralDeal(game.players), listOf(game.players[0])))
@@ -75,6 +81,11 @@ fun twoPlayerGameWithWrits(): Game{
 
 fun twoPlayerShortGame(): ShortStateGame{
     val game = twoPlayerTestGame()
+    return ShortStateGame(game, game.locations[0])
+}
+
+fun shortGameResultingInDeliciousness(): ShortStateGame{
+    val game = twoPlayerTestGameResultingInDeliciousness()
     return ShortStateGame(game, game.locations[0])
 }
 
