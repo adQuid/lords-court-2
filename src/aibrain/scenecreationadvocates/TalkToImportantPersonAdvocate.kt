@@ -13,21 +13,12 @@ import shortstate.scenemaker.SceneMaker
 
 class TalkToImportantPersonAdvocate: SceneCreationAdvocate {
 
-    private val me: ShortStateCharacter
-
-    private val reactionAdvocates: List<SceneReactionAdvocate>
+    override val me: ShortStateCharacter
+    override val reactionAdvocates: List<SceneReactionAdvocate>
 
     constructor(character: ShortStateCharacter) : super(character) {
         me = character
         reactionAdvocates = listOf(TalkMoreAdvocate(me.player))
-    }
-
-    override fun weight(game: ShortStateGame): Double{
-        val prospectiveScene = createScene(game, me).makeScene(game)
-        if(prospectiveScene != null){
-            return reactionAdvocates.map { adv -> adv.weight(game, prospectiveScene) }.sortedByDescending { it }[0]
-        }
-        return 0.0
     }
 
     override fun createScene(game: ShortStateGame, player: ShortStateCharacter): SceneMaker{
