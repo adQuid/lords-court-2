@@ -5,6 +5,7 @@ import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
+import shortstate.ShortStateGame
 import shortstate.room.RoomAction
 
 class EnactWrit: RoomAction {
@@ -15,7 +16,7 @@ class EnactWrit: RoomAction {
         this.writ = writ
     }
 
-    override fun doAction(shortGameController: ShortStateController, player: ShortStateCharacter) {
+    override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         if(!writ.complete()){
             throw Exception("Trying to enact an imcomplete writ!")
         }

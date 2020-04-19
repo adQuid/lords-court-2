@@ -4,6 +4,7 @@ import aibrain.UnfinishedDeal
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
+import shortstate.ShortStateGame
 import shortstate.room.RoomAction
 import ui.contructorobjects.WritConstructor
 
@@ -13,7 +14,7 @@ class DraftWrit: RoomAction {
 
     }
 
-    override fun doAction(shortGameController: ShortStateController, player: ShortStateCharacter) {
+    override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         UIGlobals.focusOn(WritConstructor(UnfinishedDeal(listOf(player.player))))
     }
 

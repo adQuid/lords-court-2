@@ -62,7 +62,7 @@ class ShortStateController: Runnable {
     }
 
     private fun doAIIfAppropriate(){
-        shortGame.shortGameScene!!.nextPlayerToDoSomething().sceneBrain.reactToScene(shortGame.shortGameScene!!, this)
+        shortGame.shortGameScene!!.nextPlayerToDoSomething().sceneBrain.reactToScene(shortGame.shortGameScene!!, shortGame)
     }
 
     private fun addScene(player: ShortStateCharacter, creator: SceneMaker?){

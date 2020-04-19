@@ -16,9 +16,9 @@ class MakeReport: RoomAction{
         this.type = type
     }
 
-    override fun doAction(game: ShortStateController, player: ShortStateCharacter) {
+    override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         println("looked up deliciousness")
-        player.knownReports.add(generateReport(game.shortGame.game, type))
+        player.knownReports.add(generateReport(game.game, type))
         player.energy -= 10
     }
 

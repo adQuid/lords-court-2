@@ -1,9 +1,10 @@
 package aibrain.scenecreationadvocates
 
+import aibrain.scenereactionadvocates.SceneReactionAdvocate
+import aibrain.scenereactionadvocates.TalkMoreAdvocate
 import game.GameCharacter
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
-import shortstate.dialog.linetypes.Approve
 import shortstate.dialog.linetypes.Farewell
 import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
@@ -14,16 +15,17 @@ class TalkToImportantPersonAdvocate: SceneCreationAdvocate {
 
     private val me: ShortStateCharacter
 
+    private val reactionAdvocates: List<SceneReactionAdvocate>
+
     constructor(character: ShortStateCharacter) : super(character) {
         me = character
+        reactionAdvocates = listOf(TalkMoreAdvocate(me.player))
     }
 
     override fun weight(game: ShortStateGame): Double{
-        if(characterIWantToTalkTo() == null){
-            return 0.0
-        }
-        if(!(me.convoBrain.startConversation(characterIWantToTalkTo()!!, game.game) is Farewell)){
-            return 100.0
+        val prospectiveScene = createScene(game, me).makeScene(game)
+        if(prospectiveScene != null){
+            return reactionAdvocates.map { adv -> adv.weight(game, prospectiveScene) }.sortedByDescending { it }[0]
         }
         return 0.0
     }

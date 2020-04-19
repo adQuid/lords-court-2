@@ -2,6 +2,7 @@ package aibrain.scenereactionadvocates
 
 import shortstate.ShortGameScene
 import shortstate.ShortStateController
+import shortstate.ShortStateGame
 
 class LeaveSceneAdvocate: SceneReactionAdvocate {
 
@@ -11,11 +12,11 @@ class LeaveSceneAdvocate: SceneReactionAdvocate {
         me = character
     }
 
-    override fun weight(shortStateController: ShortStateController, shortGameScene: ShortGameScene): Double {
+    override fun weight(game: ShortStateGame, shortGameScene: ShortGameScene): Double {
         return 1.0
     }
 
-    override fun doToScene(shortStateController: ShortStateController, shortGameScene: ShortGameScene) {
+    override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {
         shortGameScene.terminated = true
     }
 }

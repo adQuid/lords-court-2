@@ -8,11 +8,11 @@ import shortstate.room.RoomAction
 import shortstate.scenemaker.GoToRoomSoloMaker
 
 class Wait: RoomAction() {
-    override fun doAction(shortGameController: ShortStateController, player: ShortStateCharacter) {
+    override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         println("$player waits")
         player.energy -= 50
-        player.nextSceneIWannaBeIn = GoToRoomSoloMaker(player, shortGameController.shortGame.shortGameScene!!.room)
-        shortGameController.shortGame.shortGameScene!!.terminated = true//kinda defeats the point, huh?
+        player.nextSceneIWannaBeIn = GoToRoomSoloMaker(player, game.shortGameScene!!.room)
+        game.shortGameScene!!.terminated = true//kinda defeats the point, huh?
     }
 
     override fun defocusAfter(): Boolean {

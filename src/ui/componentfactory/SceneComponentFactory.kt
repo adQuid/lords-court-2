@@ -75,7 +75,7 @@ class SceneComponentFactory {
                         roomActionButtons(scene.room, perspective),
                         { action ->
                             action.doAction(
-                                Controller.singleton!!.shortThreadForPlayer(perspective),
+                                Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,
                                 perspective
                             ); if (action.defocusAfter()) {
                             UIGlobals.defocus()

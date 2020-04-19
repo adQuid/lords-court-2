@@ -32,7 +32,7 @@ class SceneBrain {
             TalkToImportantPersonAdvocate(character))
     }
 
-    fun reactToScene(shortGameScene: ShortGameScene, game: ShortStateController){
+    fun reactToScene(shortGameScene: ShortGameScene, game: ShortStateGame){
         reactionAdvocates.sortedByDescending { adv -> adv.weight(game, shortGameScene) }[0].doToScene(game, shortGameScene)
     }
 

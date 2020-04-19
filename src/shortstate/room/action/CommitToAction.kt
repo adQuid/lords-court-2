@@ -16,7 +16,7 @@ class CommitToAction: RoomAction {
         this.type = type
     }
 
-    override fun doAction(game: ShortStateController, player: ShortStateCharacter) {
+    override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         player.prospectiveActions.add(type)
         player.energy -= 10
     }

@@ -7,10 +7,10 @@ import shortstate.ShortStateController
 import shortstate.room.RoomAction
 
 class GoToBed: RoomAction() {
-    override fun doAction(shortGameController: ShortStateController, player: ShortStateCharacter) {
+    override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         println("$player committed ${player.prospectiveActions.size} actions")
         player.energy = 0
-        shortGameController.endScene(shortGameController.shortGame.sceneForPlayer(player)!!)
+        game.sceneForPlayer(player)!!.terminated = true
         Controller.singleton!!.commitActionsForPlayer(player.player, player.prospectiveActions)
         Controller.singleton!!.concludeTurnForPlayer(player.player)
     }
