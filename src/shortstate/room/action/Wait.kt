@@ -12,7 +12,7 @@ class Wait: RoomAction() {
         println("$player waits")
         player.energy -= 50
         player.nextSceneIWannaBeIn = GoToRoomSoloMaker(player, shortGameController.shortGame.shortGameScene!!.room)
-        shortGameController.endScene(shortGameController.shortGame.shortGameScene!!)//kinda defeats the point, huh?
+        shortGameController.shortGame.shortGameScene!!.terminated = true//kinda defeats the point, huh?
     }
 
     override fun defocusAfter(): Boolean {

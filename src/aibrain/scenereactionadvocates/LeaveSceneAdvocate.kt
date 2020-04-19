@@ -16,6 +16,6 @@ class LeaveSceneAdvocate: SceneReactionAdvocate {
     }
 
     override fun doToScene(shortStateController: ShortStateController, shortGameScene: ShortGameScene) {
-        shortStateController.endScene(shortGameScene)
+        shortGameScene.terminated = true
     }
 }

@@ -46,10 +46,14 @@ class ShortStateController: Runnable {
                     }
                 }
                 addScene(nextPlayer, nextPlayer.nextSceneIWannaBeIn!!)//because of the starting scene, this should NEVER be null
-            } else if(shortGame.shortGameScene!!.nextPlayerToDoSomething().player.npc){
-                doAIIfAppropriate()
-                if(shortGame.shortGameScene != null && shortGame.shortGameScene!!.hasAPC()){
-                    Platform.runLater { UIGlobals.resetFocus() }
+            } else {
+                if(shortGame.shortGameScene!!.terminated){
+                    endScene(shortGame.shortGameScene!!)
+                }else if(shortGame.shortGameScene!!.nextPlayerToDoSomething().player.npc){
+                    doAIIfAppropriate()
+                    if(shortGame.shortGameScene != null && shortGame.shortGameScene!!.hasAPC()){
+                        Platform.runLater { UIGlobals.resetFocus() }
+                    }
                 }
             }
             nextPlayer = shortGame.nextActingPlayer()

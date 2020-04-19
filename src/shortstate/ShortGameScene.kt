@@ -15,6 +15,8 @@ class ShortGameScene: Displayable {
     val ROOM_NAME = "ROOM"
     val room: Room
 
+    var terminated = false
+
     //TODO: loosen coupling
     val display: SceneComponentFactory
 

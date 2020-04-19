@@ -34,8 +34,7 @@ object NewSceneSelector {
     private fun goToNewSceneIfApplicable(maker: SceneMaker, perspective: ShortStateCharacter){
         perspective.nextSceneIWannaBeIn = maker
         if(Controller.singleton!!.shortThread!!.shortGame.shortGameScene != null){
-            Controller.singleton!!.shortThread!!.endScene(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.shortGameScene!!)
+            Controller.singleton!!.shortThread!!.shortGame.shortGameScene!!.terminated = true
         }
-        UIGlobals.resetFocus()
     }
 }
