@@ -1,6 +1,7 @@
 package shortstate.room.action
 
 import main.Controller
+import shortstate.GameRules
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
@@ -10,7 +11,7 @@ import shortstate.scenemaker.GoToRoomSoloMaker
 class Wait: RoomAction() {
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         println("$player waits")
-        player.energy -= 50
+        player.energy -= GameRules.COST_TO_WAIT
         player.nextSceneIWannaBeIn = GoToRoomSoloMaker(player, game.shortGameScene!!.room)
         game.shortGameScene!!.terminated = true//kinda defeats the point, huh?
     }

@@ -18,7 +18,6 @@ class CommitToAction: RoomAction {
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         player.prospectiveActions.add(type)
-        player.energy -= 10
     }
 
     override fun defocusAfter(): Boolean {

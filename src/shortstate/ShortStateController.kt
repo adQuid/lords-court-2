@@ -82,14 +82,13 @@ class ShortStateController: Runnable {
         try{
             Platform.runLater { UIGlobals.resetFocus() }
         } catch(exception: Exception){
-            println("exception caught on addScene UI update")
+            println("exception caught on addScene UI update: ${exception.toString()}")
             //Do nothing. This is scotch tape because sort state games might be made before UI starts
         }
     }
 
     fun endScene(shortGameScene: ShortGameScene){
         if(shortGame.shortGameScene == shortGameScene){
-            println("scene ended")
             shortGameScene!!.characters.forEach { player -> player.energy -= GameRules.COST_TO_END_SCENE}
             //if there was a conversation, characters might have learned something in this time
             if(shortGameScene!!.conversation != null){

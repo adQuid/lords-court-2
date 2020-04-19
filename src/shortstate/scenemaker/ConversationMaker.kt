@@ -9,8 +9,6 @@ class ConversationMaker: SceneMaker {
     val target: ShortStateCharacter
     val room: Room
 
-    val energyCost = 150
-
     constructor(initiator: ShortStateCharacter, target: ShortStateCharacter, room: Room){
         this.initiator = initiator
         this.target = target
@@ -18,20 +16,12 @@ class ConversationMaker: SceneMaker {
     }
 
     override fun makeScene(game: ShortStateGame): ShortGameScene? {
-        //TODO: make sure characters aren't already in scene
-        if(initiator.addEnergy(-energyCost)){
-            val convo = Conversation(room, initiator, target)
-            val sceneToMake = ShortGameScene(listOf(initiator, target), room, convo)
-            return sceneToMake
-        }
-        return null
+        val convo = Conversation(room, initiator, target)
+        val sceneToMake = ShortGameScene(listOf(initiator, target), room, convo)
+        return sceneToMake
     }
 
     override fun toString(): String {
-        if(initiator.energy >= energyCost){
-            return "Talk to $target in $room"
-        } else {
-            return "Talk to $target in $room (NOT ENOUGH ENERGY)"
-        }
+        return "Talk to $target in $room"
     }
 }

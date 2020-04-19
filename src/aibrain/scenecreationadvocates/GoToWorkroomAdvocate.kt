@@ -1,6 +1,5 @@
 package aibrain.scenecreationadvocates
 
-import game.GameCharacter
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.room.Room
