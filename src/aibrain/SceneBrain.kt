@@ -21,15 +21,11 @@ class SceneBrain {
 
     constructor(character: ShortStateCharacter, longBrain: ForecastBrain){
         this.longBrain = longBrain
-        reactionAdvocates = listOf(
-            TalkMoreAdvocate(longBrain.player),
-            GoToBedAdvocate(longBrain.player),
-            LeaveSceneAdvocate(longBrain.player),
-            GetReportAdvocate(longBrain.player))
         creationAdvocates = listOf(
             GoToBedroomAdvocate(character),
             GoToWorkroomAdvocate(character),
             TalkToImportantPersonAdvocate(character))
+        reactionAdvocates = creationAdvocates.flatMap { creationAdvocate -> creationAdvocate.reactionAdvocates } + LeaveSceneAdvocate(longBrain.player)
     }
 
     fun reactToScene(shortGameScene: ShortGameScene, game: ShortStateGame){
