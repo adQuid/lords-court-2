@@ -16,6 +16,10 @@ class CommitToAction: RoomAction {
         this.type = type
     }
 
+    override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
+        doAction(game, player)
+    }
+
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         player.prospectiveActions.add(type)
     }

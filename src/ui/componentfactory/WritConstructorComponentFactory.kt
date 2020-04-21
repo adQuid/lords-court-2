@@ -5,6 +5,7 @@ import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import shortstate.room.action.DraftWrit
 import ui.contructorobjects.WritConstructor
 
 class WritConstructorComponentFactory {
@@ -37,11 +38,11 @@ class WritConstructorComponentFactory {
 
     private fun finish(perspective: ShortStateCharacter){
         parent.name = textField.text
-        if(parent.addWritToCharacter(perspective)){
-            //TODO: send a warning
+        if(DraftWrit(parent.deal, parent.name).addWritToCharacter(perspective)){
             UIGlobals.defocus()
             UIGlobals.defocus()
         } else {
+            //TODO: send a warning that this failed
             UIGlobals.defocus()
             UIGlobals.defocus()
         }

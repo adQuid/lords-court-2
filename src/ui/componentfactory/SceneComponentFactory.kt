@@ -14,6 +14,7 @@ import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import shortstate.room.Room
 import shortstate.room.RoomAction
+import shortstate.room.RoomActionMaker
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -73,13 +74,11 @@ class SceneComponentFactory {
                 UIGlobals.focusOn(
                     SelectionModal(
                         roomActionButtons(scene.room, perspective),
-                        { action ->
-                            action.doAction(
+                        { maker ->
+                            maker.onClick(
                                 Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,
                                 perspective
-                            ); if (action.defocusAfter()) {
-                            UIGlobals.defocus()
-                        }
+                            )
                         })
                 )
             })
@@ -128,7 +127,7 @@ class SceneComponentFactory {
         return listOf(completeTab, incompleteTab)
     }
 
-    private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomAction>>{
+    private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomActionMaker>>{
         val tab = Tab(room.name, room.getActions(perspective))
 
         return listOf(tab)

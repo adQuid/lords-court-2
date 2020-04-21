@@ -16,6 +16,10 @@ class EnactWrit: RoomAction {
         this.writ = writ
     }
 
+    override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
+        doAction(game, player)
+    }
+
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         if(!writ.complete()){
             throw Exception("Trying to enact an imcomplete writ!")

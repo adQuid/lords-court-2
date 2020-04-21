@@ -24,18 +24,5 @@ class WritConstructor: Displayable {
         return display.scenePage(perspective)
     }
 
-    fun generateWrit(firstSigner: GameCharacter): Writ {
-        if(deal.isEmpty()){
-            throw Exception("Tried to make an empty Writ!")
-        }
-        return Writ(name, deal.toFinishedDeal(), listOf(firstSigner))
-    }
 
-    fun addWritToCharacter(character: ShortStateCharacter): Boolean{
-        if(character.addEnergy(-GameRules.COST_TO_MAKE_WRIT)){
-            character.player.writs.add(generateWrit(character.player))
-            return true
-        }
-        return false
-    }
 }

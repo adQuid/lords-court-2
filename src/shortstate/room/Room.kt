@@ -5,6 +5,8 @@ import shortstate.GameRules
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.room.action.*
+import shortstate.room.actionmaker.DefaultRoomActionMaker
+import shortstate.room.actionmaker.DraftWritRoomActionMaker
 
 class Room {
 
@@ -48,28 +50,28 @@ class Room {
         return name
     }
 
-    fun getActions(player: ShortStateCharacter): List<RoomAction>{
+    fun getActions(player: ShortStateCharacter): List<RoomActionMaker>{
         if(type == RoomType.WORKROOM){
             var retval = baseActions()
-                .plus(player.player.titles.flatMap { title -> title.reportsEntitled.map { type -> MakeReport(type)} })
+                .plus(player.player.titles.flatMap { title -> title.reportsEntitled.map { type -> DefaultRoomActionMaker(MakeReport(type))} })
 
             if(player.energy >= GameRules.COST_TO_MAKE_WRIT){
-                retval = retval.plus(listOf(DraftWrit()))
+                retval = retval.plus(listOf(DraftWritRoomActionMaker()))
             }
             return retval
         } else if(type == RoomType.THRONEROOM){
             return baseActions()
-                .plus(player.player.writs.map { writ -> EnactWrit(writ) })
+                .plus(player.player.writs.map { writ -> DefaultRoomActionMaker(EnactWrit(writ)) })
         } else if(type == RoomType.BEDROOM){
             return baseActions()
-                .plus(listOf(GoToBed()))
+                .plus(listOf(DefaultRoomActionMaker(GoToBed())))
         } else {
             return baseActions()
         }
     }
 
-    private fun baseActions(): List<RoomAction>{
-        return listOf(Wait())
+    private fun baseActions(): List<RoomActionMaker>{
+        return listOf(DefaultRoomActionMaker(Wait()))
     }
 
     enum class RoomType{

@@ -7,6 +7,11 @@ import shortstate.ShortStateController
 import shortstate.room.RoomAction
 
 class GoToBed: RoomAction() {
+
+    override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
+        doAction(game, player)
+    }
+
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         println("$player committed ${player.prospectiveActions.size} actions")
         player.energy = 0

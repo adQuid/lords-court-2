@@ -1,7 +1,11 @@
 package shortstate.room.action
 
+import aibrain.Deal
 import aibrain.UnfinishedDeal
+import game.GameCharacter
+import game.Writ
 import main.UIGlobals
+import shortstate.GameRules
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
 import shortstate.ShortStateGame
@@ -10,12 +14,32 @@ import ui.contructorobjects.WritConstructor
 
 class DraftWrit: RoomAction {
 
-    constructor(){
+    val deal: Deal
+    val name: String
 
+    constructor(deal: Deal, name: String){
+        this.deal = deal
+        this.name = name
+    }
+
+    override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
+        UIGlobals.focusOn(WritConstructor(UnfinishedDeal(listOf(player.player))))
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
-        UIGlobals.focusOn(WritConstructor(UnfinishedDeal(listOf(player.player))))
+        addWritToCharacter(player)
+    }
+
+    fun generateWrit(firstSigner: GameCharacter): Writ {
+        return Writ(name, deal.toFinishedDeal(), listOf(firstSigner))
+    }
+
+    fun addWritToCharacter(character: ShortStateCharacter): Boolean{
+        if(character.addEnergy(-GameRules.COST_TO_MAKE_WRIT)){
+            character.player.writs.add(generateWrit(character.player))
+            return true
+        }
+        return false
     }
 
     override fun defocusAfter(): Boolean {

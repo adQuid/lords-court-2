@@ -17,6 +17,10 @@ class MakeReport: RoomAction{
         this.type = type
     }
 
+    override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
+        doAction(game, player)
+    }
+
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         println("looked up deliciousness")
         player.knownReports.add(generateReport(game.game, type))
