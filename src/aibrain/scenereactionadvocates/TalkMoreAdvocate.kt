@@ -19,7 +19,7 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
         if(shortGameScene!!.conversation != null){
             if(shortGameScene!!.conversation!!.otherParticipant(shortGameScene!!.conversation!!.lastSpeaker).player.npc){
                 if(!(nextLineIWouldSay(game, shortGameScene) is Farewell)){
-                    return 8.0 - shortGameScene.conversation!!.age
+                    return 4.0 - shortGameScene.conversation!!.age
                 }
             }
             return 0.0

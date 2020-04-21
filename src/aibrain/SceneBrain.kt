@@ -29,10 +29,12 @@ class SceneBrain {
     }
 
     fun reactToScene(shortGameScene: ShortGameScene, game: ShortStateGame){
+        println(reactionAdvocates.sortedByDescending { adv -> adv.weight(game, shortGameScene) }.map{adv -> "${adv.javaClass}: ${adv.weight(game, shortGameScene)}"})
         reactionAdvocates.sortedByDescending { adv -> adv.weight(game, shortGameScene) }[0].doToScene(game, shortGameScene)
     }
 
     fun nextSceneIWantToBeIn(player: ShortStateCharacter, game: ShortStateGame): SceneMaker?{
+        println(creationAdvocates.sortedByDescending { adv -> adv.weight(game) }.map { adv -> "${adv.javaClass}: ${adv.weight(game)}" })
         return creationAdvocates.sortedByDescending { adv -> adv.weight(game) }[0].createScene(game, player)
     }
 }

@@ -1,5 +1,6 @@
 package aibrain.scenecreationadvocates
 
+import aibrain.scenereactionadvocates.DraftWritAdvocate
 import aibrain.scenereactionadvocates.GetReportAdvocate
 import aibrain.scenereactionadvocates.SceneReactionAdvocate
 import shortstate.ShortStateCharacter
@@ -15,7 +16,7 @@ class GoToWorkroomAdvocate: SceneCreationAdvocate {
 
     constructor(character: ShortStateCharacter) : super(character) {
         me = character
-        reactionAdvocates = listOf(GetReportAdvocate(me.player))
+        reactionAdvocates = listOf(GetReportAdvocate(me.player), DraftWritAdvocate(me.player))
     }
 
     override fun createScene(game: ShortStateGame, player: shortstate.ShortStateCharacter): SceneMaker{

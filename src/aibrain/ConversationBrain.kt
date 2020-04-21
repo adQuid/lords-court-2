@@ -1,5 +1,9 @@
 package aibrain
 
+import aibrain.conversationadvocates.ConversationAdvocate
+import aibrain.conversationadvocates.FarewellAdvocate
+import aibrain.conversationadvocates.OfferDealAdvocate
+import aibrain.conversationadvocates.OfferWritAdvocate
 import shortstate.dialog.Line
 import game.Game
 import game.GameCharacter
@@ -10,10 +14,14 @@ class ConversationBrain {
 
     val shortCharacter: ShortStateCharacter
 
-    private val dealsDiscussed = mutableMapOf<GameCharacter,MutableList<Deal>>()
+    val dealsDiscussed = mutableMapOf<GameCharacter,MutableList<Deal>>()
+
+    private val conversationAdvocates: List<ConversationAdvocate>
+
 
     constructor(shortCharacter: ShortStateCharacter){
         this.shortCharacter = shortCharacter
+        conversationAdvocates = listOf(FarewellAdvocate(shortCharacter), OfferDealAdvocate(shortCharacter), OfferWritAdvocate(shortCharacter))
     }
 
     fun putOrAddDealToMemory(player: GameCharacter, deal: Deal){
@@ -25,17 +33,7 @@ class ConversationBrain {
     }
 
     fun startConversation(target: GameCharacter, game: Game): Line {
-        val dealToOffer = shortCharacter.player.brain.dealsILike!!.filter { it.theActions().keys.contains(target) }[0]
-
-        val thingToSuggest = shortCharacter.player.brain.lastCasesOfConcern!!
-            .filter{case -> case.valueToCharacter(shortCharacter.player.brain.player) > 0}
-            .filter{ case->case.plan.player == target}
-
-        if(dealToOffer != null && !dealsDiscussed.getOrDefault(target, mutableListOf()).contains(dealToOffer.toFinishedDeal())){
-            return OfferDeal(dealToOffer)
-        }
-
-        return Farewell()
+        return conversationAdvocates.sortedByDescending { adv -> adv.weight(game, target) }[0].line(target)
     }
 
 }

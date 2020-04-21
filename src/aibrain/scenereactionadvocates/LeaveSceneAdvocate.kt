@@ -13,7 +13,7 @@ class LeaveSceneAdvocate: SceneReactionAdvocate {
     }
 
     override fun weight(game: ShortStateGame, shortGameScene: ShortGameScene): Double {
-        return 1.0
+        return 0.5
     }
 
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {

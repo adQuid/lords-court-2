@@ -79,6 +79,9 @@ class ShortStateCharacter: Displayable {
     }
 
     fun decideNextScene(game: ShortStateGame){
+        if(player.brain.lastCasesOfConcern == null){
+            player.brain.thinkAboutNextTurn(game.game)
+        }
         nextSceneIWannaBeIn = sceneBrain.nextSceneIWantToBeIn(this, game)
     }
 

@@ -43,7 +43,7 @@ class OfferWrit: Line {
                 )
             )})
         } else {
-            LineBlock("Writ: ${writ.toString()}")
+            LineBlock("Writ: ${writ.toString()}", {perspective ->  UIGlobals.focusOn(writ!!.deal)})
         }
         return listOf(LineBlock("OFFER:"), dealBlock)
     }
@@ -71,7 +71,7 @@ class OfferWrit: Line {
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
-        return listOf(Approve())
+        return listOf(AcceptWrit(writ!!), RejectDeal(writ!!.deal))
     }
 
     override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {

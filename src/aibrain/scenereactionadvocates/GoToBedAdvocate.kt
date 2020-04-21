@@ -16,7 +16,7 @@ class GoToBedAdvocate: SceneReactionAdvocate {
 
     override fun weight(game: ShortStateGame, shortGameScene: ShortGameScene): Double {
         if(shortGameScene.room.type == Room.RoomType.BEDROOM && shortGameScene.characters.size == 1){
-            return 900.0 - shortGameScene.characters[0].energy //TODO: should I really be inferring my own identity like this?
+            return (900.0 - shortGameScene.characters[0].energy) / 50.0 //TODO: should I really be inferring my own identity like this?
         }
         return 0.0
     }

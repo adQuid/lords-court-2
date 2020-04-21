@@ -23,19 +23,20 @@ class DraftWritAdvocate: SceneReactionAdvocate {
         }
 
         if(dealIWantToDraft() != null){
-            return me.brain.dealValueToMe(dealIWantToDraft()!!) * 10.0
+            return me.brain.dealValueToMe(dealIWantToDraft()!!) * 100.0
         }
         return 0.0
     }
 
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {
+        println("drafting a writ")
         if(dealIWantToDraft() != null){
             DraftWrit(dealIWantToDraft()!!, "test name").doAction(game, game.shortPlayerForLongPlayer(me)!!)
         }
     }
 
     private fun dealIWantToDraft(): Deal?{
-        val dealsToOffer = me.brain.dealsILike!!.filter { true }
+        val dealsToOffer = me.brain.dealsILike!!.filter { deal -> me.writs.filter { writ -> writ.deal == deal }.isEmpty() }
         if(dealsToOffer.isNotEmpty()){
             return dealsToOffer[0]
         }
