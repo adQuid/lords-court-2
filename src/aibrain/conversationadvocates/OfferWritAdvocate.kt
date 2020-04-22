@@ -30,6 +30,6 @@ class OfferWritAdvocate: ConversationAdvocate {
     }
 
     private fun writIWouldDiscuss(target: GameCharacter): Writ?{
-        return me.player.writs.sortedByDescending { writ -> me.player.brain.dealValueToMe(writ.deal) > 0 }.getOrNull(0)
+        return me.player.writs.sortedByDescending { writ -> !writ.complete() && me.player.brain.dealValueToMe(writ.deal) > 0 }.getOrNull(0)
     }
 }

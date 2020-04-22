@@ -17,7 +17,9 @@ class AddDelicousness(override var probability: Double) : Effect() {
     }
 
     override fun apply(game: Game) {
-        game.deliciousness += this.probability
+        if(game.deliciousness == 0.0){
+            game.deliciousness += this.probability
+        }
     }
     override fun toString(): String{
         return "add deliciousness with probability $probability"

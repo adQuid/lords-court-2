@@ -25,6 +25,13 @@ class TestGame {
     }
 
     @Test
+    fun testGameClone() {
+        val game = soloTestGameWithEverythingOnIt()
+        val game2 = Game(game)
+        assert(game2 == game)
+    }
+
+    @Test
     fun testSaveGame() {
         testSaveHelper(soloTestGame())
         testSaveHelper(soloTestGameWithEverythingOnIt())

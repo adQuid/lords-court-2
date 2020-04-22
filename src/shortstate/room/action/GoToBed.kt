@@ -13,10 +13,9 @@ class GoToBed: RoomAction() {
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
-        println("$player committed ${player.prospectiveActions.size} actions")
+        println("${player.toString()} is going to bed")
         player.energy = 0
         game.sceneForPlayer(player)!!.terminated = true
-        Controller.singleton!!.commitActionsForPlayer(player.player, player.prospectiveActions)
         Controller.singleton!!.concludeTurnForPlayer(player.player)
     }
 

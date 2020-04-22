@@ -21,4 +21,8 @@ class EmptyReport: Report() {
     override fun toString(): String {
         return "I haven't had a chance to check that"
     }
+
+    override fun equals(other: Any?): Boolean {
+        return javaClass != other?.javaClass
+    }
 }

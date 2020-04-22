@@ -44,6 +44,44 @@ class DummyGoodThing: Action() {
     }
 }
 
+class DummyOneTimeGoodThing: Action() {
+    override fun doAction(game: Game, player: GameCharacter): List<Effect> {
+        return listOf(DummyOneTimeGoodEffect(1.0))
+    }
+
+    override fun saveString(): Map<String, Any> {
+        //I'm not testing saving dummy actions
+        return mapOf()
+    }
+
+    class DummyOneTimeGoodEffect(override var probability: Double) : Effect() {
+        override fun equals(other: Any?): Boolean {
+            if(other is DummyOneTimeGoodEffect){
+                return true
+            }
+            return false
+        }
+
+        override fun apply(game: Game) {
+            game.players.forEach {
+                player -> if(player.dummyScore == 10.0){
+                    player.dummyScore++
+                }
+            }
+        }
+
+        override fun describe(): String {
+            return "dummy one-time good"
+        }
+
+        override fun saveString(): Map<String, Any> {
+            //I'm not testing saving dummy effects
+            return mapOf()
+        }
+
+    }
+}
+
 class DummyBadThing: Action() {
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf(DummyBadEffect(1.0))
@@ -93,6 +131,10 @@ class DummyNeutralThing: Action() {
 
 fun goodDeal(players: List<GameCharacter>): Deal {
     return deal(players, DummyGoodThing())
+}
+
+fun oneTimeGoodDeal(players: List<GameCharacter>): Deal{
+    return deal(players, DummyOneTimeGoodThing())
 }
 
 fun badDeal(players: List<GameCharacter>): Deal {

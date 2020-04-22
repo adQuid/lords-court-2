@@ -23,6 +23,9 @@ class DraftWritAdvocate: SceneReactionAdvocate {
         }
 
         if(dealIWantToDraft() != null){
+            if(me.brain.dealValueToMe(dealIWantToDraft()!!) > 0){
+                println("I think I should write this draft, with a deal value of ${me.brain.dealValueToMe(dealIWantToDraft()!!)}")
+            }
             return me.brain.dealValueToMe(dealIWantToDraft()!!) * 100.0
         }
         return 0.0

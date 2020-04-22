@@ -29,8 +29,6 @@ class ShortStateCharacter: Displayable {
     val REPORTS_NAME = "REPORTS"
     var knownReports = mutableListOf<Report>()
 
-    val ACTIONS_NAME = "ACTIONS"
-    var prospectiveActions = mutableListOf<Action>()
     var nextSceneIWannaBeIn: SceneMaker? = null
 
     constructor(player: GameCharacter){
@@ -46,15 +44,13 @@ class ShortStateCharacter: Displayable {
         sceneBrain = SceneBrain(this, player.brain)
         convoBrain = ConversationBrain(this)
         knownReports = (saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> GlobalReportTypeFactory.fromMap(map) }.toMutableList()
-        prospectiveActions = (saveString[ACTIONS_NAME] as List<Map<String, Any>>).map { map -> GlobalActionTypeFactory.fromMap(map, parent)}.toMutableList()
     }
 
     fun saveString(): Map<String, Any>{
         return hashMapOf(
             PLAYER_NAME to player.id,
             ENERGY_NAME to energy,
-            REPORTS_NAME to knownReports.map{ report -> report.saveString()},
-            ACTIONS_NAME to prospectiveActions.map { action -> action.saveString() }
+            REPORTS_NAME to knownReports.map{ report -> report.saveString()}
         )
     }
 

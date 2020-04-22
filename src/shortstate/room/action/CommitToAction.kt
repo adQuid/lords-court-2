@@ -21,7 +21,7 @@ class CommitToAction: RoomAction {
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
-        player.prospectiveActions.add(type)
+        game.game.appendActionsForPlayer(player.player, listOf(type))
     }
 
     override fun defocusAfter(): Boolean {
