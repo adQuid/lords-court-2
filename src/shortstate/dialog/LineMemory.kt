@@ -2,7 +2,7 @@ package shortstate.dialog
 
 import game.Game
 
-class Memory {
+class LineMemory {
     var age = 0
     val line: Line
 
@@ -10,7 +10,7 @@ class Memory {
         this.line = line
     }
 
-    constructor(other: Memory){
+    constructor(other: LineMemory){
         this.age = other.age
         this.line = other.line
     }

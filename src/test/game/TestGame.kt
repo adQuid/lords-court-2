@@ -48,8 +48,8 @@ class TestGame {
         game.players.forEach { player ->
             assertTrue { player.name == game2.characterById(player.id).name };
             assertTrue { player.titles.size == game2.characterById(player.id).titles.size }
-            assertTrue { player.memory.size == game2.characterById(player.id).memory.size }
-            player.memory.forEachIndexed { index, memory -> memory.line.type == (game2.characterById(player.id).memory[index].line.type) }
+            assertTrue { player.memory.lines.size == game2.characterById(player.id).memory.lines.size }
+            player.memory.lines.forEachIndexed { index, memory -> memory.line.type == (game2.characterById(player.id).memory.lines[index].line.type) }
         }
     }
 

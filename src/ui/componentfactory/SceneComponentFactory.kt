@@ -112,7 +112,7 @@ class SceneComponentFactory {
             EventHandler { _ -> UIGlobals.focusOn(
                 SelectionModal(
                     writs(perspective),
-                    { report -> println(report) })
+                    {})
             )
             }
         )

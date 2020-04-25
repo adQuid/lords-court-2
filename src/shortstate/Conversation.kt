@@ -1,9 +1,8 @@
 package shortstate
 
 import aibrain.UnfinishedDeal
-import javafx.scene.Scene
 import shortstate.dialog.Line
-import shortstate.dialog.Memory
+import shortstate.dialog.LineMemory
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.dialog.linetypes.*
 import shortstate.room.Room
@@ -95,7 +94,7 @@ class Conversation {
             age++
             lastLine = line
             lastSpeaker = otherParticipant(lastSpeaker)
-            otherParticipant(lastSpeaker).player.memory.add(Memory(line))
+            otherParticipant(lastSpeaker).player.memory.lines.add(LineMemory(line))
         } else {
             throw Exception("Tried to send invalid line!")
         }

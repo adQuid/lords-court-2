@@ -30,7 +30,8 @@ class OfferDealAdvocate: ConversationAdvocate {
     }
 
     private fun dealIWouldDiscuss(target: GameCharacter): Deal?{
-        val dealToOffer = me.player.brain.dealsILike!!.filter { it.theActions().keys.contains(target) }[0]
+        val writsTargetHasSigned = me.player.writs.filter { it.signatories.contains(target) }
+        val dealToOffer = me.player.brain.dealsILike!!.filter { it.theActions().keys.contains(target) && writsTargetHasSigned.filter { writ -> writ.deal == it }.isEmpty()}.getOrNull(0)
 
         val thingToSuggest = me.player.brain.lastCasesOfConcern!!
             .filter{case -> case.valueToCharacter(me.player.brain.player) > 0}

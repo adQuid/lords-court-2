@@ -6,13 +6,17 @@ import game.effects.AddDelicousness
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
+import game.titles.Baker
 
 class BakeCookies: Action{
 
     constructor(){}
 
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
-        return listOf(AddDelicousness(1.0))
+        if(player.titles.filter { title -> title is Baker }.isNotEmpty()) {
+            return listOf(AddDelicousness(1.0))
+        }
+        return listOf()
     }
 
     override fun toString(): String {

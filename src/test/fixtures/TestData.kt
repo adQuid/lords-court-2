@@ -1,6 +1,5 @@
 package test.fixtures
 
-import aibrain.Deal
 import aibrain.FinishedDeal
 import game.GameCharacter
 import game.Game
@@ -8,7 +7,7 @@ import game.Writ
 import game.Location
 import game.titlemaker.TitleFactory
 import shortstate.ShortStateGame
-import shortstate.dialog.Memory
+import shortstate.dialog.LineMemory
 import game.action.actionTypes.*
 import shortstate.dialog.linetypes.*
 import shortstate.Conversation
@@ -32,10 +31,10 @@ fun soloTestGame(): Game{
 fun soloTestGameWithEverythingOnIt(): Game{
     val game = soloTestGame()
 
-    game.players[0].memory.addAll(fullMemory(game.players[0]))
+    game.players[0].memory.lines.addAll(fullMemory(game.players[0]))
 
     //If these two aren't equal, then there's probably a type of line we aren't accounting for
-    assert(game.players[0].memory.size == GlobalLineTypeFactory.typeMap.size)
+    assert(game.players[0].memory.lines.size == GlobalLineTypeFactory.typeMap.size)
 
     game.actionsByPlayer.put(game.players[0], mutableListOf(WasteTime()))
 
@@ -95,20 +94,20 @@ private fun basicMilkman(name: String, game: Game, location: Location): GameChar
     return retval
 }
 
-private fun fullMemory(dealDummy: GameCharacter): List<Memory>{
+private fun fullMemory(dealDummy: GameCharacter): List<LineMemory>{
     return listOf(
-    Memory(AcceptDeal(savableDeal(dealDummy))),
-    Memory(Announcement(WasteTime())),
-    Memory(Approve()),
-    Memory(CiteEffect(savableDeal(dealDummy))),
-    Memory(Disapprove()),
-    Memory(GiveReport(DeliciousnessReport(17.8))),
-    Memory(OfferDeal(savableDeal(dealDummy))),
-    Memory(QuestionOffer(OfferDeal(savableDeal(dealDummy)))),
-    Memory(RejectDeal(savableDeal(dealDummy))),
-    Memory(RequestReport(ReportType.DeliciousnessReportType)),
-    Memory(OfferWrit(Writ("test writ", savableDeal(dealDummy), listOf(dealDummy)))),
-    Memory(Farewell())
+    LineMemory(AcceptDeal(savableDeal(dealDummy))),
+    LineMemory(Announcement(WasteTime())),
+    LineMemory(Approve()),
+    LineMemory(CiteEffect(savableDeal(dealDummy))),
+    LineMemory(Disapprove()),
+    LineMemory(GiveReport(DeliciousnessReport(17.8))),
+    LineMemory(OfferDeal(savableDeal(dealDummy))),
+    LineMemory(QuestionOffer(OfferDeal(savableDeal(dealDummy)))),
+    LineMemory(RejectDeal(savableDeal(dealDummy))),
+    LineMemory(RequestReport(ReportType.DeliciousnessReportType)),
+    LineMemory(OfferWrit(Writ("test writ", savableDeal(dealDummy), listOf(dealDummy)))),
+    LineMemory(Farewell())
     )
 }
 

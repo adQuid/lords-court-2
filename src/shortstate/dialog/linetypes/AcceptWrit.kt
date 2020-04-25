@@ -62,7 +62,6 @@ class AcceptWrit: Line {
 
     override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
         writ.signatories.add(speaker.player)
-        println(conversation.otherParticipant(speaker).player.writs.filter { it.complete() }.size)
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {

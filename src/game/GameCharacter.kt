@@ -4,7 +4,7 @@ import aibrain.FinishedDeal
 import aibrain.ForecastBrain
 import aibrain.Treaty
 import game.action.Action
-import shortstate.dialog.Memory
+import shortstate.dialog.LineMemory
 import game.titlemaker.TitleFactory
 
 class GameCharacter {
@@ -26,7 +26,7 @@ class GameCharacter {
     var location: Location
 
     val MEMORY_NAME = "MEMORY"
-    val memory: MutableList<Memory>
+    var memory: Memory
     val ACCEPTED_DEALS_NAME = "ACCEPTEDDEALS"
     val acceptedDeals: MutableList<FinishedDeal>
     val ACCEPTED_TREATIES_NAME = "ACCEPTEDTREATIES"
@@ -43,7 +43,7 @@ class GameCharacter {
         this.pictureString = picture
         this.npc = npc
         this.location = location
-        this.memory = mutableListOf()
+        this.memory = Memory()
         this.acceptedDeals = mutableListOf()
         this.acceptedTreaties = mutableListOf()
         this.writs = mutableListOf()
@@ -56,7 +56,7 @@ class GameCharacter {
         this.titles = other.titles.map{ title -> title}.toMutableSet()
         this.npc = other.npc
         this.location = other.location
-        this.memory = other.memory.map{ memory -> Memory(memory)}.toMutableList()
+        this.memory = Memory(other.memory)
         this.acceptedDeals = mutableListOf() //TODO: Fix this
         this.acceptedTreaties = mutableListOf() //TODO: Fix this
         this.writs = other.writs.map { writ -> Writ(writ) }.toMutableList()
@@ -73,14 +73,14 @@ class GameCharacter {
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> TitleFactory.titleFromSaveString(map) }.toMutableSet()
         location = game.locationById(saveString[LOCATION_NAME] as Int)
         //To avoid circular references these are populated in finishConstruction
-        memory = mutableListOf()
+        memory = Memory()
         acceptedDeals = mutableListOf()
         acceptedTreaties = mutableListOf()
         writs = mutableListOf()
     }
 
     fun finishConstruction(saveString: Map<String, Any>, game: Game){
-        memory.addAll((saveString[MEMORY_NAME] as List<Map<String, Any>>).map { map -> Memory(map, game)})
+        memory = Memory(saveString[MEMORY_NAME] as Map<String, Any>, game)
         acceptedDeals.addAll((saveString[ACCEPTED_DEALS_NAME] as List<Map<String, Any>>).map { map -> FinishedDeal(map, game)}.toMutableList())
         acceptedTreaties.addAll((saveString[ACCEPTED_TREATIES_NAME] as List<Map<String, Any>>).map { map -> Treaty(map, game)}.toMutableList())
         writs.addAll((saveString[WRITS_NAME] as List<Map<String, Any>>).map{map -> Writ(map, game)})
@@ -95,7 +95,7 @@ class GameCharacter {
         retval[PICTURE_NAME] = pictureString
         retval[TITLES_NAME] = titles.map { title -> title.saveString() }
         retval[LOCATION_NAME] = location.id
-        retval[MEMORY_NAME] = memory.map { memory -> memory.saveString() }
+        retval[MEMORY_NAME] = memory.saveString()
         retval[ACCEPTED_DEALS_NAME] = acceptedDeals.map { deal -> deal.saveString() }
         retval[ACCEPTED_TREATIES_NAME] = acceptedTreaties.map { treaty -> treaty.saveString() }
         retval[WRITS_NAME] = writs.map { writ -> writ.saveString() }

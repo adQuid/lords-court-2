@@ -6,6 +6,8 @@ import game.effects.AddMilk
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
+import game.titles.Baker
+import game.titles.Milkman
 
 class GetMilk: Action {
 
@@ -16,7 +18,10 @@ class GetMilk: Action {
     }
 
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
-        return listOf(AddMilk(1.0, this.player))
+        if(player.titles.filter { title -> title is Milkman }.isNotEmpty()) {
+            return listOf(AddMilk(1.0, this.player))
+        }
+        return listOf()
     }
 
     override fun toString(): String {

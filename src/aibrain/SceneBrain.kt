@@ -35,4 +35,8 @@ class SceneBrain {
         //println(creationAdvocates.sortedByDescending { adv -> adv.weight(game) }.map { adv -> "${adv.javaClass}: ${adv.weight(game)}" })
         return creationAdvocates.sortedByDescending { adv -> adv.weight(game) }[0].createScene(game, player)
     }
+
+    fun actionsIKnowWereCommittedTo(){
+
+    }
 }

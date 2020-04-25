@@ -7,12 +7,14 @@ import game.GameCharacter
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
-import shortstate.dialog.Memory
+import shortstate.dialog.LineMemory
 import shortstate.dialog.linetypes.Announcement
 import util.safeSublist
 
 class ForecastBrain {
     val player: GameCharacter
+
+    var lastGameIEvaluated: Game? = null
 
     var maxPlayersToThinkAbout = 3
 
@@ -29,9 +31,16 @@ class ForecastBrain {
     }
 
     fun thinkAboutNextTurn(game: Game){
-        lastCasesOfConcern = casesOfConcern(game).toList().sortedBy { case -> -case.valueToCharacter(player) }
+        if(lastGameIEvaluated == null || game != lastGameIEvaluated){
+            thinkAboutNextTurnHelper(game)
+        }
+    }
+
+    private fun thinkAboutNextTurnHelper(game: Game){
+        var myGame = game.imageFor(player)
+        lastCasesOfConcern = casesOfConcern(myGame).toList().sortedBy { case -> -case.valueToCharacter(player) }
         lastFavoriteEffects = favoriteEffects()
-        lastActionsToCommitTo = actionsToDo(game)
+        lastActionsToCommitTo = actionsToDo(myGame)
 
         //DEBUG
         if(this.player.name == "Frip"){
@@ -39,7 +48,8 @@ class ForecastBrain {
             println("${player.name} wants to $lastActionsToCommitTo")
         }
 
-        dealsILike = dealsILike(game)
+        dealsILike = dealsILike(myGame)
+        lastGameIEvaluated = myGame
     }
 
     private fun favoriteEffects(): List<Effect>{
@@ -54,9 +64,8 @@ class ForecastBrain {
         var orderedCaseList = modCases.toList().sortedBy { (key, value) -> -value }
 
         val bestCase = orderedCaseList[0].first
-        var bestCaseEffects = bestCase.finalEffects.toMutableList()
 
-        return bestCaseEffects
+        return bestCase.finalEffects.toMutableList()
     }
 
     private fun dealsILike(game: Game): List<FinishedDeal> {
@@ -70,13 +79,11 @@ class ForecastBrain {
     }
 
     private fun casesOfConcern(game: Game): List<GameCase>{
-        var myGame = game.imageFor(player)
-
-        val topPlayers = safeSublist(mostSignificantPlayersToMe(myGame),0,maxPlayersToThinkAbout)
+        val topPlayers = safeSublist(mostSignificantPlayersToMe(game),0,maxPlayersToThinkAbout)
 
         val likelyPlans = HashMap<GameCharacter, List<Plan>>()
         topPlayers.forEach{player ->
-            likelyPlans[player] = actionPossibilitiesForPlayer(myGame, player)
+            likelyPlans[player] = actionPossibilitiesForPlayer(game, player)
         }
 
         var retval = mutableListOf<GameCase>()
@@ -87,14 +94,14 @@ class ForecastBrain {
                 for (plan in likelyPlans[otherPlayer]!!) {
                     for (action in plan.actions) {
                         effects.addAll(
-                            action.doAction(myGame,plan.player).map { effect -> effect.layerProbability(plan.probability) })
+                            action.doAction(game,plan.player).map { effect -> effect.layerProbability(plan.probability) })
                     }
                 }
             }
 
             //make a gamecase for every plan of this player with effects added for the average of what everyone else might do?
             likelyPlans[curPlayer]!!.forEach {
-                val toAdd = GameCase(myGame, it, effects)
+                val toAdd = GameCase(game, it, effects)
                 retval.add(toAdd)
             }
         }
@@ -102,7 +109,7 @@ class ForecastBrain {
         return retval
     }
 
-    fun prospectiveDealsWithPlayer(target: GameCharacter): List<FinishedDeal>{
+    private fun prospectiveDealsWithPlayer(target: GameCharacter): List<FinishedDeal>{
         val badDeal = FinishedDeal(hashMapOf(
             player to setOf(WasteTime()),
             target to setOf(WasteTime())
@@ -117,6 +124,7 @@ class ForecastBrain {
     }
 
     fun dealValueToMe(deal: Deal): Double{
+        val temp = DealCase(deal).dealValue(lastCasesOfConcern!!, listOf(player))
         return DealCase(deal).dealValue(lastCasesOfConcern!!, listOf(player))[player]!!
     }
 
@@ -141,7 +149,7 @@ class ForecastBrain {
 
         rawActions.forEach {
             action ->
-             val weight = this.player.memory.fold(1.0, {acc, mem -> acc + oddsModifierGivenLine(player, action, mem)})
+             val weight = this.player.memory.lines.fold(1.0, {acc, mem -> acc + oddsModifierGivenLine(player, action, mem)})
              planWeights.put(action, weight)
         }
 
@@ -150,8 +158,8 @@ class ForecastBrain {
         return planWeights.map { Plan(player, listOf(it.key), it.value/totalWeight) }
     }
 
-    private fun oddsModifierGivenLine(character: GameCharacter, action: Action, memory: Memory): Double{
-        if(memory.line is Announcement && memory.line.action!!.equals(action)){
+    private fun oddsModifierGivenLine(character: GameCharacter, action: Action, lineMemory: LineMemory): Double{
+        if(lineMemory.line is Announcement && lineMemory.line.action!!.equals(action)){
             return 1.0
         }
         return 0.0

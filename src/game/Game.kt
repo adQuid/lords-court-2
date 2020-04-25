@@ -39,14 +39,14 @@ class Game {
     }
 
     constructor(other: Game){
-        isLive = false
+        isLive = other.isLive
         nextID = other.nextID
         turn = other.turn
         other.players.forEach{
             this.players.add(GameCharacter(it))
         }
         locations = other.locations.toList().map { loc -> Location(loc) }.toMutableList()
-        actionsByPlayer = other.actionsByPlayer.toMutableMap()
+        actionsByPlayer = other.actionsByPlayer.mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
         concludedPlayers = other.concludedPlayers.toMutableSet()
         titles = other.titles.map { title -> title.clone()}.toMutableSet()
 
@@ -95,14 +95,45 @@ class Game {
         return retval
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
+        other as Game
+
+        if (actionsByPlayer != other.actionsByPlayer) return false
+        if (nextID != other.nextID) return false
+        if (turn != other.turn) return false
+        if (players != other.players) return false
+        if (locations != other.locations) return false
+        if (concludedPlayers != other.concludedPlayers) return false
+        if (titles != other.titles) return false
+        if (deliciousness != other.deliciousness) return false
+        if (hasMilk != other.hasMilk) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = nextID
+        result = 31 * result + turn
+        result = 31 * result + players.hashCode()
+        result = 31 * result + locations.hashCode()
+        result = 31 * result + actionsByPlayer.hashCode()
+        result = 31 * result + concludedPlayers.hashCode()
+        result = 31 * result + titles.hashCode()
+        result = 31 * result + deliciousness.hashCode()
+        result = 31 * result + hasMilk.hashCode()
+        return result
+    }
 
     fun imageFor(player: GameCharacter): Game{
         var retval = Game(this)
+        retval.isLive = false
 
         players.forEach{
             if(it != player){
-                retval.actionsByPlayer[it] = mutableListOf()
+                //retval.actionsByPlayer[it] = mutableListOf()
             }
         }
         return retval
@@ -121,13 +152,15 @@ class Game {
     }
 
     fun appendActionsForPlayer(player: GameCharacter, actions: List<Action>){
-        if(isLive){
-            println("$player is comitting to $actions")
-        }
+
         if(actionsByPlayer.containsKey(player)){
             actionsByPlayer[player]!!.addAll(actions)
         } else {
             actionsByPlayer[player] = actions.toMutableList()
+        }
+        if(isLive){
+            println("$player is comitting to $actions")
+            reevaluateForcastForPlayers(listOf(player))
         }
     }
 
@@ -165,6 +198,12 @@ class Game {
         return null
     }
 
+    private fun reevaluateForcastForPlayers(players: List<GameCharacter>){
+        players.forEach {
+            it.brain.thinkAboutNextTurn(this)
+        }
+    }
+
      @Synchronized fun nextPlayerToForcast(): GameCharacter?{
          for (player in players) {
                  if (player.brain.lastCasesOfConcern == null && (player.npc)) {
@@ -200,35 +239,4 @@ class Game {
         return players.filter { it.id == id }[0]
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Game
-
-        if (nextID != other.nextID) return false
-        if (turn != other.turn) return false
-        if (players != other.players) return false
-        if (locations != other.locations) return false
-        if (actionsByPlayer != other.actionsByPlayer) return false
-        if (concludedPlayers != other.concludedPlayers) return false
-        if (titles != other.titles) return false
-        if (deliciousness != other.deliciousness) return false
-        if (hasMilk != other.hasMilk) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = nextID
-        result = 31 * result + turn
-        result = 31 * result + players.hashCode()
-        result = 31 * result + locations.hashCode()
-        result = 31 * result + actionsByPlayer.hashCode()
-        result = 31 * result + concludedPlayers.hashCode()
-        result = 31 * result + titles.hashCode()
-        result = 31 * result + deliciousness.hashCode()
-        result = 31 * result + hasMilk.hashCode()
-        return result
-    }
 }
