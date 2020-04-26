@@ -67,12 +67,10 @@ class GameCase {
         return gameValue(this.currentGame, this.currentGame.matchingPlayer(character)!!)
     }
 
-    private fun gameValue(game: Game, player: game.GameCharacter): Double {
+    private fun gameValue(game: Game, player: GameCharacter): Double {
         var retval = 0.0
-        if(game.hasMilk.contains(player)){
-            retval += game.deliciousness * 1.0
-        } else {
-            retval += 0.0
+        game.gameLogicModules.forEach {
+            retval += it.value(player)
         }
         retval += player.dummyScore
         return retval

@@ -14,7 +14,7 @@ import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
 import ui.MainUI
 import java.io.File
-
+import game.logicmodules.CookieWorld
 
 
 class Controller {
@@ -58,7 +58,6 @@ class Controller {
             val shortGame = ShortStateGame(game!!, game!!.locations[0])
             shortThread = ShortStateController(shortGame)
             Thread(shortThread).start()
-            println("Deliciousness: ${game!!.deliciousness}")
         }
     }
 
@@ -90,7 +89,7 @@ class Controller {
     }
 
     fun newGame(){
-        game = Game()
+        game = Game(listOf(CookieWorld()))
         GameSetup().setupGame(game!!)
         val shortGame = ShortStateGame(game!!, game!!.locations[0])
         shortThread = ShortStateController(shortGame)

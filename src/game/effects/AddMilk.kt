@@ -3,6 +3,7 @@ package game.effects
 import game.GameCharacter
 import game.Effect
 import game.Game
+import game.logicmodules.CookieWorld
 
 class AddMilk: Effect {
 
@@ -26,7 +27,8 @@ class AddMilk: Effect {
         return false
     }
     override fun apply(game: Game) {
-        game.hasMilk.add(player)
+        val logic = CookieWorld.getCookieWorld(game)
+        logic.hasMilk.add(player)
         player.dummyScore -= 0.45
     }
     override fun toString(): String{

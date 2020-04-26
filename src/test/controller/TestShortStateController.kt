@@ -1,5 +1,6 @@
 package test.controller
 
+import game.logicmodules.CookieWorld
 import main.Controller
 import org.junit.Test
 import shortstate.ShortStateController
@@ -26,7 +27,7 @@ class TestShortStateController {
             Controller.singleton!!.game = testGame.game
             val testController = ShortStateController(testGame)
             testController.run()
-            assert(Controller.singleton!!.game!!.deliciousness > 0)
+            assert((Controller.singleton!!.game!!.moduleOfType("Cookieworld") as CookieWorld).deliciousness > 0)
         }.doit()
     }
 

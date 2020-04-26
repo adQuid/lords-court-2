@@ -2,6 +2,7 @@ package game.effects
 
 import game.Game
 import game.Effect
+import game.logicmodules.CookieWorld
 
 class AddDelicousness(override var probability: Double) : Effect() {
 
@@ -17,8 +18,9 @@ class AddDelicousness(override var probability: Double) : Effect() {
     }
 
     override fun apply(game: Game) {
-        game.deliciousness = Math.min(
-            game.deliciousness + this.probability, 1.0)
+        val logic = CookieWorld.getCookieWorld(game)
+        logic.deliciousness = Math.min(
+            logic.deliciousness + this.probability, 1.0)
     }
     override fun toString(): String{
         return "add deliciousness with probability $probability"

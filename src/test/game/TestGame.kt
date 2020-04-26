@@ -1,6 +1,7 @@
 package test.game
 
 import game.Game
+import game.logicmodules.CookieWorld
 import org.junit.Test
 import test.fixtures.soloTestGame
 import test.fixtures.soloTestGameWithEverythingOnIt
@@ -11,7 +12,7 @@ class TestGame {
 
     @Test
     fun testGameCreation() {
-        val game = Game()
+        val game = Game(listOf(CookieWorld()))
         assertTrue(game.turn == 1)
         assertTrue(game.isLive)
         assertTrue(game.actionsByPlayer.size == 0)
@@ -19,7 +20,7 @@ class TestGame {
 
     @Test
     fun testGameEndTurn() {
-        val game = Game()
+        val game = Game(listOf(CookieWorld()))
         game.endTurn()
         assertTrue(game.turn == 2)
     }

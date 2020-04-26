@@ -5,6 +5,7 @@ import game.action.GlobalActionTypeFactory
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
+import game.logicmodules.CookieWorld
 import game.titlemaker.TitleFactory
 
 
@@ -28,14 +29,10 @@ class Game {
     val TITLES_NAME = "titles"
     var titles = mutableSetOf<Title>()
 
-    //temporary stats
-    val DELICIOUSNESS_NAME = "deliciousness"
-    var deliciousness = 0.0
-    val HAS_MILK_NAME = "hasMilk"
-    var hasMilk = mutableListOf<GameCharacter>()
+    val gameLogicModules: Collection<GameLogicModule> //TODO: Make this mutable
 
-    constructor(){
-
+    constructor(gameLogic: Collection<GameLogicModule>){
+        gameLogicModules = gameLogic
     }
 
     constructor(other: Game){
@@ -49,10 +46,7 @@ class Game {
         actionsByPlayer = other.actionsByPlayer.mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
         concludedPlayers = other.concludedPlayers.toMutableSet()
         titles = other.titles.map { title -> title.clone()}.toMutableSet()
-
-
-        deliciousness = other.deliciousness
-        hasMilk = other.hasMilk.toMutableList()
+        gameLogicModules = other.gameLogicModules.map { CookieWorld(it as CookieWorld) }
     }
 
     constructor(saveString: Map<String,Any>){
@@ -71,9 +65,7 @@ class Game {
         concludedPlayers = (saveString[CONCLUDED_PLAYERS_NAME] as List<Int>).map { id -> characterById(id) }.toMutableSet()
 
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> TitleFactory.titleFromSaveString(map) }.toMutableSet()
-
-        deliciousness = saveString[DELICIOUSNESS_NAME] as Double
-        hasMilk = (saveString[HAS_MILK_NAME] as List<Int>).map { id -> characterById(id)}.toMutableList()
+        gameLogicModules = listOf(CookieWorld())
     }
 
     fun saveString(): Map<String, Any>{
@@ -89,9 +81,6 @@ class Game {
         retval[CONCLUDED_PLAYERS_NAME] = concludedPlayers.map { player -> player.id }
         retval[TITLES_NAME] = titles.map { it.saveString() }
 
-        retval[DELICIOUSNESS_NAME] = deliciousness
-        retval[HAS_MILK_NAME] = hasMilk.map { it.id }
-        
         return retval
     }
 
@@ -108,8 +97,6 @@ class Game {
         if (locations != other.locations) return false
         if (concludedPlayers != other.concludedPlayers) return false
         if (titles != other.titles) return false
-        if (deliciousness != other.deliciousness) return false
-        if (hasMilk != other.hasMilk) return false
 
         return true
     }
@@ -122,8 +109,6 @@ class Game {
         result = 31 * result + actionsByPlayer.hashCode()
         result = 31 * result + concludedPlayers.hashCode()
         result = 31 * result + titles.hashCode()
-        result = 31 * result + deliciousness.hashCode()
-        result = 31 * result + hasMilk.hashCode()
         return result
     }
 
@@ -196,6 +181,10 @@ class Game {
     fun matchingPlayer(player: GameCharacter): GameCharacter?{
         players.forEach { if(it == player){ return it} }
         return null
+    }
+
+    fun moduleOfType(type: String): GameLogicModule{
+        return gameLogicModules.filter { it.type == type }.first()
     }
 
     private fun reevaluateForcastForPlayers(players: List<GameCharacter>){

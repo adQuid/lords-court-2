@@ -9,6 +9,7 @@ import game.titlemaker.TitleFactory
 import shortstate.ShortStateGame
 import shortstate.dialog.LineMemory
 import game.action.actionTypes.*
+import game.logicmodules.CookieWorld
 import shortstate.dialog.linetypes.*
 import shortstate.Conversation
 import shortstate.ShortGameScene
@@ -19,7 +20,7 @@ import game.titles.Milkman
 import game.titles.Baker
 
 fun soloTestGame(): Game{
-    val game = Game()
+    val game = Game(listOf(CookieWorld()))
     val defaultLocation = Location(game)
 
     game.locations.add(defaultLocation)
@@ -55,7 +56,7 @@ fun soloTestShortgameWithEverythingOnIt(): ShortStateGame{
 }
 
 fun twoPlayerTestGame(): Game{
-    val game = Game()
+    val game = Game(listOf(CookieWorld()))
     val location = Location(game)
 
     game.locations.add(location)
@@ -101,7 +102,7 @@ private fun fullMemory(dealDummy: GameCharacter): List<LineMemory>{
     LineMemory(Approve()),
     LineMemory(CiteEffect(savableDeal(dealDummy))),
     LineMemory(Disapprove()),
-    LineMemory(GiveReport(DeliciousnessReport(17.8))),
+    LineMemory(GiveReport(DeliciousnessReport(Game(listOf(CookieWorld()))))),
     LineMemory(OfferDeal(savableDeal(dealDummy))),
     LineMemory(QuestionOffer(OfferDeal(savableDeal(dealDummy)))),
     LineMemory(RejectDeal(savableDeal(dealDummy))),

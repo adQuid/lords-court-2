@@ -8,7 +8,7 @@ enum class ReportType{
 
 fun generateReport(game: Game, type: ReportType): Report{
     if(type == ReportType.DeliciousnessReportType){
-        return DeliciousnessReport(game.deliciousness)
+        return DeliciousnessReport(game)
     }
 
     throw Exception("Report Type not recognized!")

@@ -1,14 +1,16 @@
 package shortstate.report
 
 import game.Game
+import game.logicmodules.CookieWorld
 
 class DeliciousnessReport: Report{
 
     override val type: String = GlobalReportTypeFactory.DELICIOUSNESS_REPORT_TYPE_NAME
     val value: Double
     
-    constructor(deliciousness: Double){
-        value = deliciousness
+    constructor(game: Game){
+        val logic = CookieWorld.getCookieWorld(game)
+        value = logic.deliciousness
     }
 
     constructor(saveString: Map<String, Any>){
@@ -16,7 +18,8 @@ class DeliciousnessReport: Report{
     }
 
     override fun apply(game: Game) {
-       game.deliciousness = value
+        val logic = CookieWorld.getCookieWorld(game)
+        logic.deliciousness = value
     }
 
     override fun type(): ReportType {
