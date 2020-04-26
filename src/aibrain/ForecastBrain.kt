@@ -124,7 +124,6 @@ class ForecastBrain {
     }
 
     fun dealValueToMe(deal: Deal): Double{
-        //println("\nresults of deal:")
         return DealCase(deal).dealValue(lastCasesOfConcern!!, listOf(player))[player]!!
     }
 

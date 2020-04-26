@@ -160,7 +160,7 @@ class Game {
         }
         if(isLive){
             println("$player is comitting to $actions")
-            reevaluateForcastForPlayers(listOf(player))
+            reevaluateForcastForPlayers(players.filter{it.npc})
         }
     }
 

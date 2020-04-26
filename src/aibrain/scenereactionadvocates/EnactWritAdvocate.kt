@@ -26,6 +26,6 @@ class EnactWritAdvocate: SceneReactionAdvocate {
     }
 
     private fun writToEnact(): Writ?{
-        return me.writs.filter { writ -> writ.complete() && me.brain.dealValueToMe(writ.deal) > 0 }.getOrNull(0)
+        return me.writs.filter { writ -> writ.complete() && me.brain.dealsILike!!.containsKey(writ.deal) }.getOrNull(0)
     }
 }
