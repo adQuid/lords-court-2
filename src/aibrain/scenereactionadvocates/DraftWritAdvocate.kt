@@ -23,10 +23,7 @@ class DraftWritAdvocate: SceneReactionAdvocate {
         }
 
         if(dealIWantToDraft() != null){
-            if(me.brain.lastGameIEvaluated?.actionsByPlayer!!.isNotEmpty()){
-                println(me.brain.dealValueToMe(dealIWantToDraft()!!) * 100.0)
-            }
-            return me.brain.dealValueToMe(dealIWantToDraft()!!) * 100.0
+            return me.brain.dealsILike!![dealIWantToDraft()]!! * 100.0
         }
         return 0.0
     }
@@ -39,7 +36,7 @@ class DraftWritAdvocate: SceneReactionAdvocate {
     }
 
     private fun dealIWantToDraft(): Deal?{
-        val dealsToOffer = me.brain.dealsILike!!.filter { deal -> me.writs.filter { writ -> writ.deal == deal }.isEmpty() }
+        val dealsToOffer = me.brain.dealsILike!!.keys.filter { deal -> me.writs.filter { writ -> writ.deal == deal }.isEmpty() }
         if(dealsToOffer.isNotEmpty()){
             return dealsToOffer[0]
         }

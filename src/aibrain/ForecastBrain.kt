@@ -20,7 +20,7 @@ class ForecastBrain {
 
     //TODO: Why do both of these exist?
     var lastCasesOfConcern: List<GameCase>? = null
-    var dealsILike: List<FinishedDeal>? = null
+    var dealsILike: Map<FinishedDeal, Double>? = null
 
     var lastFavoriteEffects: List<Effect>? = null
     var lastActionsToCommitTo: List<Action>? = null
@@ -68,10 +68,10 @@ class ForecastBrain {
         return bestCase.finalEffects.toMutableList()
     }
 
-    private fun dealsILike(game: Game): List<FinishedDeal> {
+    private fun dealsILike(game: Game): Map<FinishedDeal, Double> {
         return mostSignificantPlayersToMe(game).filter { it -> it != player }
             .map { character -> prospectiveDealsWithPlayer(character) }.flatten()
-            .filter { dealValueToMe(it) > 0 }
+            .filter { dealValueToMe(it) > 0 }.associate { deal -> deal to dealValueToMe(deal) }
     }
 
     private fun actionsToDo(game: Game): List<Action> {
@@ -110,21 +110,21 @@ class ForecastBrain {
     }
 
     private fun prospectiveDealsWithPlayer(target: GameCharacter): List<FinishedDeal>{
-        val badDeal = FinishedDeal(hashMapOf(
+        /*val badDeal = FinishedDeal(hashMapOf(
             player to setOf(WasteTime()),
             target to setOf(WasteTime())
-        ))
+        ))*/
 
         val goodDeal = FinishedDeal(hashMapOf(
             player to setOf(GetMilk(target)),
             target to setOf(BakeCookies())
         ))
 
-        return listOf(badDeal, goodDeal)
+        return listOf(goodDeal)
     }
 
     fun dealValueToMe(deal: Deal): Double{
-        val temp = DealCase(deal).dealValue(lastCasesOfConcern!!, listOf(player))
+        //println("\nresults of deal:")
         return DealCase(deal).dealValue(lastCasesOfConcern!!, listOf(player))[player]!!
     }
 

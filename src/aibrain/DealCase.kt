@@ -16,6 +16,7 @@ class DealCase {
     //this would return 0.2
     fun dealValue(cases: List<GameCase>, perspectives: Collection<GameCharacter>): Map<GameCharacter, Double>{
         val casesWithDeal = cases!!.map { it.applyDeal(deal) }
+        //cases.forEach { case -> println("${case.valueToCharacter(perspectives.first())} -> ${case.applyDeal(deal).valueToCharacter(perspectives.first())}") }
         return perspectives.associateWith { entry -> (totalCaseValue(casesWithDeal, entry) - totalCaseValue(cases!!, entry)) / totalCaseValue(cases!!, entry) }
     }
 

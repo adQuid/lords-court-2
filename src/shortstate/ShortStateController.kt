@@ -82,7 +82,7 @@ class ShortStateController: Runnable {
         try{
             Platform.runLater { UIGlobals.resetFocus() }
         } catch(exception: Exception){
-            println("exception caught on addScene UI update: ${exception.toString()}")
+            //println("exception caught on addScene UI update: ${exception.toString()}")
             //Do nothing. This is scotch tape because sort state games might be made before UI starts
         }
     }

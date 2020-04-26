@@ -41,7 +41,7 @@ class Farewell: Line {
     }
 
     override fun canChangeTopic(): Boolean {
-        return true
+        return false
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {

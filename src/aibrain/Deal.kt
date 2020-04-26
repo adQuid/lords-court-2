@@ -50,13 +50,7 @@ class FinishedDeal: Deal {
        )
    }
 
-    override fun equals(other: Any?): Boolean {
-        if(other is Deal){
-            return this.actions == other.theActions()
-        } else {
-            return false
-        }
-    }
+
 
     override fun toString(): String {
         return "[DEAL]"
@@ -78,6 +72,18 @@ class FinishedDeal: Deal {
 
     override fun toFinishedDeal(): FinishedDeal{
         return this
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other is Deal){
+            return this.actions == other.theActions()
+        } else {
+            return false
+        }
+    }
+
+    override fun hashCode(): Int {
+        return 5 //Is this wise for performance? NO. Will it get maps to work? Yes.
     }
 }
 
@@ -110,6 +116,10 @@ class UnfinishedDeal: Deal{
         } else {
             return false
         }
+    }
+
+    override fun hashCode(): Int {
+        return 5 //Is this wise for performance? NO. Will it get maps to work? Yes.
     }
 
     fun isEmpty(): Boolean{

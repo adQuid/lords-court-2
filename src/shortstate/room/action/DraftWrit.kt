@@ -4,6 +4,7 @@ import aibrain.Deal
 import aibrain.UnfinishedDeal
 import game.GameCharacter
 import game.Writ
+import game.action.ActionMemory
 import main.UIGlobals
 import shortstate.GameRules
 import shortstate.ShortStateCharacter
@@ -36,7 +37,9 @@ class DraftWrit: RoomAction {
 
     fun addWritToCharacter(character: ShortStateCharacter): Boolean{
         if(character.addEnergy(-GameRules.COST_TO_MAKE_WRIT)){
+            val writToAdd = generateWrit(character.player)
             character.player.writs.add(generateWrit(character.player))
+            character.player.memory.comittedActions.addAll(writToAdd.deal.actions.values.flatten().map { action -> ActionMemory(action) })
             return true
         }
         return false

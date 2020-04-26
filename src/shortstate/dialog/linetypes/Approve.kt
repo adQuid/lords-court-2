@@ -44,7 +44,7 @@ class Approve: Line {
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
-        return listOf(Farewell())
+        return listOf()
     }
 
     override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
