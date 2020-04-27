@@ -29,6 +29,7 @@ class Game {
     val TITLES_NAME = "titles"
     var titles = mutableSetOf<Title>()
 
+    val MODULES_NAME = "modules"
     val gameLogicModules: Collection<GameLogicModule> //TODO: Make this mutable
 
     constructor(gameLogic: Collection<GameLogicModule>){
@@ -46,7 +47,7 @@ class Game {
         actionsByPlayer = other.actionsByPlayer.mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
         concludedPlayers = other.concludedPlayers.toMutableSet()
         titles = other.titles.map { title -> title.clone()}.toMutableSet()
-        gameLogicModules = other.gameLogicModules.map { CookieWorld(it as CookieWorld) }
+        gameLogicModules = other.gameLogicModules.map { GameLogicModule.cloneModule(it) }
     }
 
     constructor(saveString: Map<String,Any>){
@@ -65,7 +66,7 @@ class Game {
         concludedPlayers = (saveString[CONCLUDED_PLAYERS_NAME] as List<Int>).map { id -> characterById(id) }.toMutableSet()
 
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> TitleFactory.titleFromSaveString(map) }.toMutableSet()
-        gameLogicModules = listOf(CookieWorld())
+        gameLogicModules = (saveString[MODULES_NAME] as List<Map<String, Any>>).map { map -> GameLogicModule.moduleFromSaveString(map, this) }
     }
 
     fun saveString(): Map<String, Any>{
@@ -80,6 +81,7 @@ class Game {
         retval[ACTIONS_NAME] = saveActions
         retval[CONCLUDED_PLAYERS_NAME] = concludedPlayers.map { player -> player.id }
         retval[TITLES_NAME] = titles.map { it.saveString() }
+        retval[MODULES_NAME] = gameLogicModules.map { module -> module.saveString() }
 
         return retval
     }

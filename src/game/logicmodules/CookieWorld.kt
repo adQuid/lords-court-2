@@ -8,12 +8,14 @@ import game.GameLogicModule
 class CookieWorld: GameLogicModule {
 
     companion object{
+        val type = "Cookieworld"
+
         fun getCookieWorld(game: Game): CookieWorld{
             return game.moduleOfType("Cookieworld") as CookieWorld
         }
     }
 
-    override val type = "Cookieworld"
+    override val type = CookieWorld.type
 
     val DELICIOUSNESS_NAME = "deliciousness"
     var deliciousness = 0.0
@@ -49,7 +51,7 @@ class CookieWorld: GameLogicModule {
         return retval
     }
 
-    override fun saveString(): Map<String, Any> {
+    override fun specialSaveString(): Map<String, Any> {
         return mapOf(
             DELICIOUSNESS_NAME to deliciousness,
             HAS_MILK_NAME to hasMilk.map { it.id }
