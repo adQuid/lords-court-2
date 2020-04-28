@@ -1,6 +1,9 @@
 package game
 
 import game.gamelogicmodules.CookieWorld
+import shortstate.report.GlobalReportTypeFactory
+import shortstate.report.Report
+import shortstate.report.ReportFactory
 import java.lang.Exception
 
 abstract class GameLogicModule {
@@ -26,7 +29,27 @@ abstract class GameLogicModule {
 
     abstract val type: String
 
+    var reportTypes: Map<String, ReportFactory>
+
+    constructor(reportTypes: Map<String, ReportFactory>){
+        this.reportTypes = reportTypes
+    }
+
     abstract fun endTurn(): List<Effect>
+
+    fun reportFromSaveString(saveString: Map<String, Any>, game: Game): Report?{
+        if(reportTypes.containsKey(saveString[GlobalReportTypeFactory.TYPE_NAME])){
+            return reportTypes[saveString[GlobalReportTypeFactory.TYPE_NAME]]!!.reportFromSaveString(saveString)
+        }
+        return null
+    }
+
+    fun reportFromType(type: String, game: Game): Report?{
+        if(reportTypes.containsKey(type)){
+            return reportTypes[type]!!.generateReport(game)
+        }
+        return null
+    }
 
     fun saveString(): Map<String, Any> {
         return specialSaveString().plus(mapOf(GameLogicModule.TYPE_NAME to type))

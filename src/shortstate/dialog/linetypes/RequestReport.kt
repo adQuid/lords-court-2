@@ -21,14 +21,14 @@ class RequestReport: Line, HasReportType {
 
     override val type: String
         get() = GlobalLineTypeFactory.REQUEST_REPORT_TYPE_NAME
-    var report: ReportType? = null
+    var report: String? = null
 
-    constructor(report: ReportType?){
+    constructor(report: String?){
         this.report = report
     }
 
     constructor(map: Map<String, Any>){
-        report = ReportType.valueOf(map["report"] as String)
+        report = map["report"] as String
     }
 
     override fun tooltipName(): String {
@@ -46,7 +46,7 @@ class RequestReport: Line, HasReportType {
                                 UIGlobals.playingAs().player.titles.flatMap { title -> title.reportsEntitled })
                         ),
                         { reportType ->
-                            mySetReportType(reportType); UIGlobals.defocus();
+                            mySetReportType(reportType.type); UIGlobals.defocus();
                         })
             )}))
     }
@@ -73,11 +73,11 @@ class RequestReport: Line, HasReportType {
         return listOf(GiveReport(EmptyReport()), GiveReport(perspective.reportOfType(report!!)))
     }
 
-    override fun mySetReportType(type: ReportType) {
+    override fun mySetReportType(type: String) {
         report = type
     }
 
-    override fun myGetReportType(): ReportType? {
+    override fun myGetReportType(): String? {
         return report
     }
 

@@ -14,10 +14,6 @@ class EmptyReport: Report() {
         return mapOf()
     }
 
-    override fun type(): ReportType {
-        return ReportType.NoneReportType
-    }
-
     override fun toString(): String {
         return "I haven't had a chance to check that"
     }

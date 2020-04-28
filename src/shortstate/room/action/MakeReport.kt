@@ -6,14 +6,13 @@ import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
 import shortstate.report.ReportType
-import shortstate.report.generateReport
 import shortstate.room.RoomAction
 
 class MakeReport: RoomAction{
 
-    val type: ReportType
+    val type: String
 
-    constructor(type: ReportType){
+    constructor(type: String){
         this.type = type
     }
 
@@ -23,7 +22,7 @@ class MakeReport: RoomAction{
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         println("looked up deliciousness")
-        player.knownReports.add(generateReport(game.game, type))
+        player.knownReports.add(game.game.reportFromType(type))
         player.energy -= GameRules.COST_TO_MAKE_REPORT
     }
 

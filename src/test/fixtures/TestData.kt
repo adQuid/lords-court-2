@@ -106,7 +106,7 @@ private fun fullMemory(dealDummy: GameCharacter): List<LineMemory>{
     LineMemory(OfferDeal(savableDeal(dealDummy))),
     LineMemory(QuestionOffer(OfferDeal(savableDeal(dealDummy)))),
     LineMemory(RejectDeal(savableDeal(dealDummy))),
-    LineMemory(RequestReport(ReportType.DeliciousnessReportType)),
+    LineMemory(RequestReport(DeliciousnessReport.type)),
     LineMemory(OfferWrit(Writ("test writ", savableDeal(dealDummy), listOf(dealDummy)))),
     LineMemory(Farewell())
     )

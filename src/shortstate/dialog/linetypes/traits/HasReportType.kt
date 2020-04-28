@@ -1,9 +1,7 @@
 package shortstate.dialog.linetypes.traits
 
-import shortstate.report.ReportType
-
 interface HasReportType {
-    fun mySetReportType(type: ReportType)
+    fun mySetReportType(type: String)
 
-    fun myGetReportType(): ReportType?
+    fun myGetReportType(): String?
 }

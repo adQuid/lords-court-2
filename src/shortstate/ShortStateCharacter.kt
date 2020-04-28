@@ -43,7 +43,7 @@ class ShortStateCharacter: Displayable {
         this.energy = saveString[ENERGY_NAME] as Int
         sceneBrain = SceneBrain(this, player.brain)
         convoBrain = ConversationBrain(this)
-        knownReports = (saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> GlobalReportTypeFactory.fromMap(map) }.toMutableList()
+        knownReports = (saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> parent.reportFromMap(map) }.toMutableList()
     }
 
     fun saveString(): Map<String, Any>{
@@ -81,8 +81,8 @@ class ShortStateCharacter: Displayable {
         nextSceneIWannaBeIn = sceneBrain.nextSceneIWantToBeIn(this, game)
     }
 
-    fun reportOfType(type: ReportType): Report? {
-        return knownReports.filter { report -> report.type() == type }.getOrNull(0)
+    fun reportOfType(type: String): Report? {
+        return knownReports.filter { report -> report.type == type }.getOrNull(0)
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {

@@ -23,5 +23,4 @@ abstract class Report {
 
     }
 
-    abstract fun type(): ReportType
 }

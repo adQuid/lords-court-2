@@ -27,12 +27,12 @@ class GiveReport: Line {
         this.report = report
     }
 
-    constructor(saveString: Map<String, Any>){
-        report = GlobalReportTypeFactory.fromMap(saveString["report"] as Map<String, Any>)
+    constructor(saveString: Map<String, Any>, game: Game){
+        report = game.reportFromMap(saveString["report"] as Map<String, Any>)
     }
 
     override fun tooltipName(): String {
-        if(report != null && report!!.type() == ReportType.NoneReportType){
+        if(report != null && report!! is EmptyReport){
             return "No Report"
         }
         return "Submit Report"

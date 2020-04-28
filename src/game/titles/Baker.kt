@@ -6,20 +6,22 @@ import game.action.Action
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.WasteTime
 import game.titlemaker.TitleFactory
+import shortstate.report.DeliciousnessReportFactory
+import shortstate.report.ReportFactory
 import shortstate.report.ReportType
 
 class Baker: Title{
     override val name: String
-    override val reportsEntitled: List<ReportType>
+    override val reportsEntitled: List<ReportFactory>
 
     constructor(name: String){
        this.name = "Baker of $name"
-       reportsEntitled = listOf(ReportType.DeliciousnessReportType)
+       reportsEntitled = listOf(DeliciousnessReportFactory())
     }
 
     constructor(saveString: Map<String, Any>){
         this.name = saveString[NAME_NAME] as String
-        reportsEntitled = listOf(ReportType.DeliciousnessReportType)
+        reportsEntitled = listOf(DeliciousnessReportFactory())
     }
 
     override fun clone(): Baker {

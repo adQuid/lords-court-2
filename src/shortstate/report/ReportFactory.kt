@@ -6,14 +6,23 @@ enum class ReportType{
     NoneReportType, DeliciousnessReportType
 }
 
-fun generateReport(game: Game, type: ReportType): Report{
-    if(type == ReportType.DeliciousnessReportType){
-        return DeliciousnessReport(game)
-    }
-
-    throw Exception("Report Type not recognized!")
-}
-
 fun generateEmptyReport(): Report{
     return EmptyReport()
+}
+
+abstract class ReportFactory {
+    abstract val type: String
+
+    abstract fun generateReport(game: Game): Report
+
+    abstract fun reportFromSaveString(saveString: Map<String, Any>): Report
+
+    override fun equals(other: Any?): Boolean {
+        if(other == null) return false
+        return this::class == other::class
+    }
+
+    override fun hashCode(): Int {
+        return 1
+    }
 }

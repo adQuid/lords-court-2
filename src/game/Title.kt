@@ -1,6 +1,7 @@
 package game
 
 import game.action.Action
+import shortstate.report.ReportFactory
 import shortstate.report.ReportType
 
 abstract class Title {
@@ -8,7 +9,7 @@ abstract class Title {
     val NAME_NAME = "name"
     abstract val name: String
     val REPORTS_NAME = "reports"
-    abstract val reportsEntitled: List<ReportType>
+    abstract val reportsEntitled: List<ReportFactory>
 
     abstract fun saveString(): Map<String, Any>
 

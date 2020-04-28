@@ -5,7 +5,11 @@ import game.gamelogicmodules.CookieWorld
 
 class DeliciousnessReport: Report{
 
-    override val type: String = GlobalReportTypeFactory.DELICIOUSNESS_REPORT_TYPE_NAME
+    companion object{
+        val type = "Delic"
+    }
+
+    override val type: String = DeliciousnessReport.type
     val value: Double
     
     constructor(game: Game){
@@ -20,10 +24,6 @@ class DeliciousnessReport: Report{
     override fun apply(game: Game) {
         val logic = CookieWorld.getCookieWorld(game)
         logic.deliciousness = value
-    }
-
-    override fun type(): ReportType {
-        return ReportType.DeliciousnessReportType
     }
 
     override fun toString(): String {
@@ -49,5 +49,17 @@ class DeliciousnessReport: Report{
 
     override fun hashCode(): Int {
         return value.hashCode()
+    }
+}
+
+class DeliciousnessReportFactory: ReportFactory() {
+    override val type = DeliciousnessReport.type
+
+    override fun generateReport(game: Game): Report {
+        return DeliciousnessReport(game)
+    }
+
+    override fun reportFromSaveString(saveString: Map<String, Any>): Report {
+        return DeliciousnessReport(saveString)
     }
 }

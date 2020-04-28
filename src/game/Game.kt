@@ -6,6 +6,7 @@ import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
 import game.titlemaker.TitleFactory
+import shortstate.report.Report
 
 
 class Game {
@@ -53,9 +54,9 @@ class Game {
         nextID = saveString[MAX_ID_NAME] as Int
         turn = saveString[TURN_NAME] as Int
         locations = (saveString[LOCATIONS_NAME] as List<Map<String, Any>>).map { map -> Location(this, map) }.toMutableList()
-
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> GameCharacter(map, this) }.toMutableList()
-        (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
+
+        gameLogicModules = (saveString[MODULES_NAME] as List<Map<String, Any>>).map { map -> GameLogicModule.moduleFromSaveString(map, this) }
 
         val tempActions = mutableMapOf<GameCharacter, MutableList<Action>>()
         (saveString[ACTIONS_NAME] as Map<Int, Any>).forEach { key, value -> tempActions[characterById(key.toInt())] =
@@ -65,7 +66,8 @@ class Game {
         concludedPlayers = (saveString[CONCLUDED_PLAYERS_NAME] as List<Int>).map { id -> characterById(id) }.toMutableSet()
 
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> TitleFactory.titleFromSaveString(map) }.toMutableSet()
-        gameLogicModules = (saveString[MODULES_NAME] as List<Map<String, Any>>).map { map -> GameLogicModule.moduleFromSaveString(map, this) }
+
+        (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
     }
 
     fun saveString(): Map<String, Any>{
@@ -186,6 +188,18 @@ class Game {
 
     fun moduleOfType(type: String): GameLogicModule{
         return gameLogicModules.filter { it.type == type }.first()
+    }
+
+    fun reportFromMap(saveString: Map<String, Any>): Report {
+        return gameLogicModules.map { module -> module.reportFromSaveString(saveString, this) }
+            .filter{it != null}
+            .first()!!
+    }
+
+    fun reportFromType(type: String): Report{
+        return gameLogicModules.map { module -> module.reportFromType(type, this) }
+            .filter{it != null}
+            .first()!!
     }
 
     private fun reevaluateForcastForPlayers(players: List<GameCharacter>){
