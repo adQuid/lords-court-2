@@ -7,6 +7,7 @@ import game.GameCharacter
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
+import game.gamelogicmodules.CookieWorld
 import shortstate.dialog.LineMemory
 import shortstate.dialog.linetypes.Announcement
 import util.safeSublist
@@ -70,7 +71,7 @@ class ForecastBrain {
 
     private fun dealsILike(game: Game): Map<FinishedDeal, Double> {
         return mostSignificantPlayersToMe(game).filter { it -> it != player }
-            .map { character -> prospectiveDealsWithPlayer(character) }.flatten()
+            .map { character -> prospectiveDealsWithPlayer(game, character) }.flatten()
             .filter { dealValueToMe(it) > 0 }.associate { deal -> deal to dealValueToMe(deal) }
     }
 
@@ -109,18 +110,23 @@ class ForecastBrain {
         return retval
     }
 
-    private fun prospectiveDealsWithPlayer(target: GameCharacter): List<FinishedDeal>{
-        /*val badDeal = FinishedDeal(hashMapOf(
-            player to setOf(WasteTime()),
-            target to setOf(WasteTime())
-        ))*/
+    private fun prospectiveDealsWithPlayer(game: Game, target: GameCharacter): List<FinishedDeal>{
 
-        val goodDeal = FinishedDeal(hashMapOf(
-            player to setOf(GetMilk(target)),
-            target to setOf(BakeCookies())
-        ))
+        val retval = mutableListOf<FinishedDeal>()
 
-        return listOf(goodDeal)
+        if(game.gameLogicModules.filter { it is CookieWorld }.isNotEmpty()){
+            retval.add(FinishedDeal(hashMapOf(
+                player to setOf(WasteTime()),
+                target to setOf(WasteTime())
+            )))
+
+            retval.add(FinishedDeal(hashMapOf(
+                player to setOf(GetMilk(target)),
+                target to setOf(BakeCookies())
+            )))
+        }
+
+        return retval
     }
 
     fun dealValueToMe(deal: Deal): Double{

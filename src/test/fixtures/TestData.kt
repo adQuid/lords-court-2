@@ -9,7 +9,7 @@ import game.titlemaker.TitleFactory
 import shortstate.ShortStateGame
 import shortstate.dialog.LineMemory
 import game.action.actionTypes.*
-import game.logicmodules.CookieWorld
+import game.gamelogicmodules.CookieWorld
 import shortstate.dialog.linetypes.*
 import shortstate.Conversation
 import shortstate.ShortGameScene

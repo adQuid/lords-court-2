@@ -14,7 +14,7 @@ import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
 import ui.MainUI
 import java.io.File
-import game.logicmodules.CookieWorld
+import game.gamelogicmodules.CookieWorld
 
 
 class Controller {

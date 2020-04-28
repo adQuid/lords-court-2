@@ -1,7 +1,7 @@
 package shortstate.report
 
 import game.Game
-import game.logicmodules.CookieWorld
+import game.gamelogicmodules.CookieWorld
 
 class DeliciousnessReport: Report{
 

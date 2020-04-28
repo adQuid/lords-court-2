@@ -1,4 +1,4 @@
-package game.logicmodules
+package game.gamelogicmodules
 
 import game.Effect
 import game.Game

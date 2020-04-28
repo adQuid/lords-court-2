@@ -1,6 +1,6 @@
 package game
 
-import game.logicmodules.CookieWorld
+import game.gamelogicmodules.CookieWorld
 import java.lang.Exception
 
 abstract class GameLogicModule {
