@@ -29,7 +29,7 @@ class AgricultureReport: Report {
     }
 
     override fun toString(): String {
-        return "This territory $wheat wheat"
+        return "This territory has $wheat wheat"
     }
 
     override fun specialSaveString(): Map<String, Any> {

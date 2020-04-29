@@ -6,7 +6,7 @@ import game.gamelogicmodules.CookieWorld
 class DeliciousnessReport: Report{
 
     companion object{
-        val type = "Delic"
+        val type = "Deliciousness"
     }
 
     override val type: String = DeliciousnessReport.type

@@ -16,20 +16,23 @@ class TerritoryLogicModule: GameLogicModule {
             return game.moduleOfType(type) as TerritoryLogicModule
         }
 
-        val reports = mapOf<String, ReportFactory>( "AgricultureReport" to AgricultureReportFactory())
+        val reports = listOf(AgricultureReportFactory())
     }
 
     override val type = Companion.type
 
-    val territories = listOf(Territory())
+    val territories: Collection<Territory>
 
-    constructor(): super(reports) {
+    constructor(territories: Collection<Territory>): super(reports) {
+        this.territories = territories
     }
 
     constructor(other: TerritoryLogicModule): super(reports){
+        this.territories = other.territories.map { Territory(it) }
     }
 
     constructor(saveString: Map<String, Any>, game: Game): super(reports){
+        this.territories = listOf()
     }
 
     override fun endTurn(): List<Effect> {

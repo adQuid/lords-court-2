@@ -1,10 +1,15 @@
 package game
 
+import game.gamelogicmodules.CookieWorld
+import game.gamelogicmodules.territory.Territory
+import game.gamelogicmodules.territory.TerritoryLogicModule
 import game.titlemaker.CookieWorldTitleFactory
 
 class GameSetup {
 
-    fun setupGame(game: Game){
+    fun setupCookieworld(): Game{
+        val game = Game(listOf(CookieWorld()))
+
         val defaultLocation = Location(game)
 
         game.locations.add(defaultLocation)
@@ -16,6 +21,23 @@ class GameSetup {
         val NPC = GameCharacter("Frip", "assets/portraits/faceman.png", true, defaultLocation, game)
         NPC.titles.add(CookieWorldTitleFactory.makeMilkmanTitle())
         game.addPlayer(NPC)
+
+        return game
+    }
+
+    fun setupAgricultureGame(): Game{
+        val territories = TerritoryLogicModule(listOf(Territory()))
+        val game = Game(listOf(territories))
+
+        val defaultLocation = Location(game)
+
+        game.locations.add(defaultLocation)
+
+        val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, defaultLocation, game)
+        game.addPlayer(PC)
+        game.applyTitleToCharacter(territories.territories.first().generateCountTitle(), PC)
+
+        return game
     }
 
 }

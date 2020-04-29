@@ -26,23 +26,17 @@ class CookieWorld: GameLogicModule {
     val HAS_MILK_NAME = "hasMilk"
     var hasMilk = mutableListOf<GameCharacter>()
 
-    constructor() : super(mapOf(
-        GlobalReportTypeFactory.DELICIOUSNESS_REPORT_TYPE_NAME to DeliciousnessReportFactory()
-    )) {
+    constructor() : super(listOf(DeliciousnessReportFactory())) {
         deliciousness = 0.0
         hasMilk = mutableListOf<GameCharacter>()
     }
 
-    constructor(other: CookieWorld): super(mapOf(
-        GlobalReportTypeFactory.DELICIOUSNESS_REPORT_TYPE_NAME to DeliciousnessReportFactory()
-    )){
+    constructor(other: CookieWorld): super(listOf(DeliciousnessReportFactory())){
         deliciousness = other.deliciousness
         hasMilk = other.hasMilk.toMutableList()
     }
 
-    constructor(saveString: Map<String, Any>, game: Game): super(mapOf(
-        GlobalReportTypeFactory.DELICIOUSNESS_REPORT_TYPE_NAME to DeliciousnessReportFactory()
-    )){
+    constructor(saveString: Map<String, Any>, game: Game): super(listOf(DeliciousnessReportFactory())){
         deliciousness = saveString[DELICIOUSNESS_NAME] as Double
         hasMilk = (saveString[HAS_MILK_NAME] as List<Int>).map { id -> game.characterById(id)}.toMutableList()
     }

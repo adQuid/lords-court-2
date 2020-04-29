@@ -31,8 +31,8 @@ abstract class GameLogicModule {
 
     var reportTypes: Map<String, ReportFactory>
 
-    constructor(reportTypes: Map<String, ReportFactory>){
-        this.reportTypes = reportTypes
+    constructor(reportTypes: Collection<ReportFactory>){
+        this.reportTypes = reportTypes.associate { it.type to it }
     }
 
     abstract fun endTurn(): List<Effect>

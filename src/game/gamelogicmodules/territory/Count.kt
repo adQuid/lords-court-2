@@ -12,7 +12,7 @@ class Count: Title{
     override val reportsEntitled = listOf(AgricultureReportFactory())
 
     constructor(name: String){
-       this.name = "Baker of $name"
+       this.name = "Count of $name"
     }
 
     constructor(saveString: Map<String, Any>){

@@ -1,5 +1,7 @@
 package game.gamelogicmodules.territory
 
+import game.Title
+
 class Territory {
 
     var wheat: Int
@@ -12,4 +14,13 @@ class Territory {
         bread = 3
     }
 
+    constructor(other: Territory){
+        wheat = other.wheat
+        flour = other.flour
+        bread = other.bread
+    }
+
+    fun generateCountTitle(): Title{
+        return Count("place")
+    }
 }
