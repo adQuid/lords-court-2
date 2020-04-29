@@ -5,10 +5,9 @@ import game.Title
 import game.action.Action
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.WasteTime
-import game.titlemaker.TitleFactory
+import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.DeliciousnessReportFactory
 import shortstate.report.ReportFactory
-import shortstate.report.ReportType
 
 class Baker: Title{
     override val name: String
@@ -30,7 +29,7 @@ class Baker: Title{
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            TitleFactory.TYPE_NAME to "Count",
+            CookieWorldTitleFactory.TYPE_NAME to "Count",
             NAME_NAME to name,
             REPORTS_NAME to reportsEntitled.map { report -> report.toString() }
         )

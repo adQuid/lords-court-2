@@ -3,13 +3,10 @@ package game.titles
 import game.GameCharacter
 import game.Title
 import game.action.Action
-import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
-import game.action.actionTypes.WasteTime
-import game.titlemaker.TitleFactory
+import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.DeliciousnessReportFactory
 import shortstate.report.ReportFactory
-import shortstate.report.ReportType
 
 class Milkman: Title{
     override val name: String
@@ -31,7 +28,7 @@ class Milkman: Title{
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            TitleFactory.TYPE_NAME to "Milkman",
+            CookieWorldTitleFactory.TYPE_NAME to "Milkman",
             NAME_NAME to name,
             REPORTS_NAME to reportsEntitled.map { report -> report.toString() }
         )

@@ -1,6 +1,6 @@
 package game
 
-import game.titlemaker.TitleFactory
+import game.titlemaker.CookieWorldTitleFactory
 
 class GameSetup {
 
@@ -10,11 +10,11 @@ class GameSetup {
         game.locations.add(defaultLocation)
 
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, defaultLocation, game)
-        game.applyTitleToCharacter(TitleFactory.makeBakerTitle("Cookies"), PC)
+        game.applyTitleToCharacter(CookieWorldTitleFactory.makeBakerTitle("Cookies"), PC)
         game.addPlayer(PC)
 
         val NPC = GameCharacter("Frip", "assets/portraits/faceman.png", true, defaultLocation, game)
-        NPC.titles.add(TitleFactory.makeMilkmanTitle())
+        NPC.titles.add(CookieWorldTitleFactory.makeMilkmanTitle())
         game.addPlayer(NPC)
     }
 

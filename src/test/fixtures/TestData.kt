@@ -5,7 +5,7 @@ import game.GameCharacter
 import game.Game
 import game.Writ
 import game.Location
-import game.titlemaker.TitleFactory
+import game.titlemaker.CookieWorldTitleFactory
 import shortstate.ShortStateGame
 import shortstate.dialog.LineMemory
 import game.action.actionTypes.*
@@ -15,7 +15,6 @@ import shortstate.Conversation
 import shortstate.ShortGameScene
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.DeliciousnessReport
-import shortstate.report.ReportType
 import game.titles.Milkman
 import game.titles.Baker
 
@@ -91,7 +90,7 @@ fun shortGameResultingInDeliciousness(): ShortStateGame{
 
 private fun basicMilkman(name: String, game: Game, location: Location): GameCharacter{
     val retval = GameCharacter(name, "this should never come up in a test", true, location, game)
-    game.applyTitleToCharacter(TitleFactory.makeMilkmanTitle(), retval)
+    game.applyTitleToCharacter(CookieWorldTitleFactory.makeMilkmanTitle(), retval)
     return retval
 }
 

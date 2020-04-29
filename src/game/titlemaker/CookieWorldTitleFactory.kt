@@ -4,7 +4,7 @@ import game.Title
 import game.titles.Baker
 import game.titles.Milkman
 
-object TitleFactory {
+object CookieWorldTitleFactory {
 
     val TYPE_NAME = "TYPE"
     val typeMap: HashMap<String, (map: Map<String, Any>) -> Title> = hashMapOf(

@@ -5,7 +5,7 @@ import game.action.GlobalActionTypeFactory
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
-import game.titlemaker.TitleFactory
+import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.Report
 
 
@@ -65,7 +65,7 @@ class Game {
 
         concludedPlayers = (saveString[CONCLUDED_PLAYERS_NAME] as List<Int>).map { id -> characterById(id) }.toMutableSet()
 
-        titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> TitleFactory.titleFromSaveString(map) }.toMutableSet()
+        titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> CookieWorldTitleFactory.titleFromSaveString(map) }.toMutableSet()
 
         (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
     }
