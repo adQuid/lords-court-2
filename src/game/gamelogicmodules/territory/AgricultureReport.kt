@@ -12,28 +12,33 @@ class AgricultureReport: Report {
     }
 
     override val type: String = AgricultureReport.type
+    val territory: Territory
     val wheat: Int
     
-    constructor(game: Game){
-        val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
-        wheat = logic.territories.first().wheat
+    constructor(game: Game, territory: Territory){
+        this.territory = territory
+        wheat = territory.wheat
     }
 
-    constructor(saveString: Map<String, Any>){
+    constructor(saveString: Map<String, Any>, game: Game){
+        val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
+
+        territory = logic.territoryById(saveString["territory"] as Int)
         wheat = saveString["wheat"] as Int
     }
 
     override fun apply(game: Game) {
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
-        logic.territories.first().wheat = wheat
+        logic.matchingTerritory(territory).wheat = wheat
     }
 
     override fun toString(): String {
-        return "This territory has $wheat wheat"
+        return "${territory.name} has $wheat wheat"
     }
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
+            "territory" to territory.id,
             "wheat" to wheat
         )
     }
@@ -54,15 +59,21 @@ class AgricultureReport: Report {
     }
 }
 
-class AgricultureReportFactory: ReportFactory(){
+class AgricultureReportFactory: ReportFactory{
+    val territory: Territory
     override val type = AgricultureReport.type
 
-    override fun generateReport(game: Game): Report {
-        return AgricultureReport(game)
+    constructor(territory: Territory){
+        this.territory = territory
     }
 
-    override fun reportFromSaveString(saveString: Map<String, Any>): Report {
-        return AgricultureReport(saveString)
+    override fun generateReport(game: Game): Report {
+        val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
+        return AgricultureReport(game, territory)
+    }
+
+    override fun reportFromSaveString(saveString: Map<String, Any>, game: Game): Report {
+        return AgricultureReport(saveString, game)
     }
 
 }

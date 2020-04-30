@@ -15,7 +15,7 @@ abstract class ReportFactory {
 
     abstract fun generateReport(game: Game): Report
 
-    abstract fun reportFromSaveString(saveString: Map<String, Any>): Report
+    abstract fun reportFromSaveString(saveString: Map<String, Any>, game: Game): Report
 
     override fun equals(other: Any?): Boolean {
         if(other == null) return false

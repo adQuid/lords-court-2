@@ -59,7 +59,7 @@ class DeliciousnessReportFactory: ReportFactory() {
         return DeliciousnessReport(game)
     }
 
-    override fun reportFromSaveString(saveString: Map<String, Any>): Report {
+    override fun reportFromSaveString(saveString: Map<String, Any>, game: Game): Report {
         return DeliciousnessReport(saveString)
     }
 }

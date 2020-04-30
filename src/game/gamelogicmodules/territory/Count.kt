@@ -6,28 +6,36 @@ import game.action.Action
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.WasteTime
 import game.titlemaker.CookieWorldTitleFactory
+import shortstate.report.ReportFactory
 
 class Count: Title{
     override val name: String
-    override val reportsEntitled = listOf(AgricultureReportFactory())
+    val TERRITORY_NAME = "Territory"
+    val territory: Territory
+    override val reportsEntitled: List<ReportFactory>
 
-    constructor(name: String){
-       this.name = "Count of $name"
+    constructor(territory: Territory){
+        this.territory = territory
+        this.name = "Count of $territory"
+        reportsEntitled = listOf(AgricultureReportFactory(territory))
     }
 
     constructor(saveString: Map<String, Any>){
         this.name = saveString[NAME_NAME] as String
+        this.territory = Territory(saveString[TERRITORY_NAME] as Map<String, Any>)
+        reportsEntitled = listOf(AgricultureReportFactory(territory))
     }
 
     override fun clone(): Count {
-        return Count(name)
+        return Count(territory)
     }
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
             CookieWorldTitleFactory.TYPE_NAME to "Count",
             NAME_NAME to name,
-            REPORTS_NAME to reportsEntitled.map { report -> report.toString() }
+            REPORTS_NAME to reportsEntitled.map { report -> report.toString() },
+            TERRITORY_NAME to territory.saveString()
         )
     }
 

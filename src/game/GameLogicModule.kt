@@ -5,6 +5,7 @@ import shortstate.report.GlobalReportTypeFactory
 import shortstate.report.Report
 import shortstate.report.ReportFactory
 import java.lang.Exception
+import game.gamelogicmodules.territory.TerritoryLogicModule
 
 abstract class GameLogicModule {
 
@@ -15,6 +16,9 @@ abstract class GameLogicModule {
         fun moduleFromSaveString(saveString: Map<String, Any>, game: Game): GameLogicModule{
             if(saveString[TYPE_NAME] == CookieWorld.type){
                 return CookieWorld(saveString, game)
+            }
+            if(saveString[TYPE_NAME] == TerritoryLogicModule.type){
+                return TerritoryLogicModule(saveString, game)
             }
             throw Exception("Logic module name: ${saveString.getOrDefault(TYPE_NAME, null)} not found!")
         }
@@ -39,7 +43,7 @@ abstract class GameLogicModule {
 
     fun reportFromSaveString(saveString: Map<String, Any>, game: Game): Report?{
         if(reportTypes.containsKey(saveString[GlobalReportTypeFactory.TYPE_NAME])){
-            return reportTypes[saveString[GlobalReportTypeFactory.TYPE_NAME]]!!.reportFromSaveString(saveString)
+            return reportTypes[saveString[GlobalReportTypeFactory.TYPE_NAME]]!!.reportFromSaveString(saveString, game)
         }
         return null
     }
