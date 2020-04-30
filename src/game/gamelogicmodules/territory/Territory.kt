@@ -13,34 +13,31 @@ class Territory {
     val NAME_NAME = "name"
     val name: String
     val WHEAT_NAME = "wheat"
-    var wheat: Int
     val FLOUR_NAME = "flour"
-    var flour: Int
     val BREAD_NAME = "bread"
-    var bread: Int
+    val RESOURCES_NAME = "resources"
+    val resources: MutableMap<String, Int>
 
     constructor(){
         id = nextId++
         name = "Placelandia"
-        wheat = 1
-        flour = 2
-        bread = 3
+        resources = mutableMapOf(
+        WHEAT_NAME to 1,
+        FLOUR_NAME to 2,
+        BREAD_NAME to 3
+        )
     }
 
     constructor(other: Territory){
         id = other.id
         name = other.name
-        wheat = other.wheat
-        flour = other.flour
-        bread = other.bread
+        resources = other.resources.toMutableMap()
     }
 
     constructor(saveString: Map<String, Any>){
         id = saveString[ID_NAME] as Int
         name = saveString[NAME_NAME] as String
-        wheat = saveString[WHEAT_NAME] as Int
-        flour = saveString[FLOUR_NAME] as Int
-        bread = saveString[BREAD_NAME] as Int
+        resources = saveString[RESOURCES_NAME] as MutableMap<String, Int>
     }
 
     override fun equals(other: Any?): Boolean {
@@ -62,9 +59,7 @@ class Territory {
         return mapOf(
             ID_NAME to id,
             NAME_NAME to name,
-            WHEAT_NAME to wheat,
-            FLOUR_NAME to flour,
-            BREAD_NAME to bread
+            RESOURCES_NAME to resources
         )
     }
 
