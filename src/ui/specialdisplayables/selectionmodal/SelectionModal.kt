@@ -13,6 +13,7 @@ import javafx.scene.text.Text
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.Displayable
+import ui.commoncomponents.PrettyPrintable
 import ui.componentfactory.UtilityComponentFactory
 
 
@@ -76,7 +77,8 @@ class SelectionModal<T>: Displayable {
         public override fun updateItem(item: T?, empty: Boolean) {
             if(item != null){
                 super.updateItem(item, empty)
-                val text = Text(item.toString())
+                val displayText = if(item is PrettyPrintable){ item.prettyPrint(UIGlobals.GUI().shortGame(), UIGlobals.playingAs()) } else{ item.toString() }
+                val text = Text(displayText)
                 text.font = Font(20.0)
                 this.graphic = text
                 this.onMouseClicked = EventHandler{_ -> closeAction(item)}

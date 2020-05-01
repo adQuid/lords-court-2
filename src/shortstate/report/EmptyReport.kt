@@ -1,6 +1,8 @@
 package shortstate.report
 
 import game.Game
+import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 
 class EmptyReport: Report() {
 
@@ -14,7 +16,7 @@ class EmptyReport: Report() {
         return mapOf()
     }
 
-    override fun toString(): String {
+    override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
         return "I haven't had a chance to check that"
     }
 

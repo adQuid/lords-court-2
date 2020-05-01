@@ -101,7 +101,7 @@ class SceneComponentFactory {
     }
 
     private fun reports(perspective: ShortStateCharacter): List<Tab<Report>>{
-        val reportOptions = perspective.knownReports.map{ report -> report }
+        val reportOptions = perspective.knownReports
         val reportTab = Tab<Report>("Reports", reportOptions)
 
         return listOf(reportTab)

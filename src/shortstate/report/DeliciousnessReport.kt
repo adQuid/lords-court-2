@@ -2,6 +2,8 @@ package shortstate.report
 
 import game.Game
 import game.gamelogicmodules.CookieWorld
+import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 
 class DeliciousnessReport: Report{
 
@@ -26,7 +28,7 @@ class DeliciousnessReport: Report{
         logic.deliciousness = value
     }
 
-    override fun toString(): String {
+    override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
         return "Game has $value Deliciousness"
     }
 

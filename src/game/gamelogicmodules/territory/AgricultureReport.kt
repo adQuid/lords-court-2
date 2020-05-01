@@ -1,6 +1,8 @@
 package game.gamelogicmodules.territory
 
 import game.Game
+import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.report.Report
 import shortstate.report.ReportFactory
 import shortstate.report.ReportType
@@ -38,8 +40,8 @@ class AgricultureReport: Report {
         logic.matchingTerritory(territory).resources[territory.WHEAT_NAME] = wheat
     }
 
-    override fun toString(): String {
-        return "${territory.name} has $wheat wheat, $flour flour, and $bread bread"
+    override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
+        return "${(context.game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).weekName(context.game.turn)}: ${territory.name} has $wheat wheat, $flour flour, and $bread bread"
     }
 
     override fun specialSaveString(): Map<String, Any> {

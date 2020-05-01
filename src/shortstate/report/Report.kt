@@ -1,8 +1,9 @@
 package shortstate.report
 
 import game.Game
+import ui.commoncomponents.PrettyPrintable
 
-abstract class Report {
+abstract class Report: PrettyPrintable {
 
     abstract val type: String
 
