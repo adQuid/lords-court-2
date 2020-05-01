@@ -23,8 +23,8 @@ class Territory {
         name = "Placelandia"
         resources = mutableMapOf(
         WHEAT_NAME to 1,
-        FLOUR_NAME to 2,
-        BREAD_NAME to 3
+        FLOUR_NAME to 0,
+        BREAD_NAME to 0
         )
     }
 
@@ -67,4 +67,7 @@ class Territory {
         return Count(this)
     }
 
+    fun modifyResource(resource: String, value: Int){
+        resources[resource] = resources[resource]!! + value
+    }
 }

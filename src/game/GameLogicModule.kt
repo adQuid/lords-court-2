@@ -27,6 +27,9 @@ abstract class GameLogicModule {
             if(logicModule is CookieWorld){
                 return CookieWorld(logicModule as CookieWorld)
             }
+            if(logicModule is TerritoryLogicModule){
+                return TerritoryLogicModule(logicModule as TerritoryLogicModule)
+            }
             throw Exception("Can't figure out type: ${logicModule.javaClass}!")
         }
     }

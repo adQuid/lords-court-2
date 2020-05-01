@@ -155,7 +155,7 @@ class Game {
     fun endTurn(): List<Effect>{
         val effects = actionsByPlayer.entries.flatMap{ entry ->
             doActions(entry.value, entry.key)
-        }
+        }.plus(gameLogicModules.flatMap { it.endTurn() })
 
         effects.forEach { it.apply(this) }
 

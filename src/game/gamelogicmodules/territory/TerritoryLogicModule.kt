@@ -41,7 +41,13 @@ class TerritoryLogicModule: GameLogicModule {
     }
 
     override fun endTurn(): List<Effect> {
-        return listOf()
+        val retval = mutableListOf<Effect>()
+
+        territories.forEach {
+            it.modifyResource(it.WHEAT_NAME, 1)
+        }
+
+        return retval
     }
 
     override fun value(perspective: GameCharacter): Double {
