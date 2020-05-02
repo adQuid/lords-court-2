@@ -15,13 +15,15 @@ import java.util.*
 import kotlin.system.exitProcess
 
 var SIZE_SCALE = 0.8
+var BASE_WIDTH = 1200.0
+var BASE_HEIGHT = 900.0
 
 class MainUI() : Application() {
 
     private var stage: Stage? = null
 
-    var totalWidth = 1200.0 * SIZE_SCALE
-    var totalHeight = 900.0 * SIZE_SCALE
+    var totalWidth = BASE_WIDTH * SIZE_SCALE
+    var totalHeight = BASE_HEIGHT * SIZE_SCALE
 
     var curFocus: Stack<Displayable?> = Stack<Displayable?>()
 
@@ -89,8 +91,17 @@ class MainUI() : Application() {
             SIZE_SCALE -= 0.1
         }
 
-        totalWidth = 1200.0 * SIZE_SCALE
-        totalHeight = 1080.0 * SIZE_SCALE
+        totalWidth = BASE_WIDTH * SIZE_SCALE
+        totalHeight = BASE_HEIGHT * SIZE_SCALE
+        display()
+    }
+
+    fun setResolution(width: Double, height: Double){
+        BASE_WIDTH = width
+        BASE_HEIGHT = height
+
+        totalWidth = BASE_WIDTH * SIZE_SCALE
+        totalHeight = BASE_HEIGHT * SIZE_SCALE
         display()
     }
 }

@@ -3,6 +3,8 @@ package ui.componentfactory
 import game.Writ
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
+import javafx.geometry.Pos
+import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -54,27 +56,19 @@ object UtilityComponentFactory {
         statsDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() / 10)
         retval.add(statsDisplay, 0,0)
 
-        val reportsDisplay = ImageView(Image("assets/general/reportsIcon.png"))
-        reportsDisplay.fitHeight = UIGlobals.totalHeight()/10
-        reportsDisplay.fitWidth = UIGlobals.totalWidth()/12
-        reportsDisplay.onMouseClicked =  EventHandler { _ -> UIGlobals.focusOn(
+
+        retval.add(iconButton("assets/general/reportsIcon.png", "View Reports from this Turn", { UIGlobals.focusOn(
             SelectionModal(
                 reports(perspective),
                 { report -> println(report) })
-        )
-        }
-        retval.add(reportsDisplay, 1,0)
+        )}), 1,0)
 
-        val writsDisplay = ImageView(Image("assets/general/writsIcon.png"))
-        writsDisplay.fitHeight = UIGlobals.totalHeight()/10
-        writsDisplay.fitWidth = UIGlobals.totalWidth()/12
-        writsDisplay.onMouseClicked =  EventHandler { _ -> UIGlobals.focusOn(
+        retval.add(iconButton("assets/general/writsIcon.png", "View Writs in your Possession", { UIGlobals.focusOn(
             SelectionModal(
                 writs(perspective),
                 { report -> println(report) })
         )
-        }
-        retval.add(writsDisplay, 2,0)
+        }), 2,0)
 
         val optionsButton = UtilityComponentFactory.shortButton("Options", EventHandler { UIGlobals.focusOn(OptionsMenu()) })
         retval.add(optionsButton, 3,0)
@@ -149,6 +143,7 @@ object UtilityComponentFactory {
     fun shortWideLabel(text: String): Label{
         val retval = Label(text)
         setSize(retval, 1.0)
+        retval.alignment = Pos.CENTER
         return retval
     }
 
@@ -179,5 +174,18 @@ object UtilityComponentFactory {
         val incompleteTab = Tab<Writ>("Incomplete", incomplete)
 
         return listOf(completeTab, incompleteTab)
+    }
+
+    fun applyTooltip(node: Node, text: String){
+        Tooltip.install(node, Tooltip(text))
+    }
+
+    fun iconButton(image: String, tooltip: String, action: () -> Unit): ImageView{
+        val retval = ImageView(Image(image))
+        retval.fitHeight = UIGlobals.totalHeight()/10
+        retval.fitWidth = UIGlobals.totalWidth()/12
+        applyTooltip(retval, tooltip)
+        retval.onMouseClicked =  EventHandler { _ -> action()}
+        return retval
     }
 }
