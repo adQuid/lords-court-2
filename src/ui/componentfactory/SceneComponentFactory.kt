@@ -91,7 +91,7 @@ class SceneComponentFactory {
 
         return listOf(localActionsButton, endTurnButton)
     }
-    
+
     private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomActionMaker>>{
         val tab = Tab(room.name, room.getActions(perspective))
 

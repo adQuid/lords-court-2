@@ -21,7 +21,7 @@ class MainUI() : Application() {
     private var stage: Stage? = null
 
     var totalWidth = 1200.0 * SIZE_SCALE
-    var totalHeight = 1080.0 * SIZE_SCALE
+    var totalHeight = 900.0 * SIZE_SCALE
 
     var curFocus: Stack<Displayable?> = Stack<Displayable?>()
 

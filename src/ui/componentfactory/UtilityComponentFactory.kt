@@ -10,20 +10,13 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Text
-import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.report.Report
-import shortstate.room.Room
-import shortstate.scenemaker.ConversationMaker
-import shortstate.scenemaker.GoToRoomSoloMaker
-import shortstate.scenemaker.SceneMaker
 import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.OptionsMenu
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
-import ui.componentfactory.SceneComponentFactory
-
 
 object UtilityComponentFactory {
 
@@ -31,7 +24,7 @@ object UtilityComponentFactory {
         val path = url.replace("//","\\")
         val image = Image(path)
         val retval = ImageView(image)
-        retval.fitHeight = (UIGlobals.totalHeight()) * (4.5 / 6.0)
+        retval.fitHeight = (UIGlobals.totalHeight()) * (8.0 / 10.0)
         retval.fitWidth = UIGlobals.totalWidth()
         return retval
     }
@@ -39,7 +32,7 @@ object UtilityComponentFactory {
     fun bottomPane(buttons: List<Button>, perspective: ShortStateCharacter): Pane{
 
         val buttonsPane = GridPane()
-        for(index in 0..7){
+        for(index in 0..3){
             if(index < buttons.size){
                 buttonsPane.add(buttons[index], (index % 4), if(index > 3) 1 else 0)
             } else {
@@ -58,11 +51,11 @@ object UtilityComponentFactory {
         val retval = GridPane()
 
         val statsDisplay = Label("Energy: " + perspective.energy + "/1000")
-        statsDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() / 12)
+        statsDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() / 10)
         retval.add(statsDisplay, 0,0)
 
         val reportsDisplay = ImageView(Image("assets/general/reportsIcon.png"))
-        reportsDisplay.fitHeight = UIGlobals.totalHeight()/12
+        reportsDisplay.fitHeight = UIGlobals.totalHeight()/10
         reportsDisplay.fitWidth = UIGlobals.totalWidth()/12
         reportsDisplay.onMouseClicked =  EventHandler { _ -> UIGlobals.focusOn(
             SelectionModal(
@@ -73,7 +66,7 @@ object UtilityComponentFactory {
         retval.add(reportsDisplay, 1,0)
 
         val writsDisplay = ImageView(Image("assets/general/writsIcon.png"))
-        writsDisplay.fitHeight = UIGlobals.totalHeight()/12
+        writsDisplay.fitHeight = UIGlobals.totalHeight()/10
         writsDisplay.fitWidth = UIGlobals.totalWidth()/12
         writsDisplay.onMouseClicked =  EventHandler { _ -> UIGlobals.focusOn(
             SelectionModal(
@@ -169,7 +162,7 @@ object UtilityComponentFactory {
     }
 
     private fun setSize(node: Control, proportion: Double){
-        node.setMinSize(UIGlobals.totalWidth() / proportion, UIGlobals.totalHeight() / 12)
+        node.setMinSize(UIGlobals.totalWidth() / proportion, UIGlobals.totalHeight() / 10)
     }
 
     fun reports(perspective: ShortStateCharacter): List<Tab<Report>>{

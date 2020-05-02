@@ -67,7 +67,7 @@ class SelectionModal<T>: Displayable {
             } else {
                 topic.onAction = EventHandler {_ -> focusedTab = it; parent.display()}
             }
-            topic.setMinSize(parent.totalWidth / options.size, parent.totalHeight / 12)
+            topic.setMinSize(parent.totalWidth / options.size, parent.totalHeight / 10)
             topPane.add(topic, index++, 0)
         }
         return topPane
