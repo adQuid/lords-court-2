@@ -5,7 +5,6 @@ import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.report.Report
 import shortstate.report.ReportFactory
-import shortstate.report.ReportType
 
 class AgricultureReport: Report {
 
@@ -15,13 +14,11 @@ class AgricultureReport: Report {
 
     override val type: String = AgricultureReport.type
     val territory: Territory
-    val wheat: Int
     val flour: Int
     val bread: Int
     
     constructor(game: Game, territory: Territory){
         this.territory = territory
-        wheat = territory.resources[territory.WHEAT_NAME]!!
         flour = territory.resources[territory.FLOUR_NAME]!!
         bread = territory.resources[territory.BREAD_NAME]!!
     }
@@ -30,24 +27,23 @@ class AgricultureReport: Report {
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
 
         territory = logic.territoryById(saveString["territory"] as Int)
-        wheat = saveString["wheat"] as Int
         flour = saveString["flour"] as Int
         bread = saveString["bread"] as Int
     }
 
     override fun apply(game: Game) {
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
-        logic.matchingTerritory(territory).resources[territory.WHEAT_NAME] = wheat
+        logic.matchingTerritory(territory).resources[territory.FLOUR_NAME] = flour
+        logic.matchingTerritory(territory).resources[territory.BREAD_NAME] = bread
     }
 
     override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
-        return "${(context.game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).weekName(context.game.turn)}: ${territory.name} has $wheat wheat, $flour flour, and $bread bread"
+        return "${(context.game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).weekName(context.game.turn)}: ${territory.name} has $flour flour and $bread bread"
     }
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "territory" to territory.id,
-            "wheat" to wheat,
             "flour" to flour,
             "bread" to bread
         )
@@ -60,7 +56,6 @@ class AgricultureReport: Report {
         other as AgricultureReport
 
         if (territory != other.territory) return false
-        if (wheat != other.wheat) return false
         if (flour != other.flour) return false
         if (bread != other.bread) return false
 
@@ -69,7 +64,6 @@ class AgricultureReport: Report {
 
     override fun hashCode(): Int {
         var result = territory.hashCode()
-        result = 31 * result + wheat
         result = 31 * result + flour
         result = 31 * result + bread
         return result

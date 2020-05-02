@@ -10,7 +10,7 @@ import org.junit.Test
 class TestSaveAndClone {
 
     fun soloTestGame(): Game {
-        val game = Game(listOf(TerritoryLogicModule(listOf(Territory()))))
+        val game = Game(listOf(TerritoryLogicModule(listOf(Territory("test territory")))))
         val defaultLocation = Location(game)
 
         game.locations.add(defaultLocation)

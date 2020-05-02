@@ -4,8 +4,7 @@ import game.Effect
 import game.Game
 import game.GameCharacter
 import game.GameLogicModule
-import shortstate.report.Report
-import shortstate.report.ReportFactory
+import kotlin.math.min
 
 class TerritoryLogicModule: GameLogicModule {
 
@@ -32,7 +31,7 @@ class TerritoryLogicModule: GameLogicModule {
     var weekOfYear: Int
 
     constructor(territories: Collection<Territory>): super(territories.map{AgricultureReportFactory(it)}) {
-        weekOfYear = 0
+        weekOfYear = 6
         this.territories = territories
     }
 
@@ -50,9 +49,7 @@ class TerritoryLogicModule: GameLogicModule {
         val retval = mutableListOf<Effect>()
 
         territories.forEach {
-            if(isGrowingSeason()){
-                it.modifyResource(it.WHEAT_NAME, 1)
-            }
+            growCrops(it)
         }
 
         weekOfYear = (weekOfYear + 2) % WEEKS_IN_YEAR
@@ -76,6 +73,35 @@ class TerritoryLogicModule: GameLogicModule {
 
     fun territoryById(id: Int): Territory{
         return territories.filter { it.id == id }.first()
+    }
+
+    private fun growCrops(territory: Territory){
+        var farmersLeft = territory.resources[territory.POPULATION_NAME]!!
+        println(territory.crops)
+        if(isGrowingSeason()){
+            //people harvest crops
+            territory.crops.forEach {
+                crop -> if(weekOfYear - crop.plantingTime > 15){
+                    val toHarvest = min(farmersLeft, crop.quantity)
+                    if(toHarvest > 0){
+                        territory.modifyResource(territory.SEEDS_NAME, toHarvest)
+                        farmersLeft -= toHarvest
+                        crop.quantity -= toHarvest
+                        println("harvesting $toHarvest")
+                    }
+                    crop.quantity /= 2
+                }
+            }
+            territory.crops.removeIf { it.quantity < 1 }
+
+            //people plant
+            val toPlant = min(farmersLeft, territory.resources[territory.SEEDS_NAME]!!)
+            if(toPlant > 0){
+                territory.crops.add(Crop(toPlant, weekOfYear))
+                territory.modifyResource(territory.SEEDS_NAME, -toPlant)
+                farmersLeft -= toPlant
+            }
+        }
     }
 
     private fun isGrowingSeason(): Boolean{
