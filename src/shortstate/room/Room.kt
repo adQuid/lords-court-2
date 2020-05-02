@@ -64,7 +64,6 @@ class Room {
                 .plus(player.player.writs.map { writ -> DefaultRoomActionMaker(EnactWrit(writ)) })
         } else if(type == RoomType.BEDROOM){
             return baseActions()
-                .plus(listOf(DefaultRoomActionMaker(GoToBed())))
         } else {
             return baseActions()
         }

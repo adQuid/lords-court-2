@@ -13,8 +13,9 @@ import shortstate.ShortGameScene
 import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import shortstate.room.Room
-import shortstate.room.RoomAction
 import shortstate.room.RoomActionMaker
+import shortstate.room.action.GoToBed
+import ui.specialdisplayables.EndTurnMenu
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -65,11 +66,11 @@ class SceneComponentFactory {
     }
 
     private fun universalButtons(perspective: ShortStateCharacter): List<Button> {
-        return listOf(UtilityComponentFactory.newSceneButton(perspective), viewReportsButton(perspective), viewWritsButton(perspective))
+        return listOf(UtilityComponentFactory.newSceneButton(perspective))
     }
 
     private fun outOfConvoButtons(perspective: ShortStateCharacter): List<Button> {
-        val btn2 = if(scene.room.getActions(perspective).isNotEmpty()){
+        val localActionsButton = if(scene.room.getActions(perspective).isNotEmpty()){
             UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
                 UIGlobals.focusOn(
                     SelectionModal(
@@ -86,47 +87,11 @@ class SceneComponentFactory {
             UtilityComponentFactory.shortButton("No Actions In this Room", null)
         }
 
-        return listOf(btn2)
+        val endTurnButton = UtilityComponentFactory.shortButton("End Turn", EventHandler { _ -> UIGlobals.focusOn(EndTurnMenu())})
+
+        return listOf(localActionsButton, endTurnButton)
     }
-
-    private fun viewReportsButton(perspective: ShortStateCharacter): Button {
-        return UtilityComponentFactory.shortButton("View Reports",
-                EventHandler { _ -> UIGlobals.focusOn(
-                    SelectionModal(
-                        reports(perspective),
-                        { report -> println(report) })
-                )
-            }
-        )
-    }
-
-    private fun reports(perspective: ShortStateCharacter): List<Tab<Report>>{
-        val reportOptions = perspective.knownReports
-        val reportTab = Tab<Report>("Reports", reportOptions)
-
-        return listOf(reportTab)
-    }
-
-    private fun viewWritsButton(perspective: ShortStateCharacter): Button {
-        return UtilityComponentFactory.shortButton("View Writs",
-            EventHandler { _ -> UIGlobals.focusOn(
-                SelectionModal(
-                    writs(perspective),
-                    {})
-            )
-            }
-        )
-    }
-
-    private fun writs(perspective: ShortStateCharacter): List<Tab<Writ>>{
-        val complete = perspective.player.writs.filter { it.complete() }
-        val completeTab = Tab<Writ>("Complete", complete)
-        val incomplete = perspective.player.writs.filter { !it.complete() }
-        val incompleteTab = Tab<Writ>("Incomplete", incomplete)
-
-        return listOf(completeTab, incompleteTab)
-    }
-
+    
     private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomActionMaker>>{
         val tab = Tab(room.name, room.getActions(perspective))
 

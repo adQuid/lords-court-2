@@ -1,5 +1,6 @@
 package ui.componentfactory
 
+import game.Writ
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.scene.control.*
@@ -12,6 +13,7 @@ import javafx.scene.text.Text
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import shortstate.report.Report
 import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
@@ -20,6 +22,7 @@ import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.OptionsMenu
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
+import ui.componentfactory.SceneComponentFactory
 
 
 object UtilityComponentFactory {
@@ -55,11 +58,33 @@ object UtilityComponentFactory {
         val retval = GridPane()
 
         val statsDisplay = Label("Energy: " + perspective.energy + "/1000")
-        statsDisplay.setMinSize(UIGlobals.totalWidth()/2, UIGlobals.totalWidth() / 12)
+        statsDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() / 12)
         retval.add(statsDisplay, 0,0)
 
+        val reportsDisplay = ImageView(Image("assets/general/reportsIcon.png"))
+        reportsDisplay.fitHeight = UIGlobals.totalHeight()/12
+        reportsDisplay.fitWidth = UIGlobals.totalWidth()/12
+        reportsDisplay.onMouseClicked =  EventHandler { _ -> UIGlobals.focusOn(
+            SelectionModal(
+                reports(perspective),
+                { report -> println(report) })
+        )
+        }
+        retval.add(reportsDisplay, 1,0)
+
+        val writsDisplay = ImageView(Image("assets/general/writsIcon.png"))
+        writsDisplay.fitHeight = UIGlobals.totalHeight()/12
+        writsDisplay.fitWidth = UIGlobals.totalWidth()/12
+        writsDisplay.onMouseClicked =  EventHandler { _ -> UIGlobals.focusOn(
+            SelectionModal(
+                writs(perspective),
+                { report -> println(report) })
+        )
+        }
+        retval.add(writsDisplay, 2,0)
+
         val optionsButton = UtilityComponentFactory.shortButton("Options", EventHandler { UIGlobals.focusOn(OptionsMenu()) })
-        retval.add(optionsButton, 1,0)
+        retval.add(optionsButton, 3,0)
 
         return retval
     }
@@ -76,7 +101,11 @@ object UtilityComponentFactory {
 
 
     fun backButton(): Button{
-        return shortWideButton("Back", EventHandler { UIGlobals.defocus()})
+        return proportionalBackButton(1.0)
+    }
+
+    fun proportionalBackButton(proportion: Double): Button{
+        return proportionalButton("Back", EventHandler { UIGlobals.defocus() }, proportion)
     }
 
     fun <T> basicList(items: List<T>, onClick: (T) -> Unit, width: Double, height: Double): ListView<T> {
@@ -124,6 +153,12 @@ object UtilityComponentFactory {
         return retval
     }
 
+    fun shortWideLabel(text: String): Label{
+        val retval = Label(text)
+        setSize(retval, 1.0)
+        return retval
+    }
+
     fun proportionalButton(text: String, action: EventHandler<MouseEvent>?, proportion: Double): Button{
         val retval = Button(text)
         setSize(retval, proportion)
@@ -135,5 +170,21 @@ object UtilityComponentFactory {
 
     private fun setSize(node: Control, proportion: Double){
         node.setMinSize(UIGlobals.totalWidth() / proportion, UIGlobals.totalHeight() / 12)
+    }
+
+    fun reports(perspective: ShortStateCharacter): List<Tab<Report>>{
+        val reportOptions = perspective.knownReports
+        val reportTab = Tab<Report>("Reports", reportOptions)
+
+        return listOf(reportTab)
+    }
+
+    fun writs(perspective: ShortStateCharacter): List<Tab<Writ>>{
+        val complete = perspective.player.writs.filter { it.complete() }
+        val completeTab = Tab<Writ>("Complete", complete)
+        val incomplete = perspective.player.writs.filter { !it.complete() }
+        val incompleteTab = Tab<Writ>("Incomplete", incomplete)
+
+        return listOf(completeTab, incompleteTab)
     }
 }
