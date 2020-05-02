@@ -82,6 +82,10 @@ class TerritoryLogicModule: GameLogicModule {
         return weekOfYear in 7..49
     }
 
+    fun currentWeekName(): String{
+        return weekName(weekOfYear)
+    }
+
     fun weekName(week: Int): String{
         if(week in 0..4){
             return "Deep Winter"

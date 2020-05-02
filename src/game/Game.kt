@@ -5,6 +5,8 @@ import game.action.GlobalActionTypeFactory
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
+import game.gamelogicmodules.territory.Territory
+import game.gamelogicmodules.territory.TerritoryLogicModule
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.Report
 
@@ -243,4 +245,10 @@ class Game {
         return players.filter { it.id == id }[0]
     }
 
+    fun turnName(): String {
+        if(gameLogicModules.filterIsInstance<TerritoryLogicModule>().isNotEmpty()){
+            return (moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).currentWeekName()
+        }
+        return "Turn $turn"
+    }
 }

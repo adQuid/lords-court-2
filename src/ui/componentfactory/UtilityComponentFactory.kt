@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
+import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.UIGlobals
 import shortstate.ShortStateCharacter
@@ -52,26 +53,30 @@ object UtilityComponentFactory {
     private fun middlePane(perspective: ShortStateCharacter): Pane{
         val retval = GridPane()
 
+        val turnDisplay = Label(UIGlobals.activeGame().turnName())
+        turnDisplay.font = Font(20.0)
+        turnDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() / 10)
+        retval.add(turnDisplay, 0,0)
         val statsDisplay = Label("Energy: " + perspective.energy + "/1000")
         statsDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() / 10)
-        retval.add(statsDisplay, 0,0)
+        retval.add(statsDisplay, 1,0)
 
 
         retval.add(iconButton("assets/general/reportsIcon.png", "View Reports from this Turn", { UIGlobals.focusOn(
             SelectionModal(
                 reports(perspective),
                 { report -> println(report) })
-        )}), 1,0)
+        )}), 2,0)
 
         retval.add(iconButton("assets/general/writsIcon.png", "View Writs in your Possession", { UIGlobals.focusOn(
             SelectionModal(
                 writs(perspective),
                 { report -> println(report) })
         )
-        }), 2,0)
+        }), 3,0)
 
         val optionsButton = UtilityComponentFactory.shortButton("Options", EventHandler { UIGlobals.focusOn(OptionsMenu()) })
-        retval.add(optionsButton, 3,0)
+        retval.add(optionsButton, 4,0)
 
         return retval
     }
