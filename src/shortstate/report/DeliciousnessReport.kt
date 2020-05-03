@@ -64,4 +64,8 @@ class DeliciousnessReportFactory: ReportFactory() {
     override fun reportFromSaveString(saveString: Map<String, Any>, game: Game): Report {
         return DeliciousnessReport(saveString)
     }
+
+    override fun tooltip(): String {
+        return "Deliciousness Report"
+    }
 }

@@ -31,6 +31,6 @@ class MakeReport: RoomAction{
     }
 
     override fun toString(): String {
-        return "Look up $type"
+        return "Look up ${UIGlobals.activeGame().reportFactoryFromType(type).tooltip()}"
     }
 }

@@ -17,13 +17,13 @@ class Count: Title{
     constructor(territory: Territory){
         this.territory = territory
         this.name = "Count of $territory"
-        reportsEntitled = listOf(AgricultureReportFactory(territory))
+        reportsEntitled = listOf(FoodStocksReportFactory(territory), ActiveCropsReportFactory(territory))
     }
 
     constructor(saveString: Map<String, Any>){
         this.name = saveString[NAME_NAME] as String
         this.territory = Territory(saveString[TERRITORY_NAME] as Map<String, Any>)
-        reportsEntitled = listOf(AgricultureReportFactory(territory))
+        reportsEntitled = listOf(FoodStocksReportFactory(territory), ActiveCropsReportFactory(territory))
     }
 
     override fun clone(): Count {

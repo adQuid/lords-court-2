@@ -5,10 +5,10 @@ import game.action.GlobalActionTypeFactory
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
-import game.gamelogicmodules.territory.Territory
 import game.gamelogicmodules.territory.TerritoryLogicModule
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.Report
+import shortstate.report.ReportFactory
 
 
 class Game {
@@ -199,7 +199,13 @@ class Game {
     }
 
     fun reportFromType(type: String): Report{
-        return gameLogicModules.map { module -> module.reportFromType(type, this) }
+        return gameLogicModules.map { module -> module.reportFactoryFromType(type, this) }
+            .filter{it != null}
+            .first()!!.generateReport(this)
+    }
+
+    fun reportFactoryFromType(type: String): ReportFactory {
+        return gameLogicModules.map { module -> module.reportFactoryFromType(type, this) }
             .filter{it != null}
             .first()!!
     }

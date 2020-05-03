@@ -6,46 +6,42 @@ import shortstate.ShortStateGame
 import shortstate.report.Report
 import shortstate.report.ReportFactory
 
-class AgricultureReport: Report {
+class ActiveCropsReport: Report {
 
     companion object{
-        val type = "AgriculturalReport"
+        val type = "ActiveCropsReport"
     }
 
-    override val type: String = AgricultureReport.type
+    override val type: String = FoodStocksReport.type
     val territory: Territory
-    val flour: Int
-    val bread: Int
+    val crops: List<Crop>
     
     constructor(game: Game, territory: Territory){
         this.territory = territory
-        flour = territory.resources[territory.FLOUR_NAME]!!
-        bread = territory.resources[territory.BREAD_NAME]!!
+        crops = territory.crops.map{Crop(it)}
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
 
         territory = logic.territoryById(saveString["territory"] as Int)
-        flour = saveString["flour"] as Int
-        bread = saveString["bread"] as Int
+        crops = (saveString["crops"] as List<Map<String, Any>>).map{map -> Crop(map)}.toMutableList()
     }
 
     override fun apply(game: Game) {
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
-        logic.matchingTerritory(territory).resources[territory.FLOUR_NAME] = flour
-        logic.matchingTerritory(territory).resources[territory.BREAD_NAME] = bread
+        logic.matchingTerritory(territory).crops.clear()
+        logic.matchingTerritory(territory).crops.addAll(crops)
     }
 
     override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
-        return "${(context.game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).weekName(context.game.turn)}: ${territory.name} has $flour flour and $bread bread"
+        return "As of ${context.game.turnName()}, ${territory.name} has ${crops.sumBy { it.quantity }} crops planted"
     }
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "territory" to territory.id,
-            "flour" to flour,
-            "bread" to bread
+            "crops" to crops
         )
     }
 
@@ -53,26 +49,23 @@ class AgricultureReport: Report {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as AgricultureReport
+        other as FoodStocksReport
 
         if (territory != other.territory) return false
-        if (flour != other.flour) return false
-        if (bread != other.bread) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = territory.hashCode()
-        result = 31 * result + flour
-        result = 31 * result + bread
+        result = 31 * result + crops.hashCode()
         return result
     }
 }
 
-class AgricultureReportFactory: ReportFactory{
+class ActiveCropsReportFactory: ReportFactory{
     val territory: Territory
-    override val type = AgricultureReport.type
+    override val type = ActiveCropsReport.type
 
     constructor(territory: Territory){
         this.territory = territory
@@ -80,11 +73,14 @@ class AgricultureReportFactory: ReportFactory{
 
     override fun generateReport(game: Game): Report {
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
-        return AgricultureReport(game, territory)
+        return ActiveCropsReport(game, territory)
     }
 
     override fun reportFromSaveString(saveString: Map<String, Any>, game: Game): Report {
-        return AgricultureReport(saveString, game)
+        return ActiveCropsReport(saveString, game)
     }
 
+    override fun tooltip(): String {
+        return "Active Crops Report"
+    }
 }

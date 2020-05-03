@@ -4,6 +4,7 @@ import game.Effect
 import game.Game
 import game.GameCharacter
 import game.GameLogicModule
+import shortstate.report.ReportFactory
 import kotlin.math.min
 
 class TerritoryLogicModule: GameLogicModule {
@@ -22,6 +23,10 @@ class TerritoryLogicModule: GameLogicModule {
         private fun territoriesFromSaveString(saveString: Map<String, Any>): Collection<Territory>{
             return (saveString[TERRITORIES_NAME] as List<Map<String, Any>>).map{map -> Territory(map)}
         }
+
+        private fun reportFactories(territories: Collection<Territory>): List<ReportFactory>{
+            return territories.map{FoodStocksReportFactory(it)} + territories.map{ActiveCropsReportFactory(it)}
+        }
     }
 
     override val type = Companion.type
@@ -30,17 +35,17 @@ class TerritoryLogicModule: GameLogicModule {
     val territories: Collection<Territory>
     var weekOfYear: Int
 
-    constructor(territories: Collection<Territory>): super(territories.map{AgricultureReportFactory(it)}) {
+    constructor(territories: Collection<Territory>): super(reportFactories(territories)) {
         weekOfYear = 6
         this.territories = territories
     }
 
-    constructor(other: TerritoryLogicModule): super(other.territories.map{AgricultureReportFactory(it)}){
+    constructor(other: TerritoryLogicModule): super(reportFactories(other.territories)){
         this.weekOfYear = other.weekOfYear
         this.territories = other.territories.map { Territory(it) }
     }
 
-    constructor(saveString: Map<String, Any>, game: Game): super(territoriesFromSaveString(saveString).map{AgricultureReportFactory(it)}){
+    constructor(saveString: Map<String, Any>, game: Game): super(reportFactories(territoriesFromSaveString(saveString))){
         this.weekOfYear = saveString[WEEK_NAME] as Int
         this.territories = territoriesFromSaveString(saveString)
     }
@@ -77,7 +82,6 @@ class TerritoryLogicModule: GameLogicModule {
 
     private fun growCrops(territory: Territory){
         var farmersLeft = territory.resources[territory.POPULATION_NAME]!!
-        println(territory.crops)
         if(isGrowingSeason()){
             //people harvest crops
             territory.crops.forEach {
@@ -87,7 +91,6 @@ class TerritoryLogicModule: GameLogicModule {
                         territory.modifyResource(territory.SEEDS_NAME, toHarvest)
                         farmersLeft -= toHarvest
                         crop.quantity -= toHarvest
-                        println("harvesting $toHarvest")
                     }
                     crop.quantity /= 2
                 }

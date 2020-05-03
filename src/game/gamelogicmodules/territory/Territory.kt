@@ -18,7 +18,7 @@ class Territory {
     val FLOUR_NAME = "flour"
     val BREAD_NAME = "bread"
     val RESOURCES_NAME = "resources"
-    val resourceNames = listOf(ARABLE_LAND_NAME, POPULATION_NAME, SEEDS_NAME, FLOUR_NAME, BREAD_NAME, RESOURCES_NAME)
+    private val resourceNames = listOf(ARABLE_LAND_NAME, POPULATION_NAME, SEEDS_NAME, FLOUR_NAME, BREAD_NAME, RESOURCES_NAME)
     val CROPS_NAME = "crops"
     val crops: MutableList<Crop>
     val resources: MutableMap<String, Int>

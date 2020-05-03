@@ -51,11 +51,8 @@ abstract class GameLogicModule {
         return null
     }
 
-    fun reportFromType(type: String, game: Game): Report?{
-        if(reportTypes.containsKey(type)){
-            return reportTypes[type]!!.generateReport(game)
-        }
-        return null
+    fun reportFactoryFromType(type: String, game: Game): ReportFactory?{
+        return reportTypes[type]
     }
 
     fun saveString(): Map<String, Any> {

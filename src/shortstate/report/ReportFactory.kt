@@ -25,4 +25,6 @@ abstract class ReportFactory {
     override fun hashCode(): Int {
         return 1
     }
+
+    abstract fun tooltip(): String
 }
