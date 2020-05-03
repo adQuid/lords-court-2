@@ -41,6 +41,10 @@ class CookieWorld: GameLogicModule {
         hasMilk = (saveString[HAS_MILK_NAME] as List<Int>).map { id -> game.characterById(id)}.toMutableList()
     }
 
+    override fun finishConstruction(game: Game) {
+
+    }
+
     override fun endTurn(): List<Effect> {
         return listOf()
     }

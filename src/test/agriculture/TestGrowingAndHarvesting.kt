@@ -9,28 +9,51 @@ import org.junit.Test
 
 class TestGrowingAndHarvesting {
 
-    fun agroTestGame(): Game {
-        val territory = Territory("Test Territory")
-        territory.resources[territory.SEEDS_NAME] = 200
-        territory.resources[territory.ARABLE_LAND_NAME] = 100
-        territory.resources[territory.POPULATION_NAME] = 100
-        val game = Game(listOf(TerritoryLogicModule(listOf(territory))))
+    private fun agroTestGame(): Game {
+        val game = Game(listOf(TerritoryLogicModule(listOf(Territory("test place")))))
         TerritoryLogicModule.getTerritoryLogicModule(game).weekOfYear = 7
         return game
     }
 
     @Test
-    fun test_clone(){
+    fun test_grow_and_harvest(){
         val game = agroTestGame()
 
-        game.endTurn()
-        assert(TerritoryLogicModule.getTerritoryLogicModule(game).territories.first().crops.size == 1)
-        assert(TerritoryLogicModule.getTerritoryLogicModule(game).territories.first().crops[0].quantity == 100)
+        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).territories.first()
+        ter.resources.set(Territory.SEEDS_NAME, 200)
+        ter.resources.set(Territory.ARABLE_LAND_NAME, 100)
+        ter.resources.set(Territory.POPULATION_NAME, 100)
+        //give them enough food to not have to worry about dieing
+        ter.resources.set(Territory.FLOUR_NAME, 10000)
+        ter.resources.set(Territory.BREAD_NAME, 100)
 
         game.endTurn()
-        assert(TerritoryLogicModule.getTerritoryLogicModule(game).territories.first().crops.size == 2)
-        assert(TerritoryLogicModule.getTerritoryLogicModule(game).territories.first().crops[1].quantity == 100)
+        assert(ter.crops.size == 1)
+        assert(ter.crops[0].quantity == 100)
+
+        game.endTurn()
+        assert(ter.crops.size == 1)
+
+        for(i in 1..15){
+            game.endTurn()
+        }
+        assert(ter.resources.get(Territory.SEEDS_NAME) > 0)
     }
 
+    @Test
+    fun test_milling_flour(){
+        val game = agroTestGame()
+
+        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).territories.first()
+        ter.resources.set(Territory.ARABLE_LAND_NAME, 0)
+        ter.resources.set(Territory.SEEDS_NAME, 200)
+        ter.resources.set(Territory.POPULATION_NAME, 100)
+        //give them enough food to not have to worry about dieing
+        ter.resources.set(Territory.BREAD_NAME, 100)
+
+        game.endTurn()
+
+        assert(ter.resources.get(Territory.FLOUR_NAME) > 0)
+    }
 
 }

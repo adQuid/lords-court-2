@@ -49,7 +49,8 @@ class Game {
         actionsByPlayer = other.actionsByPlayer.mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
         concludedPlayers = other.concludedPlayers.toMutableSet()
         titles = other.titles.map { title -> title.clone()}.toMutableSet()
-        gameLogicModules = other.gameLogicModules.map { GameLogicModule.cloneModule(it) }
+        gameLogicModules = other.gameLogicModules.map { GameLogicModule.cloneModule(it, this) }
+        gameLogicModules.forEach { it.finishConstruction(this) }
     }
 
     constructor(saveString: Map<String,Any>){
@@ -70,6 +71,7 @@ class Game {
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> CookieWorldTitleFactory.titleFromSaveString(map) }.toMutableSet()
 
         (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
+        gameLogicModules.forEach { it.finishConstruction(this) }
     }
 
     fun saveString(): Map<String, Any>{

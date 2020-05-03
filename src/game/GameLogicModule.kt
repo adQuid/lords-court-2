@@ -6,6 +6,7 @@ import shortstate.report.Report
 import shortstate.report.ReportFactory
 import java.lang.Exception
 import game.gamelogicmodules.territory.TerritoryLogicModule
+import game.gamelogicmodules.capital.CapitalLogicModule
 
 abstract class GameLogicModule {
 
@@ -20,15 +21,21 @@ abstract class GameLogicModule {
             if(saveString[TYPE_NAME] == TerritoryLogicModule.type){
                 return TerritoryLogicModule(saveString, game)
             }
+            if(saveString[TYPE_NAME] == CapitalLogicModule.type){
+                return CapitalLogicModule(saveString, game)
+            }
             throw Exception("Logic module name: ${saveString.getOrDefault(TYPE_NAME, null)} not found!")
         }
 
-        fun cloneModule(logicModule: GameLogicModule): GameLogicModule{
+        fun cloneModule(logicModule: GameLogicModule, game: Game): GameLogicModule{
             if(logicModule is CookieWorld){
-                return CookieWorld(logicModule as CookieWorld)
+                return CookieWorld(logicModule)
             }
             if(logicModule is TerritoryLogicModule){
-                return TerritoryLogicModule(logicModule as TerritoryLogicModule)
+                return TerritoryLogicModule(logicModule)
+            }
+            if(logicModule is CapitalLogicModule){
+                return CapitalLogicModule(logicModule, game)
             }
             throw Exception("Can't figure out type: ${logicModule.javaClass}!")
         }
@@ -41,6 +48,8 @@ abstract class GameLogicModule {
     constructor(reportTypes: Collection<ReportFactory>){
         this.reportTypes = reportTypes.associate { it.type to it }
     }
+
+    abstract fun finishConstruction(game: Game)
 
     abstract fun endTurn(): List<Effect>
 

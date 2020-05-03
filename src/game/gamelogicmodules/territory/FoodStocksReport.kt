@@ -19,8 +19,8 @@ class FoodStocksReport: Report {
     
     constructor(game: Game, territory: Territory){
         this.territory = territory
-        flour = territory.resources[territory.FLOUR_NAME]!!
-        bread = territory.resources[territory.BREAD_NAME]!!
+        flour = territory.resources.get(Territory.FLOUR_NAME)
+        bread = territory.resources.get(Territory.BREAD_NAME)
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
@@ -33,8 +33,8 @@ class FoodStocksReport: Report {
 
     override fun apply(game: Game) {
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
-        logic.matchingTerritory(territory).resources[territory.FLOUR_NAME] = flour
-        logic.matchingTerritory(territory).resources[territory.BREAD_NAME] = bread
+        logic.matchingTerritory(territory).resources.set(Territory.FLOUR_NAME, flour)
+        logic.matchingTerritory(territory).resources.set(Territory.BREAD_NAME, bread)
     }
 
     override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {

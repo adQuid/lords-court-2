@@ -50,6 +50,10 @@ class TerritoryLogicModule: GameLogicModule {
         this.territories = territoriesFromSaveString(saveString)
     }
 
+    override fun finishConstruction(game: Game) {
+
+    }
+
     override fun endTurn(): List<Effect> {
         val retval = mutableListOf<Effect>()
 
@@ -81,14 +85,15 @@ class TerritoryLogicModule: GameLogicModule {
     }
 
     private fun growCrops(territory: Territory){
-        var farmersLeft = territory.resources[territory.POPULATION_NAME]!!
+        var farmersLeft = territory.resources.get(Territory.POPULATION_NAME)
+        var landLeft = territory.resources.get(Territory.ARABLE_LAND_NAME) - territory.totalCropsPlanted()
         if(isGrowingSeason()){
             //people harvest crops
             territory.crops.forEach {
                 crop -> if(weekOfYear - crop.plantingTime > 15){
                     val toHarvest = min(farmersLeft, crop.quantity)
                     if(toHarvest > 0){
-                        territory.modifyResource(territory.SEEDS_NAME, toHarvest)
+                        territory.modifyResource(Territory.SEEDS_NAME, crop.yield() * toHarvest)
                         farmersLeft -= toHarvest
                         crop.quantity -= toHarvest
                     }
@@ -96,14 +101,38 @@ class TerritoryLogicModule: GameLogicModule {
                 }
             }
             territory.crops.removeIf { it.quantity < 1 }
-
+            
             //people plant
-            val toPlant = min(farmersLeft, territory.resources[territory.SEEDS_NAME]!!)
+            val toPlant = min(min(landLeft, farmersLeft), territory.resources.get(Territory.SEEDS_NAME))
             if(toPlant > 0){
                 territory.crops.add(Crop(toPlant, weekOfYear))
-                territory.modifyResource(territory.SEEDS_NAME, -toPlant)
+                territory.modifyResource(Territory.SEEDS_NAME, -toPlant)
                 farmersLeft -= toPlant
             }
+        }
+        
+        //milling seeds
+        val seedsToSave = territory.resources.get(Territory.ARABLE_LAND_NAME) * 1.2
+        val toMill = territory.resources.get(Territory.SEEDS_NAME) - seedsToSave
+        if(toMill > 0){
+            territory.modifyResource(Territory.SEEDS_NAME, -toMill.toInt())
+            territory.modifyResource(Territory.FLOUR_NAME, toMill.toInt())
+        }
+
+        //bake just enough bread to eat
+        val breadToMake = min(territory.resources.get(Territory.POPULATION_NAME), territory.resources.get(Territory.FLOUR_NAME))
+        if(breadToMake > 0){
+            territory.modifyResource(Territory.BREAD_NAME, breadToMake*2)
+            territory.modifyResource(Territory.FLOUR_NAME, -breadToMake)
+        }
+
+        //eat bread
+        //TODO: Will I never need this step?
+        val breadToEat = territory.resources.get(Territory.BREAD_NAME)
+        if(breadToEat >= territory.resources.get(Territory.POPULATION_NAME)){
+            territory.modifyResource(Territory.BREAD_NAME, -breadToEat)
+        } else {
+            territory.resources.set(Territory.BREAD_NAME, 0)
         }
     }
 

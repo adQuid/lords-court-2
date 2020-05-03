@@ -33,4 +33,8 @@ class Crop {
         return "$quantity planted on week $plantingTime"
     }
 
+    fun yield(): Int {
+        return 4
+    }
+
 }
