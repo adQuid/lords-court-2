@@ -6,13 +6,14 @@ import javafx.scene.layout.GridPane
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
-import shortstate.room.action.GoToBed
-import ui.Displayable
+import ui.NoPerspectiveDisplayable
+import ui.PerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
+import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 
-class MainMenu: Displayable {
+class MainMenu: NoPerspectiveDisplayable() {
 
-    override fun display(perspective: ShortStateCharacter): Scene {
+    override fun display(): Scene {
         val pane = GridPane()
 
         pane.add(UtilityComponentFactory.shortWideLabel("Welcome...To Lords Court"), 0, 2)
@@ -23,8 +24,9 @@ class MainMenu: Displayable {
         pane.add(UtilityComponentFactory.shortWideLabel("Filler"), 0, 7)
         pane.add(UtilityComponentFactory.shortWideLabel("Filler"), 0, 8)
         pane.add(UtilityComponentFactory.shortWideLabel("Filler"), 0, 9)
-        pane.add(UtilityComponentFactory.shortWideLabel("MAP EDITOR"), 0, 10)
-        pane.add(UtilityComponentFactory.shortWideButton("PLAY", EventHandler { UIGlobals.resetFocus() }), 0, 11)
+        pane.add(UtilityComponentFactory.shortWideButton("MAP EDITOR",  EventHandler { UIGlobals.focusOn(WorldEditorMainMenu()) }), 0, 10)
+        pane.add(UtilityComponentFactory.shortWideButton("PLAY", EventHandler {
+            Controller.singleton!!.newGame() }), 0, 11)
 
 
         return Scene(pane)

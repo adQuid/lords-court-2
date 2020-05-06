@@ -91,17 +91,17 @@ class Controller {
         game = GameSetup().setupAgricultureGame()
         val shortGame = ShortStateGame(game!!, game!!.locations[0])
         shortThread = ShortStateController(shortGame)
+        UIGlobals.resetFocus()
         startPlaying()
     }
 
     private fun startPlaying(){
         Thread(shortThread).start()
         brainThread1.start()
-        Application.launch(MainUI::class.java)
     }
 }
 
 fun main() {
     Controller.singleton = Controller()
-    Controller.singleton!!.newGame()
+    Application.launch(MainUI::class.java)
 }

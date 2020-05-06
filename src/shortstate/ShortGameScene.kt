@@ -3,10 +3,10 @@ package shortstate
 import game.GameCharacter
 import javafx.scene.Scene
 import shortstate.room.Room
-import ui.Displayable
+import ui.PerspectiveDisplayable
 import ui.componentfactory.SceneComponentFactory
 
-class ShortGameScene: Displayable {
+class ShortGameScene: PerspectiveDisplayable {
 
     val CONVERSATION_NAME = "CONVO"
     val conversation: Conversation?
@@ -20,14 +20,14 @@ class ShortGameScene: Displayable {
     //TODO: loosen coupling
     val display: SceneComponentFactory
 
-    constructor(characters: List<ShortStateCharacter>, room: Room, conversation: Conversation?){
+    constructor(characters: List<ShortStateCharacter>, room: Room, conversation: Conversation?): super(){
         this.characters = characters
         this.room = room
         this.conversation = conversation
         this.display = SceneComponentFactory(this)
     }
 
-    constructor(parent: ShortStateGame, saveString: Map<String,Any?>){
+    constructor(parent: ShortStateGame, saveString: Map<String,Any?>): super(){
         if(saveString[CONVERSATION_NAME] == null){
             conversation = null
         } else {

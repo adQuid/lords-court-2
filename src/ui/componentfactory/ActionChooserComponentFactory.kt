@@ -6,7 +6,7 @@ import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import main.UIGlobals
 import shortstate.ShortStateCharacter
-import ui.Displayable
+import ui.PerspectiveDisplayable
 
 class ActionChooserComponentFactory {
 
@@ -29,7 +29,7 @@ class ActionChooserComponentFactory {
 }
 
 //dummy model object when choosing an action. May need to make this a full object later.
-class ActionChooser: Displayable {
+class ActionChooser: PerspectiveDisplayable {
     val player: GameCharacter
     val context: List<GameCharacter>
     val callback: (Action) -> Unit

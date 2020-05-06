@@ -5,7 +5,7 @@ import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import main.UIGlobals
 import shortstate.ShortStateCharacter
-import ui.Displayable
+import ui.PerspectiveDisplayable
 
 class EffectChooserComponentFactory {
     val context: List<Effect>
@@ -24,7 +24,7 @@ class EffectChooserComponentFactory {
     }
 }
 
-class EffectChooser: Displayable{
+class EffectChooser: PerspectiveDisplayable{
     val context: List<Effect>
     val callback: (Effect) -> Unit
 

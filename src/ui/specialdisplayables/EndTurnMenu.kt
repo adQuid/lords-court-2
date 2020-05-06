@@ -4,13 +4,12 @@ import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import main.Controller
-import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.room.action.GoToBed
-import ui.Displayable
+import ui.PerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
 
-class EndTurnMenu: Displayable {
+class EndTurnMenu: PerspectiveDisplayable() {
 
 
     override fun display(perspective: ShortStateCharacter): Scene {

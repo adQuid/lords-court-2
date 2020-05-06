@@ -5,6 +5,5 @@ import shortstate.ShortStateCharacter
 
 interface Displayable {
 
-    fun display(perspective: ShortStateCharacter): Scene
-
+    fun universalDisplay(perspective: ShortStateCharacter?): Scene
 }

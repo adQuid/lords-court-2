@@ -7,19 +7,14 @@ import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
 import game.GameCharacter
 import game.Game
-import game.effects.AddDelicousness
 import shortstate.dialog.GlobalLineTypeFactory
 import game.effects.GlobalEffectFactory
-import javafx.scene.Scene
-import javafx.scene.layout.GridPane
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.room.Room
-import ui.Displayable
 import ui.commoncomponents.AppendableList
 import ui.componentfactory.EffectChooser
-import ui.componentfactory.UtilityComponentFactory
 
 class CiteEffect: Line {
 

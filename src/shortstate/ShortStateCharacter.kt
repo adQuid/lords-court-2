@@ -1,24 +1,16 @@
 package shortstate
 
-import game.action.Action
 import aibrain.ConversationBrain
 import aibrain.SceneBrain
 import game.GameCharacter
 import game.Game
-import game.action.GlobalActionTypeFactory
 import javafx.scene.Scene
-import shortstate.dialog.Line
-import shortstate.dialog.linetypes.Announcement
-import shortstate.dialog.linetypes.OfferDeal
-import shortstate.dialog.linetypes.RequestReport
-import shortstate.report.GlobalReportTypeFactory
 import shortstate.report.Report
-import shortstate.report.ReportType
 import shortstate.scenemaker.SceneMaker
-import ui.Displayable
+import ui.PerspectiveDisplayable
 import ui.componentfactory.CharacterDetailComponentFactory
 
-class ShortStateCharacter: Displayable {
+class ShortStateCharacter: PerspectiveDisplayable {
 
     val PLAYER_NAME = "PLAYER"
     val player: GameCharacter

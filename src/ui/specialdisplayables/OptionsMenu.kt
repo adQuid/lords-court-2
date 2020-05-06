@@ -7,10 +7,10 @@ import javafx.scene.layout.GridPane
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
-import ui.Displayable
+import ui.PerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
 
-class OptionsMenu: Displayable {
+class OptionsMenu: PerspectiveDisplayable() {
 
 
     override fun display(perspective: ShortStateCharacter): Scene {

@@ -12,12 +12,12 @@ import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.UIGlobals
 import shortstate.ShortStateCharacter
-import ui.Displayable
+import ui.PerspectiveDisplayable
 import ui.commoncomponents.PrettyPrintable
 import ui.componentfactory.UtilityComponentFactory
 
 
-class SelectionModal<T>: Displayable {
+class SelectionModal<T>: PerspectiveDisplayable {
 
     val parent = UIGlobals.GUI()
     val title: String
@@ -26,7 +26,7 @@ class SelectionModal<T>: Displayable {
 
     var focusedTab: Tab<T>
 
-    constructor(title: String, options: List<Tab<T>>, action: (T) -> Unit){
+    constructor(title: String, options: List<Tab<T>>, action: (T) -> Unit): super(){
         this.title = title
         this.options = options
         this.focusedTab = options[0]

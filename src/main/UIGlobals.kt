@@ -5,6 +5,7 @@ import game.GameCharacter
 import game.action.Action
 import shortstate.ShortStateCharacter
 import ui.Displayable
+import ui.PerspectiveDisplayable
 import ui.MainUI
 
 object UIGlobals {
@@ -22,7 +23,7 @@ object UIGlobals {
     }
 
     fun playingAs(): ShortStateCharacter{
-        return GUI().playingAs()
+        return GUI().playingAs()!!
     }
 
     fun resetFocus(){

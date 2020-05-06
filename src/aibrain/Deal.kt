@@ -6,10 +6,10 @@ import game.Game
 import game.action.GlobalActionTypeFactory
 import javafx.scene.Scene
 import shortstate.ShortStateCharacter
-import ui.Displayable
+import ui.PerspectiveDisplayable
 import ui.componentfactory.DealComponentFactory
 
-abstract class Deal: Displayable {
+abstract class Deal: PerspectiveDisplayable() {
     abstract fun theActions(): Map<GameCharacter, Set<Action>>
 
     abstract fun dialogText(speaker: GameCharacter, target: GameCharacter): String

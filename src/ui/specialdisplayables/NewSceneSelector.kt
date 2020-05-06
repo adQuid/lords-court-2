@@ -1,19 +1,17 @@
 package ui.specialdisplayables
 
-import javafx.scene.Scene
 import main.Controller
-import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
-import ui.Displayable
+import ui.PerspectiveDisplayable
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
 object NewSceneSelector {
-    fun newSceneSelector(perspective: ShortStateCharacter): Displayable{
+    fun newSceneSelector(perspective: ShortStateCharacter): PerspectiveDisplayable{
         return SelectionModal("New Scene",
             newSceneOptions(perspective),
             { maker -> goToNewSceneIfApplicable(maker, perspective) })

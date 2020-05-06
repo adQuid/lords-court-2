@@ -3,14 +3,13 @@ package ui.commoncomponents
 import javafx.event.EventHandler
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
-import main.Controller
 import main.UIGlobals
-import ui.Displayable
+import ui.PerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
 
 class AppendableList<T> {
 
-    fun actionList(collection: Collection<T>, addSelector: Displayable?): Pane {
+    fun actionList(collection: Collection<T>, addSelector: PerspectiveDisplayable?): Pane {
         val retval = GridPane()
 
         var behavior: (T) -> Unit

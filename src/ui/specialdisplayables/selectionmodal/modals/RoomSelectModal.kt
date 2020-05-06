@@ -16,7 +16,7 @@ class RoomSelectModal {
     val parent: MainUI
     val closeAction: (Room) -> Unit
 
-    constructor(parent: MainUI, action: (Room) -> Unit){
+    constructor(parent: MainUI, action: (Room) -> Unit): super(){
         this.parent = parent
         this.closeAction = action
     }
@@ -24,7 +24,7 @@ class RoomSelectModal {
     fun getScene(): Scene {
         val pane = GridPane()
 
-        for((index, room) in parent.playingAs().player.location.rooms.withIndex()){
+        for((index, room) in parent.playingAs()!!.player.location.rooms.withIndex()){
             pane.add(
                 UtilityComponentFactory.shortWideButton("room", EventHandler { closeAction(room) }), 0,
                 index

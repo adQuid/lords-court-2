@@ -7,7 +7,6 @@ import javafx.stage.Stage
 import javafx.scene.Scene
 import javafx.stage.WindowEvent
 import main.Controller
-import main.UIGlobals
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import ui.componentfactory.*
@@ -42,8 +41,12 @@ class MainUI() : Application() {
         return Controller.singleton!!.shortThread!!.shortGame
     }
 
-    fun playingAs(): ShortStateCharacter {
-        return shortGame().playerCharacter()
+    fun playingAs(): ShortStateCharacter? {
+        if(Controller.singleton!!.game == null){
+            return null
+        } else {
+            return shortGame().playerCharacter()
+        }
     }
 
     fun focusOn(focus: Displayable?){
@@ -61,7 +64,7 @@ class MainUI() : Application() {
 
     //focuses on whatever the scene is at this point
     fun resetFocus(){
-        focusOn(shortGame().sceneForPlayer(playingAs()))
+        focusOn(shortGame().sceneForPlayer(playingAs()!!))
     }
 
     fun defocus(){
@@ -71,9 +74,9 @@ class MainUI() : Application() {
 
     fun display(){
         if(curFocus.size > 0){
-            setScene(curFocus.peek()!!.display(playingAs()))
+            setScene(curFocus.peek()!!.universalDisplay(playingAs()))
         }else{
-            setScene(WaitingSceneComponentFactory().waitingPage(playingAs()))
+            setScene(WaitingSceneComponentFactory().waitingPage(playingAs()!!))
         }
 
         Platform.runLater {
