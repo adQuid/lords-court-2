@@ -11,6 +11,7 @@ import main.UIGlobals
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import ui.componentfactory.*
+import ui.specialdisplayables.MainMenu
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -34,9 +35,7 @@ class MainUI() : Application() {
     override fun start(primaryStage: Stage) {
         primaryStage.onCloseRequest = EventHandler<WindowEvent> { exitProcess(0) }
         stage = primaryStage
-        resetFocus()
-
-        display()
+        focusOnMainMenu()
     }
 
     fun shortGame(): ShortStateGame {
@@ -54,6 +53,10 @@ class MainUI() : Application() {
             curFocus.push(focus)
         }
         display()
+    }
+
+    fun focusOnMainMenu(){
+        focusOn(MainMenu())
     }
 
     //focuses on whatever the scene is at this point
