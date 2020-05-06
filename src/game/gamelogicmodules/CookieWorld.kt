@@ -26,17 +26,17 @@ class CookieWorld: GameLogicModule {
     val HAS_MILK_NAME = "hasMilk"
     var hasMilk = mutableListOf<GameCharacter>()
 
-    constructor() : super(listOf(DeliciousnessReportFactory())) {
+    constructor() : super(listOf(DeliciousnessReportFactory()), listOf()) {
         deliciousness = 0.0
         hasMilk = mutableListOf<GameCharacter>()
     }
 
-    constructor(other: CookieWorld): super(listOf(DeliciousnessReportFactory())){
+    constructor(other: CookieWorld): super(listOf(DeliciousnessReportFactory()), listOf()){
         deliciousness = other.deliciousness
         hasMilk = other.hasMilk.toMutableList()
     }
 
-    constructor(saveString: Map<String, Any>, game: Game): super(listOf(DeliciousnessReportFactory())){
+    constructor(saveString: Map<String, Any>, game: Game): super(listOf(DeliciousnessReportFactory()), listOf()){
         deliciousness = saveString[DELICIOUSNESS_NAME] as Double
         hasMilk = (saveString[HAS_MILK_NAME] as List<Int>).map { id -> game.characterById(id)}.toMutableList()
     }
@@ -45,7 +45,7 @@ class CookieWorld: GameLogicModule {
 
     }
 
-    override fun endTurn(): List<Effect> {
+    override fun endTurn(game: Game): List<Effect> {
         return listOf()
     }
 

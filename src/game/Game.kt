@@ -159,13 +159,33 @@ class Game {
     fun endTurn(): List<Effect>{
         val effects = actionsByPlayer.entries.flatMap{ entry ->
             doActions(entry.value, entry.key)
-        }.plus(gameLogicModules.flatMap { it.endTurn() })
+        }.plus(runLogicModules())
 
         effects.forEach { it.apply(this) }
 
         actionsByPlayer.clear()
         turn++
         return effects
+    }
+
+    private fun runLogicModules(): List<Effect>{
+        val retval = mutableListOf<Effect>()
+        val modulesAlreadyRun = mutableListOf<GameLogicModule>()
+
+        var nextModule = gameLogicModules.first()
+        while(modulesAlreadyRun.size < gameLogicModules.size){
+            if(nextModule.dependencies.filter { !modulesAlreadyRun.contains(this.moduleOfType(it)) }.isEmpty()){
+                retval.addAll(nextModule.endTurn(this))
+                modulesAlreadyRun.add(nextModule)
+                if(modulesAlreadyRun.size < gameLogicModules.size){
+                    nextModule = gameLogicModules.filter { !modulesAlreadyRun.contains(it) }.first()
+                }
+            } else {
+                nextModule = moduleOfType(nextModule.dependencies.filter { !modulesAlreadyRun.contains(this.moduleOfType(it)) }.first())
+            }
+        }
+
+        return retval
     }
 
     fun applyActions(actions: Collection<Action>, player: GameCharacter): List<Effect>{

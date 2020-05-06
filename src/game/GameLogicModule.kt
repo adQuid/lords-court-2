@@ -44,14 +44,16 @@ abstract class GameLogicModule {
     abstract val type: String
 
     var reportTypes: Map<String, ReportFactory>
+    var dependencies: List<String>
 
-    constructor(reportTypes: Collection<ReportFactory>){
+    constructor(reportTypes: Collection<ReportFactory>, dependencies: List<String>){
         this.reportTypes = reportTypes.associate { it.type to it }
+        this.dependencies = dependencies
     }
 
     abstract fun finishConstruction(game: Game)
 
-    abstract fun endTurn(): List<Effect>
+    abstract fun endTurn(game: Game): List<Effect>
 
     fun reportFromSaveString(saveString: Map<String, Any>, game: Game): Report?{
         if(reportTypes.containsKey(saveString[GlobalReportTypeFactory.TYPE_NAME])){

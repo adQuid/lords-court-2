@@ -24,6 +24,8 @@ class Territory {
 
     val CROPS_NAME = "crops"
     val crops: MutableList<Crop>
+    val LAST_HARVEST_NAME = "lastharvest"
+    var lastHarvest: List<Crop>
     val resources: Resources
     constructor(name: String){
         id = nextId++
@@ -33,6 +35,7 @@ class Territory {
         resources.set(POPULATION_NAME, 100)
         resources.set(SEEDS_NAME, 100)
         crops = mutableListOf()
+        lastHarvest = listOf()
     }
 
     constructor(other: Territory){
@@ -40,6 +43,7 @@ class Territory {
         name = other.name
         resources = Resources(other.resources)
         crops = other.crops.map { Crop(it) }.toMutableList()
+        lastHarvest = other.lastHarvest //don't need to deep copy since it's not mutable
     }
 
     constructor(saveString: Map<String, Any>){
@@ -47,6 +51,7 @@ class Territory {
         name = saveString[NAME_NAME] as String
         resources = Resources(saveString[RESOURCES_NAME] as MutableMap<String, Any>)
         crops = (saveString[CROPS_NAME] as List<Map<String, Any>>).map{map -> Crop(map)}.toMutableList()
+        lastHarvest = (saveString[LAST_HARVEST_NAME] as List<Map<String,Any>>).map{map -> Crop(map)}
     }
 
     override fun equals(other: Any?): Boolean {
@@ -69,7 +74,8 @@ class Territory {
             ID_NAME to id,
             NAME_NAME to name,
             RESOURCES_NAME to resources.saveString(),
-            CROPS_NAME to crops.map { it.saveString() }
+            CROPS_NAME to crops.map { it.saveString() },
+            LAST_HARVEST_NAME to lastHarvest.map{ it.saveString() }
         )
     }
 

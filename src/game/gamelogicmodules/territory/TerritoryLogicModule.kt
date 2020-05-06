@@ -35,17 +35,17 @@ class TerritoryLogicModule: GameLogicModule {
     val territories: Collection<Territory>
     var weekOfYear: Int
 
-    constructor(territories: Collection<Territory>): super(reportFactories(territories)) {
+    constructor(territories: Collection<Territory>): super(reportFactories(territories), listOf()) {
         weekOfYear = 6
         this.territories = territories
     }
 
-    constructor(other: TerritoryLogicModule): super(reportFactories(other.territories)){
+    constructor(other: TerritoryLogicModule): super(reportFactories(other.territories), listOf()){
         this.weekOfYear = other.weekOfYear
         this.territories = other.territories.map { Territory(it) }
     }
 
-    constructor(saveString: Map<String, Any>, game: Game): super(reportFactories(territoriesFromSaveString(saveString))){
+    constructor(saveString: Map<String, Any>, game: Game): super(reportFactories(territoriesFromSaveString(saveString)), listOf()){
         this.weekOfYear = saveString[WEEK_NAME] as Int
         this.territories = territoriesFromSaveString(saveString)
     }
@@ -54,7 +54,7 @@ class TerritoryLogicModule: GameLogicModule {
 
     }
 
-    override fun endTurn(): List<Effect> {
+    override fun endTurn(game: Game): List<Effect> {
         val retval = mutableListOf<Effect>()
 
         territories.forEach {
@@ -89,10 +89,12 @@ class TerritoryLogicModule: GameLogicModule {
         var landLeft = territory.resources.get(Territory.ARABLE_LAND_NAME) - territory.totalCropsPlanted()
         if(isGrowingSeason()){
             //people harvest crops
+            val thisHarvest = mutableListOf<Crop>()
             territory.crops.forEach {
                 crop -> if(weekOfYear - crop.plantingTime > 15){
                     val toHarvest = min(farmersLeft, crop.quantity)
                     if(toHarvest > 0){
+                        thisHarvest.add(Crop(toHarvest, crop.plantingTime))
                         territory.modifyResource(Territory.SEEDS_NAME, crop.yield() * toHarvest)
                         farmersLeft -= toHarvest
                         crop.quantity -= toHarvest
@@ -100,6 +102,7 @@ class TerritoryLogicModule: GameLogicModule {
                     crop.quantity /= 2
                 }
             }
+            territory.lastHarvest = thisHarvest
             territory.crops.removeIf { it.quantity < 1 }
             
             //people plant
