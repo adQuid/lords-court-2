@@ -32,55 +32,6 @@ object UtilityComponentFactory {
         return retval
     }
 
-    fun bottomPane(buttons: List<Button>, perspective: ShortStateCharacter): Pane{
-
-        val buttonsPane = GridPane()
-        for(index in 0..3){
-            if(index < buttons.size){
-                buttonsPane.add(buttons[index], (index % 4), if(index > 3) 1 else 0)
-            } else {
-                buttonsPane.add(shortButton("", null), (index % 4), if(index > 3) 1 else 0)
-            }
-        }
-
-        val retval = GridPane()
-        retval.add(middlePane(perspective), 0, 0)
-        retval.add(buttonsPane, 0,1)
-
-        return retval
-    }
-
-    private fun middlePane(perspective: ShortStateCharacter): Pane{
-        val retval = GridPane()
-
-        val turnDisplay = Label(UIGlobals.activeGame().turnName())
-        turnDisplay.font = Font(20.0)
-        turnDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() / 10)
-        retval.add(turnDisplay, 0,0)
-        val statsDisplay = Label("Energy: " + perspective.energy + "/1000")
-        statsDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() / 10)
-        retval.add(statsDisplay, 1,0)
-
-
-        retval.add(iconButton("assets/general/reportsIcon.png", "View Reports from this Turn", { UIGlobals.focusOn(
-            SelectionModal(
-                reports(perspective),
-                { report -> println(report) })
-        )}), 2,0)
-
-        retval.add(iconButton("assets/general/writsIcon.png", "View Writs in your Possession", { UIGlobals.focusOn(
-            SelectionModal(
-                writs(perspective),
-                { report -> println(report) })
-        )
-        }), 3,0)
-
-        val optionsButton = UtilityComponentFactory.shortButton("Options", EventHandler { UIGlobals.focusOn(OptionsMenu()) })
-        retval.add(optionsButton, 4,0)
-
-        return retval
-    }
-
     fun newSceneButton(perspective: ShortStateCharacter): Button {
         return shortButton("Go Somewhere Else",
                 EventHandler { _ -> UIGlobals.focusOn(
@@ -89,8 +40,6 @@ object UtilityComponentFactory {
             }
         )
     }
-
-
 
     fun backButton(): Button{
         return proportionalBackButton(1.0)

@@ -52,6 +52,6 @@ class CharacterDetailComponentFactory {
             "Cancel",
             EventHandler { UIGlobals.defocus()})
 
-        return UtilityComponentFactory.bottomPane(listOf(cancelButton), perspective)
+        return BottomPaneComponentFactory.bottomPane(listOf(cancelButton), perspective)
     }
 }

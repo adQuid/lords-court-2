@@ -1,23 +1,12 @@
 package ui.componentfactory
 
-import game.Writ
-import javafx.event.EventHandler
 import javafx.scene.Scene
-import javafx.scene.control.Button
 import javafx.scene.image.ImageView
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
-import main.Controller
 import main.UIGlobals
 import shortstate.ShortGameScene
 import shortstate.ShortStateCharacter
-import shortstate.report.Report
-import shortstate.room.Room
-import shortstate.room.RoomActionMaker
-import shortstate.room.action.GoToBed
-import ui.specialdisplayables.EndTurnMenu
-import ui.specialdisplayables.selectionmodal.SelectionModal
-import ui.specialdisplayables.selectionmodal.Tab
 
 class SceneComponentFactory {
 
@@ -36,17 +25,15 @@ class SceneComponentFactory {
     fun scenePage(perspective: ShortStateCharacter): Scene {
         val root = GridPane()
 
-        var bottomButtonList = universalButtons(perspective)
         if(scene.conversation != null){
             root.add(conversationComponentFactory!!.conversationPane(sceneImage(perspective), perspective), 0, 0)
         } else {
-            bottomButtonList = bottomButtonList.plus(outOfConvoButtons(perspective))
             root.add(sceneImage(perspective), 0, 0)
         }
-        root.add(UtilityComponentFactory.bottomPane(bottomButtonList, perspective), 0, 1)
+        root.add(MiddlePaneComponentFactory.middlePane(perspective), 0, 1)
+        root.add(BottomPaneComponentFactory.sceneBottomPane(scene, perspective), 0, 2)
 
-        val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
-        return scene
+        return Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
     }
 
     fun sceneImage(perspective: ShortStateCharacter): Pane {
@@ -63,38 +50,5 @@ class SceneComponentFactory {
             imagePane.children.addAll(backgroundView)
         }
         return imagePane
-    }
-
-    private fun universalButtons(perspective: ShortStateCharacter): List<Button> {
-        return listOf(UtilityComponentFactory.newSceneButton(perspective))
-    }
-
-    private fun outOfConvoButtons(perspective: ShortStateCharacter): List<Button> {
-        val localActionsButton = if(scene.room.getActions(perspective).isNotEmpty()){
-            UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
-                UIGlobals.focusOn(
-                    SelectionModal(
-                        roomActionButtons(scene.room, perspective),
-                        { maker ->
-                            maker.onClick(
-                                Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,
-                                perspective
-                            )
-                        })
-                )
-            })
-        } else {
-            UtilityComponentFactory.shortButton("No Actions In this Room", null)
-        }
-
-        val endTurnButton = UtilityComponentFactory.shortButton("End Turn", EventHandler { _ -> UIGlobals.focusOn(EndTurnMenu())})
-
-        return listOf(localActionsButton, endTurnButton)
-    }
-
-    private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomActionMaker>>{
-        val tab = Tab(room.name, room.getActions(perspective))
-
-        return listOf(tab)
     }
 }
