@@ -26,7 +26,7 @@ object MiddlePaneComponentFactory {
 
         retval.add(UtilityComponentFactory.iconButton("assets/general/reportsIcon.png", "View Reports from this Turn", {
             UIGlobals.focusOn(
-                SelectionModal(
+                SelectionModal( "Reports",
                     UtilityComponentFactory.reports(perspective),
                     { report -> println(report) })
             )
@@ -34,7 +34,7 @@ object MiddlePaneComponentFactory {
 
         retval.add(UtilityComponentFactory.iconButton("assets/general/writsIcon.png", "View Writs in your Possession", {
             UIGlobals.focusOn(
-                SelectionModal(
+                SelectionModal( "Writs",
                     UtilityComponentFactory.writs(perspective),
                     { report -> println(report) })
             )

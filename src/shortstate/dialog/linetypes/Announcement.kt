@@ -40,7 +40,7 @@ class Announcement: Line, HasAction {
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "SELECT ACTION" else "Action: "+action.toString(),
             {perspective -> UIGlobals.focusOn(
-                SelectionModal(
+                SelectionModal( "Annouce...",
                     listOf(
                         Tab(
                             "Basic Actions",

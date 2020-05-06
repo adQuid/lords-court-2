@@ -40,7 +40,8 @@ class GiveReport: Line {
 
     override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("GIVE REPORT:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString(), {perspective -> UIGlobals.focusOn(
-            SelectionModal(listOf(
+            SelectionModal("Select Report",
+                listOf(
                 Tab(
                     "Reports",
                     perspective.knownReports)

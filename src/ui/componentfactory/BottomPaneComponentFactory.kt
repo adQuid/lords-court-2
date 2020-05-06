@@ -46,7 +46,7 @@ object BottomPaneComponentFactory {
         val localActionsButton = if(scene.room.getActions(perspective).isNotEmpty()){
             UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
                 UIGlobals.focusOn(
-                    SelectionModal(
+                    SelectionModal("Select Action",
                         roomActionButtons(scene.room, perspective),
                         { maker ->
                             maker.onClick(

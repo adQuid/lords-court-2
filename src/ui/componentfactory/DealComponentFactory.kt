@@ -111,7 +111,7 @@ open class DealComponentFactory {
                 UIGlobals.activeGame().players.toList()
             )
         )
-        val selectModal = SelectionModal(
+        val selectModal = SelectionModal("Select Character",
             tabs,
             { player -> addCharacterToDeal(player); currentPage = player; UIGlobals.defocus() })
         return selectModal

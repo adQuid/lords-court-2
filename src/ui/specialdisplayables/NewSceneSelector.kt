@@ -14,7 +14,7 @@ import ui.specialdisplayables.selectionmodal.Tab
 
 object NewSceneSelector {
     fun newSceneSelector(perspective: ShortStateCharacter): Displayable{
-        return SelectionModal(
+        return SelectionModal("New Scene",
             newSceneOptions(perspective),
             { maker -> goToNewSceneIfApplicable(maker, perspective) })
     }

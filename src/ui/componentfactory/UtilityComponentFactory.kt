@@ -94,6 +94,14 @@ object UtilityComponentFactory {
         return retval
     }
 
+    fun extraShortWideLabel(text: String): Label {
+        val retval = Label(text)
+        setSize(retval, 1.0)
+        retval.minHeight = UIGlobals.totalHeight()/20
+        retval.alignment = Pos.CENTER
+        return retval
+    }
+
     fun shortWideLabel(text: String): Label{
         val retval = Label(text)
         setSize(retval, 1.0)

@@ -20,12 +20,14 @@ import ui.componentfactory.UtilityComponentFactory
 class SelectionModal<T>: Displayable {
 
     val parent = UIGlobals.GUI()
+    val title: String
     val options: List<Tab<T>>
     val closeAction: (T) -> Unit
 
     var focusedTab: Tab<T>
 
-    constructor(options: List<Tab<T>>, action: (T) -> Unit){
+    constructor(title: String, options: List<Tab<T>>, action: (T) -> Unit){
+        this.title = title
         this.options = options
         this.focusedTab = options[0]
         this.closeAction = action
@@ -58,19 +60,31 @@ class SelectionModal<T>: Displayable {
     }
 
     private fun topPane(): Pane {
-        val topPane = GridPane()
-        var index = 0
-        options.forEach {
-            val topic = Button(it.title)
-            if(it == focusedTab){
-                topic.font = Font(28.0)
-            } else {
-                topic.onAction = EventHandler {_ -> focusedTab = it; parent.display()}
+        val retval = GridPane()
+
+        if(options.size > 1){
+            val titlePane = GridPane()
+            titlePane.add(UtilityComponentFactory.extraShortWideLabel(
+                title), 0,0)
+            retval.add(titlePane, 0, 0)
+
+            val tabsPane = GridPane()
+            var index = 0
+            options.forEach {
+                val topic = Button(it.title)
+                if(it == focusedTab){
+                    topic.font = Font(18.0)
+                } else {
+                    topic.onAction = EventHandler {_ -> focusedTab = it; parent.display()}
+                }
+                topic.setMinSize(parent.totalWidth / options.size, parent.totalHeight / 20)
+                tabsPane.add(topic, index++, 0)
             }
-            topic.setMinSize(parent.totalWidth / options.size, parent.totalHeight / 10)
-            topPane.add(topic, index++, 0)
+            retval.add(tabsPane, 0,1)
+        } else {
+            retval.add(UtilityComponentFactory.shortWideLabel(title), 0,0)
         }
-        return topPane
+        return retval
     }
 
     internal class ActionPickCell<T>(val closeAction: (T) -> Unit) : ListCell<T>() {
