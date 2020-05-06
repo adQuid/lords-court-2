@@ -4,8 +4,11 @@ import game.Effect
 import game.Game
 import game.GameCharacter
 import game.GameLogicModule
+import game.gamelogicmodules.territory.ActiveCropsReportFactory
+import game.gamelogicmodules.territory.FoodStocksReportFactory
 import game.gamelogicmodules.territory.Territory
 import game.gamelogicmodules.territory.TerritoryLogicModule
+import shortstate.report.ReportFactory
 import kotlin.math.roundToInt
 
 class CapitalLogicModule: GameLogicModule {
@@ -13,18 +16,26 @@ class CapitalLogicModule: GameLogicModule {
     companion object{
         val type = "capital"
         val CAPITAL_NAME = "cap"
+
+        private fun capitalsFromSaveString(saveString: Map<String, Any>): Collection<Capital>{
+            return (saveString[CAPITAL_NAME] as List<Map<String, Any>>).map{ map -> Capital(map)}
+        }
+
+        private fun reportFactories(territories: Collection<Capital>): List<ReportFactory>{
+            return territories.map{ CapitalStocksReportFactory(it) }
+        }
     }
     val capitals: Collection<Capital>
 
-    constructor(capitals: Collection<Capital>): super(listOf(), listOf(TerritoryLogicModule.type)){
+    constructor(capitals: Collection<Capital>): super(reportFactories(capitals), listOf(TerritoryLogicModule.type)){
         this.capitals = capitals
     }
 
-    constructor(other: CapitalLogicModule, game: Game): super(listOf(), listOf(TerritoryLogicModule.type)){
+    constructor(other: CapitalLogicModule, game: Game): super(reportFactories(other.capitals), listOf(TerritoryLogicModule.type)){
         this.capitals = other.capitals.map { Capital(it) }
     }
 
-    constructor(saveString: Map<String, Any>, game: Game): super(listOf(), listOf(TerritoryLogicModule.type)){
+    constructor(saveString: Map<String, Any>, game: Game): super(reportFactories(capitalsFromSaveString(saveString)), listOf(TerritoryLogicModule.type)){
         this.capitals = (saveString[CAPITAL_NAME] as List<Map<String, Any>>).map { Capital(it) }
     }
 
@@ -76,5 +87,13 @@ class CapitalLogicModule: GameLogicModule {
         }catch(ex: Exception){
             throw Exception("No capital for ${territory.name}")
         }
+    }
+
+    fun matchingCapital(capital: Capital): Capital {
+        return capitals.filter { it == capital }.first()
+    }
+
+    fun capitalById(id: Int): Capital {
+        return capitals.filter { it.terId == id }.first()
     }
 }

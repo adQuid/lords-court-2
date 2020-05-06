@@ -1,6 +1,7 @@
 package game.gamelogicmodules.capital
 
 import game.Game
+import game.Title
 import game.gamelogicmodules.resources.Resources
 import game.gamelogicmodules.territory.Territory
 import game.gamelogicmodules.territory.TerritoryLogicModule
@@ -43,5 +44,9 @@ class Capital {
             "ter" to territory!!.id,
             "tax" to taxes
         )
+    }
+
+    fun generateCountTitle(): Title {
+        return Count(this)
     }
 }

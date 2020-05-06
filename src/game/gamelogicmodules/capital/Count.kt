@@ -1,33 +1,44 @@
-package game.gamelogicmodules.territory
+package game.gamelogicmodules.capital
 
 import game.GameCharacter
 import game.Title
 import game.action.Action
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.WasteTime
+import game.gamelogicmodules.territory.ActiveCropsReportFactory
+import game.gamelogicmodules.territory.FoodStocksReportFactory
+import game.gamelogicmodules.territory.Territory
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.ReportFactory
 
 class Count: Title{
     override val name: String
-    val TERRITORY_NAME = "Territory"
-    val territory: Territory
+    val CAPITAL_NAME = "Capital"
+    val capital: Capital
     override val reportsEntitled: List<ReportFactory>
 
-    constructor(territory: Territory){
-        this.territory = territory
-        this.name = "Count of $territory"
-        reportsEntitled = listOf(FoodStocksReportFactory(territory), ActiveCropsReportFactory(territory))
+    constructor(capital: Capital){
+        this.capital = capital
+        this.name = "Count of ${capital.territory!!}"
+        reportsEntitled = listOf(
+            FoodStocksReportFactory(capital.territory!!),
+            ActiveCropsReportFactory(capital.territory!!),
+            CapitalStocksReportFactory(capital)
+        )
     }
 
     constructor(saveString: Map<String, Any>){
         this.name = saveString[NAME_NAME] as String
-        this.territory = Territory(saveString[TERRITORY_NAME] as Map<String, Any>)
-        reportsEntitled = listOf(FoodStocksReportFactory(territory), ActiveCropsReportFactory(territory))
+        this.capital = Capital(saveString[CAPITAL_NAME] as Map<String, Any>)
+        reportsEntitled = listOf(
+            FoodStocksReportFactory(capital.territory!!),
+            ActiveCropsReportFactory(capital.territory!!),
+            CapitalStocksReportFactory(capital)
+        )
     }
 
     override fun clone(): Count {
-        return Count(territory)
+        return Count(capital)
     }
 
     override fun saveString(): Map<String, Any> {
@@ -35,7 +46,7 @@ class Count: Title{
             CookieWorldTitleFactory.TYPE_NAME to "Count",
             NAME_NAME to name,
             REPORTS_NAME to reportsEntitled.map { report -> report.toString() },
-            TERRITORY_NAME to territory.saveString()
+            CAPITAL_NAME to capital.saveString()
         )
     }
 

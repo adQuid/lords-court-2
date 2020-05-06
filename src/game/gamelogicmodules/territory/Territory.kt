@@ -1,6 +1,7 @@
 package game.gamelogicmodules.territory
 
 import game.Title
+import game.gamelogicmodules.capital.Count
 import game.gamelogicmodules.resources.Resources
 
 class Territory {
@@ -77,10 +78,6 @@ class Territory {
             CROPS_NAME to crops.map { it.saveString() },
             LAST_HARVEST_NAME to lastHarvest.map{ it.saveString() }
         )
-    }
-
-    fun generateCountTitle(): Title{
-        return Count(this)
     }
 
     fun modifyResource(resource: String, value: Int){
