@@ -18,11 +18,17 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
         pane.add(MapView("maps/testland", 100.0,100.0).display(), 0, 0)
 
+        val middlePane = GridPane()
+        middlePane.add(UtilityComponentFactory.shortButton("Place Territory Centers", EventHandler { _ -> println("what does this do?") }), 0, 0)
+        middlePane.add(UtilityComponentFactory.shortButton("Place Territory Centers", EventHandler { _ -> println("what does this do?") }), 1, 0)
+        middlePane.add(UtilityComponentFactory.shortButton("Place Territory Centers", EventHandler { _ -> println("what does this do?") }), 2, 0)
+        middlePane.add(UtilityComponentFactory.shortButton("Place Territory Centers", EventHandler { _ -> println("what does this do?") }), 3, 0)
+        pane.add(middlePane, 0,1)
+
         val bottomPane = GridPane()
         bottomPane.add(UtilityComponentFactory.proportionalBackButton(2.0), 0, 0)
         bottomPane.add(UtilityComponentFactory.proportionalButton("Save Map", EventHandler { _ -> println("saving map")},2.0), 1, 0)
-
-        pane.add(bottomPane, 0, 11)
+        pane.add(bottomPane, 0, 2)
 
         return Scene(pane)
     }

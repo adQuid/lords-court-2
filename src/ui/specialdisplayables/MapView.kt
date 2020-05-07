@@ -20,7 +20,7 @@ class MapView {
 
     var focusX: Double
     var focusY: Double
-    var zoom = 0.5
+    var zoom = 1.0
 
     constructor(url: String, x: Double, y: Double){
         focusX = x
@@ -34,7 +34,8 @@ class MapView {
     fun display(): Node {
         val retval = GridPane()
         setViewPort()
-        layers[0].imageView.onScroll = EventHandler { event -> changeViewport(event.x - baseWidth/2.0,event.y - (baseHeight*0.8)/2.0, 0.01 * event.deltaY) }
+        layers[0].imageView.onScroll = EventHandler { event -> changeViewport(event.x - baseWidth/2.0,event.y - (baseHeight*0.8)/2.0, 0.005 * event.deltaY) }
+        layers[0].imageView.onMouseClicked = EventHandler { event -> println("${clickedOnX(event.x)},${clickedOnY(event.y)}") }
         layers.forEach {
             if(it.active){
                 retval.add(it.imageView,0,0)
@@ -60,25 +61,39 @@ class MapView {
         if(zoom > 10.0){
             zoom = 10.0
         }
-        val displayWidth = baseWidth/zoom
-        val displayHeight = baseHeight/zoom
 
-        if(focusX - (displayWidth/2) < 0){
-            focusX = displayWidth / 2
+        if(focusX - (displayWidth()/2) < 0){
+            focusX = displayWidth() / 2
         }
-        if(focusX + (displayWidth/2) > layers[0].imageView.image.width){
-            focusX = layers[0].imageView.image.width- (displayWidth / 2)
+        if(focusX + (displayWidth()/2) > layers[0].imageView.image.width){
+            focusX = layers[0].imageView.image.width- (displayWidth() / 2)
         }
-        if(focusY - (displayHeight/2) < 0){
-            focusY = displayHeight / 2
+        if(focusY - (displayHeight()/2) < 0){
+            focusY = displayHeight() / 2
         }
-        if(focusY + (displayHeight/2) > layers[0].imageView.image.height){
-            focusY = layers[0].imageView.image.height- (displayHeight / 2)
+        if(focusY + (displayHeight()/2) > layers[0].imageView.image.height){
+            focusY = layers[0].imageView.image.height- (displayHeight() / 2)
         }
 
         layers.forEach {
-            it.imageView.viewport = Rectangle2D(focusX - (displayWidth/2.0),focusY - (displayHeight/2.0), displayWidth, displayHeight)
+            it.imageView.viewport = Rectangle2D(focusX - (displayWidth()/2.0),focusY - (displayHeight()/2.0), displayWidth(), displayHeight())
         }
+    }
+
+    private fun displayWidth(): Double {
+        return baseWidth/zoom
+    }
+
+    private fun displayHeight(): Double {
+        return baseHeight/zoom
+    }
+
+    private fun clickedOnX(x: Double): Double {
+        return (x/zoom) + max(0.0,focusX - (displayWidth()/2.0))
+    }
+
+    private fun clickedOnY(y: Double): Double {
+        return (y/zoom) + max(0.0,focusY - (displayHeight()/2.0))
     }
 
     class MapLayer{
