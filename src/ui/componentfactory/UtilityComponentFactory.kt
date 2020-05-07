@@ -8,6 +8,7 @@ import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
@@ -26,6 +27,14 @@ object UtilityComponentFactory {
     fun imageView(url: String): ImageView {
         val path = url.replace("//","\\")
         val image = Image(path)
+        val retval = ImageView(image)
+        retval.fitHeight = (UIGlobals.totalHeight()) * (8.0 / 10.0)
+        retval.fitWidth = UIGlobals.totalWidth()
+        return retval
+    }
+
+    fun writableImageView(): ImageView {
+        val image = WritableImage(UIGlobals.totalWidth().toInt(), ((UIGlobals.totalHeight()) * (8.0 / 10.0)).toInt())
         val retval = ImageView(image)
         retval.fitHeight = (UIGlobals.totalHeight()) * (8.0 / 10.0)
         retval.fitWidth = UIGlobals.totalWidth()

@@ -32,5 +32,4 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
         return Scene(pane)
     }
-
 }
