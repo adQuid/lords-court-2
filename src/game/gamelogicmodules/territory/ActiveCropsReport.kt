@@ -64,16 +64,16 @@ class ActiveCropsReport: Report {
 }
 
 class ActiveCropsReportFactory: ReportFactory{
-    val territory: Territory
+    val territoryId: Int
     override val type = ActiveCropsReport.type
 
-    constructor(territory: Territory){
-        this.territory = territory
+    constructor(territory: Int){
+        this.territoryId = territory
     }
 
     override fun generateReport(game: Game): Report {
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
-        return ActiveCropsReport(game, territory)
+        return ActiveCropsReport(game, logic.territoryById(territoryId))
     }
 
     override fun reportFromSaveString(saveString: Map<String, Any>, game: Game): Report {

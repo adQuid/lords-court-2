@@ -71,7 +71,7 @@ class Game {
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> CookieWorldTitleFactory.titleFromSaveString(map) }.toMutableSet()
 
         (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
-        gameLogicModules.forEach { it.finishConstruction(this) }
+        logicModulesInDependencyOrder().forEach { it.finishConstruction(this) }
     }
 
     fun saveString(): Map<String, Any>{
@@ -170,12 +170,20 @@ class Game {
 
     private fun runLogicModules(): List<Effect>{
         val retval = mutableListOf<Effect>()
+
+        logicModulesInDependencyOrder().forEach { retval.addAll(it.endTurn(this)) }
+
+        return retval
+    }
+
+    private fun logicModulesInDependencyOrder(): List<GameLogicModule>{
+        val retval = mutableListOf<GameLogicModule>()
         val modulesAlreadyRun = mutableListOf<GameLogicModule>()
 
         var nextModule = gameLogicModules.first()
         while(modulesAlreadyRun.size < gameLogicModules.size){
             if(nextModule.dependencies.filter { !modulesAlreadyRun.contains(this.moduleOfType(it)) }.isEmpty()){
-                retval.addAll(nextModule.endTurn(this))
+                retval.add(nextModule)
                 modulesAlreadyRun.add(nextModule)
                 if(modulesAlreadyRun.size < gameLogicModules.size){
                     nextModule = gameLogicModules.filter { !modulesAlreadyRun.contains(it) }.first()

@@ -24,7 +24,7 @@ class TerritoryLogicModule: GameLogicModule {
             return (saveString[TERRITORIES_NAME] as List<Map<String, Any>>).map{map -> Territory(map)}
         }
 
-        private fun reportFactories(territories: Collection<Territory>): List<ReportFactory>{
+        private fun reportFactories(territories: Collection<Int>): List<ReportFactory>{
             return territories.map{FoodStocksReportFactory(it)} + territories.map{ActiveCropsReportFactory(it)}
         }
     }
@@ -32,32 +32,32 @@ class TerritoryLogicModule: GameLogicModule {
     override val type = Companion.type
 
 
-    val territories: Collection<Territory>
+    val map: TerritoryMap
     var weekOfYear: Int
 
-    constructor(territories: Collection<Territory>): super(reportFactories(territories), listOf()) {
+    constructor(mapName: String, territories: List<Territory>): super(reportFactories(territories.map { it.id }), listOf()) {
         weekOfYear = 6
-        this.territories = territories
+        this.map = TerritoryMap(mapName, territories)
     }
 
-    constructor(other: TerritoryLogicModule): super(reportFactories(other.territories), listOf()){
+    constructor(other: TerritoryLogicModule): super(reportFactories(other.map.territories.map{it.id}), listOf()){
         this.weekOfYear = other.weekOfYear
-        this.territories = other.territories.map { Territory(it) }
+        this.map = TerritoryMap(other.map)
     }
 
-    constructor(saveString: Map<String, Any>, game: Game): super(reportFactories(territoriesFromSaveString(saveString)), listOf()){
+    constructor(saveString: Map<String, Any>, game: Game): super(listOf(), listOf()){
         this.weekOfYear = saveString[WEEK_NAME] as Int
-        this.territories = territoriesFromSaveString(saveString)
+        this.map = TerritoryMap(saveString[TERRITORIES_NAME] as Map<String, Any>, game)
     }
 
     override fun finishConstruction(game: Game) {
-
+        reportTypes = reportFactories(map.territories.map { it.id }).associate { it.type to it }
     }
 
     override fun endTurn(game: Game): List<Effect> {
         val retval = mutableListOf<Effect>()
 
-        territories.forEach {
+        map.territories.forEach {
             growCrops(it)
         }
 
@@ -72,16 +72,20 @@ class TerritoryLogicModule: GameLogicModule {
     override fun specialSaveString(): Map<String, Any> {
         return mapOf(
             WEEK_NAME to weekOfYear,
-            TERRITORIES_NAME to territories.map { it.saveString() }
+            TERRITORIES_NAME to map.saveString()
         )
     }
 
+    fun territories(): Collection<Territory>{
+        return map.territories
+    }
+
     fun matchingTerritory(territory: Territory): Territory{
-        return territories.filter { it == territory }.first()
+        return map.territories.filter { it == territory }.first()
     }
 
     fun territoryById(id: Int): Territory{
-        return territories.filter { it.id == id }.first()
+        return map.territories.filter { it.id == id }.first()
     }
 
     private fun growCrops(territory: Territory){

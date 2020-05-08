@@ -10,7 +10,7 @@ import org.junit.Test
 class TestGrowingAndHarvesting {
 
     private fun agroTestGame(): Game {
-        val game = Game(listOf(TerritoryLogicModule(listOf(Territory("test place")))))
+        val game = Game(listOf(TerritoryLogicModule("test", listOf(Territory("Placeburg")))))
         TerritoryLogicModule.getTerritoryLogicModule(game).weekOfYear = 7
         return game
     }
@@ -19,7 +19,7 @@ class TestGrowingAndHarvesting {
     fun test_grow_and_harvest(){
         val game = agroTestGame()
 
-        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).territories.first()
+        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
         ter.resources.set(Territory.SEEDS_NAME, 200)
         ter.resources.set(Territory.ARABLE_LAND_NAME, 100)
         ter.resources.set(Territory.POPULATION_NAME, 100)
@@ -44,7 +44,7 @@ class TestGrowingAndHarvesting {
     fun test_milling_flour(){
         val game = agroTestGame()
 
-        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).territories.first()
+        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
         ter.resources.set(Territory.ARABLE_LAND_NAME, 0)
         ter.resources.set(Territory.SEEDS_NAME, 200)
         ter.resources.set(Territory.POPULATION_NAME, 100)

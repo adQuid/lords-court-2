@@ -28,8 +28,8 @@ class GameSetup {
     }
 
     fun setupAgricultureGame(): Game{
-        val territories = TerritoryLogicModule(listOf(Territory("Placeburg")))
-        val capitals = CapitalLogicModule(territories.territories.map { Capital(it) })
+        val territories = TerritoryLogicModule("test", listOf(Territory("Placeburg")))
+        val capitals = CapitalLogicModule(territories.map.territories.map { Capital(it) })
         val game = Game(listOf(territories, capitals))
 
         val defaultLocation = Location(game)

@@ -21,8 +21,8 @@ class Count: Title{
         this.capital = capital
         this.name = "Count of ${capital.territory!!}"
         reportsEntitled = listOf(
-            FoodStocksReportFactory(capital.territory!!),
-            ActiveCropsReportFactory(capital.territory!!),
+            FoodStocksReportFactory(capital.territory!!.id),
+            ActiveCropsReportFactory(capital.territory!!.id),
             CapitalStocksReportFactory(capital)
         )
     }
@@ -31,8 +31,8 @@ class Count: Title{
         this.name = saveString[NAME_NAME] as String
         this.capital = Capital(saveString[CAPITAL_NAME] as Map<String, Any>)
         reportsEntitled = listOf(
-            FoodStocksReportFactory(capital.territory!!),
-            ActiveCropsReportFactory(capital.territory!!),
+            FoodStocksReportFactory(capital.territory!!.id),
+            ActiveCropsReportFactory(capital.territory!!.id),
             CapitalStocksReportFactory(capital)
         )
     }

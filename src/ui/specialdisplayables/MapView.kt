@@ -25,6 +25,8 @@ class MapView {
     var focusY: Double
     var zoom = 1.0
 
+    var onClick = {x: Double, y: Double -> selectArea(x,y)}
+
     constructor(url: String, x: Double, y: Double){
         focusX = x
         focusY = y
@@ -37,7 +39,7 @@ class MapView {
         val retval = GridPane()
         setViewPort()
         background.imageView.onScroll = EventHandler { event -> changeViewport(event.x - baseWidth/2.0,event.y - (baseHeight*0.8)/2.0, 0.005 * event.deltaY) }
-        background.imageView.onMouseClicked = EventHandler { event -> selectArea(clickedOnX(event.x),clickedOnY(event.y)) }
+        background.imageView.onMouseClicked = EventHandler { event -> onClick(clickedOnX(event.x),clickedOnY(event.y)) }
         allLayers().forEach {
             if(it.active){
                 retval.add(it.imageView,0,0)
@@ -130,6 +132,7 @@ class MapView {
 
             if(alreadyChecked.size > 10000){
                 println("too big!")
+                return retval
             }
             toCheck.remove(next)
         }

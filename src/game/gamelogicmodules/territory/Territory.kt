@@ -22,6 +22,9 @@ class Territory {
     val id: Int
     val NAME_NAME = "name"
     val name: String
+    val x: Int
+    val y: Int
+
 
     val CROPS_NAME = "crops"
     val crops: MutableList<Crop>
@@ -31,6 +34,8 @@ class Territory {
     constructor(name: String){
         id = nextId++
         this.name = name
+        x = 0
+        y = 0
         resources = Resources()
         resources.set(ARABLE_LAND_NAME, 100)
         resources.set(POPULATION_NAME, 100)
@@ -42,6 +47,8 @@ class Territory {
     constructor(other: Territory){
         id = other.id
         name = other.name
+        x = other.x
+        y = other.y
         resources = Resources(other.resources)
         crops = other.crops.map { Crop(it) }.toMutableList()
         lastHarvest = other.lastHarvest //don't need to deep copy since it's not mutable
@@ -50,6 +57,8 @@ class Territory {
     constructor(saveString: Map<String, Any>){
         id = saveString[ID_NAME] as Int
         name = saveString[NAME_NAME] as String
+        x = saveString["x"] as Int
+        y = saveString["y"] as Int
         resources = Resources(saveString[RESOURCES_NAME] as MutableMap<String, Any>)
         crops = (saveString[CROPS_NAME] as List<Map<String, Any>>).map{map -> Crop(map)}.toMutableList()
         lastHarvest = (saveString[LAST_HARVEST_NAME] as List<Map<String,Any>>).map{map -> Crop(map)}
@@ -74,6 +83,8 @@ class Territory {
         return mapOf(
             ID_NAME to id,
             NAME_NAME to name,
+            "x" to x,
+            "y" to y,
             RESOURCES_NAME to resources.saveString(),
             CROPS_NAME to crops.map { it.saveString() },
             LAST_HARVEST_NAME to lastHarvest.map{ it.saveString() }

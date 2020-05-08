@@ -48,7 +48,7 @@ class CapitalLogicModule: GameLogicModule {
 
     override fun endTurn(game: Game): List<Effect> {
 
-        val territories = (game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).territories
+        val territories = (game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).map.territories
 
         territories.forEach { ter ->
 
