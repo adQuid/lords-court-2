@@ -28,7 +28,7 @@ class GameSetup {
     }
 
     fun setupAgricultureGame(): Game{
-        val territories = TerritoryLogicModule("test", listOf(Territory("Placeburg")))
+        val territories = TerritoryLogicModule("test", listOf(Territory("Placeburg",0,0)))
         val capitals = CapitalLogicModule(territories.map.territories.map { Capital(it) })
         val game = Game(listOf(territories, capitals))
 

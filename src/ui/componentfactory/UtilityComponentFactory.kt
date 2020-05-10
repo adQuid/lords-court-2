@@ -103,8 +103,12 @@ object UtilityComponentFactory {
     }
 
     fun shortWideTextField(text: String): TextField{
+        return shortProportionalTextField(text, 1.0)
+    }
+
+    fun shortProportionalTextField(text: String, proportion: Double): TextField{
         val retval = TextField(text)
-        setSize(retval, 1.0)
+        setSize(retval, proportion)
         return retval
     }
 
@@ -117,8 +121,12 @@ object UtilityComponentFactory {
     }
 
     fun shortWideLabel(text: String): Label{
+        return shortProportionalLabel(text, 1.0)
+    }
+
+    fun shortProportionalLabel(text: String, proportion: Double): Label{
         val retval = Label(text)
-        setSize(retval, 1.0)
+        setSize(retval, proportion)
         retval.alignment = Pos.CENTER
         return retval
     }

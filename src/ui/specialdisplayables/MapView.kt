@@ -1,5 +1,7 @@
 package ui.specialdisplayables
 
+import game.gamelogicmodules.territory.Territory
+import game.gamelogicmodules.territory.TerritoryMap
 import javafx.event.EventHandler
 import javafx.geometry.Rectangle2D
 import javafx.scene.Node
@@ -9,6 +11,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.paint.Color
 import main.UIGlobals
 import ui.componentfactory.UtilityComponentFactory
+import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -17,6 +20,7 @@ class MapView {
     val baseWidth = UIGlobals.totalWidth()
     val baseHeight = UIGlobals.totalHeight()
 
+    val map: TerritoryMap
     val background: MapLayer
     val territories: MapLayer
     val annotations: MapLayer
@@ -25,13 +29,14 @@ class MapView {
     var focusY: Double
     var zoom = 1.0
 
-    var onClick = {x: Double, y: Double -> selectArea(x,y)}
+    var onClick = {x: Double, y: Double -> println(selectTerritoryAt(x,y))}
 
-    constructor(url: String, x: Double, y: Double){
+    constructor(map: TerritoryMap, x: Double, y: Double){
+        this.map = map
         focusX = x
         focusY = y
-        background =  MapLayer(UtilityComponentFactory.imageView(url+"/background.png"), true)
-        territories = MapLayer(UtilityComponentFactory.imageView(url+"/territories.png"), true)
+        background =  MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/background.png"), true)
+        territories = MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/territories.png"), true)
         annotations = MapLayer(UtilityComponentFactory.writableImageView(), true)
     }
 
@@ -45,7 +50,13 @@ class MapView {
                 retval.add(it.imageView,0,0)
             }
         }
+        refresh()
         return retval
+    }
+
+    fun refresh(){
+        UtilityComponentFactory.refreshImageView(annotations.imageView)
+        populateCapitals()
     }
 
     private fun changeViewport(x: Double, y: Double, scaleDelta: Double){
@@ -104,13 +115,25 @@ class MapView {
         return ((y/0.8)/zoom) + focusY - ((displayHeight()*1.0)/2.0)
     }
 
-    private fun selectArea(x: Double, y: Double){
-        UtilityComponentFactory.refreshImageView(annotations.imageView)
-        adjacentPixels(x, y).forEach {
-            try{
+    fun selectTerritoryAt(x: Double, y: Double): Territory{
+        val area = adjacentPixels(x,y)
+        if(map.territories.filter { Pair(it.x,it.y) in area }.isNotEmpty()){
+            highlightArea(area)
+            return map.territories.filter { Pair(it.x,it.y) in area }.first()
+        } else {
+            val newTer = Territory("Unnamed", x.roundToInt(), y.roundToInt())
+            map.territories.add(newTer)
+            highlightArea(area)
+            return newTer
+        }
+    }
+
+    private fun highlightArea(coords: List<Pair<Int,Int>>){
+        refresh()
+        populateCapitals()
+        coords.forEach {
+            if(annotations.imageView.image.pixelReader.getArgb(it.first, it.second) == 0){
                 (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.first, it.second, Color(0.9607843, 0.9607843, 0.8627451, 0.5))
-            }catch(e: Exception){
-                error("${it.first},${it.second}")
             }
         }
     }
@@ -141,6 +164,16 @@ class MapView {
             toCheck.remove(next)
         }
         return retval
+    }
+
+    private fun populateCapitals(){
+        map.territories.forEach {
+            (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x, it.y, Color.BLACK)
+            (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x-1, it.y, Color.BLACK)
+            (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x+1, it.y, Color.BLACK)
+            (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x, it.y-1, Color.BLACK)
+            (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x, it.y+1, Color.BLACK)
+        }
     }
 
     class MapLayer{

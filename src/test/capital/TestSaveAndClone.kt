@@ -12,7 +12,7 @@ import org.junit.Test
 class TestSaveAndClone {
 
     fun soloTestGame(): Game {
-        val territories = listOf(Territory("Placeburg"))
+        val territories = listOf(Territory("Placeburg",0,0))
 
         val game = Game(listOf(TerritoryLogicModule("test", territories), CapitalLogicModule(listOf(Capital(territories[0])))))
         return game

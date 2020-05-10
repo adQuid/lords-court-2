@@ -21,7 +21,7 @@ class Territory {
     val ID_NAME = "ID"
     val id: Int
     val NAME_NAME = "name"
-    val name: String
+    var name: String
     val x: Int
     val y: Int
 
@@ -31,11 +31,11 @@ class Territory {
     val LAST_HARVEST_NAME = "lastharvest"
     var lastHarvest: List<Crop>
     val resources: Resources
-    constructor(name: String){
+    constructor(name: String, x: Int, y: Int){
         id = nextId++
         this.name = name
-        x = 0
-        y = 0
+        this.x = x
+        this.y = y
         resources = Resources()
         resources.set(ARABLE_LAND_NAME, 100)
         resources.set(POPULATION_NAME, 100)

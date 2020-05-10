@@ -47,7 +47,7 @@ class TerritoryLogicModule: GameLogicModule {
 
     constructor(saveString: Map<String, Any>, game: Game): super(listOf(), listOf()){
         this.weekOfYear = saveString[WEEK_NAME] as Int
-        this.map = TerritoryMap(saveString[TERRITORIES_NAME] as Map<String, Any>, game)
+        this.map = TerritoryMap(saveString[TERRITORIES_NAME] as Map<String, Any>)
     }
 
     override fun finishConstruction(game: Game) {

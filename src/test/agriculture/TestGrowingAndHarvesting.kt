@@ -10,7 +10,7 @@ import org.junit.Test
 class TestGrowingAndHarvesting {
 
     private fun agroTestGame(): Game {
-        val game = Game(listOf(TerritoryLogicModule("test", listOf(Territory("Placeburg")))))
+        val game = Game(listOf(TerritoryLogicModule("test", listOf(Territory("Placeburg",0,0)))))
         TerritoryLogicModule.getTerritoryLogicModule(game).weekOfYear = 7
         return game
     }
