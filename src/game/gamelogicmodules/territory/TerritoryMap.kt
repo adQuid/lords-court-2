@@ -1,8 +1,17 @@
 package game.gamelogicmodules.territory
 
-import game.Game
+import com.beust.klaxon.Klaxon
+import java.io.File
 
 class TerritoryMap {
+
+    companion object{
+        fun fromMap(url: String): TerritoryMap{
+            val klac = Klaxon()
+            val loadMap = klac.parse<Map<String,Any>>(File(url +"/map.json").readText())!!
+            return TerritoryMap(loadMap)
+        }
+    }
 
     val IMAGE_NAME = "img"
     val imageUrl: String

@@ -5,6 +5,7 @@ import game.gamelogicmodules.capital.Capital
 import game.gamelogicmodules.capital.CapitalLogicModule
 import game.gamelogicmodules.territory.Territory
 import game.gamelogicmodules.territory.TerritoryLogicModule
+import game.gamelogicmodules.territory.TerritoryMap
 import game.titlemaker.CookieWorldTitleFactory
 
 class GameSetup {
@@ -28,9 +29,10 @@ class GameSetup {
     }
 
     fun setupAgricultureGame(): Game{
-        val territories = TerritoryLogicModule("test", listOf(Territory("Placeburg",0,0)))
-        val capitals = CapitalLogicModule(territories.map.territories.map { Capital(it) })
-        val game = Game(listOf(territories, capitals))
+        val territories = TerritoryMap.fromMap("maps/testland")
+        val territoryLogic = TerritoryLogicModule(territories)
+        val capitals = CapitalLogicModule(territoryLogic.map.territories.map { Capital(it) })
+        val game = Game(listOf(territoryLogic, capitals))
 
         val defaultLocation = Location(game)
 

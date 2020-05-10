@@ -7,14 +7,15 @@ import game.gamelogicmodules.capital.Capital
 import game.gamelogicmodules.capital.CapitalLogicModule
 import game.gamelogicmodules.territory.Territory
 import game.gamelogicmodules.territory.TerritoryLogicModule
+import game.gamelogicmodules.territory.TerritoryMap
 import org.junit.Test
 
 class TestSaveAndClone {
 
     fun soloTestGame(): Game {
-        val territories = listOf(Territory("Placeburg",0,0))
+        val territories = TerritoryMap("test", listOf(Territory("Placeburg",0,0)))
 
-        val game = Game(listOf(TerritoryLogicModule("test", territories), CapitalLogicModule(listOf(Capital(territories[0])))))
+        val game = Game(listOf(TerritoryLogicModule(territories), CapitalLogicModule(listOf(Capital(territories.territories[0])))))
         return game
     }
 

@@ -5,12 +5,13 @@ import game.Location
 import game.GameCharacter
 import game.gamelogicmodules.territory.Territory
 import game.gamelogicmodules.territory.TerritoryLogicModule
+import game.gamelogicmodules.territory.TerritoryMap
 import org.junit.Test
 
 class TestGrowingAndHarvesting {
 
     private fun agroTestGame(): Game {
-        val game = Game(listOf(TerritoryLogicModule("test", listOf(Territory("Placeburg",0,0)))))
+        val game = Game(listOf(TerritoryLogicModule(TerritoryMap("test", listOf(Territory("Placeburg",0,0))))))
         TerritoryLogicModule.getTerritoryLogicModule(game).weekOfYear = 7
         return game
     }
