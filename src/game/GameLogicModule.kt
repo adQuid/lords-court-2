@@ -7,6 +7,7 @@ import shortstate.report.ReportFactory
 import java.lang.Exception
 import game.gamelogicmodules.territory.TerritoryLogicModule
 import game.gamelogicmodules.capital.CapitalLogicModule
+import game.titlemaker.TitleFactory
 
 abstract class GameLogicModule {
 
@@ -44,10 +45,12 @@ abstract class GameLogicModule {
     abstract val type: String
 
     var reportTypes: Map<String, ReportFactory>
+    var titleTypes: TitleFactory
     var dependencies: List<String>
 
-    constructor(reportTypes: Collection<ReportFactory>, dependencies: List<String>){
+    constructor(reportTypes: Collection<ReportFactory>, titleTypes: TitleFactory, dependencies: List<String>){
         this.reportTypes = reportTypes.associate { it.type to it }
+        this.titleTypes = titleTypes
         this.dependencies = dependencies
     }
 
@@ -64,6 +67,10 @@ abstract class GameLogicModule {
 
     fun reportFactoryFromType(type: String, game: Game): ReportFactory?{
         return reportTypes[type]
+    }
+
+    fun titleFromSaveString(saveString: Map<String, Any>, game: Game): Title?{
+        return titleTypes.titleFromSaveString(saveString, game)
     }
 
     fun saveString(): Map<String, Any> {

@@ -1,5 +1,6 @@
 package game.gamelogicmodules.capital
 
+import game.Game
 import game.GameCharacter
 import game.Title
 import game.action.Action
@@ -27,9 +28,10 @@ class Count: Title{
         )
     }
 
-    constructor(saveString: Map<String, Any>){
+    constructor(saveString: Map<String, Any>, game: Game){
+        val capitalLogic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
         this.name = saveString[NAME_NAME] as String
-        this.capital = Capital(saveString[CAPITAL_NAME] as Map<String, Any>)
+        this.capital = capitalLogic.capitalById(saveString[CAPITAL_NAME] as Int)
         reportsEntitled = listOf(
             FoodStocksReportFactory(capital.territory!!.id),
             ActiveCropsReportFactory(capital.territory!!.id),
@@ -46,7 +48,7 @@ class Count: Title{
             CookieWorldTitleFactory.TYPE_NAME to "Count",
             NAME_NAME to name,
             REPORTS_NAME to reportsEntitled.map { report -> report.toString() },
-            CAPITAL_NAME to capital.saveString()
+            CAPITAL_NAME to capital.terId
         )
     }
 

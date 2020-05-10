@@ -69,7 +69,7 @@ class GameCharacter {
         npc = saveString[NPC_NAME] as Boolean
         name = saveString[NAME_NAME] as String
         pictureString = saveString[PICTURE_NAME] as String
-        titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> CookieWorldTitleFactory.titleFromSaveString(map) }.toMutableSet()
+        titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> game.titleFromSaveString(map) }.toMutableSet()
         location = game.locationById(saveString[LOCATION_NAME] as Int)
         //To avoid circular references these are populated in finishConstruction
         memory = Memory()

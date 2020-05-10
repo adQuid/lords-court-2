@@ -29,7 +29,7 @@ class Baker: Title{
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            CookieWorldTitleFactory.TYPE_NAME to "Count",
+            CookieWorldTitleFactory.TYPE_NAME to "Baker",
             NAME_NAME to name,
             REPORTS_NAME to reportsEntitled.map { report -> report.toString() }
         )

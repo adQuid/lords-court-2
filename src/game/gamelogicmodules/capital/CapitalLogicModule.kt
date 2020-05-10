@@ -27,15 +27,15 @@ class CapitalLogicModule: GameLogicModule {
     }
     val capitals: Collection<Capital>
 
-    constructor(capitals: Collection<Capital>): super(reportFactories(capitals), listOf(TerritoryLogicModule.type)){
+    constructor(capitals: Collection<Capital>): super(reportFactories(capitals), CapitalTitleFactory, listOf(TerritoryLogicModule.type)){
         this.capitals = capitals
     }
 
-    constructor(other: CapitalLogicModule, game: Game): super(reportFactories(other.capitals), listOf(TerritoryLogicModule.type)){
+    constructor(other: CapitalLogicModule, game: Game): super(reportFactories(other.capitals), CapitalTitleFactory, listOf(TerritoryLogicModule.type)){
         this.capitals = other.capitals.map { Capital(it) }
     }
 
-    constructor(saveString: Map<String, Any>, game: Game): super(reportFactories(capitalsFromSaveString(saveString)), listOf(TerritoryLogicModule.type)){
+    constructor(saveString: Map<String, Any>, game: Game): super(reportFactories(capitalsFromSaveString(saveString)), CapitalTitleFactory, listOf(TerritoryLogicModule.type)){
         this.capitals = (saveString[CAPITAL_NAME] as List<Map<String, Any>>).map { Capital(it) }
     }
 

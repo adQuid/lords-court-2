@@ -4,6 +4,7 @@ import game.Effect
 import game.Game
 import game.GameCharacter
 import game.GameLogicModule
+import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.DeliciousnessReport
 import shortstate.report.DeliciousnessReportFactory
 import shortstate.report.GlobalReportTypeFactory
@@ -26,17 +27,17 @@ class CookieWorld: GameLogicModule {
     val HAS_MILK_NAME = "hasMilk"
     var hasMilk = mutableListOf<GameCharacter>()
 
-    constructor() : super(listOf(DeliciousnessReportFactory()), listOf()) {
+    constructor() : super(listOf(DeliciousnessReportFactory()), CookieWorldTitleFactory, listOf()) {
         deliciousness = 0.0
         hasMilk = mutableListOf<GameCharacter>()
     }
 
-    constructor(other: CookieWorld): super(listOf(DeliciousnessReportFactory()), listOf()){
+    constructor(other: CookieWorld): super(listOf(DeliciousnessReportFactory()), CookieWorldTitleFactory, listOf()){
         deliciousness = other.deliciousness
         hasMilk = other.hasMilk.toMutableList()
     }
 
-    constructor(saveString: Map<String, Any>, game: Game): super(listOf(DeliciousnessReportFactory()), listOf()){
+    constructor(saveString: Map<String, Any>, game: Game): super(listOf(DeliciousnessReportFactory()), CookieWorldTitleFactory, listOf()){
         deliciousness = saveString[DELICIOUSNESS_NAME] as Double
         hasMilk = (saveString[HAS_MILK_NAME] as List<Int>).map { id -> game.characterById(id)}.toMutableList()
     }

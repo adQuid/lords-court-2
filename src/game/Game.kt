@@ -54,12 +54,12 @@ class Game {
     }
 
     constructor(saveString: Map<String,Any>){
+        gameLogicModules = (saveString[MODULES_NAME] as List<Map<String, Any>>).map { map -> GameLogicModule.moduleFromSaveString(map, this) }
+        logicModulesInDependencyOrder().forEach { it.finishConstruction(this) }
         nextID = saveString[MAX_ID_NAME] as Int
         turn = saveString[TURN_NAME] as Int
         locations = (saveString[LOCATIONS_NAME] as List<Map<String, Any>>).map { map -> Location(this, map) }.toMutableList()
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> GameCharacter(map, this) }.toMutableList()
-
-        gameLogicModules = (saveString[MODULES_NAME] as List<Map<String, Any>>).map { map -> GameLogicModule.moduleFromSaveString(map, this) }
 
         val tempActions = mutableMapOf<GameCharacter, MutableList<Action>>()
         (saveString[ACTIONS_NAME] as Map<Int, Any>).forEach { key, value -> tempActions[characterById(key.toInt())] =
@@ -68,10 +68,9 @@ class Game {
 
         concludedPlayers = (saveString[CONCLUDED_PLAYERS_NAME] as List<Int>).map { id -> characterById(id) }.toMutableSet()
 
-        titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> CookieWorldTitleFactory.titleFromSaveString(map) }.toMutableSet()
+        titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> titleFromSaveString(map) }.toMutableSet()
 
         (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
-        logicModulesInDependencyOrder().forEach { it.finishConstruction(this) }
     }
 
     fun saveString(): Map<String, Any>{
@@ -238,6 +237,10 @@ class Game {
         return gameLogicModules.map { module -> module.reportFactoryFromType(type, this) }
             .filter{it != null}
             .first()!!
+    }
+
+    fun titleFromSaveString(saveString: Map<String, Any>): Title {
+        return gameLogicModules.map{ module -> module.titleTypes.titleFromSaveString(saveString, this)}.filter { it != null }.map{it!!}.first()
     }
 
     private fun reevaluateForcastForPlayers(players: List<GameCharacter>){

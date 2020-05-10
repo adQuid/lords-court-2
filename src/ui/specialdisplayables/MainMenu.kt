@@ -23,9 +23,9 @@ class MainMenu: NoPerspectiveDisplayable() {
         pane.add(UtilityComponentFactory.shortWideLabel("babababababababababa"), 0, 6)
         pane.add(UtilityComponentFactory.shortWideLabel("Filler"), 0, 7)
         pane.add(UtilityComponentFactory.shortWideLabel("Filler"), 0, 8)
-        pane.add(UtilityComponentFactory.shortWideLabel("Filler"), 0, 9)
+        pane.add( UtilityComponentFactory.shortWideButton("Load", EventHandler { Controller.singleton!!.load(); UIGlobals.resetFocus() }), 0, 9)
         pane.add(UtilityComponentFactory.shortWideButton("MAP EDITOR",  EventHandler { UIGlobals.focusOn(WorldEditorMainMenu) }), 0, 10)
-        pane.add(UtilityComponentFactory.shortWideButton("PLAY", EventHandler {
+        pane.add(UtilityComponentFactory.shortWideButton("PLAY NEW GAME", EventHandler {
             Controller.singleton!!.newGame() }), 0, 11)
 
 

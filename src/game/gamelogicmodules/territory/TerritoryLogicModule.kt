@@ -36,23 +36,23 @@ class TerritoryLogicModule: GameLogicModule {
     var weekOfYear: Int
 
     //likely to get removed in time
-    constructor(territories: TerritoryMap): super(reportFactories(territories.territories.map { it.id }), listOf()) {
+    constructor(territories: TerritoryMap): super(reportFactories(territories.territories.map { it.id }), TerritoryTitleFactory, listOf()) {
         weekOfYear = 6
         this.map = territories
     }
 
-    constructor(other: TerritoryLogicModule): super(reportFactories(other.map.territories.map{it.id}), listOf()){
+    constructor(other: TerritoryLogicModule): super(reportFactories(other.map.territories.map{it.id}), TerritoryTitleFactory, listOf()){
         this.weekOfYear = other.weekOfYear
         this.map = TerritoryMap(other.map)
     }
 
     //used when making a new game from an existing map
-    constructor(saveString: Map<String, Any>): super(listOf(), listOf()){
+    constructor(saveString: Map<String, Any>): super(listOf(), TerritoryTitleFactory, listOf()){
         weekOfYear = 6
         this.map = TerritoryMap(saveString[TERRITORIES_NAME] as Map<String, Any>)
     }
 
-    constructor(saveString: Map<String, Any>, game: Game): super(listOf(), listOf()){
+    constructor(saveString: Map<String, Any>, game: Game): super(listOf(), TerritoryTitleFactory, listOf()){
         this.weekOfYear = saveString[WEEK_NAME] as Int
         this.map = TerritoryMap(saveString[TERRITORIES_NAME] as Map<String, Any>)
     }

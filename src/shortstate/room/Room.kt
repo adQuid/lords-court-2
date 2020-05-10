@@ -1,6 +1,8 @@
 package shortstate.room
 
 import game.GameCharacter
+import game.gamelogicmodules.territory.TerritoryLogicModule
+import main.UIGlobals
 import shortstate.GameRules
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
@@ -57,6 +59,11 @@ class Room {
 
             if(player.energy >= GameRules.COST_TO_MAKE_WRIT){
                 retval = retval.plus(listOf(DraftWritRoomActionMaker()))
+            }
+
+            //TODO: Move this somewhere else
+            if(!player.player.npc && UIGlobals.activeGame().gameLogicModules.filter { it.type == TerritoryLogicModule.type }.isNotEmpty()){
+                retval = retval.plus(DefaultRoomActionMaker(ViewEstates()))
             }
             return retval
         } else if(type == RoomType.THRONEROOM){
