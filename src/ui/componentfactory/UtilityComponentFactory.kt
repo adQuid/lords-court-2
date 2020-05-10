@@ -10,33 +10,28 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.GridPane
-import javafx.scene.layout.Pane
-import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import ui.specialdisplayables.NewSceneSelector
-import ui.specialdisplayables.OptionsMenu
-import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
 object UtilityComponentFactory {
 
-    fun imageView(url: String): ImageView {
+    fun imageView(url: String, height: Double): ImageView {
         val path = url.replace("//","\\")
         val image = Image(path)
         val retval = ImageView(image)
-        retval.fitHeight = (UIGlobals.totalHeight()) * (8.0 / 10.0)
+        retval.fitHeight = (UIGlobals.totalHeight()) * height
         retval.fitWidth = UIGlobals.totalWidth()
         return retval
     }
 
-    fun writableImageView(): ImageView {
+    fun writableImageView(height: Double): ImageView {
         val image = WritableImage(2000, 1500)
         val retval = ImageView(image)
-        retval.fitHeight = (UIGlobals.totalHeight()) * (8.0 / 10.0)
+        retval.fitHeight = (UIGlobals.totalHeight()) * height
         retval.fitWidth = UIGlobals.totalWidth()
         return retval
     }

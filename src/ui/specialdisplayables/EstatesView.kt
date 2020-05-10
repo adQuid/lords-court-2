@@ -13,7 +13,7 @@ class EstatesView: PerspectiveDisplayable() {
 
     override fun display(perspective: ShortStateCharacter): Scene {
         val gameCharacterSees = UIGlobals.activeGame().imageFor(perspective.player)
-        val mapView = MapView((gameCharacterSees.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).map, 1.0, 1.0)
+        val mapView = MapView((gameCharacterSees.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).map, 1.0, 0.9)
 
         pane.add(mapView.display(), 0,0)
         pane.add(UtilityComponentFactory.backButton(), 0, 1)

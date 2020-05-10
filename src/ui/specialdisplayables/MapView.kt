@@ -40,9 +40,9 @@ class MapView {
         focusY = 0.0
         this.widthSize = widthSize
         this.heightSize = heightSize
-        background =  MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/background.png"), true)
-        territories = MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/territories.png"), true)
-        annotations = MapLayer(UtilityComponentFactory.writableImageView(), true)
+        background =  MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/background.png", heightSize), true)
+        territories = MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/territories.png", heightSize), true)
+        annotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)
     }
 
     fun display(): Node {

@@ -32,21 +32,21 @@ class ConversationComponentFactory {
     fun conversationPane(backgroundPane: Pane, perspective: ShortStateCharacter): Pane {
 
         if(conversation != null){
-            val npcSpeechView = UtilityComponentFactory.imageView("assets/general/leftSpeechBubble.png")
+            val npcSpeechView = UtilityComponentFactory.imageView("assets/general/leftSpeechBubble.png", 0.8)
             //TODO: Do I really want this behavior?
             //npcSpeechView.setOnMouseClicked { _ -> myLineSymbolic = !myLineSymbolic; UIGlobals.refresh() }
-            val playerSpeechView = UtilityComponentFactory.imageView("assets/general/rightSpeechBubble.png")
+            val playerSpeechView = UtilityComponentFactory.imageView("assets/general/rightSpeechBubble.png", 0.8)
             playerSpeechView.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.refresh() }
             backgroundPane.children.addAll(npcSpeechView, playerSpeechView)
 
             if(lineBeingConstructed != null){
                 if(lineBeingConstructed!!.validToSend()){
-                    val sendButton = UtilityComponentFactory.imageView("assets/general/talkButton.png")
+                    val sendButton = UtilityComponentFactory.imageView("assets/general/talkButton.png", 0.8)
                     sendButton.setOnMouseClicked { _ -> conversation.submitLine(lineBeingConstructed!!, Controller.singleton!!.shortThreadForPlayer(perspective).shortGame);
                         lineBeingConstructed = null; UIGlobals.defocus()}
                     backgroundPane.children.add(sendButton)
                 }
-                val cancelButton = UtilityComponentFactory.imageView("assets/general/cancelLineButton.png")
+                val cancelButton = UtilityComponentFactory.imageView("assets/general/cancelLineButton.png", 0.8)
                 cancelButton.setOnMouseClicked { lineBeingConstructed = null; UIGlobals.refresh()}
                 backgroundPane.children.add(cancelButton)
             }

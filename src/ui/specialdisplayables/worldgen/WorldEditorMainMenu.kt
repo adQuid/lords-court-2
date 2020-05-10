@@ -20,7 +20,7 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
     val mapName = "maps/testland"
 
-    val pane = GridPane()
+
 
     val mapView = loadMap()
 
@@ -29,6 +29,7 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
     var selectedTerritory: Territory? = null
 
     override fun display(): Scene {
+        val pane = GridPane()
         terNameDisplay.isEditable = false
         mapView.onClick = {x,y -> selectedTerritory = mapView.selectTerritoryAt(x,y, true); terNameDisplay.isEditable = true;  terNameDisplay.text = selectedTerritory!!.name}
         pane.add(mapView.display(), 0, 0)

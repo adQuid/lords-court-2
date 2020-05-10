@@ -41,12 +41,12 @@ class SceneComponentFactory {
         val backgroundView: ImageView
         if(scene.characters!!.size > 1){
             val otherPlayer = scene.conversation!!.otherParticipant(perspective)
-            backgroundView = UtilityComponentFactory.imageView(scene.room.pictureText)
-            val characterView = UtilityComponentFactory.imageView(otherPlayer.player.pictureString)
+            backgroundView = UtilityComponentFactory.imageView(scene.room.pictureText, 0.8)
+            val characterView = UtilityComponentFactory.imageView(otherPlayer.player.pictureString, 0.8)
             characterView.setOnMouseClicked { event -> UIGlobals.focusOn(otherPlayer) }
             imagePane.children.addAll(backgroundView, characterView)
         } else {
-            backgroundView = UtilityComponentFactory.imageView(scene.room.pictureText)
+            backgroundView = UtilityComponentFactory.imageView(scene.room.pictureText, 0.8)
             imagePane.children.addAll(backgroundView)
         }
         return imagePane
