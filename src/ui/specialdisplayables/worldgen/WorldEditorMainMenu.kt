@@ -16,7 +16,7 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
     override fun display(): Scene {
         val pane = GridPane()
 
-        pane.add(MapView("maps/testland", 100.0,100.0).display(), 0, 0)
+        pane.add(MapView("maps/testland", 0.0,0.0).display(), 0, 0)
 
         val middlePane = GridPane()
         middlePane.add(UtilityComponentFactory.shortButton("Place Territory Centers", EventHandler { _ -> println("what does this do?") }), 0, 0)

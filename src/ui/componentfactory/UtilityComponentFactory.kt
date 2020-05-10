@@ -34,11 +34,16 @@ object UtilityComponentFactory {
     }
 
     fun writableImageView(): ImageView {
-        val image = WritableImage(UIGlobals.totalWidth().toInt(), ((UIGlobals.totalHeight()) * (8.0 / 10.0)).toInt())
+        val image = WritableImage(2000, 1500)
         val retval = ImageView(image)
         retval.fitHeight = (UIGlobals.totalHeight()) * (8.0 / 10.0)
         retval.fitWidth = UIGlobals.totalWidth()
         return retval
+    }
+
+    fun refreshImageView(view: ImageView): ImageView {
+        view.image = WritableImage(2000, 1500)
+        return view
     }
 
     fun newSceneButton(perspective: ShortStateCharacter): Button {

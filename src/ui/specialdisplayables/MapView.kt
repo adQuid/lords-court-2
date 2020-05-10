@@ -97,22 +97,26 @@ class MapView {
     }
 
     private fun clickedOnX(x: Double): Double {
-        return (x/zoom) + max(0.0,focusX - (displayWidth()/2.0))
+        return (x/zoom) + focusX - (displayWidth()/2.0)
     }
 
     private fun clickedOnY(y: Double): Double {
-        return (y/zoom) + max(0.0,focusY - ((displayHeight()*0.8)/2.0))
+        return ((y/0.8)/zoom) + focusY - ((displayHeight()*1.0)/2.0)
     }
 
     private fun selectArea(x: Double, y: Double){
-        annotations.imageView.image = WritableImage(UIGlobals.totalWidth().toInt(), ((UIGlobals.totalHeight()) * (8.0 / 10.0)).toInt())
+        UtilityComponentFactory.refreshImageView(annotations.imageView)
         adjacentPixels(x, y).forEach {
-            (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.first, it.second, Color.BEIGE)
+            try{
+                (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.first, it.second, Color(0.9607843, 0.9607843, 0.8627451, 0.5))
+            }catch(e: Exception){
+                error("${it.first},${it.second}")
+            }
         }
     }
 
     private fun adjacentPixels(x: Double, y: Double): List<Pair<Int,Int>> {
-        val retval = mutableListOf(Pair(x.roundToInt(), y.roundToInt()))
+        val retval = mutableListOf<Pair<Int,Int>>()
         val toCheck = mutableSetOf(Pair(x.roundToInt(),y.roundToInt()))
         val alreadyChecked = mutableListOf<Pair<Int,Int>>()
 
@@ -130,7 +134,7 @@ class MapView {
                 alreadyChecked.add(next)
             }
 
-            if(alreadyChecked.size > 10000){
+            if(alreadyChecked.size > 5000){
                 println("too big!")
                 return retval
             }
