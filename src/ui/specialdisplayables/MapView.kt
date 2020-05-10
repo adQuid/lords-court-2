@@ -11,7 +11,6 @@ import javafx.scene.layout.GridPane
 import javafx.scene.paint.Color
 import main.UIGlobals
 import ui.componentfactory.UtilityComponentFactory
-import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -19,6 +18,10 @@ import kotlin.math.roundToInt
 class MapView {
     val baseWidth = UIGlobals.totalWidth()
     val baseHeight = UIGlobals.totalHeight()
+
+    //TODO: merge with values from above
+    val widthSize: Double
+    val heightSize: Double
 
     val map: TerritoryMap
     val background: MapLayer
@@ -29,12 +32,14 @@ class MapView {
     var focusY: Double
     var zoom = 1.0
 
-    var onClick = {x: Double, y: Double -> println(selectTerritoryAt(x,y))}
+    var onClick = {x: Double, y: Double -> println(selectTerritoryAt(x,y, false))}
 
-    constructor(map: TerritoryMap, x: Double, y: Double){
+    constructor(map: TerritoryMap, widthSize: Double, heightSize: Double){
         this.map = map
-        focusX = x
-        focusY = y
+        focusX = 0.0
+        focusY = 0.0
+        this.widthSize = widthSize
+        this.heightSize = heightSize
         background =  MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/background.png"), true)
         territories = MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/territories.png"), true)
         annotations = MapLayer(UtilityComponentFactory.writableImageView(), true)
@@ -43,7 +48,7 @@ class MapView {
     fun display(): Node {
         val retval = GridPane()
         setViewPort()
-        background.imageView.onScroll = EventHandler { event -> changeViewport(event.x - baseWidth/2.0,event.y - (baseHeight*0.8)/2.0, 0.005 * event.deltaY) }
+        background.imageView.onScroll = EventHandler { event -> changeViewport(event.x -(baseWidth*widthSize)/2.0,event.y - (baseHeight*heightSize)/2.0, 0.005 * event.deltaY) }
         background.imageView.onMouseClicked = EventHandler { event -> onClick(clickedOnX(event.x),clickedOnY(event.y)) }
         allLayers().forEach {
             if(it.active){
@@ -108,23 +113,26 @@ class MapView {
     }
 
     private fun clickedOnX(x: Double): Double {
-        return (x/zoom) + focusX - (displayWidth()/2.0)
+        return ((x/widthSize)/zoom) + focusX - (displayWidth()/2.0)
     }
 
     private fun clickedOnY(y: Double): Double {
-        return ((y/0.8)/zoom) + focusY - ((displayHeight()*1.0)/2.0)
+        return ((y/heightSize)/zoom) + focusY - ((displayHeight()*1.0)/2.0)
     }
 
-    fun selectTerritoryAt(x: Double, y: Double): Territory{
+    fun selectTerritoryAt(x: Double, y: Double, makeNew: Boolean): Territory?{
         val area = adjacentPixels(x,y)
         if(map.territories.filter { Pair(it.x,it.y) in area }.isNotEmpty()){
             highlightArea(area)
             return map.territories.filter { Pair(it.x,it.y) in area }.first()
-        } else {
+        } else if(makeNew){
             val newTer = Territory("Unnamed", x.roundToInt(), y.roundToInt())
             map.territories.add(newTer)
             highlightArea(area)
             return newTer
+        } else {
+            highlightArea(area)
+            return null
         }
     }
 

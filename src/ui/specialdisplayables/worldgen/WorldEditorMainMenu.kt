@@ -30,7 +30,7 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
     override fun display(): Scene {
         terNameDisplay.isEditable = false
-        mapView.onClick = {x,y -> selectedTerritory = mapView.selectTerritoryAt(x,y); terNameDisplay.isEditable = true;  terNameDisplay.text = selectedTerritory!!.name}
+        mapView.onClick = {x,y -> selectedTerritory = mapView.selectTerritoryAt(x,y, true); terNameDisplay.isEditable = true;  terNameDisplay.text = selectedTerritory!!.name}
         pane.add(mapView.display(), 0, 0)
 
         val middlePane = GridPane()
@@ -66,6 +66,6 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
     private fun loadMap(): MapView{
         val klac = Klaxon()
         val loadMap = klac.parse<Map<String,Any>>(File(mapName+"/map.json").readText())!!
-        return MapView(TerritoryMap(loadMap), 0.0,0.0)
+        return MapView(TerritoryMap(loadMap), 1.0,0.8)
     }
 }

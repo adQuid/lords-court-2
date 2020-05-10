@@ -38,9 +38,10 @@ class GameSetup {
 
         game.locations.add(defaultLocation)
 
+        val capital = capitals.capitals.first()
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, defaultLocation, game)
         game.addPlayer(PC)
-        game.applyTitleToCharacter(capitals.capitals.first().generateCountTitle(), PC)
+        game.applyTitleToCharacter(capital.generateCountTitle(), PC)
 
         return game
     }
