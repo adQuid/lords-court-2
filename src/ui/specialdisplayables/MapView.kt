@@ -26,6 +26,7 @@ class MapView {
     val map: TerritoryMap
     val background: MapLayer
     val territories: MapLayer
+    val secondaryAnnotations: MapLayer
     val annotations: MapLayer
 
     var focusX: Double
@@ -42,6 +43,7 @@ class MapView {
         this.heightSize = heightSize
         background =  MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/background.png", heightSize), true)
         territories = MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/territories.png", heightSize), true)
+        secondaryAnnotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)
         annotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)
     }
 
@@ -50,6 +52,8 @@ class MapView {
         setViewPort()
         background.imageView.onScroll = EventHandler { event -> changeViewport(event.x -(baseWidth*widthSize)/2.0,event.y - (baseHeight*heightSize)/2.0, 0.005 * event.deltaY) }
         background.imageView.onMouseClicked = EventHandler { event -> onClick(clickedOnX(event.x),clickedOnY(event.y)) }
+        secondaryAnnotations.imageView.onMouseClicked = EventHandler { event -> onClick(clickedOnX(event.x),clickedOnY(event.y)) }
+        annotations.imageView.onMouseClicked = EventHandler { event -> onClick(clickedOnX(event.x),clickedOnY(event.y)) }
         allLayers().forEach {
             if(it.active){
                 retval.add(it.imageView,0,0)
@@ -101,7 +105,7 @@ class MapView {
     }
 
     private fun allLayers(): List<MapLayer> {
-        return listOf(background, territories, annotations)
+        return listOf(background, territories, secondaryAnnotations, annotations)
     }
 
     private fun displayWidth(): Double {
@@ -121,27 +125,31 @@ class MapView {
     }
 
     fun selectTerritoryAt(x: Double, y: Double, makeNew: Boolean): Territory?{
+        refresh()
         val area = adjacentPixels(x,y)
         if(map.territories.filter { Pair(it.x,it.y) in area }.isNotEmpty()){
-            highlightArea(area)
+            highlightArea(annotations, area, Color(0.9607843, 0.9607843, 0.8627451, 0.5))
             return map.territories.filter { Pair(it.x,it.y) in area }.first()
         } else if(makeNew){
             val newTer = Territory("Unnamed", x.roundToInt(), y.roundToInt())
             map.territories.add(newTer)
-            highlightArea(area)
+            highlightArea(annotations, area, Color(0.9607843, 0.9607843, 0.8627451, 0.5))
             return newTer
         } else {
-            highlightArea(area)
+            highlightArea(annotations, area, Color(0.9607843, 0.9607843, 0.8627451, 0.5))
             return null
         }
     }
 
-    private fun highlightArea(coords: List<Pair<Int,Int>>){
-        refresh()
-        populateCapitals()
+    fun secondaryHighlight(territories: Collection<Territory>){
+        print("${territories.first().x}, ${territories.first().y}")
+        highlightArea(secondaryAnnotations, territories.map { adjacentPixels(it.x.toDouble(), it.y.toDouble())}.flatten(), Color(0.2607843, 0.9607843, 0.2627451, 0.7))
+    }
+
+    private fun highlightArea(layer: MapLayer, coords: List<Pair<Int,Int>>, color: Color){
         coords.forEach {
-            if(annotations.imageView.image.pixelReader.getArgb(it.first, it.second) == 0){
-                (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.first, it.second, Color(0.9607843, 0.9607843, 0.8627451, 0.5))
+            if(layer.imageView.image.pixelReader.getArgb(it.first, it.second) == 0){
+                (layer.imageView.image as WritableImage).pixelWriter.setColor(it.first, it.second, color)
             }
         }
     }

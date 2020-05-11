@@ -8,6 +8,7 @@ import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.image.PixelFormat
 import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
 import javafx.scene.text.Text
