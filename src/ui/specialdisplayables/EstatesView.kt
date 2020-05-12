@@ -17,14 +17,16 @@ class EstatesView: PerspectiveDisplayable() {
         val territorysControlledByPlayer = (perspective.player.titles.filter { it is Count }.map{it as Count}).map{it.capital.territory!!}
         val primaryTerritory = territorysControlledByPlayer.first()
 
-        val mapView = MapView((gameCharacterSees.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).map, 1.0, 0.9)
+        val mapView = MapView((gameCharacterSees.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).map, 1.0, 0.7)
         mapView.focusX = primaryTerritory!!.x.toDouble()
         mapView.focusY = primaryTerritory!!.y.toDouble()
         mapView.zoom = 3.0
-
         pane.add(mapView.display(), 0,0)
         mapView.secondaryHighlight(territorysControlledByPlayer)
+
         pane.add(UtilityComponentFactory.backButton(), 0, 1)
+        pane.add(UtilityComponentFactory.backButton(), 0, 2)
+        pane.add(UtilityComponentFactory.backButton(), 0, 3)
 
         return Scene(pane)
     }

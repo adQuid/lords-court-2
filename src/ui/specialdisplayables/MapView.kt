@@ -109,19 +109,19 @@ class MapView {
     }
 
     private fun displayWidth(): Double {
-        return baseWidth/zoom
+        return baseWidth*widthSize/zoom
     }
 
     private fun displayHeight(): Double {
-        return baseHeight/zoom
+        return baseHeight*heightSize/zoom
     }
 
     private fun clickedOnX(x: Double): Double {
-        return ((x/widthSize)/zoom) + focusX - (displayWidth()/2.0)
+        return (x/zoom) + focusX - (displayWidth()/2.0)
     }
 
     private fun clickedOnY(y: Double): Double {
-        return ((y/heightSize)/zoom) + focusY - ((displayHeight()*1.0)/2.0)
+        return (y/zoom) + focusY - ((displayHeight())/2.0)
     }
 
     fun selectTerritoryAt(x: Double, y: Double, makeNew: Boolean): Territory?{
@@ -163,7 +163,7 @@ class MapView {
             val next = toCheck.first()
 
             if(!alreadyChecked.contains(next)){
-                if(territories.imageView.image.pixelReader.getArgb(next.first, next.second) == 0){
+                if(next.first > 0 && next.second > 0 && territories.imageView.image.pixelReader.getArgb(next.first, next.second) == 0){
                     retval.add(next)
                     toCheck.add(Pair(next.first-1, next.second))
                     toCheck.add(Pair(next.first+1, next.second))
