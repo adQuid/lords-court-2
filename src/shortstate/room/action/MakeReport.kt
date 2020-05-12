@@ -5,15 +5,16 @@ import shortstate.GameRules
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
+import shortstate.report.ReportFactory
 import shortstate.report.ReportType
 import shortstate.room.RoomAction
 
 class MakeReport: RoomAction{
 
-    val type: String
+    val factory: ReportFactory
 
-    constructor(type: String){
-        this.type = type
+    constructor(factory: ReportFactory ){
+        this.factory = factory
     }
 
     override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
@@ -21,8 +22,7 @@ class MakeReport: RoomAction{
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
-        println("looked up deliciousness")
-        player.knownReports.add(game.game.reportFromType(type))
+        player.knownReports.add(factory.generateReport(game.game))
         player.energy -= GameRules.COST_TO_MAKE_REPORT
     }
 
@@ -31,6 +31,6 @@ class MakeReport: RoomAction{
     }
 
     override fun toString(): String {
-        return "Look up ${UIGlobals.activeGame().reportFactoryFromType(type).tooltip()}"
+        return "Look up ${factory.tooltip()}"
     }
 }

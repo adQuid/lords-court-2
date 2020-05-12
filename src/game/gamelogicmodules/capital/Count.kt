@@ -20,7 +20,7 @@ class Count: Title{
 
     constructor(capital: Capital){
         this.capital = capital
-        this.name = "Count of ${capital.territory!!}"
+        this.name = "Count of ${capital.territory!!.name}"
         reportsEntitled = listOf(
             FoodStocksReportFactory(capital.territory!!.id),
             ActiveCropsReportFactory(capital.territory!!.id),

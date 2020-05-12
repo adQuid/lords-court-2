@@ -19,6 +19,7 @@ class FoodStocksReport: Report {
     
     constructor(game: Game, territory: Territory){
         this.territory = territory
+        println(territory.name)
         flour = territory.resources.get(Territory.FLOUR_NAME)
         bread = territory.resources.get(Territory.BREAD_NAME)
     }

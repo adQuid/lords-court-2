@@ -31,7 +31,7 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
     override fun display(): Scene {
         val pane = GridPane()
         terNameDisplay.isEditable = false
-        mapView.onClick = {x,y -> selectedTerritory = mapView.selectTerritoryAt(x,y, true); terNameDisplay.isEditable = true;  terNameDisplay.text = selectedTerritory!!.name}
+        mapView.onClick = {x,y -> selectedTerritory = mapView.selectTerritoryAt(x,y, true, true); terNameDisplay.isEditable = true;  terNameDisplay.text = selectedTerritory!!.name}
         pane.add(mapView.display(), 0, 0)
 
         val middlePane = GridPane()

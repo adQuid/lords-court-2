@@ -15,7 +15,7 @@ class ViewEstates: RoomAction() {
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
-        UIGlobals.focusOn(EstatesView())
+        UIGlobals.focusOn(EstatesView(player))
     }
 
     override fun defocusAfter(): Boolean {

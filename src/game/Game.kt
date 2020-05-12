@@ -227,12 +227,6 @@ class Game {
             .first()!!
     }
 
-    fun reportFromType(type: String): Report{
-        return gameLogicModules.map { module -> module.reportFactoryFromType(type, this) }
-            .filter{it != null}
-            .first()!!.generateReport(this)
-    }
-
     fun reportFactoryFromType(type: String): ReportFactory {
         return gameLogicModules.map { module -> module.reportFactoryFromType(type, this) }
             .filter{it != null}

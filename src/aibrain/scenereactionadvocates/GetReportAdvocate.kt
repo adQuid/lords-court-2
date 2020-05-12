@@ -4,6 +4,7 @@ import shortstate.ShortGameScene
 import shortstate.ShortStateController
 import shortstate.ShortStateGame
 import shortstate.report.DeliciousnessReport
+import shortstate.report.DeliciousnessReportFactory
 import shortstate.report.ReportType
 import shortstate.room.Room
 import shortstate.room.action.MakeReport
@@ -24,6 +25,6 @@ class GetReportAdvocate: SceneReactionAdvocate {
     }
 
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {
-        MakeReport(DeliciousnessReport.type).doAction(game, shortGameScene!!.shortPlayerForLongPlayer(me)!!)
+        MakeReport(DeliciousnessReportFactory()).doAction(game, shortGameScene!!.shortPlayerForLongPlayer(me)!!)
     }
 }

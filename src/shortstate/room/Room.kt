@@ -55,7 +55,7 @@ class Room {
     fun getActions(player: ShortStateCharacter): List<RoomActionMaker>{
         if(type == RoomType.WORKROOM){
             var retval = baseActions()
-                .plus(player.player.titles.flatMap { title -> title.reportsEntitled.map { type -> DefaultRoomActionMaker(MakeReport(type.type))} })
+                .plus(player.player.titles.flatMap { title -> title.reportsEntitled.map { type -> DefaultRoomActionMaker(MakeReport(type))} })
 
             if(player.energy >= GameRules.COST_TO_MAKE_WRIT){
                 retval = retval.plus(listOf(DraftWritRoomActionMaker()))

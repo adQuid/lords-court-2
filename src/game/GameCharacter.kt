@@ -119,7 +119,7 @@ class GameCharacter {
 
     fun fullName(): String{
         if(titles.isNotEmpty()){
-            return name + ", " + titles.joinToString(", ")
+            return name + ", " + titles.map{it.name}.joinToString(", ")
         } else {
             return name
         }
