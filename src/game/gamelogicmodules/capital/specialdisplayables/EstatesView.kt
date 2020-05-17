@@ -24,7 +24,7 @@ class EstatesView: PerspectiveDisplayable {
 
     constructor(perspective: ShortStateCharacter): super(){
         val gameCharacterSees = UIGlobals.activeGame().imageFor(perspective.player)
-        val territorysControlledByPlayer = (perspective.player.titles.filter { it is Count }.map{it as Count}).map{it.capital.territory!!}
+        val territorysControlledByPlayer = territoriesControlledByPlayer(perspective)
         val primaryTerritory = territorysControlledByPlayer.first()
 
         mapView = MapView(
@@ -36,13 +36,14 @@ class EstatesView: PerspectiveDisplayable {
         mapView.focusY = primaryTerritory!!.y.toDouble()
         mapView.zoom = 3.0
         mapView.secondaryHighlight(territorysControlledByPlayer)
-        mapView.onClick = {x,y -> focusedTerritory = mapView.selectTerritoryAt(x,y,false, false); mapView.resize(1.0, height()); UIGlobals.refresh()}
+        mapView.onClick = {x,y -> focusedTerritory = mapView.selectTerritoryAt(x,y, highlight = false, makeNew = false); mapView.resize(1.0, height()); UIGlobals.refresh()}
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {
         val pane = GridPane()
 
         pane.add(mapView.display(), 0,0)
+        mapView.secondaryHighlight(territoriesControlledByPlayer(perspective))
 
         if(focusedTerritory != null){
             mapView.selectTerritoryAt(focusedTerritory!!.x.toDouble(), focusedTerritory!!.y.toDouble(), true, false)
@@ -70,6 +71,10 @@ class EstatesView: PerspectiveDisplayable {
         } else {
             return 0.7
         }
+    }
+
+    private fun territoriesControlledByPlayer(perspective: ShortStateCharacter): Collection<Territory>{
+        return (perspective.player.titles.filter { it is Count }.map{it as Count}).map{it.capital.territory!!}
     }
 
     private fun actionsOnMyTerritory(perspective: ShortStateCharacter, countTitle: Count): Node {
