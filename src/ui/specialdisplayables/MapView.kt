@@ -144,7 +144,7 @@ class MapView {
             }
             return map.territories.filter { Pair(it.x,it.y) in area }.first()
         } else if(makeNew){
-            val newTer = Territory("Unnamed", x.roundToInt(), y.roundToInt())
+            val newTer = Territory(map.nextId++, "Unnamed", x.roundToInt(), y.roundToInt())
             map.territories.add(newTer)
             if(highlight){
                 highlightArea(annotations, area, Color(0.9607843, 0.9607843, 0.8627451, 0.5))

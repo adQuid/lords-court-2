@@ -49,4 +49,19 @@ class Capital {
     fun generateCountTitle(): Title {
         return Count(this)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Capital
+
+        if (terId != other.terId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return terId
+    }
 }

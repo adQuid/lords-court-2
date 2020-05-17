@@ -20,9 +20,7 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
     val mapName = "maps/testland"
 
-
-
-    val mapView = loadMap()
+    val mapView = MapView(TerritoryMap(mapName), 1.0,0.8)
 
     val terNameDisplay = UtilityComponentFactory.shortProportionalTextField("No Territory Selected", 4.0)
 

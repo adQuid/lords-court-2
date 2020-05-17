@@ -11,6 +11,7 @@ import game.gamelogicmodules.CookieWorld
 import shortstate.dialog.LineMemory
 import shortstate.dialog.linetypes.Announcement
 import util.safeSublist
+import java.lang.Exception
 
 class ForecastBrain {
     val player: GameCharacter
@@ -139,8 +140,9 @@ class ForecastBrain {
 
     private fun mostSignificantPlayersToMe(game: Game): List<GameCharacter>{
         var retval = mutableListOf<GameCharacter>()
+        retval.add(game.matchingPlayer(player)!!)//I always care about me
         game.players.forEach{
-            if(true){ //TODO: make this not stupid
+            if(!retval.contains(it)){ //TODO: make this not stupid
                 retval.add(it)
             }
         }

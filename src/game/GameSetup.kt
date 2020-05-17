@@ -3,10 +3,10 @@ package game
 import game.gamelogicmodules.CookieWorld
 import game.gamelogicmodules.capital.Capital
 import game.gamelogicmodules.capital.CapitalLogicModule
-import game.gamelogicmodules.territory.Territory
 import game.gamelogicmodules.territory.TerritoryLogicModule
 import game.gamelogicmodules.territory.TerritoryMap
 import game.titlemaker.CookieWorldTitleFactory
+import java.util.*
 
 class GameSetup {
 
@@ -38,10 +38,26 @@ class GameSetup {
 
         game.locations.add(defaultLocation)
 
-        val capital = capitals.capitals.first()
+        val pcCapital = capitals.capitals.first()
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, defaultLocation, game)
         game.addPlayer(PC)
-        game.applyTitleToCharacter(capital.generateCountTitle(), PC)
+        game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
+
+        val names = Stack<String>()
+        names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim"))
+        capitals.capitals.forEach {
+            if(it != pcCapital){
+                println("${it.territory!!.name} is NOT the same as ${pcCapital.territory!!.name}")
+                val location = Location(game)
+                game.locations.add(location)
+                val NPC = GameCharacter("Lord "+names.pop(), "assets/portraits/faceman.png", true,location,game)
+                game.addPlayer(NPC)
+                game.applyTitleToCharacter(it.generateCountTitle(), NPC)
+                println("Added ${NPC.name} as count of ${it.territory!!.name}")
+            } else {
+                println("${it.territory!!.name} is the same as ${pcCapital.territory!!.name}")
+            }
+        }
 
         return game
     }

@@ -11,7 +11,9 @@ import org.junit.Test
 class TestGrowingAndHarvesting {
 
     private fun agroTestGame(): Game {
-        val game = Game(listOf(TerritoryLogicModule(TerritoryMap("test", listOf(Territory("Placeburg",0,0))))))
+        val territories = TerritoryLogicModule(TerritoryMap("test"))
+        territories.map.territories.add(Territory(territories.map.nextId, "Placeburg",0,0))
+        val game = Game(listOf(territories))
         TerritoryLogicModule.getTerritoryLogicModule(game).weekOfYear = 7
         return game
     }

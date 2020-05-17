@@ -7,8 +7,6 @@ import game.gamelogicmodules.resources.Resources
 class Territory {
 
     companion object{
-        var nextId = 0
-
         val ARABLE_LAND_NAME = "arable_land"
         val POPULATION_NAME = "pop"
         val SEEDS_NAME = "seeds"
@@ -31,8 +29,8 @@ class Territory {
     val LAST_HARVEST_NAME = "lastharvest"
     var lastHarvest: List<Crop>
     val resources: Resources
-    constructor(name: String, x: Int, y: Int){
-        id = nextId++
+    constructor(id: Int, name: String, x: Int, y: Int){
+        this.id = id
         this.name = name
         this.x = x
         this.y = y

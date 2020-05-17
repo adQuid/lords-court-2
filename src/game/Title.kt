@@ -3,6 +3,9 @@ package game
 import game.action.Action
 import shortstate.report.ReportFactory
 import shortstate.report.ReportType
+import shortstate.room.RoomActionMaker
+import shortstate.room.action.MakeReport
+import shortstate.room.actionmaker.DefaultRoomActionMaker
 
 abstract class Title {
 
@@ -29,4 +32,8 @@ abstract class Title {
     abstract fun clone(): Title
 
     abstract fun actionsReguarding(players: List<GameCharacter>): List<Action>
+
+    fun reportActions(): List<RoomActionMaker>{
+        return reportsEntitled.map { type -> DefaultRoomActionMaker(MakeReport(type)) }
+    }
 }

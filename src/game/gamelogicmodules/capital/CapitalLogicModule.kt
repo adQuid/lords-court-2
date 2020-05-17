@@ -9,6 +9,7 @@ import game.gamelogicmodules.territory.FoodStocksReportFactory
 import game.gamelogicmodules.territory.Territory
 import game.gamelogicmodules.territory.TerritoryLogicModule
 import shortstate.report.ReportFactory
+import shortstate.room.RoomActionMaker
 import kotlin.math.roundToInt
 
 class CapitalLogicModule: GameLogicModule {
@@ -61,7 +62,6 @@ class CapitalLogicModule: GameLogicModule {
             if(taxRate * totalExpectedHarvest <= ter.resources.get(Territory.FLOUR_NAME)){
                 capital.resources.add(Territory.FLOUR_NAME, (taxRate * totalExpectedHarvest).roundToInt())
                 ter.resources.add(Territory.FLOUR_NAME, -(taxRate * totalExpectedHarvest).roundToInt())
-                println("paid ${taxRate * totalExpectedHarvest} in taxes")
             } else {
                 println("They didn't have the taxes. What should we do here...")
             }
@@ -95,5 +95,9 @@ class CapitalLogicModule: GameLogicModule {
 
     fun capitalById(id: Int): Capital {
         return capitals.filter { it.terId == id }.first()
+    }
+
+    fun legalActionsReguarding(player: GameCharacter, capital: Capital): List<RoomActionMaker>{
+        return listOf()
     }
 }

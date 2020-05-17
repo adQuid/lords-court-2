@@ -1,14 +1,21 @@
-package ui.specialdisplayables
+package game.gamelogicmodules.capital.specialdisplayables
 
+import game.gamelogicmodules.capital.CapitalLogicModule
 import game.gamelogicmodules.capital.Count
 import game.gamelogicmodules.territory.Territory
 import game.gamelogicmodules.territory.TerritoryLogicModule
+import javafx.event.EventHandler
+import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
+import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.PerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
+import ui.specialdisplayables.MapView
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 
 class EstatesView: PerspectiveDisplayable {
     var focusedTerritory: Territory? = null
@@ -20,7 +27,11 @@ class EstatesView: PerspectiveDisplayable {
         val territorysControlledByPlayer = (perspective.player.titles.filter { it is Count }.map{it as Count}).map{it.capital.territory!!}
         val primaryTerritory = territorysControlledByPlayer.first()
 
-        mapView = MapView((gameCharacterSees.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).map, 1.0, height())
+        mapView = MapView(
+            (gameCharacterSees.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).map,
+            1.0,
+            height()
+        )
         mapView.focusX = primaryTerritory!!.x.toDouble()
         mapView.focusY = primaryTerritory!!.y.toDouble()
         mapView.zoom = 3.0
@@ -41,7 +52,12 @@ class EstatesView: PerspectiveDisplayable {
             val countText = if(countOfTerr == null){"no ruler"} else{ "Ruler: "+countOfTerr.fullName()}
 
             pane.add(UtilityComponentFactory.shortWideLabel(focusedTerritory!!.name), 0, 1)
-            pane.add(UtilityComponentFactory.shortWideLabel(countText), 0, 2)
+
+            if(countOfTerr == perspective.player){
+                pane.add(actionsOnMyTerritory(perspective, countTitleOfTerr as Count), 0,2)
+            } else {
+                pane.add(UtilityComponentFactory.shortWideLabel(countText), 0, 2)
+            }
         }
         pane.add(UtilityComponentFactory.backButton(), 0, 3)
 
@@ -54,5 +70,25 @@ class EstatesView: PerspectiveDisplayable {
         } else {
             return 0.7
         }
+    }
+
+    private fun actionsOnMyTerritory(perspective: ShortStateCharacter, countTitle: Count): Node {
+        val logic = UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
+        val buttonsPane = GridPane()
+        buttonsPane.add(UtilityComponentFactory.proportionalButton("Reports", EventHandler { UIGlobals.focusOn(
+            SelectionModal("Select Action",
+                listOf(Tab("Reports", countTitle!!.reportActions())),
+                { maker ->
+                    maker.onClick(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,perspective)
+                })
+        ) }, 2.0),0,0)
+        buttonsPane.add(UtilityComponentFactory.proportionalButton("Laws", EventHandler {UIGlobals.focusOn(
+            SelectionModal("Select Action",
+                listOf(Tab("Laws", logic.legalActionsReguarding(perspective.player, countTitle.capital))),
+                { maker ->
+                    maker.onClick(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,perspective)
+                })
+        ) }, 2.0),1,0)
+        return buttonsPane
     }
 }

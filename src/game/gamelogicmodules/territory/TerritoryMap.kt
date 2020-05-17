@@ -13,14 +13,16 @@ class TerritoryMap {
         }
     }
 
+    val NEXT_ID_NAME = "next_ter_id"
+    var nextId = 0
     val IMAGE_NAME = "img"
     val imageUrl: String
     val TERRITORIES_NAME = "ter"
     val territories: MutableList<Territory>
 
-    constructor(imageUrl: String, territories: List<Territory>) {
+    constructor(imageUrl: String) {
         this.imageUrl = imageUrl
-        this.territories = territories.toMutableList()
+        this.territories = mutableListOf()
     }
 
     constructor(other: TerritoryMap){
@@ -29,12 +31,14 @@ class TerritoryMap {
     }
 
     constructor(saveString: Map<String, Any>){
+        nextId = saveString[NEXT_ID_NAME] as Int
         imageUrl = saveString[IMAGE_NAME] as String
         territories = (saveString[TERRITORIES_NAME] as List<Map<String, Any>>).map{ Territory(it)}.toMutableList()
     }
 
     fun saveString(): Map<String, Any>{
         return mapOf(
+            NEXT_ID_NAME to nextId,
             IMAGE_NAME to imageUrl,
             TERRITORIES_NAME to territories.map { it.saveString() }
         )
