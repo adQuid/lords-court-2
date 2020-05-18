@@ -47,15 +47,11 @@ class GameSetup {
         names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim"))
         capitals.capitals.forEach {
             if(it != pcCapital){
-                println("${it.territory!!.name} is NOT the same as ${pcCapital.territory!!.name}")
                 val location = Location(game)
                 game.locations.add(location)
                 val NPC = GameCharacter("Lord "+names.pop(), "assets/portraits/faceman.png", true,location,game)
                 game.addPlayer(NPC)
                 game.applyTitleToCharacter(it.generateCountTitle(), NPC)
-                println("Added ${NPC.name} as count of ${it.territory!!.name}")
-            } else {
-                println("${it.territory!!.name} is the same as ${pcCapital.territory!!.name}")
             }
         }
 

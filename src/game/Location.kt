@@ -33,7 +33,7 @@ class Location {
 
     override fun equals(other: Any?): Boolean {
         if(other is Location){
-            return this.rooms == other.rooms
+            return this.id == other.id
         } else {
             return false
         }

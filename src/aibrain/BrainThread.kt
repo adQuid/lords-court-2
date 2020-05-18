@@ -19,7 +19,8 @@ class BrainThread: Runnable {
                 println("turn forcast for $player")
 
             } else {
-                val shortPlayer = parent.shortThread!!.shortGame.nextPlayerToDoShortStateStuff()
+                val shortThread = parent.nextShortThread() //remember this uses random right now
+                val shortPlayer = shortThread.shortGame.nextPlayerToDoShortStateStuff()
 
                 if(shortPlayer == null){
                     Thread.sleep(200)
@@ -29,7 +30,7 @@ class BrainThread: Runnable {
                 val scene = shortPlayer.nextSceneIWannaBeIn
 
                 if(scene == null){
-                    shortPlayer.decideNextScene(parent.shortThread!!.shortGame)
+                    shortPlayer.decideNextScene(shortThread.shortGame)
                 }
                 Thread.sleep(200)
             }

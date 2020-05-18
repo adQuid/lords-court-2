@@ -8,6 +8,7 @@ import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
 import game.gamelogicmodules.CookieWorld
+import main.Controller
 import shortstate.dialog.LineMemory
 import shortstate.dialog.linetypes.Announcement
 import util.safeSublist
@@ -23,6 +24,7 @@ class ForecastBrain {
     //TODO: Why do both of these exist?
     var lastCasesOfConcern: List<GameCase>? = null
     var dealsILike: Map<FinishedDeal, Double>? = null
+        get() {if(field == null){thinkAboutNextTurn(Controller.singleton!!.game!!)}; return field}
 
     var lastFavoriteEffects: List<Effect>? = null
     var lastActionsToCommitTo: List<Action>? = null

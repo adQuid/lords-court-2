@@ -33,7 +33,7 @@ class TalkToImportantPersonAdvocate: SceneCreationAdvocate {
     }
 
     private fun characterIWantToTalkTo(): GameCharacter?{
-        var sortedCases = me.player.brain.lastCasesOfConcern
+        var sortedCases = me.player.brain.lastCasesOfConcern!!.filter { it.plan.player.location == me.player.location }
 
         while(sortedCases != null && sortedCases!!.isNotEmpty()){
             val hopefulCase = sortedCases!![0]

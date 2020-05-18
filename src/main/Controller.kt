@@ -23,7 +23,7 @@ class Controller {
     }
 
     var game: Game? = null
-    var shortThread: ShortStateController? = null
+    var shortThreads = mutableListOf<ShortStateController>()
     var GUI: MainUI? = null
 
     private var brainThread1 = Thread(BrainThread(this))
@@ -32,13 +32,16 @@ class Controller {
         singleton = this
     }
 
-    //TODO: Make this work for more than one thread
     fun shortThreadForPlayer(player: ShortStateCharacter): ShortStateController{
-        return shortThread!!
+        return shortThreads.filter { it.shortGame.players.contains(player) }.first()
+    }
+
+    fun nextShortThread(): ShortStateController{
+        return shortThreads.random() //TODO: make better
     }
 
     fun sceneForPlayer(player: ShortStateCharacter): ShortGameScene?{
-        return shortThread!!.shortGame!!.sceneForPlayer(player)
+        return shortThreadForPlayer(player).shortGame!!.sceneForPlayer(player)
     }
 
     fun registerUI(gui: MainUI){
@@ -54,9 +57,14 @@ class Controller {
         if(game!!.concludedPlayers.size == game!!.players.size){
             println("ENDING TURN ${game!!.turn}")
             game!!.endTurn()
-            val shortGame = ShortStateGame(game!!, game!!.locations[0])
-            shortThread = ShortStateController(shortGame)
-            Thread(shortThread).start()
+            shortThreads.clear()
+
+            game!!.locations.forEach {
+                val shortGame = ShortStateGame(game!!, game!!.locations[0])
+                val newThread = ShortStateController(shortGame)
+                shortThreads.add(newThread)
+                Thread(newThread).start()
+            }
         }
     }
 
@@ -65,7 +73,7 @@ class Controller {
         val gson = Gson()
         val saveMap = mapOf<String, Any>(
             "game" to game!!.saveString(),
-            "shortGame" to shortThread!!.shortGame!!.saveString()
+            "shortGames" to shortThreads.forEach { it.shortGame!!.saveString()}
         )
 
         val saveFile = File("save/test.savgam")
@@ -79,8 +87,11 @@ class Controller {
         val klac = Klaxon()
         val loadMap = klac.parse<Map<String,Any>>(File("save/test.savgam").readText())!!
         game = Game(loadMap["game"] as Map<String,Any>)
-        val shortGame = ShortStateGame(game!!, loadMap["shortGame"] as Map<String, Any>)
-        shortThread = ShortStateController(shortGame)
+        val shortGames = loadMap["shortGame"] as List<Map<String, Any>>
+
+        shortGames.forEach {
+            shortThreads.add(ShortStateController(ShortStateGame(game!!, it)))
+        }
 
         brainThread1 = Thread(BrainThread(this))
 
@@ -89,14 +100,19 @@ class Controller {
 
     fun newGame(){
         game = GameSetup().setupAgricultureGame()
-        val shortGame = ShortStateGame(game!!, game!!.locations[0])
-        shortThread = ShortStateController(shortGame)
+
+        game!!.locations.forEach {
+            val shortGame = ShortStateGame(game!!, it)
+            shortThreads.add(ShortStateController(shortGame))
+        }
         UIGlobals.resetFocus()
         startPlaying()
     }
 
     private fun startPlaying(){
-        Thread(shortThread).start()
+        shortThreads.forEach {
+            Thread(it).start()
+        }
         brainThread1.start()
     }
 }
