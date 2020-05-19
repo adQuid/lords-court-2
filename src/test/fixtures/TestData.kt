@@ -41,6 +41,13 @@ fun soloTestGameWithEverythingOnIt(): Game{
     return game
 }
 
+fun testGameWithTwoLocations(): Game{
+    val game = soloTestGame()
+    addExtraLocation(game)
+
+    return game
+}
+
 fun soloTestShortgame(): ShortStateGame{
     val game = soloTestGame()
     return ShortStateGame(game, game.locations[0])
@@ -60,15 +67,13 @@ fun twoPlayerTestGame(): Game{
 
     game.locations.add(location)
     game.addPlayer(basicMilkman("person1", game, location))
-    game.addPlayer(basicMilkman("person2", game, location))
+    game.addPlayer(basicBaker("person2", game, location))
 
     return game
 }
 
 fun twoPlayerTestGameResultingInDeliciousness(): Game{
     val game = twoPlayerTestGame()
-    game.applyTitleToCharacter(Milkman(), game.players[0])
-    game.applyTitleToCharacter(Baker("test"), game.players[1])
     return game
 }
 
@@ -92,6 +97,19 @@ private fun basicMilkman(name: String, game: Game, location: Location): GameChar
     val retval = GameCharacter(name, "this should never come up in a test", true, location, game)
     game.applyTitleToCharacter(CookieWorldTitleFactory.makeMilkmanTitle(), retval)
     return retval
+}
+
+private fun basicBaker(name: String, game: Game, location: Location): GameCharacter{
+    val retval = GameCharacter(name, "this should never come up in a test", true, location, game)
+    game.applyTitleToCharacter(Baker("test"), retval)
+    return retval
+}
+
+fun addExtraLocation(game: Game) {
+    val extraLocation = Location(game)
+    game.locations.add(extraLocation)
+
+    game.addPlayer(basicBaker("NPC2", game, extraLocation))
 }
 
 private fun fullMemory(dealDummy: GameCharacter): List<LineMemory>{

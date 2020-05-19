@@ -109,7 +109,7 @@ class Controller {
         startPlaying()
     }
 
-    private fun startPlaying(){
+    fun startPlaying(){
         shortThreads.forEach {
             Thread(it).start()
         }
