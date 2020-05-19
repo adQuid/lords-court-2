@@ -73,7 +73,7 @@ class Controller {
         val gson = Gson()
         val saveMap = mapOf<String, Any>(
             "game" to game!!.saveString(),
-            "shortGames" to shortThreads.forEach { it.shortGame!!.saveString()}
+            "shortGames" to shortThreads.map { it.shortGame!!.saveString()}
         )
 
         val saveFile = File("save/test.savgam")
@@ -87,7 +87,7 @@ class Controller {
         val klac = Klaxon()
         val loadMap = klac.parse<Map<String,Any>>(File("save/test.savgam").readText())!!
         game = Game(loadMap["game"] as Map<String,Any>)
-        val shortGames = loadMap["shortGame"] as List<Map<String, Any>>
+        val shortGames = loadMap["shortGames"] as List<Map<String, Any>>
 
         shortGames.forEach {
             shortThreads.add(ShortStateController(ShortStateGame(game!!, it)))
