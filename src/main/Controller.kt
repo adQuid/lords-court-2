@@ -99,7 +99,7 @@ class Controller {
     }
 
     fun newGame(){
-        game = GameSetup().setupAgricultureGame()
+        game = GameSetup().setupCookieworld()
 
         populateShortThreads(game!!.locations)
         UIGlobals.resetFocus()

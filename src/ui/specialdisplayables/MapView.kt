@@ -7,6 +7,7 @@ import javafx.geometry.Rectangle2D
 import javafx.scene.Node
 import javafx.scene.image.ImageView
 import javafx.scene.image.WritableImage
+import javafx.scene.input.ScrollEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.paint.Color
 import main.UIGlobals
@@ -61,7 +62,11 @@ class MapView {
     fun display(): Node {
         val retval = GridPane()
         setViewPort()
-        background.imageView.onScroll = EventHandler { event -> changeViewport(event.x -(baseWidth*widthSize)/2.0,event.y - (baseHeight*heightSize)/2.0, 0.005 * event.deltaY) }
+        val scrollHandler = EventHandler<ScrollEvent> { event -> changeViewport(event.x -(baseWidth*widthSize)/2.0,event.y - (baseHeight*heightSize)/2.0, 0.005 * event.deltaY) }
+        background.imageView.onScroll = scrollHandler
+        territories.imageView.onScroll = scrollHandler
+        secondaryAnnotations.imageView.onScroll = scrollHandler
+        annotations.imageView.onScroll = scrollHandler
         background.imageView.onMouseClicked = EventHandler { event -> onClick(clickedOnX(event.x),clickedOnY(event.y)) }
         secondaryAnnotations.imageView.onMouseClicked = EventHandler { event -> onClick(clickedOnX(event.x),clickedOnY(event.y)) }
         annotations.imageView.onMouseClicked = EventHandler { event -> onClick(clickedOnX(event.x),clickedOnY(event.y)) }
