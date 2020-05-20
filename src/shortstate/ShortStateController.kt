@@ -40,7 +40,9 @@ class ShortStateController: Runnable {
                         nextPlayer.decideNextScene(shortGame)
                     } else {
                         if(UIGlobals.GUI().curFocus.isEmpty() || !(UIGlobals.GUI().curFocus.peek() is SelectionModal<*>)){ //super sketchy check to see if the player is already looking at a scene selector
-                            UIGlobals.focusOn(NewSceneSelector.newSceneSelector(nextPlayer))
+                            if(shortGame.players.contains(UIGlobals.playingAs())){
+                                UIGlobals.focusOn(NewSceneSelector.newSceneSelector(nextPlayer))
+                            }
                         }
                         continue
                     }
@@ -80,7 +82,9 @@ class ShortStateController: Runnable {
         }
         player.nextSceneIWannaBeIn = null
         try{
-            Platform.runLater { UIGlobals.resetFocus() }
+            if(!player.player.npc){
+                Platform.runLater { UIGlobals.resetFocus() }
+            }
         } catch(exception: Exception){
             //println("exception caught on addScene UI update: ${exception.toString()}")
             //Do nothing. This is scotch tape because sort state games might be made before UI starts
