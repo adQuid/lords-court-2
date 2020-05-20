@@ -7,6 +7,7 @@ import shortstate.dialog.LineBlock
 import game.GameCharacter
 import game.Game
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.room.Room
 
@@ -23,11 +24,11 @@ class Approve: Line {
         return "Approve"
     }
 
-    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+    override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("Approve"))
     }
 
-    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
+    override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "I like this."
     }
 

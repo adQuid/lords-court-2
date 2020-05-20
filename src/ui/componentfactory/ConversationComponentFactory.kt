@@ -75,12 +75,12 @@ class ConversationComponentFactory {
 
     private fun linePane(perspective: ShortStateCharacter, pane: MyAnchorPane, line: Line?, symbolic: Boolean, left: Boolean): MyAnchorPane {
         var lineNode: Node? = null
-
+        var game = UIGlobals.activeShortGame()
         if(symbolic){
             lineNode = GridPane()
 
             val textBlocks = if(line != null){
-                line.symbolicForm( conversation.otherParticipant(conversation.lastSpeaker), conversation.lastSpeaker)
+                line.symbolicForm( game, conversation.otherParticipant(conversation.lastSpeaker), conversation.lastSpeaker)
             } else if(left){
                 lineOptions(perspective).map { line -> LineBlock(line.tooltipName(), {focusOnLine(line); UIGlobals.refresh()}) }
             } else {
@@ -105,7 +105,7 @@ class ConversationComponentFactory {
             }
         } else {
             if(line != null){
-                lineNode = Text(line.fullTextForm(conversation.lastSpeaker, conversation.otherParticipant(conversation.lastSpeaker)))
+                lineNode = Text(line.fullTextForm(game, conversation.lastSpeaker, conversation.otherParticipant(conversation.lastSpeaker)))
 
                 lineNode.maxWidth(UIGlobals.totalWidth() / 2)
                 if (UIGlobals.totalWidth() > 800.0) {

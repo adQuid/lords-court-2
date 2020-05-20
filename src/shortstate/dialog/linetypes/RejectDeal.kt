@@ -10,6 +10,7 @@ import game.GameCharacter
 import game.Game
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.room.Room
 
@@ -31,11 +32,11 @@ class RejectDeal: Line {
         return "Reject Deal"
     }
 
-    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+    override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("REJECT"), LineBlock("Deal: [CLICK FOR DETAILS]", { UIGlobals.focusOn(deal)}))
     }
 
-    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
+    override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "no thanks"
     }
 

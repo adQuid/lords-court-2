@@ -14,6 +14,7 @@ import shortstate.dialog.GlobalLineTypeFactory
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 import game.action.GlobalActionTypeFactory
+import shortstate.ShortStateGame
 import shortstate.room.Room
 
 class Announcement: Line, HasAction {
@@ -37,7 +38,7 @@ class Announcement: Line, HasAction {
         return "Declare Action"
     }
 
-    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+    override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "SELECT ACTION" else "Action: "+action.toString(),
             {perspective -> UIGlobals.focusOn(
                 SelectionModal( "Annouce...",
@@ -53,7 +54,7 @@ class Announcement: Line, HasAction {
             )}))
     }
 
-    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
+    override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "I will "+if(action != null) action.toString() else "______"+" by the end of the turn. Just wanted to let you know."
     }
 

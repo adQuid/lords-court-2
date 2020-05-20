@@ -5,6 +5,7 @@ import shortstate.Conversation
 import game.GameCharacter
 import game.Game
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.room.Room
 
 abstract class Line {
@@ -13,9 +14,9 @@ abstract class Line {
 
     abstract fun tooltipName(): String
 
-    abstract fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock>
+    abstract fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock>
 
-    abstract fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String
+    abstract fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String
 
     abstract fun specialSaveString(): Map<String, Any>
 

@@ -10,6 +10,7 @@ import game.GameCharacter
 import game.Game
 import game.Writ
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.room.Room
 
@@ -34,11 +35,11 @@ class AcceptWrit: Line {
         return "Sign Writ"
     }
 
-    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+    override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("ACCEPT"))
     }
 
-    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
+    override fun fullTextForm(context: ShortStateGame,speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "I'll be happy to sign that"
     }
 

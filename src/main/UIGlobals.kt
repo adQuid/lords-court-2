@@ -4,6 +4,7 @@ import game.Game
 import game.GameCharacter
 import game.action.Action
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import ui.Displayable
 import ui.PerspectiveDisplayable
 import ui.MainUI
@@ -12,6 +13,10 @@ object UIGlobals {
 
     fun activeGame(): Game {
         return Controller.singleton!!.game!!
+    }
+
+    fun activeShortGame(): ShortStateGame {
+        return Controller.singleton!!.shortThreadForPlayer(playingAs()).shortGame
     }
 
     private fun guiOrNull(): MainUI? {

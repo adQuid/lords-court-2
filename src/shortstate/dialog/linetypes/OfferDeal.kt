@@ -13,6 +13,7 @@ import game.action.Action
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.room.Room
 
@@ -38,7 +39,7 @@ class OfferDeal: Line {
         }
     }
 
-    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+    override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         val dealBlock = if(deal==null){
             LineBlock("Deal:___________")
         } else {
@@ -47,7 +48,7 @@ class OfferDeal: Line {
         return listOf(LineBlock("OFFER:"), dealBlock)
     }
 
-    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
+    override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         if(deal != null){
             return "I would like to offer a deal: ${deal!!.dialogText(speaker.player, target.player)}"
         } else {

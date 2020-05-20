@@ -5,6 +5,7 @@ import game.Game
 import game.GameCharacter
 import shortstate.Conversation
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
@@ -24,11 +25,11 @@ class Farewell: Line {
         return "Goodbye"
     }
 
-    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+    override fun symbolicForm(context: ShortStateGame,  speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("Farewell"))
     }
 
-    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
+    override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "Goodbye"
     }
 

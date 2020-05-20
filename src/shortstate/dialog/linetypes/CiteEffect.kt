@@ -12,6 +12,7 @@ import game.effects.GlobalEffectFactory
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.room.Room
 import ui.commoncomponents.AppendableList
 import ui.componentfactory.EffectChooser
@@ -48,7 +49,7 @@ class CiteEffect: Line {
         return "Give Reason"
     }
 
-    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+    override fun symbolicForm(context: ShortStateGame,  speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         var retval = mutableListOf(LineBlock("CITE:"))
         if(effects.isEmpty()){
             retval.add(LineBlock("Effect:___________", { UIGlobals.focusOn(action(speaker))}))
@@ -59,7 +60,7 @@ class CiteEffect: Line {
         return retval
     }
 
-    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
+    override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "I have some very good reasons: " + effects?.map { effect -> effect.describe() }
     }
 

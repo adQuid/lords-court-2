@@ -10,6 +10,7 @@ import game.GameCharacter
 import game.Game
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.EmptyReport
 import shortstate.report.generateEmptyReport
@@ -35,7 +36,7 @@ class RequestReport: Line, HasReportType {
         return "Request Report"
     }
 
-    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+    override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("REQUEST:"), LineBlock(if(report == null) "SELECT REPORT" else "Report: "+report.toString(),
             {
                 UIGlobals.focusOn(
@@ -51,7 +52,7 @@ class RequestReport: Line, HasReportType {
             )}))
     }
 
-    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
+    override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "What can you tell me of "+if(report != null) report.toString() else "______"+"?"
     }
 

@@ -9,6 +9,7 @@ import game.Game
 import game.Writ
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.room.Room
 import ui.specialdisplayables.selectionmodal.SelectionModal
@@ -32,7 +33,7 @@ class OfferWrit: Line {
          return "Offer Writ"
     }
 
-    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+    override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         val dealBlock = if(writ==null){
             LineBlock("Writ: [SELECT]", {perspective -> UIGlobals.focusOn(
                 SelectionModal("Select Writ",
@@ -49,7 +50,7 @@ class OfferWrit: Line {
         return listOf(LineBlock("OFFER:"), dealBlock)
     }
 
-    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
+    override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         if(writ != null){
             return "Would you like to sign this?"
         } else {

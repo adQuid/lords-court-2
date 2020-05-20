@@ -23,8 +23,9 @@ class CharacterDetailComponentFactory {
 
     fun characterFocusPage(perspective: ShortStateCharacter): Scene {
         val root = GridPane()
-        root.add(characterFocusButtons(perspective), 0, 1)
         root.add(sceneImage(), 0, 0)
+        root.add(MiddlePaneComponentFactory.middlePane(perspective), 0,1)
+        root.add(characterFocusButtons(perspective), 0, 2)
         val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene
     }
@@ -33,8 +34,8 @@ class CharacterDetailComponentFactory {
         val imagePane = StackPane()
         val backgroundView = UtilityComponentFactory.imageView("assets/general/characterStage.png", 0.8)
         val characterView = UtilityComponentFactory.imageView(character.player.pictureString, 0.8)
-        backgroundView.setOnMouseClicked { event -> UIGlobals.defocus() }
-        characterView.setOnMouseClicked { event -> UIGlobals.defocus() }
+        backgroundView.setOnMouseClicked { _ -> UIGlobals.defocus() }
+        characterView.setOnMouseClicked { _ -> UIGlobals.defocus() }
 
         val nameText = Text(10.0, 50.0, character.player.fullName())
         nameText.font = Font(24.0)

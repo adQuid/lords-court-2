@@ -9,6 +9,7 @@ import game.GameCharacter
 import game.Game
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.EmptyReport
 import shortstate.report.GlobalReportTypeFactory
@@ -38,7 +39,7 @@ class GiveReport: Line {
         return "Submit Report"
     }
 
-    override fun symbolicForm(speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
+    override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("GIVE REPORT:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString(), {perspective -> UIGlobals.focusOn(
             SelectionModal("Select Report",
                 listOf(
@@ -50,11 +51,13 @@ class GiveReport: Line {
         )}))
     }
 
-    override fun fullTextForm(speaker: ShortStateCharacter, target: ShortStateCharacter): String {
+    override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         if(report is EmptyReport){
             return report.toString()
+        } else if(report != null) {
+            return "I have discovered that ${report!!.prettyPrint(context,speaker)}"
         } else {
-            return "I have discovered that ${report.toString()}"
+            return "I have discovered that ________"
         }
     }
 
