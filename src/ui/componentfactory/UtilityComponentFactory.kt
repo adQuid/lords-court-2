@@ -22,7 +22,16 @@ object UtilityComponentFactory {
 
     fun imageView(url: String, height: Double): ImageView {
         val path = url.replace("//","\\")
-        val image = Image(path)
+        var image: Image
+        try{
+            image = Image(path)
+        }catch (e: IllegalArgumentException){
+            try{
+                image = Image(path+".png")
+            }catch (e: IllegalArgumentException){
+                image = Image(path+".jpeg")
+            }
+        }
         val retval = ImageView(image)
         retval.fitHeight = (UIGlobals.totalHeight()) * height
         retval.fitWidth = UIGlobals.totalWidth()
