@@ -156,6 +156,8 @@ class Game {
     }
 
     fun endTurn(): List<Effect>{
+        concludedPlayers.clear()
+
         val effects = actionsByPlayer.entries.flatMap{ entry ->
             doActions(entry.value, entry.key)
         }.plus(runLogicModules())

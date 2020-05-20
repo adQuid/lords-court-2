@@ -7,6 +7,7 @@ import com.google.gson.Gson
 import game.Game
 import game.GameSetup
 import game.GameCharacter
+import game.Location
 import javafx.application.Application
 import shortstate.ShortGameScene
 import shortstate.ShortStateGame
@@ -36,8 +37,12 @@ class Controller {
         return shortThreads.filter { it.shortGame.players.contains(player) }.first()
     }
 
-    fun nextShortThread(): ShortStateController{
-        return shortThreads.random() //TODO: make better
+    fun nextShortThread(): ShortStateController?{
+        if(shortThreads.isNotEmpty()){
+            return shortThreads.random() //TODO: make better
+        } else {
+            return null
+        }
     }
 
     fun sceneForPlayer(player: ShortStateCharacter): ShortGameScene?{
@@ -52,19 +57,15 @@ class Controller {
         game!!.appendActionsForPlayer(player, actions)
     }
 
-    fun concludeTurnForPlayer(player: GameCharacter){
+    @Synchronized fun concludeTurnForPlayer(player: GameCharacter){
         game!!.concludedPlayers.add(player)
         if(game!!.concludedPlayers.size == game!!.players.size){
             println("ENDING TURN ${game!!.turn}")
             game!!.endTurn()
             shortThreads.clear()
 
-            game!!.locations.forEach {
-                val shortGame = ShortStateGame(game!!, game!!.locations[0])
-                val newThread = ShortStateController(shortGame)
-                shortThreads.add(newThread)
-                Thread(newThread).start()
-            }
+            populateShortThreads(game!!.locations)
+            runShortTreads()
         }
     }
 
@@ -88,7 +89,6 @@ class Controller {
         val loadMap = klac.parse<Map<String,Any>>(File("save/test.savgam").readText())!!
         game = Game(loadMap["game"] as Map<String,Any>)
         val shortGames = loadMap["shortGames"] as List<Map<String, Any>>
-
         shortGames.forEach {
             shortThreads.add(ShortStateController(ShortStateGame(game!!, it)))
         }
@@ -101,18 +101,25 @@ class Controller {
     fun newGame(){
         game = GameSetup().setupAgricultureGame()
 
-        game!!.locations.forEach {
-            val shortGame = ShortStateGame(game!!, it)
-            shortThreads.add(ShortStateController(shortGame))
-        }
+        populateShortThreads(game!!.locations)
         UIGlobals.resetFocus()
         startPlaying()
     }
 
-    fun startPlaying(){
+    private fun populateShortThreads(locations: Collection<Location>){
+        locations.forEach {
+            shortThreads.add(ShortStateController(ShortStateGame(game!!, it)))
+        }
+    }
+
+    private fun runShortTreads(){
         shortThreads.forEach {
             Thread(it).start()
         }
+    }
+
+    fun startPlaying(){
+        runShortTreads()
         brainThread1.start()
     }
 }

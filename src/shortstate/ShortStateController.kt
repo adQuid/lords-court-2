@@ -14,7 +14,9 @@ class ShortStateController: Runnable {
 
     constructor(shortGame: ShortStateGame){
         this.shortGame = shortGame
-        establishStartingScene()
+        if(shortGame.nextActingPlayer() != null){
+            establishStartingScene()
+        }
     }
 
     private fun establishStartingScene(){
