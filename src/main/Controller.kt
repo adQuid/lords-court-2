@@ -98,9 +98,8 @@ class Controller {
         startPlaying()
     }
 
-    fun newGame(){
-        game = GameSetup().setupCookieworld()
-
+    fun newGame(game: Game){
+        this.game = game
         populateShortThreads(game!!.locations)
         UIGlobals.resetFocus()
         startPlaying()

@@ -20,7 +20,7 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
     val mapName = "maps/testland"
 
-    val mapView = MapView(TerritoryMap(mapName), 1.0,0.8)
+    var mapView = MapView(TerritoryMap(mapName), 1.0,0.8)
 
     val terNameDisplay = UtilityComponentFactory.shortProportionalTextField("No Territory Selected", 4.0)
 
@@ -41,7 +41,8 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
         val bottomPane = GridPane()
         bottomPane.add(UtilityComponentFactory.proportionalBackButton(2.0), 0, 0)
-        bottomPane.add(UtilityComponentFactory.proportionalButton("Save Map", EventHandler { _ -> saveMap()},2.0), 1, 0)
+        bottomPane.add(UtilityComponentFactory.proportionalButton("Load Map", EventHandler { _ -> this.mapView = loadMap(); UIGlobals.refresh()},4.0), 1, 0)
+        bottomPane.add(UtilityComponentFactory.proportionalButton("Save Map", EventHandler { _ -> saveMap()},4.0), 2, 0)
         pane.add(bottomPane, 0, 2)
 
         return Scene(pane)

@@ -5,9 +5,7 @@ import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import main.Controller
 import main.UIGlobals
-import shortstate.ShortStateCharacter
 import ui.NoPerspectiveDisplayable
-import ui.PerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
 import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 
@@ -26,7 +24,7 @@ class MainMenu: NoPerspectiveDisplayable() {
         pane.add( UtilityComponentFactory.shortWideButton("Load", EventHandler { Controller.singleton!!.load(); UIGlobals.resetFocus() }), 0, 9)
         pane.add(UtilityComponentFactory.shortWideButton("MAP EDITOR",  EventHandler { UIGlobals.focusOn(WorldEditorMainMenu) }), 0, 10)
         pane.add(UtilityComponentFactory.shortWideButton("PLAY NEW GAME", EventHandler {
-            Controller.singleton!!.newGame() }), 0, 11)
+            UIGlobals.focusOn(NewGameMenu())}), 0, 11)
 
 
         return Scene(pane)
