@@ -27,7 +27,7 @@ class Controller {
     var shortThreads = mutableListOf<ShortStateController>()
     var GUI: MainUI? = null
 
-    private var brainThread1 = Thread(BrainThread(this))
+    private var brainThread1 = BrainThread(this)
 
     constructor(){
         singleton = this
@@ -64,7 +64,7 @@ class Controller {
             game!!.endTurn()
             shortThreads.clear()
 
-            populateShortThreads(game!!.locations)
+            populateShortThreads()
             runShortTreads()
         }
     }
@@ -83,30 +83,29 @@ class Controller {
 
     //TODO: Have save and load use the same library
     fun load(){
-        brainThread1.interrupt()
+        brainThread1.stopped = true
 
         val klac = Klaxon()
         val loadMap = klac.parse<Map<String,Any>>(File("save/test.savgam").readText())!!
         game = Game(loadMap["game"] as Map<String,Any>)
         val shortGames = loadMap["shortGames"] as List<Map<String, Any>>
-        shortGames.forEach {
-            shortThreads.add(ShortStateController(ShortStateGame(game!!, it)))
-        }
+        populateShortThreads()
 
-        brainThread1 = Thread(BrainThread(this))
+        brainThread1 = BrainThread(this)
 
         startPlaying()
     }
 
     fun newGame(game: Game){
         this.game = game
-        populateShortThreads(game!!.locations)
+        populateShortThreads()
         UIGlobals.resetFocus()
         startPlaying()
     }
 
-    private fun populateShortThreads(locations: Collection<Location>){
-        locations.forEach {
+    private fun populateShortThreads(){
+        shortThreads.clear()
+        game!!.locations.forEach {
             shortThreads.add(ShortStateController(ShortStateGame(game!!, it)))
         }
     }
@@ -119,7 +118,14 @@ class Controller {
 
     fun startPlaying(){
         runShortTreads()
-        brainThread1.start()
+        Thread(brainThread1).start()
+    }
+
+    fun stopPlaying(){
+        shortThreads.forEach {
+            it.shortGame.stopped = true
+        }
+        brainThread1.stopped = true
     }
 }
 

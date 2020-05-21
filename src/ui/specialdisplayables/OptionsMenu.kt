@@ -39,7 +39,7 @@ class OptionsMenu: PerspectiveDisplayable() {
         val saveLoadPane = GridPane()
         val saveButton = UtilityComponentFactory.proportionalButton("Save", EventHandler { Controller.singleton!!.save() }, 2.0)
         saveLoadPane.add(saveButton, 0,2)
-        val loadButton = UtilityComponentFactory.proportionalButton("Load", EventHandler { Controller.singleton!!.load(); UIGlobals.resetFocus() }, 2.0)
+        val loadButton = UtilityComponentFactory.proportionalButton("Quit and Return to Main Menu", EventHandler { Controller.singleton!!.stopPlaying(); UIGlobals.focusOn(MainMenu()) }, 2.0)
         saveLoadPane.add(loadButton, 1,2)
         topPane.add(saveLoadPane,0,2)
 

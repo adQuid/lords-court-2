@@ -13,6 +13,7 @@ class ShortStateGame {
     val location: Location
     val PLAYERS_NAME = "PLAYERS"
     val players: List<ShortStateCharacter>
+    var stopped = false
 
     constructor(game: Game, location: Location){
         this.game = game
@@ -77,6 +78,9 @@ class ShortStateGame {
     }
 
     fun nextActingPlayer(): ShortStateCharacter?{
+        if(stopped){
+            return null
+        }
         return players.filter { it.energy > 0 }.sortedByDescending { it.energy }.getOrNull(0)
     }
 

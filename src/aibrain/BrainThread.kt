@@ -6,12 +6,17 @@ class BrainThread: Runnable {
 
     private val parent: Controller
 
+    var stopped = false
+
     constructor(parent: Controller){
         this.parent = parent
     }
 
     override fun run() {
         while(true){
+            if(stopped){
+                return
+            }
             val player = parent.game?.nextPlayerToForcast()
 
             if(player != null){

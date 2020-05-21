@@ -9,6 +9,7 @@ import javafx.stage.WindowEvent
 import main.Controller
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
+import sun.applet.Main
 import ui.componentfactory.*
 import ui.specialdisplayables.MainMenu
 import java.util.*
@@ -50,9 +51,10 @@ class MainUI() : Application() {
     }
 
     fun focusOn(focus: Displayable?){
-        if(focus == null){
+        if(focus == null || focus is MainMenu){
             curFocus.clear()
-        } else {
+        }
+        if(focus != null){
             curFocus.push(focus)
         }
         display()
