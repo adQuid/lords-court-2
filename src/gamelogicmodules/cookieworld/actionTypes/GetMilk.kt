@@ -1,4 +1,4 @@
-package game.action.actionTypes
+package gamelogicmodules.cookieworld.actionTypes
 
 import game.action.Action
 import game.Effect
@@ -6,7 +6,6 @@ import game.effects.AddMilk
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
-import game.titles.Baker
 import game.titles.Milkman
 
 class GetMilk: Action {

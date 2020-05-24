@@ -2,9 +2,9 @@ package game
 
 import game.action.Action
 import game.action.GlobalActionTypeFactory
-import game.action.actionTypes.BakeCookies
-import game.action.actionTypes.GetMilk
-import game.action.actionTypes.WasteTime
+import gamelogicmodules.cookieworld.actionTypes.BakeCookies
+import gamelogicmodules.cookieworld.actionTypes.GetMilk
+import gamelogicmodules.cookieworld.actionTypes.WasteTime
 import gamelogicmodules.territory.TerritoryLogicModule
 import shortstate.report.Report
 import shortstate.report.ReportFactory

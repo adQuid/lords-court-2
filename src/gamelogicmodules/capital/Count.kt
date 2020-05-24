@@ -4,8 +4,8 @@ import game.Game
 import game.GameCharacter
 import game.Title
 import game.action.Action
-import game.action.actionTypes.BakeCookies
-import game.action.actionTypes.WasteTime
+import gamelogicmodules.cookieworld.actionTypes.BakeCookies
+import gamelogicmodules.cookieworld.actionTypes.WasteTime
 import gamelogicmodules.territory.ActiveCropsReportFactory
 import gamelogicmodules.territory.FoodStocksReportFactory
 import game.titlemaker.CookieWorldTitleFactory

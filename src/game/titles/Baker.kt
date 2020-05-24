@@ -3,8 +3,8 @@ package game.titles
 import game.GameCharacter
 import game.Title
 import game.action.Action
-import game.action.actionTypes.BakeCookies
-import game.action.actionTypes.WasteTime
+import gamelogicmodules.cookieworld.actionTypes.BakeCookies
+import gamelogicmodules.cookieworld.actionTypes.WasteTime
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.DeliciousnessReportFactory
 import shortstate.report.ReportFactory

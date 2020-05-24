@@ -1,6 +1,6 @@
 package game
 
-import gamelogicmodules.CookieWorld
+import gamelogicmodules.cookieworld.CookieWorld
 import gamelogicmodules.capital.Capital
 import gamelogicmodules.capital.CapitalLogicModule
 import gamelogicmodules.territory.TerritoryLogicModule

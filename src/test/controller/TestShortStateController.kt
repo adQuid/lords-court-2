@@ -1,6 +1,6 @@
 package test.controller
 
-import gamelogicmodules.CookieWorld
+import gamelogicmodules.cookieworld.CookieWorld
 import main.Controller
 import org.junit.Test
 import shortstate.ShortStateController

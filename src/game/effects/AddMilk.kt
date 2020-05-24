@@ -3,7 +3,7 @@ package game.effects
 import game.GameCharacter
 import game.Effect
 import game.Game
-import gamelogicmodules.CookieWorld
+import gamelogicmodules.cookieworld.CookieWorld
 
 class AddMilk: Effect {
 

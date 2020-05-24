@@ -3,7 +3,7 @@ package game.titles
 import game.GameCharacter
 import game.Title
 import game.action.Action
-import game.action.actionTypes.GetMilk
+import gamelogicmodules.cookieworld.actionTypes.GetMilk
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.DeliciousnessReportFactory
 import shortstate.report.ReportFactory

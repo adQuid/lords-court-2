@@ -1,6 +1,6 @@
 package game
 
-import gamelogicmodules.CookieWorld
+import gamelogicmodules.cookieworld.CookieWorld
 import shortstate.report.GlobalReportTypeFactory
 import shortstate.report.Report
 import shortstate.report.ReportFactory

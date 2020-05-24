@@ -6,7 +6,7 @@ import game.Effect
 import game.Game
 import game.GameCharacter
 import game.action.Action
-import game.action.actionTypes.WasteTime
+import gamelogicmodules.cookieworld.actionTypes.WasteTime
 
 class DummyGoodThing: Action() {
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {

@@ -1,4 +1,4 @@
-package game.action.actionTypes
+package gamelogicmodules.cookieworld.actionTypes
 
 import game.action.Action
 import game.Effect

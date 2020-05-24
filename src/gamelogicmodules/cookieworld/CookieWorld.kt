@@ -1,4 +1,4 @@
-package gamelogicmodules
+package gamelogicmodules.cookieworld
 
 import game.Effect
 import game.Game
@@ -12,12 +12,12 @@ class CookieWorld: GameLogicModule {
     companion object{
         val type = "Cookieworld"
 
-        fun getCookieWorld(game: Game): CookieWorld{
+        fun getCookieWorld(game: Game): CookieWorld {
             return game.moduleOfType("Cookieworld") as CookieWorld
         }
     }
 
-    override val type = CookieWorld.type
+    override val type = Companion.type
 
     val DELICIOUSNESS_NAME = "deliciousness"
     var deliciousness = 0.0

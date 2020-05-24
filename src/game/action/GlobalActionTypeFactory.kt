@@ -1,10 +1,9 @@
 package game.action
 
 import game.Game
-import game.GameCharacter
-import game.action.actionTypes.BakeCookies
-import game.action.actionTypes.GetMilk
-import game.action.actionTypes.WasteTime
+import gamelogicmodules.cookieworld.actionTypes.BakeCookies
+import gamelogicmodules.cookieworld.actionTypes.GetMilk
+import gamelogicmodules.cookieworld.actionTypes.WasteTime
 
 object GlobalActionTypeFactory {
 

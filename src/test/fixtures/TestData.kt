@@ -8,8 +8,8 @@ import game.Location
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.ShortStateGame
 import shortstate.dialog.LineMemory
-import game.action.actionTypes.*
-import gamelogicmodules.CookieWorld
+import gamelogicmodules.cookieworld.actionTypes.*
+import gamelogicmodules.cookieworld.CookieWorld
 import shortstate.dialog.linetypes.*
 import shortstate.Conversation
 import shortstate.ShortGameScene
