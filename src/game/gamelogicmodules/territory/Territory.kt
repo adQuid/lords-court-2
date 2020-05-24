@@ -35,9 +35,11 @@ class Territory {
         this.x = x
         this.y = y
         resources = Resources()
-        resources.set(ARABLE_LAND_NAME, 100)
+        resources.set(ARABLE_LAND_NAME, 200)
         resources.set(POPULATION_NAME, 100)
         resources.set(SEEDS_NAME, 100)
+        resources.set(FLOUR_NAME, 1000)
+        resources.set(BREAD_NAME, 100)
         crops = mutableListOf()
         lastHarvest = listOf()
     }

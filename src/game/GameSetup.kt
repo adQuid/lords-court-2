@@ -6,6 +6,7 @@ import game.gamelogicmodules.capital.CapitalLogicModule
 import game.gamelogicmodules.territory.TerritoryLogicModule
 import game.gamelogicmodules.territory.TerritoryMap
 import game.titlemaker.CookieWorldTitleFactory
+import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 import java.util.*
 
 class GameSetup {
@@ -29,7 +30,7 @@ class GameSetup {
     }
 
     fun setupAgricultureGame(): Game{
-        val territories = TerritoryMap.fromMap("maps/testland")
+        val territories = TerritoryMap.fromMap(WorldEditorMainMenu.mapName)
         val territoryLogic = TerritoryLogicModule(territories)
         val capitals = CapitalLogicModule(territoryLogic.map.territories.map { Capital(it) })
         val game = Game(listOf(territoryLogic, capitals))
@@ -55,6 +56,8 @@ class GameSetup {
             }
         }
 
+        game.endTurn()
+        //game.endTurn()
         return game
     }
 

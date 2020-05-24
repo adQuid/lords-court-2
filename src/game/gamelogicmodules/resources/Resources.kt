@@ -1,5 +1,7 @@
 package game.gamelogicmodules.resources
 
+import kotlin.math.roundToInt
+
 class Resources {
 
     val resources: MutableMap<String, Int>
@@ -33,5 +35,12 @@ class Resources {
             resources[name] = 0
         }
         resources[name] = resources[name]!! + value
+    }
+
+    fun multiply(name: String, value: Double){
+        if(!resources.containsKey(name)){
+            resources[name] = 0
+        }
+        resources[name] = (resources[name]!! * value).roundToInt()
     }
 }

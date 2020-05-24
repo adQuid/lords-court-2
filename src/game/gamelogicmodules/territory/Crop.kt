@@ -30,11 +30,15 @@ class Crop {
     }
 
     override fun toString(): String {
-        return "$quantity planted on week $plantingTime"
+        return "$quantity planted on turn $plantingTime"
+    }
+
+    fun harvestAge(): Int{
+        return 10
     }
 
     fun yield(): Int {
-        return 4
+        return 7
     }
 
 }
