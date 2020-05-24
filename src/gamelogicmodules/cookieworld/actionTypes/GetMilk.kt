@@ -10,6 +10,10 @@ import game.titles.Milkman
 
 class GetMilk: Action {
 
+    companion object{
+        val typeName: String
+            get() = "GetMilk"
+    }
     val player: GameCharacter
 
     constructor(player: GameCharacter){
@@ -33,7 +37,7 @@ class GetMilk: Action {
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalActionTypeFactory.TYPE_NAME to "GetMilk",
+            GlobalActionTypeFactory.TYPE_NAME to typeName,
             "target" to player.id
         )
     }

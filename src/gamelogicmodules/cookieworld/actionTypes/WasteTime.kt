@@ -8,6 +8,10 @@ import game.action.GlobalActionTypeFactory
 
 class WasteTime: Action {
 
+    companion object{
+        val typeName: String
+            get() = "WasteTime"
+    }
     constructor(){
 
     }
@@ -25,6 +29,6 @@ class WasteTime: Action {
     }
 
     override fun saveString(): Map<String, Any> {
-        return hashMapOf(GlobalActionTypeFactory.TYPE_NAME to "WasteTime")
+        return hashMapOf(GlobalActionTypeFactory.TYPE_NAME to typeName)
     }
 }

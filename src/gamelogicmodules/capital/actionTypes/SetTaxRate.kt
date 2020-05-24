@@ -8,6 +8,10 @@ import game.action.GlobalActionTypeFactory
 
 class SetTaxRate: Action {
 
+    companion object{
+        val typeName: String
+            get() = "SetTaxRate"
+    }
     val terId: Int
     val amount: Double
 
@@ -30,7 +34,7 @@ class SetTaxRate: Action {
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalActionTypeFactory.TYPE_NAME to "SetTaxes",
+            GlobalActionTypeFactory.TYPE_NAME to typeName,
             "amount" to amount,
             "territory" to terId
         )

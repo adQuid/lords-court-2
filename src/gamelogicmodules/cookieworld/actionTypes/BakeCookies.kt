@@ -10,6 +10,11 @@ import game.titles.Baker
 
 class BakeCookies: Action{
 
+    companion object{
+        val typeName: String
+            get() = "BakeCookies"
+    }
+
     constructor(){}
 
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
@@ -28,7 +33,7 @@ class BakeCookies: Action{
     }
 
     override fun saveString(): Map<String, Any> {
-        return hashMapOf(GlobalActionTypeFactory.TYPE_NAME to "BakeCookies")
+        return hashMapOf(GlobalActionTypeFactory.TYPE_NAME to typeName)
     }
 
 }
