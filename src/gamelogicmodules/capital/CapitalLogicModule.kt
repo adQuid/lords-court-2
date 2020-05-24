@@ -4,10 +4,12 @@ import game.Effect
 import game.Game
 import game.GameCharacter
 import game.GameLogicModule
+import gamelogicmodules.capital.actionTypes.SetTaxRate
 import gamelogicmodules.territory.Territory
 import gamelogicmodules.territory.TerritoryLogicModule
 import shortstate.report.ReportFactory
 import shortstate.room.RoomActionMaker
+import shortstate.room.actionmaker.DefaultRoomActionMaker
 import kotlin.math.roundToInt
 
 class CapitalLogicModule: GameLogicModule {
