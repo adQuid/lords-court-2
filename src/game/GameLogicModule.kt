@@ -1,12 +1,12 @@
 package game
 
-import game.gamelogicmodules.CookieWorld
+import gamelogicmodules.CookieWorld
 import shortstate.report.GlobalReportTypeFactory
 import shortstate.report.Report
 import shortstate.report.ReportFactory
 import java.lang.Exception
-import game.gamelogicmodules.territory.TerritoryLogicModule
-import game.gamelogicmodules.capital.CapitalLogicModule
+import gamelogicmodules.territory.TerritoryLogicModule
+import gamelogicmodules.capital.CapitalLogicModule
 import game.titlemaker.TitleFactory
 
 abstract class GameLogicModule {

@@ -1,8 +1,6 @@
-package game.gamelogicmodules.territory
+package gamelogicmodules.territory
 
-import game.Title
-import game.gamelogicmodules.capital.Count
-import game.gamelogicmodules.resources.Resources
+import gamelogicmodules.resources.Resources
 
 class Territory {
 

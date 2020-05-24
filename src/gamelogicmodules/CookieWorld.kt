@@ -1,14 +1,11 @@
-package game.gamelogicmodules
+package gamelogicmodules
 
 import game.Effect
 import game.Game
 import game.GameCharacter
 import game.GameLogicModule
 import game.titlemaker.CookieWorldTitleFactory
-import shortstate.report.DeliciousnessReport
 import shortstate.report.DeliciousnessReportFactory
-import shortstate.report.GlobalReportTypeFactory
-import shortstate.report.ReportType
 
 class CookieWorld: GameLogicModule {
 

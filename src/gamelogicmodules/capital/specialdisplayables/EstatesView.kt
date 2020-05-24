@@ -1,9 +1,9 @@
-package game.gamelogicmodules.capital.specialdisplayables
+package gamelogicmodules.capital.specialdisplayables
 
-import game.gamelogicmodules.capital.CapitalLogicModule
-import game.gamelogicmodules.capital.Count
-import game.gamelogicmodules.territory.Territory
-import game.gamelogicmodules.territory.TerritoryLogicModule
+import gamelogicmodules.capital.CapitalLogicModule
+import gamelogicmodules.capital.Count
+import gamelogicmodules.territory.Territory
+import gamelogicmodules.territory.TerritoryLogicModule
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.Scene

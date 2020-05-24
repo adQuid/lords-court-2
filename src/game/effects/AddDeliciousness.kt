@@ -2,7 +2,7 @@ package game.effects
 
 import game.Game
 import game.Effect
-import game.gamelogicmodules.CookieWorld
+import gamelogicmodules.CookieWorld
 
 class AddDelicousness(override var probability: Double) : Effect() {
 

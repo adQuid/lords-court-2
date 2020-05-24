@@ -1,10 +1,10 @@
-package game.gamelogicmodules.capital
+package gamelogicmodules.capital
 
 import game.Game
 import game.Title
-import game.gamelogicmodules.resources.Resources
-import game.gamelogicmodules.territory.Territory
-import game.gamelogicmodules.territory.TerritoryLogicModule
+import gamelogicmodules.resources.Resources
+import gamelogicmodules.territory.Territory
+import gamelogicmodules.territory.TerritoryLogicModule
 
 class Capital {
 

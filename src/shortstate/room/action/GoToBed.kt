@@ -9,7 +9,11 @@ import shortstate.room.RoomAction
 class GoToBed: RoomAction() {
 
     override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
-        doAction(game, player)
+        doActionIfCanAfford(game, player)
+    }
+
+    override fun cost(): Int {
+        return 0 //We remove all the player's energy once the player actually goes to bed
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {

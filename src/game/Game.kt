@@ -5,8 +5,7 @@ import game.action.GlobalActionTypeFactory
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
-import game.gamelogicmodules.territory.TerritoryLogicModule
-import game.titlemaker.CookieWorldTitleFactory
+import gamelogicmodules.territory.TerritoryLogicModule
 import shortstate.report.Report
 import shortstate.report.ReportFactory
 

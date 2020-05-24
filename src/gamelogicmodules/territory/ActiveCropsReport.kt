@@ -1,4 +1,4 @@
-package game.gamelogicmodules.territory
+package gamelogicmodules.territory
 
 import game.Game
 import shortstate.ShortStateCharacter
@@ -66,6 +66,8 @@ class ActiveCropsReport: Report {
 class ActiveCropsReportFactory: ReportFactory{
     val territoryId: Int
     override val type = ActiveCropsReport.type
+    override val cost: Int
+        get() = 150
 
     constructor(territory: Int){
         this.territoryId = territory

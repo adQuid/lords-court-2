@@ -1,4 +1,4 @@
-package game.gamelogicmodules.capital
+package gamelogicmodules.capital
 
 import game.Game
 import game.GameCharacter
@@ -6,9 +6,8 @@ import game.Title
 import game.action.Action
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.WasteTime
-import game.gamelogicmodules.territory.ActiveCropsReportFactory
-import game.gamelogicmodules.territory.FoodStocksReportFactory
-import game.gamelogicmodules.territory.Territory
+import gamelogicmodules.territory.ActiveCropsReportFactory
+import gamelogicmodules.territory.FoodStocksReportFactory
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.ReportFactory
 

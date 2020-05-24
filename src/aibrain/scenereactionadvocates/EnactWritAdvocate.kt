@@ -22,7 +22,7 @@ class EnactWritAdvocate: SceneReactionAdvocate {
     }
 
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {
-        EnactWrit(writToEnact()!!).doAction(game, game.shortPlayerForLongPlayer(me)!!)
+        EnactWrit(writToEnact()!!).doActionIfCanAfford(game, game.shortPlayerForLongPlayer(me)!!)
     }
 
     private fun writToEnact(): Writ?{

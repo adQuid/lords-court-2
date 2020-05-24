@@ -4,12 +4,16 @@ import main.UIGlobals
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.room.RoomAction
-import game.gamelogicmodules.capital.specialdisplayables.EstatesView
+import gamelogicmodules.capital.specialdisplayables.EstatesView
 
 class ViewEstates: RoomAction() {
 
     override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
-        doAction(game, player)
+        doActionIfCanAfford(game, player)
+    }
+
+    override fun cost(): Int {
+        return 0
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {

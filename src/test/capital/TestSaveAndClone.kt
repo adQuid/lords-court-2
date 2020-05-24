@@ -1,13 +1,11 @@
 package test.capital
 
 import game.Game
-import game.Location
-import game.GameCharacter
-import game.gamelogicmodules.capital.Capital
-import game.gamelogicmodules.capital.CapitalLogicModule
-import game.gamelogicmodules.territory.Territory
-import game.gamelogicmodules.territory.TerritoryLogicModule
-import game.gamelogicmodules.territory.TerritoryMap
+import gamelogicmodules.capital.Capital
+import gamelogicmodules.capital.CapitalLogicModule
+import gamelogicmodules.territory.Territory
+import gamelogicmodules.territory.TerritoryLogicModule
+import gamelogicmodules.territory.TerritoryMap
 import org.junit.Test
 
 class TestSaveAndClone {

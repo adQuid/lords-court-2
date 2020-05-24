@@ -9,13 +9,12 @@ import game.titlemaker.CookieWorldTitleFactory
 import shortstate.ShortStateGame
 import shortstate.dialog.LineMemory
 import game.action.actionTypes.*
-import game.gamelogicmodules.CookieWorld
+import gamelogicmodules.CookieWorld
 import shortstate.dialog.linetypes.*
 import shortstate.Conversation
 import shortstate.ShortGameScene
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.DeliciousnessReport
-import game.titles.Milkman
 import game.titles.Baker
 
 fun soloTestGame(): Game{

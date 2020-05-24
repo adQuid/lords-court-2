@@ -1,12 +1,8 @@
 package shortstate.room.action
 
-import main.UIGlobals
-import shortstate.GameRules
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
-import shortstate.ShortStateController
 import shortstate.report.ReportFactory
-import shortstate.report.ReportType
 import shortstate.room.RoomAction
 
 class MakeReport: RoomAction{
@@ -18,12 +14,15 @@ class MakeReport: RoomAction{
     }
 
     override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
-        doAction(game, player)
+        doActionIfCanAfford(game, player)
+    }
+
+    override fun cost(): Int {
+        return factory.cost
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         player.knownReports.add(factory.generateReport(game.game))
-        player.energy -= GameRules.COST_TO_MAKE_REPORT
     }
 
     override fun defocusAfter(): Boolean {
@@ -31,6 +30,6 @@ class MakeReport: RoomAction{
     }
 
     override fun toString(): String {
-        return "Look up ${factory.tooltip()}"
+        return "Look up ${factory.tooltip()} (Cost: ${factory.cost})"
     }
 }

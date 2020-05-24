@@ -1,4 +1,4 @@
-package game.gamelogicmodules.territory
+package gamelogicmodules.territory
 
 class Crop {
 

@@ -12,6 +12,7 @@ fun generateEmptyReport(): Report{
 
 abstract class ReportFactory {
     abstract val type: String
+    abstract val cost: Int
 
     abstract fun generateReport(game: Game): Report
 

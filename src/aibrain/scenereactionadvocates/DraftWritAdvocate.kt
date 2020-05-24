@@ -31,7 +31,7 @@ class DraftWritAdvocate: SceneReactionAdvocate {
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {
         println("drafting a writ")
         if(dealIWantToDraft() != null){
-            DraftWrit(dealIWantToDraft()!!, "test name").doAction(game, game.shortPlayerForLongPlayer(me)!!)
+            DraftWrit(dealIWantToDraft()!!, "test name").doActionIfCanAfford(game, game.shortPlayerForLongPlayer(me)!!)
         }
     }
 

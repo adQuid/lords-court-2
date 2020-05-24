@@ -1,4 +1,4 @@
-package game.gamelogicmodules.territory
+package gamelogicmodules.territory
 
 import com.beust.klaxon.Klaxon
 import java.io.File

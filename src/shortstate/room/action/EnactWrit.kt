@@ -17,7 +17,11 @@ class EnactWrit: RoomAction {
     }
 
     override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
-        doAction(game, player)
+        doActionIfCanAfford(game, player)
+    }
+
+    override fun cost(): Int {
+        return 5
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {

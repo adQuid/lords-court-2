@@ -27,6 +27,6 @@ class GetReportAdvocate: SceneReactionAdvocate {
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {
         //TODO: Make this better
         val reportFactories = me.titles.map { it.reportsEntitled }.flatten()
-        MakeReport(reportFactories.first()).doAction(game, shortGameScene!!.shortPlayerForLongPlayer(me)!!)
+        MakeReport(reportFactories.first()).doActionIfCanAfford(game, shortGameScene!!.shortPlayerForLongPlayer(me)!!)
     }
 }

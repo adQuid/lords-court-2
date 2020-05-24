@@ -1,7 +1,7 @@
 package shortstate.report
 
 import game.Game
-import game.gamelogicmodules.CookieWorld
+import gamelogicmodules.CookieWorld
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 
@@ -56,6 +56,8 @@ class DeliciousnessReport: Report{
 
 class DeliciousnessReportFactory: ReportFactory() {
     override val type = DeliciousnessReport.type
+    override val cost: Int
+        get() = 15
 
     override fun generateReport(game: Game): Report {
         return DeliciousnessReport(game)

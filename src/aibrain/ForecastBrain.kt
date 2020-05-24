@@ -7,12 +7,11 @@ import game.GameCharacter
 import game.action.actionTypes.BakeCookies
 import game.action.actionTypes.GetMilk
 import game.action.actionTypes.WasteTime
-import game.gamelogicmodules.CookieWorld
+import gamelogicmodules.CookieWorld
 import main.Controller
 import shortstate.dialog.LineMemory
 import shortstate.dialog.linetypes.Announcement
 import util.safeSublist
-import java.lang.Exception
 
 class ForecastBrain {
     val player: GameCharacter

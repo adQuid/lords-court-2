@@ -16,8 +16,12 @@ class CommitToAction: RoomAction {
         this.type = type
     }
 
+    override fun cost(): Int {
+        return 0
+    }
+
     override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
-        doAction(game, player)
+        doActionIfCanAfford(game, player)
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {

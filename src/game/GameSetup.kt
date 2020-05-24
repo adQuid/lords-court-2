@@ -1,10 +1,10 @@
 package game
 
-import game.gamelogicmodules.CookieWorld
-import game.gamelogicmodules.capital.Capital
-import game.gamelogicmodules.capital.CapitalLogicModule
-import game.gamelogicmodules.territory.TerritoryLogicModule
-import game.gamelogicmodules.territory.TerritoryMap
+import gamelogicmodules.CookieWorld
+import gamelogicmodules.capital.Capital
+import gamelogicmodules.capital.CapitalLogicModule
+import gamelogicmodules.territory.TerritoryLogicModule
+import gamelogicmodules.territory.TerritoryMap
 import game.titlemaker.CookieWorldTitleFactory
 import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 import java.util.*

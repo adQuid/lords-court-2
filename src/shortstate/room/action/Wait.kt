@@ -11,12 +11,15 @@ import shortstate.scenemaker.GoToRoomSoloMaker
 class Wait: RoomAction() {
 
     override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
-        doAction(game, player)
+        doActionIfCanAfford(game, player)
+    }
+
+    override fun cost(): Int {
+        return GameRules.COST_TO_WAIT
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         println("$player waits")
-        player.energy -= GameRules.COST_TO_WAIT
         player.nextSceneIWannaBeIn = GoToRoomSoloMaker(player, game.shortGameScene!!.room)
         game.shortGameScene!!.terminated = true//kinda defeats the point, huh?
     }

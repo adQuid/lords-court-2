@@ -1,4 +1,4 @@
-package game.gamelogicmodules.capital
+package gamelogicmodules.capital
 
 import game.Game
 import game.Title

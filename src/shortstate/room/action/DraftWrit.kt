@@ -27,6 +27,10 @@ class DraftWrit: RoomAction {
         UIGlobals.focusOn(WritConstructor(UnfinishedDeal(listOf(player.player))))
     }
 
+    override fun cost(): Int {
+        return GameRules.COST_TO_MAKE_WRIT
+    }
+
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         addWritToCharacter(player)
     }
@@ -35,14 +39,10 @@ class DraftWrit: RoomAction {
         return Writ(name, deal.toFinishedDeal(), listOf(firstSigner))
     }
 
-    fun addWritToCharacter(character: ShortStateCharacter): Boolean{
-        if(character.addEnergy(-GameRules.COST_TO_MAKE_WRIT)){
-            val writToAdd = generateWrit(character.player)
-            character.player.writs.add(generateWrit(character.player))
-            character.player.memory.comittedActions.addAll(writToAdd.deal.actions.values.flatten().map { action -> ActionMemory(action) })
-            return true
-        }
-        return false
+    fun addWritToCharacter(character: ShortStateCharacter){
+        val writToAdd = generateWrit(character.player)
+        character.player.writs.add(generateWrit(character.player))
+        character.player.memory.comittedActions.addAll(writToAdd.deal.actions.values.flatten().map { action -> ActionMemory(action) })
     }
 
     override fun defocusAfter(): Boolean {

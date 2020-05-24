@@ -1,11 +1,11 @@
-package game.gamelogicmodules.capital
+package gamelogicmodules.capital
 
 import game.Game
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.report.Report
 import shortstate.report.ReportFactory
-import game.gamelogicmodules.territory.Territory
+import gamelogicmodules.territory.Territory
 
 class CapitalStocksReport: Report {
 
@@ -74,6 +74,8 @@ class CapitalStocksReport: Report {
 class CapitalStocksReportFactory: ReportFactory{
     val capital: Capital
     override val type = CapitalStocksReport.type
+    override val cost: Int
+        get() = 15
 
     constructor(capital: Capital){
         this.capital = capital

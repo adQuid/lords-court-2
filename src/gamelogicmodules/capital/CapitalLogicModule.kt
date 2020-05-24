@@ -1,13 +1,11 @@
-package game.gamelogicmodules.capital
+package gamelogicmodules.capital
 
 import game.Effect
 import game.Game
 import game.GameCharacter
 import game.GameLogicModule
-import game.gamelogicmodules.territory.ActiveCropsReportFactory
-import game.gamelogicmodules.territory.FoodStocksReportFactory
-import game.gamelogicmodules.territory.Territory
-import game.gamelogicmodules.territory.TerritoryLogicModule
+import gamelogicmodules.territory.Territory
+import gamelogicmodules.territory.TerritoryLogicModule
 import shortstate.report.ReportFactory
 import shortstate.room.RoomActionMaker
 import kotlin.math.roundToInt

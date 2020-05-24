@@ -1,7 +1,7 @@
 package ui.specialdisplayables
 
-import game.gamelogicmodules.territory.Territory
-import game.gamelogicmodules.territory.TerritoryMap
+import gamelogicmodules.territory.Territory
+import gamelogicmodules.territory.TerritoryMap
 import javafx.event.EventHandler
 import javafx.geometry.Rectangle2D
 import javafx.scene.Node

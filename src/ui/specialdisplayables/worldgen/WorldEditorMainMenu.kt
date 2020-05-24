@@ -2,10 +2,9 @@ package ui.specialdisplayables.worldgen
 
 import com.beust.klaxon.Klaxon
 import com.google.gson.Gson
-import game.gamelogicmodules.territory.Territory
-import game.gamelogicmodules.territory.TerritoryMap
+import gamelogicmodules.territory.Territory
+import gamelogicmodules.territory.TerritoryMap
 import javafx.event.EventHandler
-import javafx.geometry.Rectangle2D
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import main.UIGlobals
@@ -13,8 +12,6 @@ import ui.NoPerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
 import ui.specialdisplayables.MapView
 import java.io.File
-import kotlin.math.max
-import kotlin.math.min
 
 object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 

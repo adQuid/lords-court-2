@@ -1,4 +1,4 @@
-package game.gamelogicmodules.resources
+package gamelogicmodules.resources
 
 import kotlin.math.roundToInt
 
