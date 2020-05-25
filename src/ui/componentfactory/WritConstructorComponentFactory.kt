@@ -6,7 +6,7 @@ import javafx.scene.layout.GridPane
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.room.action.DraftWrit
-import ui.contructorobjects.WritConstructor
+import ui.specialdisplayables.contructorobjects.WritConstructor
 
 class WritConstructorComponentFactory {
 

@@ -8,10 +8,9 @@ import game.action.ActionMemory
 import main.UIGlobals
 import shortstate.GameRules
 import shortstate.ShortStateCharacter
-import shortstate.ShortStateController
 import shortstate.ShortStateGame
 import shortstate.room.RoomAction
-import ui.contructorobjects.WritConstructor
+import ui.specialdisplayables.contructorobjects.WritConstructor
 
 class DraftWrit: RoomAction {
 

@@ -9,6 +9,7 @@ import gamelogicmodules.cookieworld.actionTypes.WasteTime
 import gamelogicmodules.territory.ActiveCropsReportFactory
 import gamelogicmodules.territory.FoodStocksReportFactory
 import game.titlemaker.CookieWorldTitleFactory
+import gamelogicmodules.capital.actionTypes.SetTaxRate
 import shortstate.report.ReportFactory
 
 class Count: Title{
@@ -52,7 +53,7 @@ class Count: Title{
     }
 
     override fun actionsReguarding(players: List<GameCharacter>): List<Action> {
-        return listOf(BakeCookies(), WasteTime())
+        return listOf(SetTaxRate(capital.terId, 0.3))
     }
 
     override fun equals(other: Any?): Boolean {

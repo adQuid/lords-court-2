@@ -89,7 +89,10 @@ class Controller {
         val loadMap = klac.parse<Map<String,Any>>(File("save/test.savgam").readText())!!
         game = Game(loadMap["game"] as Map<String,Any>)
         val shortGames = loadMap["shortGames"] as List<Map<String, Any>>
-        populateShortThreads()
+        shortThreads.clear()
+        shortGames.forEach {
+            shortThreads.add(ShortStateController(ShortStateGame(game!!, it)))
+        }
 
         brainThread1 = BrainThread(this)
 

@@ -5,7 +5,7 @@ import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.room.RoomActionMaker
-import ui.contructorobjects.WritConstructor
+import ui.specialdisplayables.contructorobjects.WritConstructor
 
 class DraftWritRoomActionMaker: RoomActionMaker {
 

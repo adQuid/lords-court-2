@@ -1,0 +1,48 @@
+package gamelogicmodules.capital.specialdisplayables
+
+import gamelogicmodules.capital.CapitalLogicModule
+import gamelogicmodules.territory.Territory
+import javafx.event.EventHandler
+import javafx.scene.Scene
+import javafx.scene.layout.GridPane
+import main.Controller
+import main.UIGlobals
+import shortstate.ShortStateCharacter
+import ui.Displayable
+import ui.NoPerspectiveDisplayable
+import ui.componentfactory.UtilityComponentFactory
+import ui.specialdisplayables.worldgen.WorldEditorMainMenu
+
+class LawsView: Displayable {
+
+    val terId: Int
+
+    constructor(terId: Int){
+        this.terId = terId
+    }
+
+    override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
+        val capital = (UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule).capitalById(terId)
+
+        val pane = GridPane()
+
+        val taxesPane = GridPane()
+        taxesPane.add(UtilityComponentFactory.shortProportionalLabel("Income Tax (Flour): "+capital.taxes[Territory.FLOUR_NAME], 2.0), 0, 0)
+        taxesPane.add(UtilityComponentFactory.proportionalButton("Change", EventHandler {  },4.0),1,0)
+        pane.add(taxesPane,0,0)
+
+        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 1)
+        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 2)
+        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 3)
+        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 4)
+        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 5)
+        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 6)
+        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 7)
+        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 8)
+
+        pane.add(UtilityComponentFactory.backButton(), 0, 9)
+
+
+        return Scene(pane)
+    }
+}

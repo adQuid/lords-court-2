@@ -1,4 +1,4 @@
-package ui.contructorobjects
+package ui.specialdisplayables.contructorobjects
 
 import aibrain.UnfinishedDeal
 import javafx.scene.Scene
