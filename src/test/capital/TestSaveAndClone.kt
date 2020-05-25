@@ -31,6 +31,7 @@ class TestSaveAndClone {
         val game2 = Game(game)
 
         assert(game == game2)
+        game2.endTurn() //just in case this makes something crash
     }
 
     @Test
@@ -39,6 +40,7 @@ class TestSaveAndClone {
         val game2 = Game(soloTestGame().saveString())
 
         assert(game == game2)
+        game2.endTurn() //just in case this makes something crash
     }
 
 }

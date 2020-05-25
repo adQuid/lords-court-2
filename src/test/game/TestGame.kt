@@ -30,6 +30,7 @@ class TestGame {
         val game = soloTestGameWithEverythingOnIt()
         val game2 = Game(game)
         assert(game2 == game)
+        game2.endTurn() //just in case this makes something crash
     }
 
     @Test
