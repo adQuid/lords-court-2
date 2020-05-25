@@ -6,6 +6,10 @@ import gamelogicmodules.cookieworld.CookieWorld
 
 class AddDelicousness(override var probability: Double) : Effect() {
 
+    companion object{
+        val typeName = "AddDel"
+    }
+
     constructor(saveString: Map<String, Any>, game: Game) : this(saveString[GlobalEffectFactory.PROBABLITY_NAME] as Double) {
 
     }
@@ -28,7 +32,7 @@ class AddDelicousness(override var probability: Double) : Effect() {
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalEffectFactory.TYPE_NAME to GlobalEffectFactory.ADD_DELICIOUSNESS_NAME,
+            GlobalEffectFactory.TYPE_NAME to typeName,
             GlobalEffectFactory.PROBABLITY_NAME to probability
         )
     }

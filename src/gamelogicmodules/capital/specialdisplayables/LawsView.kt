@@ -1,17 +1,22 @@
 package gamelogicmodules.capital.specialdisplayables
 
+import aibrain.UnfinishedDeal
+import game.Effect
+import game.Game
+import game.GameCharacter
+import game.effects.GlobalEffectFactory
 import gamelogicmodules.capital.CapitalLogicModule
+import gamelogicmodules.capital.actionTypes.SetTaxRate
+import gamelogicmodules.cookieworld.CookieWorld
 import gamelogicmodules.territory.Territory
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
-import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.Displayable
-import ui.NoPerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
-import ui.specialdisplayables.worldgen.WorldEditorMainMenu
+import ui.specialdisplayables.contructorobjects.WritConstructor
 
 class LawsView: Displayable {
 
@@ -28,7 +33,7 @@ class LawsView: Displayable {
 
         val taxesPane = GridPane()
         taxesPane.add(UtilityComponentFactory.shortProportionalLabel("Income Tax (Flour): "+capital.taxes[Territory.FLOUR_NAME], 2.0), 0, 0)
-        taxesPane.add(UtilityComponentFactory.proportionalButton("Change", EventHandler {  },4.0),1,0)
+        taxesPane.add(UtilityComponentFactory.proportionalButton("Change", EventHandler { UIGlobals.focusOn(WritConstructor(writFromLawChange(perspective!!.player))) },4.0),1,0)
         pane.add(taxesPane,0,0)
 
         pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 1)
@@ -44,5 +49,9 @@ class LawsView: Displayable {
 
 
         return Scene(pane)
+    }
+
+    private fun writFromLawChange(player: GameCharacter): UnfinishedDeal{
+        return UnfinishedDeal(mapOf(player to setOf(SetTaxRate(terId, 0.3))))
     }
 }

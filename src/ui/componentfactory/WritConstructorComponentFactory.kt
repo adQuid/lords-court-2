@@ -22,7 +22,11 @@ class WritConstructorComponentFactory {
         val root = GridPane()
 
         root.add(textField, 0,0)
-        root.add(UtilityComponentFactory.shortWideButton("Modify Deal Directly", EventHandler { _ -> UIGlobals.focusOn(parent.deal) }), 0,1)
+
+        val description = UtilityComponentFactory.shortWideLabel(parent.deal.actions.map { entry -> entry.key.fullName()+" will "+entry.value.map{it.toString()}.joinToString() }.joinToString())
+        root.add(description,0,1)
+
+        root.add(UtilityComponentFactory.shortWideButton("Modify Deal Directly", EventHandler { _ -> UIGlobals.focusOn(parent.deal) }), 0,2)
         val bottomPane = GridPane()
         bottomPane.add(UtilityComponentFactory.shortButton("Cancel", EventHandler { UIGlobals.defocus()}),0,0)
         if(parent.deal.isEmpty()){
@@ -30,7 +34,7 @@ class WritConstructorComponentFactory {
         } else {
             bottomPane.add(UtilityComponentFactory.shortButton("Create Writ", EventHandler {finish(perspective)}, 3),1,0)
         }
-        root.add(bottomPane,0,2)
+        root.add(bottomPane,0,3)
 
         val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene
