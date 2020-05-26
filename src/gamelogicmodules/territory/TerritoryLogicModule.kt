@@ -188,7 +188,7 @@ class TerritoryLogicModule: GameLogicModule {
         if(week in 18..21){
             return "Blooming Season"
         }
-        if(week in 23..28){
+        if(week in 22..28){
             return "Summer"
         }
         if(week in 29..32){

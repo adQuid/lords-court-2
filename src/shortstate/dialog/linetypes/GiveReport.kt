@@ -40,7 +40,7 @@ class GiveReport: Line {
     }
 
     override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
-        return listOf(LineBlock("GIVE REPORT:"), LineBlock(if(report == null) "Report:___________" else "Report: "+report.toString(), {perspective -> UIGlobals.focusOn(
+        return listOf(LineBlock("GIVE REPORT:"), LineBlock(if(report == null) "Report:___________" else "Report: "+ report!!.type, { perspective -> UIGlobals.focusOn(
             SelectionModal("Select Report",
                 listOf(
                 Tab(
@@ -53,7 +53,7 @@ class GiveReport: Line {
 
     override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         if(report is EmptyReport){
-            return report.toString()
+            return (report as EmptyReport).prettyPrint(context, speaker)
         } else if(report != null) {
             return "I have discovered that ${report!!.prettyPrint(context,speaker)}"
         } else {
