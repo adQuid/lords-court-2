@@ -7,6 +7,8 @@ import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import game.titles.Baker
+import javafx.scene.Scene
+import shortstate.ShortStateCharacter
 
 class BakeCookies: Action{
 
@@ -28,6 +30,10 @@ class BakeCookies: Action{
         return "bake tasty cookies"
     }
 
+    override fun description(): String {
+        return "Increases game deliciousness. Characters will still need milk to get points."
+    }
+
     override fun equals(other: Any?): Boolean {
         return other is BakeCookies
     }
@@ -35,5 +41,4 @@ class BakeCookies: Action{
     override fun saveString(): Map<String, Any> {
         return hashMapOf(GlobalActionTypeFactory.TYPE_NAME to typeName)
     }
-
 }

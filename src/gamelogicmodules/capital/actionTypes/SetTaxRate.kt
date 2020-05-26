@@ -6,9 +6,21 @@ import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import game.effects.GlobalEffectFactory
+import gamelogicmodules.capital.Capital
 import gamelogicmodules.capital.CapitalLogicModule
 import gamelogicmodules.cookieworld.CookieWorld
 import gamelogicmodules.territory.Territory
+import javafx.event.EventHandler
+import javafx.scene.Scene
+import javafx.scene.layout.GridPane
+import main.UIGlobals
+import shortstate.ShortStateCharacter
+import ui.componentfactory.UtilityComponentFactory
+import java.math.BigDecimal
+import java.text.DecimalFormat
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 class SetTaxRate: Action {
 
@@ -17,7 +29,7 @@ class SetTaxRate: Action {
             get() = "SetTaxRate"
     }
     val terId: Int
-    val amount: Double
+    var amount: Double
 
     constructor(id: Int, amount: Double){
         this.terId = id
@@ -29,7 +41,7 @@ class SetTaxRate: Action {
     }
 
     override fun toString(): String {
-        return "set taxes to ${amount}"
+        return "set taxes to ${DecimalFormat("#.##").format(amount)}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -42,6 +54,28 @@ class SetTaxRate: Action {
             "amount" to amount,
             "territory" to terId
         )
+    }
+
+    override fun description(): String {
+        return "Sets the tax for ${capitalById().territory!!.name} to ${(amount*100).roundToInt()}% of the harvest. This will be extracted from the peasants every harvest."
+    }
+
+    private fun capitalById(): Capital {
+        val logic = UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
+        return logic.capitalById(terId)
+    }
+
+    override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
+        val retval = baseActionPane(this)
+
+        val amountPane = GridPane()
+        amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-0.05,0.0); UIGlobals.refresh() }, 3.0),0,0)
+        amountPane.add(UtilityComponentFactory.shortProportionalLabel(DecimalFormat("#.##").format(amount), 3.0),1,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = min(amount+0.05,1.0); UIGlobals.refresh() }, 3.0),2,0)
+
+        retval.add(amountPane,0,2)
+
+        return Scene(retval)
     }
 
     class ChangeTax(override var probability: Double, val terId: Int, val amount: Double) : Effect() {

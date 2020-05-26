@@ -18,6 +18,10 @@ class DummyGoodThing: Action() {
         return mapOf()
     }
 
+    override fun description(): String {
+        return "Dummy Good Thing"
+    }
+
     class DummyGoodEffect(override var probability: Double) : Effect() {
         override fun equals(other: Any?): Boolean {
             if(other is DummyGoodEffect){
@@ -42,6 +46,7 @@ class DummyGoodThing: Action() {
         }
 
     }
+
 }
 
 class DummyOneTimeGoodThing: Action() {
@@ -52,6 +57,10 @@ class DummyOneTimeGoodThing: Action() {
     override fun saveString(): Map<String, Any> {
         //I'm not testing saving dummy actions
         return mapOf()
+    }
+
+    override fun description(): String {
+        return "Dummy One-time Good Thing"
     }
 
     class DummyOneTimeGoodEffect(override var probability: Double) : Effect() {
@@ -92,6 +101,10 @@ class DummyBadThing: Action() {
         return mapOf()
     }
 
+    override fun description(): String {
+        return "Dummy Bad Thing"
+    }
+
     class DummyBadEffect(override var probability: Double) : Effect() {
         override fun equals(other: Any?): Boolean {
             if(other is DummyBadEffect){
@@ -126,6 +139,10 @@ class DummyNeutralThing: Action() {
     override fun saveString(): Map<String, Any> {
         //I'm not testing saving dummy actions
         return mapOf()
+    }
+
+    override fun description(): String {
+        return "Dummy Neutral Thing"
     }
 }
 

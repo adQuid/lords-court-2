@@ -7,6 +7,8 @@ import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import game.titles.Milkman
+import javafx.scene.Scene
+import shortstate.ShortStateCharacter
 
 class GetMilk: Action {
 
@@ -29,6 +31,10 @@ class GetMilk: Action {
 
     override fun toString(): String {
         return "get milk for ${player.name}"
+    }
+
+    override fun description(): String {
+        return "Give ${player.name} milk. A character with milk gets points from the game's deliciousness level."
     }
 
     override fun equals(other: Any?): Boolean {

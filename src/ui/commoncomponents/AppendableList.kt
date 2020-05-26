@@ -1,5 +1,6 @@
 package ui.commoncomponents
 
+import game.action.Action
 import javafx.event.EventHandler
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
@@ -9,11 +10,11 @@ import ui.componentfactory.UtilityComponentFactory
 
 class AppendableList<T> {
 
-    fun actionList(collection: Collection<T>, addSelector: PerspectiveDisplayable?): Pane {
+    fun actionList(collection: Collection<Action>, addSelector: PerspectiveDisplayable?): Pane {
         val retval = GridPane()
 
-        var behavior: (T) -> Unit
-        if(addSelector != null){
+        var behavior: (Action) -> Unit
+        /*if(addSelector != null){
             behavior = {action -> (collection as MutableCollection).remove(action);
                 UIGlobals.refresh()}
 
@@ -22,7 +23,8 @@ class AppendableList<T> {
             retval.add(newActionButton, 0 , 1)
         }else{
             behavior = {}
-        }
+        }*/
+        behavior = {action -> UIGlobals.focusOn(action)}
 
         retval.add(UtilityComponentFactory.basicList(collection.toList(), behavior, UIGlobals.totalWidth(), UIGlobals.totalHeight() * (5.0/6.0)), 0, 0)
 

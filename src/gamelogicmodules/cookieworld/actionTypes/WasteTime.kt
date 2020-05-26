@@ -5,6 +5,8 @@ import game.Effect
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
+import javafx.scene.Scene
+import shortstate.ShortStateCharacter
 
 class WasteTime: Action {
 
@@ -22,6 +24,10 @@ class WasteTime: Action {
 
     override fun toString(): String {
         return "be useless"
+    }
+
+    override fun description(): String {
+        return "A filler action that does nothing."
     }
 
     override fun equals(other: Any?): Boolean {
