@@ -36,7 +36,7 @@ object MiddlePaneComponentFactory {
             UIGlobals.focusOn(
                 SelectionModal( "Writs",
                     UtilityComponentFactory.writs(perspective),
-                    { report -> println(report) })
+                    { writ -> UIGlobals.focusOn(writ) })
             )
         }), 3,0)
 

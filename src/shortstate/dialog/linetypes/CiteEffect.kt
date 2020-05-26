@@ -24,7 +24,6 @@ class CiteEffect: Line {
 
     val deal: FinishedDeal
     var effects: MutableList<Effect>
-    val effectsDisplayList = AppendableList<Effect>()
 
     constructor(deal: FinishedDeal){
         this.deal = deal

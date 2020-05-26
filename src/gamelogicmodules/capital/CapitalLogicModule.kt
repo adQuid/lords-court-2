@@ -25,6 +25,12 @@ class CapitalLogicModule: GameLogicModule {
         private fun reportFactories(territories: Collection<Capital>): List<ReportFactory>{
             return territories.map{ CapitalStocksReportFactory(it) }
         }
+
+        fun capitalById(game: Game, id: Int): Capital{
+            val module = game.moduleOfType(type) as CapitalLogicModule
+
+            return module.capitalById(id)
+        }
     }
     val capitals: Collection<Capital>
 

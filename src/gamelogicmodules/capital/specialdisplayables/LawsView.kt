@@ -33,7 +33,7 @@ class LawsView: Displayable {
 
         val taxesPane = GridPane()
         taxesPane.add(UtilityComponentFactory.shortProportionalLabel("Income Tax (Flour): "+capital.taxes[Territory.FLOUR_NAME], 2.0), 0, 0)
-        taxesPane.add(UtilityComponentFactory.proportionalButton("Change", EventHandler { UIGlobals.focusOn(WritConstructor(writFromLawChange(perspective!!.player))) },4.0),1,0)
+        taxesPane.add(UtilityComponentFactory.proportionalButton("Change", EventHandler { makeWritFromAction(perspective!!) },4.0),1,0)
         pane.add(taxesPane,0,0)
 
         pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 1)
@@ -51,7 +51,15 @@ class LawsView: Displayable {
         return Scene(pane)
     }
 
+    private fun makeWritFromAction(perspective: ShortStateCharacter){
+        val newAction = SetTaxRate(terId, CapitalLogicModule.capitalById(UIGlobals.activeGame(), terId).taxes[Territory.FLOUR_NAME]!!)
+        val newDeal = UnfinishedDeal(mapOf(perspective.player to setOf(newAction)))
+
+        UIGlobals.focusOn(WritConstructor(newDeal))
+        UIGlobals.focusOn(newAction)
+    }
+
     private fun writFromLawChange(player: GameCharacter): UnfinishedDeal{
-        return UnfinishedDeal(mapOf(player to setOf(SetTaxRate(terId, 0.3))))
+        return UnfinishedDeal(mapOf(player to setOf()))
     }
 }

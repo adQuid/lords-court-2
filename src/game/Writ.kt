@@ -2,9 +2,20 @@ package game
 
 import aibrain.Deal
 import aibrain.FinishedDeal
+import javafx.scene.Scene
+import shortstate.ShortStateCharacter
+import ui.Displayable
+import ui.componentfactory.WritComponentFactory
 
 //The in-game representation of a group of actions
-class Writ {
+class Writ: Displayable {
+
+    val display = WritComponentFactory(this)
+
+    override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
+        return display.scenePage(perspective!!)
+    }
+
     var name: String
     val deal: FinishedDeal
     val signatories: MutableList<GameCharacter>
@@ -36,7 +47,11 @@ class Writ {
     }
 
     override fun toString(): String {
-        return "$name (signed by ${signatories.fold("", { acc, character -> acc +", "+character.toString()}).drop(2)})"
+        return "$name (signed by ${prettyPrintSignatories()})"
+    }
+
+    fun prettyPrintSignatories(): String{
+        return signatories.fold("", { acc, character -> acc +", "+character.toString()}).drop(2)
     }
 
     fun complete(): Boolean{

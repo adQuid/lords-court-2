@@ -23,18 +23,18 @@ open class DealComponentFactory {
     val deal: Deal
     var actions: MutableMap<GameCharacter, MutableSet<Action>>
     var currentPage: GameCharacter
-    var actionLists: MutableMap<GameCharacter, AppendableList<Action>>
+    var actionLists: MutableMap<GameCharacter, AppendableList>
 
     constructor(deal: Deal){
         this.deal = deal
         this.actions = deal.theActions().mapValues { entry -> entry.value.toMutableSet() }.toMutableMap()
         currentPage = actions.keys.first()
-        actionLists = actions.entries.associate { entry -> entry.key to AppendableList<Action>() }.toMutableMap()
+        actionLists = actions.entries.associate { entry -> entry.key to AppendableList() }.toMutableMap()
     }
 
     private fun resetActions(){
         actions = deal.theActions().mapValues { entry -> entry.value.toMutableSet() }.toMutableMap()
-        actionLists = actions.entries.associate { entry -> entry.key to AppendableList<Action>() }.toMutableMap()
+        actionLists = actions.entries.associate { entry -> entry.key to AppendableList() }.toMutableMap()
     }
 
     private fun action(): ActionChooser{
