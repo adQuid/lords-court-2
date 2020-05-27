@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane
 import javafx.scene.text.Font
 import main.UIGlobals
 import shortstate.ShortStateCharacter
-import ui.commoncomponents.AppendableList
+import ui.commoncomponents.AppendableActionList
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 import javafx.scene.input.MouseEvent
@@ -23,18 +23,18 @@ open class DealComponentFactory {
     val deal: Deal
     var actions: MutableMap<GameCharacter, MutableSet<Action>>
     var currentPage: GameCharacter
-    var actionLists: MutableMap<GameCharacter, AppendableList>
+    var actionLists: MutableMap<GameCharacter, AppendableActionList>
 
     constructor(deal: Deal){
         this.deal = deal
         this.actions = deal.theActions().mapValues { entry -> entry.value.toMutableSet() }.toMutableMap()
         currentPage = actions.keys.first()
-        actionLists = actions.entries.associate { entry -> entry.key to AppendableList() }.toMutableMap()
+        actionLists = actions.entries.associate { entry -> entry.key to AppendableActionList() }.toMutableMap()
     }
 
     private fun resetActions(){
         actions = deal.theActions().mapValues { entry -> entry.value.toMutableSet() }.toMutableMap()
-        actionLists = actions.entries.associate { entry -> entry.key to AppendableList() }.toMutableMap()
+        actionLists = actions.entries.associate { entry -> entry.key to AppendableActionList() }.toMutableMap()
     }
 
     private fun action(): ActionChooser{
@@ -120,6 +120,6 @@ open class DealComponentFactory {
     private fun addCharacterToDeal(character: GameCharacter){
         (deal as UnfinishedDeal).actions[character] = mutableSetOf()
         actions[character] = mutableSetOf()
-        actionLists[character] = AppendableList()
+        actionLists[character] = AppendableActionList()
     }
 }

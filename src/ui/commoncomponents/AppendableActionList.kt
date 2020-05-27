@@ -8,7 +8,7 @@ import main.UIGlobals
 import ui.PerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
 
-class AppendableList {
+class AppendableActionList {
 
     fun actionList(collection: Collection<Action>, addSelector: PerspectiveDisplayable?): Pane {
         val retval = GridPane()

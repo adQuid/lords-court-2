@@ -42,4 +42,7 @@ abstract class Action: Displayable {
         return Scene(baseActionPane(this))
     }
 
+    override fun hashCode(): Int {
+        return 0 //So that sets are always comparing based on equals. There should never be huge collections of actions anyway
+    }
 }

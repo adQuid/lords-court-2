@@ -14,7 +14,6 @@ import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.room.Room
-import ui.commoncomponents.AppendableList
 import ui.componentfactory.EffectChooser
 
 class CiteEffect: Line {
