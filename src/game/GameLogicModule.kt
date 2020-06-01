@@ -44,6 +44,7 @@ abstract class GameLogicModule {
 
     abstract val type: String
 
+    var parent: Game? = null
     var reportTypes: Map<String, ReportFactory>
     var titleTypes: TitleFactory
     var dependencies: List<String>

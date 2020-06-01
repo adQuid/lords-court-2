@@ -7,6 +7,7 @@ import game.GameLogicModule
 import gamelogicmodules.capital.actionTypes.SetTaxRate
 import gamelogicmodules.territory.Territory
 import gamelogicmodules.territory.TerritoryLogicModule
+import main.UIGlobals
 import shortstate.report.ReportFactory
 import shortstate.room.RoomActionMaker
 import shortstate.room.actionmaker.DefaultRoomActionMaker
@@ -84,7 +85,15 @@ class CapitalLogicModule: GameLogicModule {
     }
 
     override fun value(perspective: GameCharacter): Double {
-        return 0.0
+        var retval = 0.0
+
+        capitals.forEach {
+            if(countOfCaptial(it.terId) == perspective){
+                retval += it.resources.get(Territory.FLOUR_NAME)
+            }
+        }
+
+        return retval
     }
 
     fun capitalOf(territory: Territory): Capital{
@@ -101,6 +110,11 @@ class CapitalLogicModule: GameLogicModule {
 
     fun capitalById(id: Int): Capital {
         return capitals.filter { it.terId == id }.first()
+    }
+
+    fun countOfCaptial(terId: Int): GameCharacter?{
+        val countTitle = parent!!.titles.filter { it is Count && it.capital.territory!!.id == terId }.firstOrNull()
+        return parent!!.players.filter { it.titles.contains(countTitle) }.firstOrNull()
     }
 
     fun legalActionsReguarding(player: GameCharacter, capital: Capital): List<RoomActionMaker>{

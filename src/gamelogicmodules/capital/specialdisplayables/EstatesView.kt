@@ -49,7 +49,7 @@ class EstatesView: PerspectiveDisplayable {
             mapView.selectTerritoryAt(focusedTerritory!!.x.toDouble(), focusedTerritory!!.y.toDouble(), true, false)
 
             val countTitleOfTerr = UIGlobals.activeGame().titles.filter { it is Count && it.capital.territory == focusedTerritory }.firstOrNull()
-            val countOfTerr = UIGlobals.activeGame().players.filter { it.titles.contains(countTitleOfTerr) }.firstOrNull()
+            val countOfTerr = (UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule).countOfCaptial((focusedTerritory!!.id))
             val countText = if(countOfTerr == null){"no ruler"} else{ "Ruler: "+countOfTerr.fullName()}
 
             pane.add(UtilityComponentFactory.shortWideLabel(focusedTerritory!!.name), 0, 1)

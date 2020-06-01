@@ -35,6 +35,7 @@ class Game {
 
     constructor(gameLogic: Collection<GameLogicModule>){
         gameLogicModules = gameLogic
+        setModuleParents()
     }
 
     constructor(other: Game){
@@ -50,6 +51,7 @@ class Game {
         titles = other.titles.map { title -> title.clone()}.toMutableSet()
         gameLogicModules = other.gameLogicModules.map { GameLogicModule.cloneModule(it, this) }
         gameLogicModules.forEach { it.finishConstruction(this) }
+        setModuleParents()
     }
 
     constructor(saveString: Map<String,Any>){
@@ -70,6 +72,13 @@ class Game {
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> titleFromSaveString(map) }.toMutableSet()
 
         (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
+        setModuleParents()
+    }
+
+    private fun setModuleParents(){
+        gameLogicModules.forEach {
+            it.parent = this
+        }
     }
 
     fun saveString(): Map<String, Any>{
