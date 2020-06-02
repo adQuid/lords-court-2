@@ -20,10 +20,11 @@ class ForecastBrain {
 
     var maxPlayersToThinkAbout = 3
 
-    //TODO: Why do both of these exist?
+    //things that other important people might do
     var lastCasesOfConcern: List<GameCase>? = null
+    //things I could do
     var dealsILike: Map<FinishedDeal, Double>? = null
-        get() {if(field == null){thinkAboutNextTurn(Controller.singleton!!.game!!)}; return field}
+        get() {if(field == null){thinkAboutNextTurn(Controller.singleton!!.game!!)}; return field} //I presume this call is still safe because the brain only runs on the real game
 
     var lastFavoriteEffects: List<Effect>? = null
     var lastActionsToCommitTo: List<Action>? = null
@@ -43,7 +44,12 @@ class ForecastBrain {
         var myGame = game.imageFor(player)
         lastCasesOfConcern = casesOfConcern(myGame).toList().sortedBy { case -> -case.valueToCharacter(player) }
         lastFavoriteEffects = favoriteEffects()
-        lastActionsToCommitTo = actionsToDo(myGame)
+        dealsILike = dealsILike(myGame)
+        if(dealsILike!!.filter { it.key.actions.keys.size == 1 }.isNotEmpty()){
+            lastActionsToCommitTo = dealsILike!!.filter { it.key.actions.keys.size == 1 }.keys.toList().sortedBy { dealValueToMe(it) }.first().actions[player]!!.toList() //TODO: cry
+        } else {
+            lastActionsToCommitTo = listOf()
+        }
 
         //DEBUG
         if(this.player.name == "Frip"){
@@ -51,7 +57,6 @@ class ForecastBrain {
             println("${player.name} wants to $lastActionsToCommitTo")
         }
 
-        dealsILike = dealsILike(myGame)
         lastGameIEvaluated = myGame
     }
 
@@ -72,13 +77,9 @@ class ForecastBrain {
     }
 
     private fun dealsILike(game: Game): Map<FinishedDeal, Double> {
-        return mostSignificantPlayersToMe(game).filter { it -> it != player }
+        return mostSignificantPlayersToMe(game)
             .map { character -> prospectiveDealsWithPlayer(game, character) }.flatten()
-            .filter { dealValueToMe(it) > 0 }.associate { deal -> deal to dealValueToMe(deal) }
-    }
-
-    private fun actionsToDo(game: Game): List<Action> {
-        return lastCasesOfConcern!!.filter { case -> case.plan.player == player }.toList().sortedBy { case -> -case.valueToCharacter(player) }[0].plan.actions
+            .filter { dealValueToMe(it) > 0 }.associateWith { deal -> dealValueToMe(deal) }
     }
 
     private fun casesOfConcern(game: Game): List<GameCase>{
@@ -86,33 +87,23 @@ class ForecastBrain {
 
         val likelyPlans = HashMap<GameCharacter, List<Plan>>()
         topPlayers.forEach{player ->
-            likelyPlans[player] = actionPossibilitiesForPlayer(game, player)
-        }
-
-        var retval = mutableListOf<GameCase>()
-        likelyPlans.keys.forEach {curPlayer ->
-            var effects = mutableListOf<Effect>()
-            //for every player that isn't this one, add the effect of every action of every plan, layered by the probability of that plan
-            for(otherPlayer in likelyPlans.keys.filter{other -> other != curPlayer}) {
-                for (plan in likelyPlans[otherPlayer]!!) {
-                    for (action in plan.actions) {
-                        effects.addAll(
-                            action.doAction(game,plan.player).map { effect -> effect.layerProbability(plan.probability) })
-                    }
-                }
-            }
-
-            //make a gamecase for every plan of this player with effects added for the average of what everyone else might do?
-            likelyPlans[curPlayer]!!.forEach {
-                val toAdd = GameCase(game, it, effects)
-                retval.add(toAdd)
+            if(player != this.player){
+                likelyPlans[player] = actionPossibilitiesForPlayer(game, player)
             }
         }
 
-        return retval
+        //special case where there are no other players who can act
+        if(likelyPlans.values.isEmpty()){
+            return listOf(GameCase(game, player))
+        }
+        return likelyPlans.values.flatten().map{GameCase(game, it, listOf())}
     }
 
     private fun prospectiveDealsWithPlayer(game: Game, target: GameCharacter): List<FinishedDeal>{
+
+        if(target == player){
+            return actionPossibilitiesForPlayer(game, target).map{ FinishedDeal(mapOf(target to it.actions.toSet())) }
+        }
 
         val retval = mutableListOf<FinishedDeal>()
 

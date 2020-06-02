@@ -213,7 +213,7 @@ class Game {
 
     private fun doActions(actions: Collection<Action>, player: GameCharacter): List<Effect>{
         return actions.flatMap{
-            it.doAction(this, player)
+            it.doAction(this, matchingPlayer(player)!!)
         }
     }
 

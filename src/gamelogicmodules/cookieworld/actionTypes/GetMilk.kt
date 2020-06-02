@@ -16,25 +16,25 @@ class GetMilk: Action {
         val typeName: String
             get() = "GetMilk"
     }
-    val player: GameCharacter
+    val player: Int
 
     constructor(player: GameCharacter){
-        this.player = player
+        this.player = player.id
     }
 
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         if(player.titles.filter { title -> title is Milkman }.isNotEmpty()) {
-            return listOf(AddMilk(1.0, this.player))
+            return listOf(AddMilk(1.0, game.characterById(this.player)!!))
         }
         return listOf()
     }
 
     override fun toString(): String {
-        return "get milk for ${player.name}"
+        return "get milk for ${player}"
     }
 
     override fun description(): String {
-        return "Give ${player.name} milk. A character with milk gets points from the game's deliciousness level."
+        return "Give ${player} milk. A character with milk gets points from the game's deliciousness level."
     }
 
     override fun equals(other: Any?): Boolean {
@@ -44,7 +44,7 @@ class GetMilk: Action {
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
             GlobalActionTypeFactory.TYPE_NAME to typeName,
-            "target" to player.id
+            "target" to player
         )
     }
 }

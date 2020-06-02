@@ -9,7 +9,7 @@ class DealCase {
     val deal: Deal
 
     constructor(deal: Deal){
-        this.deal = deal
+        this.deal = deal.toFinishedDeal()
     }
 
     //returns the marginal multiple of previous value. For example, if the total of gamecase value was 100 before the deal and 120 after,
