@@ -38,7 +38,10 @@ class GetMilk: Action {
     }
 
     override fun equals(other: Any?): Boolean {
-        return other is GetMilk
+        if(other is GetMilk){
+            return this.player == other.player
+        }
+        return false
     }
 
     override fun saveString(): Map<String, Any> {

@@ -38,7 +38,9 @@ class TestShortStateController {
             Controller.singleton!!.game = testGame.game
             val testController = ShortStateController(testGame)
             testController.run()
-            assert((Controller.singleton!!.game!!.moduleOfType("Cookieworld") as CookieWorld).deliciousness > 0)
+            val cookieworld = Controller.singleton!!.game!!.moduleOfType("Cookieworld") as CookieWorld
+            assert(cookieworld.deliciousness > 0)
+            assert(cookieworld.hasMilk.size == 2)
         }.doit()
     }
 

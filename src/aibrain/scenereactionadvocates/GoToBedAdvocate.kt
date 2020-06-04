@@ -4,6 +4,7 @@ import shortstate.ShortGameScene
 import shortstate.ShortStateController
 import shortstate.ShortStateGame
 import shortstate.room.Room
+import shortstate.room.RoomAction
 import shortstate.room.action.GoToBed
 
 class GoToBedAdvocate: SceneReactionAdvocate {
@@ -15,13 +16,10 @@ class GoToBedAdvocate: SceneReactionAdvocate {
     }
 
     override fun weight(game: ShortStateGame, shortGameScene: ShortGameScene): Double {
-        if(shortGameScene.room.type == Room.RoomType.BEDROOM && shortGameScene.characters.size == 1){
-            return (900.0 - shortGameScene.characters[0].energy) / 50.0 //TODO: should I really be inferring my own identity like this?
-        }
-        return 0.0
+        return 1.0
     }
 
-    override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {
-        GoToBed().doActionIfCanAfford(game, shortGameScene!!.shortPlayerForLongPlayer(me)!!)
+    override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene):RoomAction {
+        return GoToBed()
     }
 }

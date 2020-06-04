@@ -13,7 +13,7 @@ abstract class ConversationAdvocate {
         me = perspective
     }
 
-    abstract fun weight(game: Game, target: GameCharacter): Double
+    abstract fun weight(game: Game, target: GameCharacter): ConversationWeight
 
     abstract fun line(target: GameCharacter): Line
 

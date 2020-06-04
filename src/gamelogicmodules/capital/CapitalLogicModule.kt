@@ -66,6 +66,7 @@ class CapitalLogicModule: GameLogicModule {
 
             val totalExpectedHarvest = crops.sumBy { crop -> crop.quantity * crop.yield() }
 
+            capital.resources.add(Territory.FLOUR_NAME, (taxRate * 100).roundToInt())
             if(taxRate * totalExpectedHarvest <= ter.resources.get(Territory.FLOUR_NAME)){
                 capital.resources.add(Territory.FLOUR_NAME, (taxRate * totalExpectedHarvest).roundToInt())
                 ter.resources.add(Territory.FLOUR_NAME, -(taxRate * totalExpectedHarvest).roundToInt())

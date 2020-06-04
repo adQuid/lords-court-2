@@ -126,9 +126,6 @@ class GameCharacter {
     }
 
     fun actionsReguarding(players: List<GameCharacter>): List<Action>{
-        titles.forEach {
-            println(it.name)
-        }
         return titles.flatMap { title -> title.actionsReguarding(players) }
     }
 }

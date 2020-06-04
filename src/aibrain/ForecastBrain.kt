@@ -77,6 +77,8 @@ class ForecastBrain {
     }
 
     private fun dealsILike(game: Game): Map<FinishedDeal, Double> {
+        val debug = mostSignificantPlayersToMe(game)
+            .map { character -> prospectiveDealsWithPlayer(game, character) }.flatten().associateWith { deal -> dealValueToMe(deal) }
         return mostSignificantPlayersToMe(game)
             .map { character -> prospectiveDealsWithPlayer(game, character) }.flatten()
             .filter { dealValueToMe(it) > 0 }.associateWith { deal -> dealValueToMe(deal) }
@@ -114,7 +116,7 @@ class ForecastBrain {
             )))
 
             retval.add(FinishedDeal(hashMapOf(
-                player to setOf(GetMilk(target)),
+                player to setOf(GetMilk(player), GetMilk(target)),
                 target to setOf(BakeCookies())
             )))
         }

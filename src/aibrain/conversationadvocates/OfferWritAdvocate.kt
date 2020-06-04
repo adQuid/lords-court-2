@@ -13,11 +13,11 @@ class OfferWritAdvocate: ConversationAdvocate {
     constructor(perspective: ShortStateCharacter) : super(perspective) {
     }
 
-    override fun weight(game: Game, target: GameCharacter): Double {
+    override fun weight(game: Game, target: GameCharacter): ConversationWeight {
         if(writIWouldDiscuss(target) != null){
-            return me.player.brain.dealsILike!!.getOrDefault(writIWouldDiscuss(target)!!.deal, 0.0) * 100.0
+            return ConversationWeight(me.player.brain.dealsILike!!.getOrDefault(writIWouldDiscuss(target)!!.deal, 0.0) * 100.0, line(target))
         } else {
-            return 0.0
+            return ConversationWeight(0.0, Farewell())
         }
     }
 
@@ -30,6 +30,8 @@ class OfferWritAdvocate: ConversationAdvocate {
     }
 
     private fun writIWouldDiscuss(target: GameCharacter): Writ?{
-        return me.player.writs.sortedByDescending { writ -> !writ.complete() && me.player.brain.dealsILike!!.containsKey(writ.deal) }.getOrNull(0)
+        return me.player.writs
+            .filter { writ -> !writ.complete() && writ.deal.actions.keys.contains(target) && me.player.brain.dealsILike!!.containsKey(writ.deal) }
+            .sortedByDescending { writ -> me.player.brain.dealValueToMe(writ.deal) }.getOrNull(0)
     }
 }

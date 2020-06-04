@@ -4,6 +4,7 @@ import game.Writ
 import shortstate.ShortGameScene
 import shortstate.ShortStateGame
 import shortstate.room.Room
+import shortstate.room.RoomAction
 import shortstate.room.action.EnactWrit
 
 class EnactWritAdvocate: SceneReactionAdvocate {
@@ -21,8 +22,8 @@ class EnactWritAdvocate: SceneReactionAdvocate {
         return 0.0
     }
 
-    override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {
-        EnactWrit(writToEnact()!!).doActionIfCanAfford(game, game.shortPlayerForLongPlayer(me)!!)
+    override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene): RoomAction {
+        return EnactWrit(writToEnact()!!)
     }
 
     private fun writToEnact(): Writ?{

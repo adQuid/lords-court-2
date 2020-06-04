@@ -16,7 +16,7 @@ class TalkToImportantPersonAdvocate: SceneCreationAdvocate {
     override val me: ShortStateCharacter
     override val reactionAdvocates: List<SceneReactionAdvocate>
 
-    constructor(character: ShortStateCharacter) : super(character) {
+    constructor(character: ShortStateCharacter) : super() {
         me = character
         reactionAdvocates = listOf(TalkMoreAdvocate(me.player))
     }

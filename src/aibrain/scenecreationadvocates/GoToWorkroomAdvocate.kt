@@ -14,7 +14,7 @@ class GoToWorkroomAdvocate: SceneCreationAdvocate {
     override val me: ShortStateCharacter
     override val reactionAdvocates: List<SceneReactionAdvocate>
 
-    constructor(character: ShortStateCharacter) : super(character) {
+    constructor(character: ShortStateCharacter) : super() {
         me = character
         reactionAdvocates = listOf(GetReportAdvocate(me.player), DraftWritAdvocate(me.player))
     }

@@ -33,7 +33,11 @@ class ConversationBrain {
     }
 
     fun startConversation(target: GameCharacter, game: Game): Line {
-        return conversationAdvocates.sortedByDescending { adv -> adv.weight(game, target) }[0].line(target)
+        return conversationAdvocates.sortedByDescending { adv -> adv.weight(game, target).weight }[0].line(target)
+    }
+
+    fun bestWeight(target: GameCharacter, game: Game): Double {
+        return conversationAdvocates.sortedByDescending { adv -> adv.weight(game, target).weight }[0].weight(game, target).weight
     }
 
 }

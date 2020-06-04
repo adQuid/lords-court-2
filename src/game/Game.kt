@@ -138,18 +138,6 @@ class Game {
         return retval
     }
 
-    //this needs to return at least one action for the AI fucks up
-    fun possibleActionsForPlayerReguardingPlayer(playingas: GameCharacter, reguarding: GameCharacter): List<Action>{
-        var retval = ArrayList<Action>()
-        if(!playingas.npc){
-            retval.add(BakeCookies())
-        } else {
-            players.forEach { retval.add(GetMilk(it)) }
-        }
-        retval.add(WasteTime())
-        return retval
-    }
-
     fun appendActionsForPlayer(player: GameCharacter, actions: List<Action>){
 
         if(actionsByPlayer.containsKey(player)){

@@ -6,6 +6,7 @@ import shortstate.ShortStateController
 import shortstate.ShortStateGame
 import shortstate.report.ReportType
 import shortstate.room.Room
+import shortstate.room.RoomAction
 import shortstate.room.action.DraftWrit
 import shortstate.room.action.MakeReport
 
@@ -28,15 +29,12 @@ class DraftWritAdvocate: SceneReactionAdvocate {
         return 0.0
     }
 
-    override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {
-        println("drafting a writ")
-        if(dealIWantToDraft() != null){
-            DraftWrit(dealIWantToDraft()!!, "test name").doActionIfCanAfford(game, game.shortPlayerForLongPlayer(me)!!)
-        }
+    override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene): RoomAction {
+        return DraftWrit(dealIWantToDraft()!!, "test name")
     }
 
     private fun dealIWantToDraft(): Deal?{
-        val dealsToOffer = me.brain.dealsILike!!.keys.filter { deal -> me.writs.filter { writ -> writ.deal == deal }.isEmpty() }
+        val dealsToOffer = me.brain.dealsILike!!.keys.filter { deal -> me.writs.filter { writ -> writ.deal == deal }.isEmpty() }.sortedByDescending { me.brain.dealValueToMe(it) }
         if(dealsToOffer.isNotEmpty()){
             return dealsToOffer[0]
         }

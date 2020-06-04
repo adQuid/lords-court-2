@@ -27,16 +27,18 @@ class SceneBrain {
     }
 
     fun reactToScene(shortGameScene: ShortGameScene, game: ShortStateGame){
-        //println(reactionAdvocates.sortedByDescending { adv -> adv.weight(game, shortGameScene) }.map{adv -> "${adv.javaClass}: ${adv.weight(game, shortGameScene)}"})
-        reactionAdvocates.sortedByDescending { adv -> adv.weight(game, shortGameScene) }[0].doToScene(game, shortGameScene)
+        val shortMe = game.shortPlayerForLongPlayer(longBrain.player)!!
+        //val debug = reactionAdvocates.sortedByDescending { adv -> adv.weight(game, shortGameScene) }.map{adv -> "${adv.javaClass}: ${adv.weight(game, shortGameScene)}"}
+        reactionAdvocates.filter{adv -> adv.weight(game, shortGameScene) > 0}.filter{it.doToScene(game, shortGameScene).cost() <= shortMe.energy}
+            .sortedByDescending { adv -> adv.weight(game, shortGameScene) }[0].doToScene(game, shortGameScene).doActionIfCanAfford(game, shortMe)
     }
 
     fun nextSceneIWantToBeIn(player: ShortStateCharacter, game: ShortStateGame): SceneMaker?{
-        //println(creationAdvocates.sortedByDescending { adv -> adv.weight(game) }.map { adv -> "${adv.javaClass}: ${adv.weight(game)}" })
-        return creationAdvocates.sortedByDescending { adv -> adv.weight(game) }[0].createScene(game, player)
+        //val debug = creationAdvocates.sortedByDescending { adv -> adv.weight(game).weight }.map { adv -> adv.weight(game) }
+        return bestCreationAdvocate(game).createScene(game, player)
     }
 
-    fun actionsIKnowWereCommittedTo(){
-
+    fun bestCreationAdvocate(game: ShortStateGame): SceneCreationAdvocate {
+        return creationAdvocates.sortedByDescending { adv -> adv.weight(game).weight }[0]
     }
 }

@@ -6,6 +6,8 @@ import shortstate.ShortStateController
 import shortstate.ShortStateGame
 import shortstate.dialog.Line
 import shortstate.dialog.linetypes.Farewell
+import shortstate.room.RoomAction
+import shortstate.room.action.SayLine
 
 class TalkMoreAdvocate: SceneReactionAdvocate {
 
@@ -18,8 +20,12 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
     override fun weight(game: ShortStateGame, shortGameScene: ShortGameScene): Double {
         if(shortGameScene!!.conversation != null){
             if(shortGameScene!!.conversation!!.otherParticipant(shortGameScene!!.conversation!!.lastSpeaker).player.npc){
+                if(IAmStartingThisConvo(shortGameScene)){
+                    return shortGameScene!!.conversation!!.otherParticipant(shortGameScene!!.conversation!!.lastSpeaker)
+                        .convoBrain.bestWeight(shortGameScene!!.conversation!!.lastSpeaker.player, game.game)
+                }
                 if(!(nextLineIWouldSay(game, shortGameScene) is Farewell)){
-                    return 4.0 - shortGameScene.conversation!!.age
+                    return 50.0 - shortGameScene.conversation!!.age //TODO: This needs to make more sense
                 }
             }
             return 0.0
@@ -27,9 +33,13 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
         return 0.0
     }
 
-    override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene) {
+    override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene): RoomAction {
+        return SayLine(nextLineIWouldSay(game, shortGameScene))
+    }
+
+    private fun IAmStartingThisConvo(shortGameScene: ShortGameScene): Boolean{
         val convo = shortGameScene.conversation!!
-        convo.submitLine(nextLineIWouldSay(game, shortGameScene), game)
+        return convo.lastLine == null
     }
 
     private fun nextLineIWouldSay(game: ShortStateGame, shortGameScene: ShortGameScene): Line {

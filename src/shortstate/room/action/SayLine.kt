@@ -6,20 +6,20 @@ import game.GameCharacter
 import game.Writ
 import game.action.ActionMemory
 import main.UIGlobals
+import shortstate.Conversation
 import shortstate.GameRules
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
+import shortstate.dialog.Line
 import shortstate.room.RoomAction
 import ui.specialdisplayables.contructorobjects.WritConstructor
 
-class DraftWrit: RoomAction {
+class SayLine: RoomAction {
 
-    val deal: Deal
-    val name: String
+    val line: Line
 
-    constructor(deal: Deal, name: String){
-        this.deal = deal
-        this.name = name
+    constructor(line: Line){
+        this.line = line
     }
 
     override fun clickOn(game: ShortStateGame, player: ShortStateCharacter) {
@@ -31,18 +31,8 @@ class DraftWrit: RoomAction {
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
-        addWritToCharacter(player)
-    }
-
-    fun generateWrit(firstSigner: GameCharacter): Writ {
-        return Writ(name, deal.toFinishedDeal(), listOf(firstSigner))
-    }
-
-    fun addWritToCharacter(character: ShortStateCharacter){
-        val writToAdd = generateWrit(character.player)
-        println(character.player.name+" drafts writ: "+writToAdd.deal.theActions())
-        character.player.writs.add(generateWrit(character.player))
-        character.player.memory.comittedActions.addAll(writToAdd.deal.actions.values.flatten().map { action -> ActionMemory(action) })
+        val convo = game.shortGameScene!!.conversation!!
+        convo.submitLine(line, game)
     }
 
     override fun defocusAfter(): Boolean {
@@ -50,6 +40,6 @@ class DraftWrit: RoomAction {
     }
 
     override fun toString(): String {
-        return "Draft new Writ"
+        return "Say ${line.tooltipName()}"
     }
 }

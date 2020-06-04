@@ -23,7 +23,7 @@ fun soloTestGame(): Game{
 
     game.locations.add(defaultLocation)
 
-    game.addPlayer(basicMilkman("NPC", game, defaultLocation))
+    game.addPlayer(basicMilkman(game, defaultLocation))
     return game
 }
 
@@ -54,7 +54,7 @@ fun soloTestShortgame(): ShortStateGame{
 
 fun soloTestShortgameWithEverythingOnIt(): ShortStateGame{
     val game = soloTestGameWithEverythingOnIt()
-    game.addPlayer(basicMilkman("Extra NPC", game, game.locations[0]))
+    game.addPlayer(basicMilkman(game, game.locations[0]))
     val retval = ShortStateGame(game, game.locations[0])
     retval.shortGameScene = ShortGameScene(listOf(retval.players[0], retval.players[1]), retval.location.rooms[0], Conversation(retval.location.rooms[0], retval.players[0], retval.players[1]))
     return retval
@@ -65,8 +65,8 @@ fun twoPlayerTestGame(): Game{
     val location = Location(game)
 
     game.locations.add(location)
-    game.addPlayer(basicMilkman("person1", game, location))
-    game.addPlayer(basicBaker("person2", game, location))
+    game.addPlayer(basicMilkman(game, location))
+    game.addPlayer(basicBaker(game, location))
 
     return game
 }
@@ -92,14 +92,14 @@ fun shortGameResultingInDeliciousness(): ShortStateGame{
     return ShortStateGame(game, game.locations[0])
 }
 
-private fun basicMilkman(name: String, game: Game, location: Location): GameCharacter{
-    val retval = GameCharacter(name, "this should never come up in a test", true, location, game)
+private fun basicMilkman(game: Game, location: Location): GameCharacter{
+    val retval = GameCharacter("player "+game.nextID, "this should never come up in a test", true, location, game)
     game.applyTitleToCharacter(CookieWorldTitleFactory.makeMilkmanTitle(), retval)
     return retval
 }
 
-private fun basicBaker(name: String, game: Game, location: Location): GameCharacter{
-    val retval = GameCharacter(name, "this should never come up in a test", true, location, game)
+private fun basicBaker(game: Game, location: Location): GameCharacter{
+    val retval = GameCharacter("player "+game.nextID, "this should never come up in a test", true, location, game)
     game.applyTitleToCharacter(Baker("test"), retval)
     return retval
 }
@@ -108,7 +108,7 @@ fun addExtraLocation(game: Game) {
     val extraLocation = Location(game)
     game.locations.add(extraLocation)
 
-    game.addPlayer(basicBaker("NPC2", game, extraLocation))
+    game.addPlayer(basicBaker(game, extraLocation))
 }
 
 private fun fullMemory(dealDummy: GameCharacter): List<LineMemory>{
