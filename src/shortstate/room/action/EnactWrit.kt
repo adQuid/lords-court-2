@@ -32,6 +32,9 @@ class EnactWrit: RoomAction {
             UIGlobals.appendActionsForPlayer(it, writ.deal.actions[it]!!.toList())
         }
         player.player.writs.remove(writ)
+        player.player.brain.dealsILike =  player.player.brain.dealsILike!!.filter {
+            it.key != writ.deal
+        }
     }
 
     override fun defocusAfter(): Boolean {
