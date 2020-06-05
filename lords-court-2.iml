@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="module-library">
@@ -83,5 +83,7 @@
     </orderEntry>
     <orderEntry type="library" name="jackson-all-1.9.9" level="project" />
     <orderEntry type="library" name="klaxon-5.2" level="project" />
+    <orderEntry type="library" name="openjfx-14.0" level="project" />
+    <orderEntry type="library" name="javafx-swt" level="project" />
   </component>
 </module>

@@ -12,6 +12,7 @@ import javafx.scene.image.PixelFormat
 import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
 import javafx.scene.text.Text
+import javafx.util.Duration
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.report.Report
@@ -166,7 +167,9 @@ object UtilityComponentFactory {
     }
 
     fun applyTooltip(node: Node, text: String){
-        Tooltip.install(node, Tooltip(text))
+        val tooltip = Tooltip(text)
+        tooltip.showDelay = Duration(100.0)
+        Tooltip.install(node, tooltip)
     }
 
     fun iconButton(image: String, tooltip: String, action: () -> Unit): ImageView{

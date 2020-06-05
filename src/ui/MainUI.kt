@@ -9,7 +9,6 @@ import javafx.stage.WindowEvent
 import main.Controller
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
-import sun.applet.Main
 import ui.componentfactory.*
 import ui.specialdisplayables.MainMenu
 import java.util.*
