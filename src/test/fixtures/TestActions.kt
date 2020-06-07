@@ -8,18 +8,9 @@ import game.GameCharacter
 import game.action.Action
 import gamelogicmodules.cookieworld.actionTypes.WasteTime
 
-class DummyGoodThing: Action() {
+class DummyGoodThing: DummyAction() {
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf(DummyGoodEffect(1.0))
-    }
-
-    override fun saveString(): Map<String, Any> {
-        //I'm not testing saving dummy actions
-        return mapOf()
-    }
-
-    override fun description(): String {
-        return "Dummy Good Thing"
     }
 
     class DummyGoodEffect(override var probability: Double) : Effect() {
@@ -49,18 +40,9 @@ class DummyGoodThing: Action() {
 
 }
 
-class DummyOneTimeGoodThing: Action() {
+class DummyOneTimeGoodThing: DummyAction() {
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf(DummyOneTimeGoodEffect(1.0))
-    }
-
-    override fun saveString(): Map<String, Any> {
-        //I'm not testing saving dummy actions
-        return mapOf()
-    }
-
-    override fun description(): String {
-        return "Dummy One-time Good Thing"
     }
 
     class DummyOneTimeGoodEffect(override var probability: Double) : Effect() {
@@ -91,18 +73,9 @@ class DummyOneTimeGoodThing: Action() {
     }
 }
 
-class DummyBadThing: Action() {
+class DummyBadThing: DummyAction() {
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf(DummyBadEffect(1.0))
-    }
-
-    override fun saveString(): Map<String, Any> {
-        //I'm not testing saving dummy actions
-        return mapOf()
-    }
-
-    override fun description(): String {
-        return "Dummy Bad Thing"
     }
 
     class DummyBadEffect(override var probability: Double) : Effect() {
@@ -131,18 +104,9 @@ class DummyBadThing: Action() {
     }
 }
 
-class DummyNeutralThing: Action() {
+class DummyNeutralThing: DummyAction() {
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         return listOf()
-    }
-
-    override fun saveString(): Map<String, Any> {
-        //I'm not testing saving dummy actions
-        return mapOf()
-    }
-
-    override fun description(): String {
-        return "Dummy Neutral Thing"
     }
 }
 
@@ -168,4 +132,20 @@ private fun deal(players: List<GameCharacter>, action: Action): Deal{
         map[it] = setOf(action)
     }
     return FinishedDeal(map)
+}
+
+abstract class DummyAction: Action(){
+
+    override fun saveString(): Map<String, Any> {
+        //I'm not testing saving dummy actions
+        return mapOf()
+    }
+
+    override fun description(): String {
+        return "Dummy Neutral Thing"
+    }
+
+    override fun collidesWith(other: Action): Boolean {
+        return false
+    }
 }

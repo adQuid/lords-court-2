@@ -18,6 +18,7 @@ class DealCase {
         val casesWithDeal = cases!!.map { it.applyDeal(deal) }
         val effectsLost = cases.mapIndexed{index, case -> case.finalEffects.filterIndexed{eIndex, effect -> casesWithDeal[index].finalEffects.getOrNull(eIndex) != effect}}
         val effectsGained = casesWithDeal.mapIndexed{index, case -> case.finalEffects.filterIndexed{eIndex, effect -> cases[index].finalEffects.getOrNull(eIndex) != effect}}
+        val debug = perspectives.associateWith { entry -> (totalCaseValue(casesWithDeal, entry) - totalCaseValue(cases!!, entry)) / totalCaseValue(cases!!, entry) }
         return perspectives.associateWith { entry -> (totalCaseValue(casesWithDeal, entry) - totalCaseValue(cases!!, entry)) / totalCaseValue(cases!!, entry) }
     }
 

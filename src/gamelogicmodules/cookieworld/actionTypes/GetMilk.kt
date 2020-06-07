@@ -50,4 +50,8 @@ class GetMilk: Action {
             "target" to player
         )
     }
+
+    override fun collidesWith(other: Action): Boolean {
+        return other is GetMilk && other.player == player
+    }
 }

@@ -27,7 +27,7 @@ class SayLine: RoomAction {
     }
 
     override fun cost(): Int {
-        return GameRules.COST_TO_MAKE_WRIT
+        return 0
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {

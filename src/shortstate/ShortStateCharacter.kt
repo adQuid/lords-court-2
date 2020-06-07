@@ -6,6 +6,7 @@ import game.GameCharacter
 import game.Game
 import javafx.scene.Scene
 import shortstate.report.Report
+import shortstate.room.RoomAction
 import shortstate.scenemaker.SceneMaker
 import ui.PerspectiveDisplayable
 import ui.componentfactory.CharacterDetailComponentFactory
@@ -80,5 +81,9 @@ class ShortStateCharacter: PerspectiveDisplayable {
     override fun display(perspective: ShortStateCharacter): Scene {
         //remember, the constructor is the one being looked at
         return CharacterDetailComponentFactory(this).characterFocusPage(perspective)
+    }
+
+    fun canAffordAction(action: RoomAction): Boolean{
+        return action.cost() == 0 || action.cost() <= energy
     }
 }

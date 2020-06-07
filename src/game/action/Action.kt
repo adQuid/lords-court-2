@@ -45,4 +45,6 @@ abstract class Action: Displayable {
     override fun hashCode(): Int {
         return 0 //So that sets are always comparing based on equals. There should never be huge collections of actions anyway
     }
+
+    abstract fun collidesWith(other: Action): Boolean
 }

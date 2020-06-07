@@ -16,7 +16,7 @@ class DefaultRoomActionMaker: RoomActionMaker{
 
     override fun onClick(game: ShortStateGame, perspective: ShortStateCharacter){
         action.doActionIfCanAfford(game, perspective)
-        if(action.canAfford(perspective)&& action.defocusAfter()){
+        if(perspective.canAffordAction(action) && action.defocusAfter()){
 
                 UIGlobals.defocus()
 

@@ -144,19 +144,17 @@ class ForecastBrain {
         return retval
     }
 
-    private fun actionPossibilitiesForPlayer(game: Game, player: GameCharacter): List<Plan>{
-        var planWeights = HashMap<Action,Double>()
-        val rawActions = player.actionsReguarding(mostSignificantPlayersToMe(game))
+    private fun actionPossibilitiesForPlayer(game: Game, target: GameCharacter): List<Plan>{
 
-        rawActions.forEach {
+        //TODO: reimplement this
+        /*rawActions.forEach {
             action ->
-             val weight = this.player.memory.lines.fold(1.0, {acc, mem -> acc + oddsModifierGivenLine(player, action, mem)})
+             val weight = this.target.memory.lines.fold(1.0, {acc, mem -> acc + oddsModifierGivenLine(target, action, mem)})
              planWeights.put(action, weight)
-        }
+        }*/
 
-        val totalWeight = planWeights.values.sum()
-
-        return planWeights.map { Plan(player, listOf(it.key), it.value/totalWeight) }
+        val debug = game.gameLogicModules.flatMap { it.planOptions(player, listOf(target)) }
+        return game.gameLogicModules.flatMap { it.planOptions(player, listOf(target)) }
     }
 
     private fun oddsModifierGivenLine(character: GameCharacter, action: Action, lineMemory: LineMemory): Double{

@@ -1,5 +1,6 @@
 package gamelogicmodules.territory
 
+import aibrain.Plan
 import game.Effect
 import game.Game
 import game.GameCharacter
@@ -74,6 +75,13 @@ class TerritoryLogicModule: GameLogicModule {
 
     override fun value(perspective: GameCharacter): Double {
         return 0.0
+    }
+
+    override fun planOptions(
+        perspective: GameCharacter,
+        importantPlayers: Collection<GameCharacter>
+    ): Collection<Plan> {
+        return listOf()
     }
 
     override fun specialSaveString(): Map<String, Any> {

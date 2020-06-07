@@ -140,11 +140,12 @@ class Game {
 
     fun appendActionsForPlayer(player: GameCharacter, actions: List<Action>){
 
-        if(actionsByPlayer.containsKey(player)){
-            actionsByPlayer[player]!!.addAll(actions)
-        } else {
+        if(!actionsByPlayer.containsKey(player)){
             actionsByPlayer[player] = actions.toMutableList()
+
         }
+        actionsByPlayer[player] = actionsByPlayer[player]!!.filter { actions.none { action -> action.collidesWith(it) } }.toMutableList()
+        actionsByPlayer[player]!!.addAll(actions)
         if(isLive){
             println("$player is comitting to $actions")
             reevaluateForcastForPlayers(players.filter{it.npc})
@@ -154,15 +155,18 @@ class Game {
     fun endTurn(): List<Effect>{
         concludedPlayers.clear()
 
-        val effects = actionsByPlayer.entries.flatMap{ entry ->
+        val effectsFromActions = actionsByPlayer.entries.flatMap{ entry ->
             doActions(entry.value, entry.key)
-        }.plus(runLogicModules())
+        }
+        effectsFromActions.forEach { it.apply(this) }
 
-        effects.forEach { it.apply(this) }
+        val effectsFromEndTurn = runLogicModules()
+        effectsFromEndTurn.forEach { it.apply(this) }
+
 
         actionsByPlayer.clear()
         turn++
-        return effects
+        return effectsFromActions.plus(effectsFromEndTurn)
     }
 
     private fun runLogicModules(): List<Effect>{

@@ -12,12 +12,8 @@ abstract class RoomAction {
 
     abstract fun cost(): Int
 
-    fun canAfford(player: ShortStateCharacter): Boolean{
-        return player.energy >= cost()
-    }
-
     fun doActionIfCanAfford(game: ShortStateGame, player: ShortStateCharacter){
-        if(canAfford(player)){
+        if(player.canAffordAction(this)){
             player.energy -= cost()
             doAction(game, player)
         } else if(!player.player.npc){

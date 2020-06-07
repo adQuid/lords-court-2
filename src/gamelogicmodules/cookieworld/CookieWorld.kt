@@ -1,10 +1,16 @@
 package gamelogicmodules.cookieworld
 
+import aibrain.Plan
 import game.Effect
 import game.Game
 import game.GameCharacter
 import game.GameLogicModule
 import game.titlemaker.CookieWorldTitleFactory
+import game.titles.Baker
+import game.titles.Milkman
+import gamelogicmodules.cookieworld.actionTypes.BakeCookies
+import gamelogicmodules.cookieworld.actionTypes.GetMilk
+import gamelogicmodules.cookieworld.actionTypes.WasteTime
 import shortstate.report.DeliciousnessReportFactory
 
 class CookieWorld: GameLogicModule {
@@ -47,6 +53,31 @@ class CookieWorld: GameLogicModule {
         return listOf()
     }
 
+    override fun specialSaveString(): Map<String, Any> {
+        return mapOf(
+            DELICIOUSNESS_NAME to deliciousness,
+            HAS_MILK_NAME to hasMilk.map { it.id }
+        )
+    }
+
+    override fun planOptions(perspective: GameCharacter, importantPlayers: Collection<GameCharacter>): Collection<Plan> {
+        val retval = mutableListOf<Plan>()
+
+        importantPlayers.forEach {character ->
+            retval.add(Plan(character, listOf(WasteTime()), 0.5))
+            perspective.titles.forEach {
+                if(it is Baker){
+                    retval.add(Plan(character, listOf(BakeCookies()), 0.5))
+                }
+                if(it is Milkman){
+                    retval.add(Plan(character, listOf(GetMilk(character)), 0.5))
+                }
+            }
+        }
+
+        return retval
+    }
+
     override fun value(perspective: GameCharacter): Double {
         var retval = 0.0
         if(hasMilk.contains(perspective)){
@@ -55,12 +86,5 @@ class CookieWorld: GameLogicModule {
             retval += 0.0
         }
         return retval
-    }
-
-    override fun specialSaveString(): Map<String, Any> {
-        return mapOf(
-            DELICIOUSNESS_NAME to deliciousness,
-            HAS_MILK_NAME to hasMilk.map { it.id }
-        )
     }
 }

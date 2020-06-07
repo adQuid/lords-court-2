@@ -37,4 +37,8 @@ class WasteTime: Action {
     override fun saveString(): Map<String, Any> {
         return hashMapOf(GlobalActionTypeFactory.TYPE_NAME to typeName)
     }
+
+    override fun collidesWith(other: Action): Boolean {
+        return other is WasteTime
+    }
 }

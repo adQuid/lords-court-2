@@ -1,5 +1,6 @@
 package gamelogicmodules.capital
 
+import aibrain.Plan
 import game.Effect
 import game.Game
 import game.GameCharacter
@@ -91,6 +92,28 @@ class CapitalLogicModule: GameLogicModule {
         capitals.forEach {
             if(countOfCaptial(it.terId) == perspective){
                 retval += it.resources.get(Territory.FLOUR_NAME)
+            }
+        }
+
+        return retval
+    }
+
+    override fun planOptions(
+        perspective: GameCharacter,
+        importantPlayers: Collection<GameCharacter>
+    ): Collection<Plan> {
+        val retval = mutableListOf<Plan>()
+
+        importantPlayers.forEach { player ->
+            player.titles.forEach { title ->
+
+                if(title is Count){
+                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.0)),0.2))
+                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.2)),0.2))
+                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.4)),0.2))
+                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.6)),0.2))
+                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.8)),0.2))
+                }
             }
         }
 

@@ -44,10 +44,6 @@ class SetTaxRate: Action {
         return "set taxes to ${DecimalFormat("#.##").format(amount)}"
     }
 
-    override fun equals(other: Any?): Boolean {
-        return other is SetTaxRate
-    }
-
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
             GlobalActionTypeFactory.TYPE_NAME to typeName,
@@ -76,6 +72,14 @@ class SetTaxRate: Action {
         retval.add(amountPane,0,2)
 
         return Scene(retval)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return other is SetTaxRate && other.terId == terId && other.amount == amount
+    }
+
+    override fun collidesWith(other: Action): Boolean{
+        return other is SetTaxRate && other.terId == this.terId
     }
 
     class ChangeTax(override var probability: Double, val terId: Int, val amount: Double) : Effect() {

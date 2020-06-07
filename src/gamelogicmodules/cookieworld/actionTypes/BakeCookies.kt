@@ -34,11 +34,15 @@ class BakeCookies: Action{
         return "Increases game deliciousness. Characters will still need milk to get points."
     }
 
+    override fun saveString(): Map<String, Any> {
+        return hashMapOf(GlobalActionTypeFactory.TYPE_NAME to typeName)
+    }
+
     override fun equals(other: Any?): Boolean {
         return other is BakeCookies
     }
 
-    override fun saveString(): Map<String, Any> {
-        return hashMapOf(GlobalActionTypeFactory.TYPE_NAME to typeName)
+    override fun collidesWith(other: Action): Boolean{
+        return other is BakeCookies
     }
 }
