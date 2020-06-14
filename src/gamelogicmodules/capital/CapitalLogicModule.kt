@@ -113,11 +113,11 @@ class CapitalLogicModule: GameLogicModule {
 
                 if(title is Count){
                     retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.0)),0.2))
+                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.1)),0.2))
                     retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.2)),0.2))
-                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.4)),0.2))
-                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.6)),0.2))
-                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.8)),0.2))
-                    //retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 1.0)),0.2))
+                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.25)),0.2))
+                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.3)),0.2))
+                    retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.35)),0.2))
                 }
             }
         }

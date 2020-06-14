@@ -80,9 +80,15 @@ class ForecastBrain {
     private fun dealsILike(game: Game): Map<FinishedDeal, Double> {
         /*val debug2 = mostSignificantPlayersToMe(game)
             .map { character -> prospectiveDealsWithPlayer(game, character) }.flatten().associateWith { deal -> dealValueToMe(deal) }*/
-        return mostSignificantPlayersToMe(game)
-            .map { character -> prospectiveDealsWithPlayer(game, character) }.flatten()
+        return possibleDeals(game)
             .filter { dealValueToMe(it) > 0 }.associateWith { deal -> dealValueToMe(deal) }
+    }
+
+    private fun possibleDeals(game: Game): Collection<FinishedDeal>{
+        val retval = mostSignificantPlayersToMe(game)
+            .map { character -> prospectiveDealsWithPlayer(game, character) }.flatten()
+
+        return retval + listOf(FinishedDeal(mapOf(player to setOf())))
     }
 
     private fun casesOfConcern(game: Game): List<GameCase>{
