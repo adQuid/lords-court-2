@@ -5,6 +5,8 @@ import game.Effect
 import game.Game
 import game.GameCharacter
 import game.GameLogicModule
+import gamelogicmodules.territory.effects.Starvation
+import gamelogicmodules.territory.effects.TerritoryEffectFactory
 import shortstate.report.ReportFactory
 import kotlin.math.min
 
@@ -62,6 +64,10 @@ class TerritoryLogicModule: GameLogicModule {
         reportTypes = reportFactories(map.territories.map { it.id }).associate { it.type to it }
     }
 
+    override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
+        return TerritoryEffectFactory.fromMap(saveString, game)
+    }
+
     override fun endTurn(game: Game): List<Effect> {
         val retval = mutableListOf<Effect>()
 
@@ -103,7 +109,9 @@ class TerritoryLogicModule: GameLogicModule {
         return map.territories.filter { it.id == id }.first()
     }
 
-    private fun growCrops(territory: Territory, game: Game){
+    private fun growCrops(territory: Territory, game: Game): List<Effect>{
+        val retval = mutableListOf<Effect>()
+
         var farmersLeft = territory.resources.get(Territory.POPULATION_NAME)
         var landLeft = territory.resources.get(Territory.ARABLE_LAND_NAME) - territory.totalCropsPlanted()
         if(!isGrowingSeason()){
@@ -115,12 +123,11 @@ class TerritoryLogicModule: GameLogicModule {
             crop -> if(game.turn - crop.plantingTime > crop.harvestAge()){
                 val toHarvest = min(farmersLeft, crop.quantity)
                 if(toHarvest > 0){
-                    println("harvesting $toHarvest")
                     thisHarvest.add(Crop(toHarvest, crop.plantingTime))
                     territory.modifyResource(Territory.SEEDS_NAME, crop.yield() * toHarvest)
                     farmersLeft -= toHarvest
                     crop.quantity -= toHarvest
-                } else{
+                } else if(game.isLive){
                     println("a crop is ready, but not being harvested")
                 }
                 //TODO: Should crops rot this quickly?
@@ -162,9 +169,13 @@ class TerritoryLogicModule: GameLogicModule {
         if(breadToEat >= territory.resources.get(Territory.POPULATION_NAME)){
             territory.modifyResource(Territory.BREAD_NAME, -breadToEat)
         } else {
-            territory.resources.multiply(Territory.POPULATION_NAME, 0.9)
+            //println("starvation")
+            retval.add(Starvation(1.0))
+            territory.resources.multiply(Territory.POPULATION_NAME, (1.0 + (breadToEat / territory.resources.get(Territory.POPULATION_NAME)))/2.0)
             territory.resources.set(Territory.BREAD_NAME, 0)
         }
+
+        return retval
     }
 
     private fun goodIdeaToPlant(crop: Crop): Boolean{

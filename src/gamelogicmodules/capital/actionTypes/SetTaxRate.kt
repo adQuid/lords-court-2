@@ -5,10 +5,9 @@ import game.Effect
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
-import game.effects.GlobalEffectFactory
+import gamelogicmodules.cookieworld.effects.CookieWorldEffectFactory
 import gamelogicmodules.capital.Capital
 import gamelogicmodules.capital.CapitalLogicModule
-import gamelogicmodules.cookieworld.CookieWorld
 import gamelogicmodules.territory.Territory
 import javafx.event.EventHandler
 import javafx.scene.Scene
@@ -16,7 +15,6 @@ import javafx.scene.layout.GridPane
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.componentfactory.UtilityComponentFactory
-import java.math.BigDecimal
 import java.text.DecimalFormat
 import kotlin.math.max
 import kotlin.math.min
@@ -88,7 +86,7 @@ class SetTaxRate: Action {
             val typeName = "cngeTax"
         }
 
-        constructor(saveString: Map<String, Any>, game: Game) : this(saveString[GlobalEffectFactory.PROBABLITY_NAME] as Double, saveString["terId"] as Int, saveString["amount"] as Double) {
+        constructor(saveString: Map<String, Any>, game: Game) : this(saveString[CookieWorldEffectFactory.PROBABLITY_NAME] as Double, saveString["terId"] as Int, saveString["amount"] as Double) {
 
         }
 
@@ -110,8 +108,8 @@ class SetTaxRate: Action {
 
         override fun saveString(): Map<String, Any> {
             return hashMapOf(
-                GlobalEffectFactory.TYPE_NAME to typeName,
-                GlobalEffectFactory.PROBABLITY_NAME to probability
+                CookieWorldEffectFactory.TYPE_NAME to typeName,
+                CookieWorldEffectFactory.PROBABLITY_NAME to probability
             )
         }
 

@@ -1,4 +1,4 @@
-package game.effects
+package gamelogicmodules.cookieworld.effects
 
 import game.GameCharacter
 import game.Effect
@@ -20,7 +20,7 @@ class AddMilk: Effect {
     }
 
     constructor(map: Map<String, Any>, game: Game){
-        probability = map[GlobalEffectFactory.PROBABLITY_NAME] as Double
+        probability = map[CookieWorldEffectFactory.PROBABLITY_NAME] as Double
         player = game.characterById(map["PLAYER"] as Int)
     }
 
@@ -41,8 +41,8 @@ class AddMilk: Effect {
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalEffectFactory.TYPE_NAME to typeName,
-            GlobalEffectFactory.PROBABLITY_NAME to probability,
+            CookieWorldEffectFactory.TYPE_NAME to typeName,
+            CookieWorldEffectFactory.PROBABLITY_NAME to probability,
             "PLAYER" to player.id
         )
     }

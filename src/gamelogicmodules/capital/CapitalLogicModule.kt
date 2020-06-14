@@ -55,6 +55,10 @@ class CapitalLogicModule: GameLogicModule {
     override val type: String
         get() = CapitalLogicModule.type
 
+    override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
+        return null //This module has no effects yet
+    }
+
     override fun endTurn(game: Game): List<Effect> {
 
         val territories = (game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).map.territories
@@ -67,11 +71,10 @@ class CapitalLogicModule: GameLogicModule {
 
             val totalExpectedHarvest = crops.sumBy { crop -> crop.quantity * crop.yield() }
 
-            capital.resources.add(Territory.FLOUR_NAME, (taxRate * 100).roundToInt())
             if(taxRate * totalExpectedHarvest <= ter.resources.get(Territory.FLOUR_NAME)){
                 capital.resources.add(Territory.FLOUR_NAME, (taxRate * totalExpectedHarvest).roundToInt())
                 ter.resources.add(Territory.FLOUR_NAME, -(taxRate * totalExpectedHarvest).roundToInt())
-            } else {
+            } else if (game.isLive) {
                 println("They didn't have the taxes. What should we do here...")
             }
 
@@ -92,6 +95,7 @@ class CapitalLogicModule: GameLogicModule {
         capitals.forEach {
             if(countOfCaptial(it.terId) == perspective){
                 retval += it.resources.get(Territory.FLOUR_NAME)
+                retval += it.territory!!.crops.sumBy { crop -> crop.quantity }
             }
         }
 
@@ -113,6 +117,7 @@ class CapitalLogicModule: GameLogicModule {
                     retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.4)),0.2))
                     retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.6)),0.2))
                     retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 0.8)),0.2))
+                    //retval.add(Plan(player, listOf(SetTaxRate(title.capital.terId, 1.0)),0.2))
                 }
             }
         }

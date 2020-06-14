@@ -5,6 +5,10 @@ import game.Game
 import game.GameCharacter
 
 class GameCase {
+    companion object{
+        val LOOKAHEAD = 120
+    }
+
     val baseGame: Game
     var currentGame: Game
     val plan: Plan
@@ -37,8 +41,12 @@ class GameCase {
         val tempGame = Game(baseGame)
         initialEffects.forEach { it.apply(tempGame) }
         tempGame.appendActionsForPlayer(plan.player, plan.actions)
-        //this has the side effect of actually ending the turn
-        finalEffects.addAll(listOf(initialEffects, tempGame.endTurn()).flatten().toMutableList())
+        finalEffects.addAll(initialEffects)
+
+        for ( turn in 1..LOOKAHEAD){
+            //this has the side effect of actually ending the turn
+            finalEffects.addAll(listOf(initialEffects, tempGame.endTurn()).flatten().toMutableList())
+        }
         return tempGame
     }
 

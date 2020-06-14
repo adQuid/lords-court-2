@@ -11,6 +11,7 @@ import game.titles.Milkman
 import gamelogicmodules.cookieworld.actionTypes.BakeCookies
 import gamelogicmodules.cookieworld.actionTypes.GetMilk
 import gamelogicmodules.cookieworld.actionTypes.WasteTime
+import gamelogicmodules.cookieworld.effects.CookieWorldEffectFactory
 import shortstate.report.DeliciousnessReportFactory
 
 class CookieWorld: GameLogicModule {
@@ -48,6 +49,11 @@ class CookieWorld: GameLogicModule {
     override fun finishConstruction(game: Game) {
 
     }
+
+    override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
+        return CookieWorldEffectFactory.fromMap(saveString, game)
+    }
+
 
     override fun endTurn(game: Game): List<Effect> {
         return listOf()

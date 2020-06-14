@@ -71,6 +71,8 @@ abstract class GameLogicModule {
         return reportTypes[type]
     }
 
+    abstract fun effectFromSaveString(saveString: Map<String, Any>, game:Game): Effect?
+
     fun titleFromSaveString(saveString: Map<String, Any>, game: Game): Title?{
         return titleTypes.titleFromSaveString(saveString, game)
     }

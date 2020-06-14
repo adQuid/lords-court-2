@@ -225,13 +225,19 @@ class Game {
 
     fun reportFromMap(saveString: Map<String, Any>): Report {
         return gameLogicModules.map { module -> module.reportFromSaveString(saveString, this) }
-            .filter{it != null}
+            .filterNotNull()
             .first()!!
     }
 
     fun reportFactoryFromType(type: String): ReportFactory {
         return gameLogicModules.map { module -> module.reportFactoryFromType(type, this) }
-            .filter{it != null}
+            .filterNotNull()
+            .first()!!
+    }
+
+    fun effectFromMap(saveString: Map<String, Any>): Effect {
+        return gameLogicModules.map { module -> module.effectFromSaveString(saveString, this)}
+            .filterNotNull()
             .first()!!
     }
 

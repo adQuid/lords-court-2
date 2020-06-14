@@ -1,4 +1,4 @@
-package game.effects
+package gamelogicmodules.cookieworld.effects
 
 import game.Game
 import game.Effect
@@ -10,7 +10,7 @@ class AddDelicousness(override var probability: Double) : Effect() {
         val typeName = "AddDel"
     }
 
-    constructor(saveString: Map<String, Any>, game: Game) : this(saveString[GlobalEffectFactory.PROBABLITY_NAME] as Double) {
+    constructor(saveString: Map<String, Any>, game: Game) : this(saveString[CookieWorldEffectFactory.PROBABLITY_NAME] as Double) {
 
     }
 
@@ -32,8 +32,8 @@ class AddDelicousness(override var probability: Double) : Effect() {
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            GlobalEffectFactory.TYPE_NAME to typeName,
-            GlobalEffectFactory.PROBABLITY_NAME to probability
+            CookieWorldEffectFactory.TYPE_NAME to typeName,
+            CookieWorldEffectFactory.PROBABLITY_NAME to probability
         )
     }
 

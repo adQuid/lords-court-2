@@ -2,13 +2,11 @@ package gamelogicmodules.cookieworld.actionTypes
 
 import game.action.Action
 import game.Effect
-import game.effects.AddMilk
+import gamelogicmodules.cookieworld.effects.AddMilk
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import game.titles.Milkman
-import javafx.scene.Scene
-import shortstate.ShortStateCharacter
 
 class GetMilk: Action {
 

@@ -2,13 +2,11 @@ package gamelogicmodules.cookieworld.actionTypes
 
 import game.action.Action
 import game.Effect
-import game.effects.AddDelicousness
+import gamelogicmodules.cookieworld.effects.AddDelicousness
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import game.titles.Baker
-import javafx.scene.Scene
-import shortstate.ShortStateCharacter
 
 class BakeCookies: Action{
 

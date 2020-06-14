@@ -72,6 +72,7 @@ class TestGrowingAndHarvesting {
             game.endTurn()
             println("${ter.resources.get(Territory.SEEDS_NAME)}, ${ter.resources.get(Territory.FLOUR_NAME)}")
             assert(ter.resources.get(Territory.FLOUR_NAME) > 0)
+            assert(ter.resources.get(Territory.POPULATION_NAME) > 0)
         }
     }
 

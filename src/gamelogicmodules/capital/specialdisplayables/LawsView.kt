@@ -1,13 +1,9 @@
 package gamelogicmodules.capital.specialdisplayables
 
 import aibrain.UnfinishedDeal
-import game.Effect
-import game.Game
 import game.GameCharacter
-import game.effects.GlobalEffectFactory
 import gamelogicmodules.capital.CapitalLogicModule
 import gamelogicmodules.capital.actionTypes.SetTaxRate
-import gamelogicmodules.cookieworld.CookieWorld
 import gamelogicmodules.territory.Territory
 import javafx.event.EventHandler
 import javafx.scene.Scene

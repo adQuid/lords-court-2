@@ -4,6 +4,7 @@ import game.action.Action
 import game.Effect
 import game.Game
 import game.GameCharacter
+import gamelogicmodules.capital.CapitalLogicModule
 import gamelogicmodules.cookieworld.actionTypes.BakeCookies
 import gamelogicmodules.cookieworld.actionTypes.GetMilk
 import gamelogicmodules.cookieworld.actionTypes.WasteTime
@@ -77,8 +78,8 @@ class ForecastBrain {
     }
 
     private fun dealsILike(game: Game): Map<FinishedDeal, Double> {
-        val debug = mostSignificantPlayersToMe(game)
-            .map { character -> prospectiveDealsWithPlayer(game, character) }.flatten().associateWith { deal -> dealValueToMe(deal) }
+        /*val debug2 = mostSignificantPlayersToMe(game)
+            .map { character -> prospectiveDealsWithPlayer(game, character) }.flatten().associateWith { deal -> dealValueToMe(deal) }*/
         return mostSignificantPlayersToMe(game)
             .map { character -> prospectiveDealsWithPlayer(game, character) }.flatten()
             .filter { dealValueToMe(it) > 0 }.associateWith { deal -> dealValueToMe(deal) }

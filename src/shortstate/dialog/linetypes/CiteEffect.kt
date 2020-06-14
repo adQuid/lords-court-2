@@ -8,7 +8,7 @@ import shortstate.dialog.LineBlock
 import game.GameCharacter
 import game.Game
 import shortstate.dialog.GlobalLineTypeFactory
-import game.effects.GlobalEffectFactory
+import gamelogicmodules.cookieworld.effects.CookieWorldEffectFactory
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
@@ -37,7 +37,7 @@ class CiteEffect: Line {
     constructor(saveString: Map<String, Any?>, game: Game){
         this.deal = FinishedDeal(saveString["deal"] as Map<String, Any>, game)
         if(saveString["effects"] != null){
-            effects =  (saveString["effects"] as List<Map<String, Any>>).map { map -> GlobalEffectFactory.fromMap(map, game) }.toMutableList()
+            effects =  (saveString["effects"] as List<Map<String, Any>>).map { map -> CookieWorldEffectFactory.fromMap(map, game) }.toMutableList()
         } else {
             effects = mutableListOf()
         }
