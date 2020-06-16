@@ -44,6 +44,9 @@ class GameSetup {
         game.addPlayer(PC)
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
 
+        val advisor = GameCharacter("Frip", "assets/portraits/faceman.png", true, defaultLocation, game)
+        game.addPlayer(advisor)
+
         val names = Stack<String>()
         names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim"))
         capitals.capitals.forEach {

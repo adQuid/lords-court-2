@@ -5,6 +5,7 @@ import shortstate.ShortStateController
 import shortstate.ShortStateGame
 import shortstate.report.DeliciousnessReport
 import shortstate.report.DeliciousnessReportFactory
+import shortstate.report.ReportFactory
 import shortstate.report.ReportType
 import shortstate.room.Room
 import shortstate.room.RoomAction
@@ -19,7 +20,7 @@ class GetReportAdvocate: SceneReactionAdvocate {
     }
 
     override fun weight(game: ShortStateGame, scene: ShortGameScene): Double {
-        if(scene.room.type != Room.RoomType.WORKROOM){
+        if(reportFactories().isEmpty() || scene.room.type != Room.RoomType.WORKROOM){
             return 0.0
         }
         return 15.0 - (15.0 * scene.shortPlayerForLongPlayer(me)!!.knownReports.size)
@@ -27,7 +28,10 @@ class GetReportAdvocate: SceneReactionAdvocate {
 
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene): RoomAction {
         //TODO: Make this better
-        val reportFactories = me.titles.map { it.reportsEntitled }.flatten()
-        return MakeReport(reportFactories.first())
+        return MakeReport(reportFactories().first())
+    }
+
+    private fun reportFactories(): List<ReportFactory>{
+        return me.titles.map { it.reportsEntitled }.flatten()
     }
 }

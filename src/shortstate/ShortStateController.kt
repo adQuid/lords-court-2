@@ -5,6 +5,7 @@ import main.Controller
 import main.UIGlobals
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
+import ui.specialdisplayables.Message
 import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.selectionmodal.SelectionModal
 
@@ -28,11 +29,7 @@ class ShortStateController: Runnable {
     }
 
     override fun run(){
-        /*while(Controller.singleton!!.GUI == null){
-            Thread.sleep(100) //Very weak logic to prevent the threads from crashing the GUI
-        }*/
         println("starting run")
-        //Platform.runLater { UIGlobals.resetFocus() }
         var nextPlayer = shortGame.nextActingPlayer()
         while(nextPlayer != null){
             Thread.sleep(20)
@@ -41,7 +38,7 @@ class ShortStateController: Runnable {
                     if(nextPlayer.player.npc){
                         nextPlayer.decideNextScene(shortGame)
                     } else {
-                        if(UIGlobals.GUI().curFocus.isEmpty() || !(UIGlobals.GUI().curFocus.peek() is SelectionModal<*>)){ //super sketchy check to see if the player is already looking at a scene selector
+                        if(UIGlobals.GUI().curFocus.isEmpty() || !(UIGlobals.GUI().curFocus.any{it is ShortGameScene})){ //super sketchy check to see if the player is already looking at a scene selector
                             if(shortGame.players.contains(UIGlobals.playingAs())){
                                 UIGlobals.focusOn(NewSceneSelector.newSceneSelector(nextPlayer))
                             }
@@ -94,16 +91,28 @@ class ShortStateController: Runnable {
     }
 
     fun endScene(shortGameScene: ShortGameScene){
+        var partingMessage: Message? = null
         if(shortGame.shortGameScene == shortGameScene){
-            shortGameScene!!.characters.forEach { player -> player.energy -= GameRules.COST_TO_END_SCENE}
+            shortGameScene.characters.forEach { player -> player.energy -= GameRules.COST_TO_END_SCENE}
             //if there was a conversation, characters might have learned something in this time
-            if(shortGameScene!!.conversation != null){
-                shortGameScene!!.characters.filter { character -> character.player.npc }.forEach { character -> character.player.brain.thinkAboutNextTurn(shortGame.game); character.decideNextScene(shortGame) }
+            if(shortGameScene.conversation != null){
+                shortGameScene.characters.filter { character -> character.player.npc }.forEach { character -> character.player.brain.thinkAboutNextTurn(shortGame.game); character.decideNextScene(shortGame) }
+                if(shortGameScene.characters.any { character -> !character.player.npc }){
+                    partingMessage = Message(shortGameScene.conversation.lastSpeaker.player.name+" walks away")
+                }
+            }
+            if(shortGameScene.characters.any { character -> !character.player.npc }){
+                UIGlobals.defocus()
             }
             shortGame.shortGameScene = null
+
+            if(partingMessage != null){
+                UIGlobals.focusOn(partingMessage)
+            }
+
         }
         if(shortGameScene.characters.filter { char -> !char.player.npc }.isNotEmpty()){
-            Platform.runLater { UIGlobals.resetFocus() }
+            Platform.runLater { UIGlobals.refresh() }
         }
     }
 }
