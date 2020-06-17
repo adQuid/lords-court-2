@@ -80,10 +80,13 @@ class OfferDeal: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        if(brain.shortCharacter.player.brain.dealValueToMe(deal) > 0){
+        val value = brain.shortCharacter.player.brain.dealValueToMe(deal)
+        if(value > 0){
             return AcceptDeal(deal.toFinishedDeal())
-        } else {
+        } else if(value < 0){
             return QuestionOffer(this)
+        } else {
+            return SimpleLine("Whatever you want, lord")
         }
     }
 }

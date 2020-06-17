@@ -90,6 +90,7 @@ class CiteEffect: Line {
     }
 
     private fun action(speaker: ShortStateCharacter): EffectChooser{
+        val debug = DealCase(deal).effectsOfDeal(listOf(GameCase(Controller.singleton!!.game!!.imageFor(speaker.player), speaker.player)))
         return EffectChooser(
             DealCase(deal).effectsOfDeal(listOf(GameCase(Controller.singleton!!.game!!.imageFor(speaker.player), speaker.player))),
         { effect -> effects.add(effect); UIGlobals.defocus()})

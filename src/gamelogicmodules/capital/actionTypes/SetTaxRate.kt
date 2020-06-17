@@ -92,7 +92,7 @@ class SetTaxRate: Action {
 
         override fun equals(other: Any?): Boolean {
             if(other is ChangeTax){
-                return true
+                return other.terId == terId && other.amount == amount
             }
             return false
         }
@@ -103,7 +103,7 @@ class SetTaxRate: Action {
             logic.capitalById(terId).taxes[Territory.FLOUR_NAME] = amount
         }
         override fun toString(): String{
-            return "set taxes to ${amount}"
+            return "change tax rate for ${terId} to ${amount}"
         }
 
         override fun saveString(): Map<String, Any> {
