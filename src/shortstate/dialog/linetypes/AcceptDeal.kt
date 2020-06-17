@@ -66,6 +66,6 @@ class AcceptDeal: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        return Approve()
+        return SimpleLine("Good to hear")
     }
 }
