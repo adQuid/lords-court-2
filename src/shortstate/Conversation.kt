@@ -75,6 +75,7 @@ class Conversation {
             Announcement(null),
             RequestReport(null),
             OfferDeal(UnfinishedDeal(participants().map { it.player })),
+            RequestAdviceForDeal(UnfinishedDeal(participants().map { it.player })),
             OfferWrit(null),
             Farewell()
         )

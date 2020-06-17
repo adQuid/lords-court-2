@@ -12,6 +12,7 @@ object GlobalLineTypeFactory {
     val DISAPPROVE_TYPE_NAME = "Disaprve"
     val GIVE_REPORT_TYPE_NAME = "GveRprt"
     val OFFER_DEAL_TYPE_NAME = "OfrDeal"
+    val REQUEST_DEAL_ADVICE_TYPE_NAME = "RqstAdvDeal"
     val QUESTION_OFFER_TYPE_NAME = "QstnOfr"
     val REJECT_DEAL_TYPE_NAME = "RjctDeal"
     val REQUEST_REPORT_TYPE_NAME = "RqstRprt"
@@ -30,6 +31,7 @@ object GlobalLineTypeFactory {
         QUESTION_OFFER_TYPE_NAME to { map, game -> QuestionOffer(map, game)},
         REJECT_DEAL_TYPE_NAME to {map, game -> RejectDeal(map, game)},
         REQUEST_REPORT_TYPE_NAME to {map, game -> RequestReport(map)},
+        REQUEST_DEAL_ADVICE_TYPE_NAME to {map, game -> RequestAdviceForDeal(map,game)},
         OFFER_WRIT_TYPE_NAME to {map, game -> OfferWrit(map, game)},
         FAREWELL_TYPE_NAME to {map, game -> Farewell()}
     )

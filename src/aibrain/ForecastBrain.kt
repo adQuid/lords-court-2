@@ -94,17 +94,14 @@ class ForecastBrain {
     private fun casesOfConcern(game: Game): List<GameCase>{
         val topPlayers = safeSublist(mostSignificantPlayersToMe(game),0,maxPlayersToThinkAbout)
 
-        val likelyPlans = HashMap<GameCharacter, List<Plan>>()
+        val likelyPlans = HashMap<GameCharacter?, List<Plan>>()
         topPlayers.forEach{player ->
             if(player != this.player){
                 likelyPlans[player] = actionPossibilitiesForPlayer(game, player)
             }
         }
+        likelyPlans[null] = listOf(Plan(null, listOf(), 1.0))
 
-        //special case where there are no other players who can act
-        if(likelyPlans.values.isEmpty()){
-            return listOf(GameCase(game, player))
-        }
         return likelyPlans.values.flatten().map{GameCase(game, it, listOf())}
     }
 
@@ -132,7 +129,11 @@ class ForecastBrain {
     }
 
     fun dealValueToMe(deal: Deal): Double{
-        return DealCase(deal).dealValue(lastCasesOfConcern!!, listOf(player))[player]!!
+        return dealValueToCharacter(deal, player)
+    }
+
+    fun dealValueToCharacter(deal: Deal, character: GameCharacter): Double{
+        return DealCase(deal).dealValue(lastCasesOfConcern!!.filter { it.plan.player != character }, listOf(character))[character]!!
     }
 
     fun justifyDeal(deal: Deal, subject: GameCharacter): List<Effect>{

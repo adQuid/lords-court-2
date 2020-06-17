@@ -40,7 +40,9 @@ class GameCase {
     private fun calculateGame(): Game{
         val tempGame = Game(baseGame)
         initialEffects.forEach { it.apply(tempGame) }
-        tempGame.appendActionsForPlayer(plan.player, plan.actions)
+        if(plan.player != null){
+            tempGame.appendActionsForPlayer(plan.player, plan.actions)
+        }
         finalEffects.addAll(initialEffects)
 
         for ( turn in 1..LOOKAHEAD){
