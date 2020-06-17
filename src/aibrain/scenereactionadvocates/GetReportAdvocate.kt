@@ -32,6 +32,6 @@ class GetReportAdvocate: SceneReactionAdvocate {
     }
 
     private fun reportFactories(): List<ReportFactory>{
-        return me.titles.map { it.reportsEntitled }.flatten()
+        return me.reportsEntitled().toList()
     }
 }

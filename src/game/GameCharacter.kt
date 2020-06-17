@@ -5,6 +5,7 @@ import aibrain.ForecastBrain
 import aibrain.Treaty
 import game.action.Action
 import game.titlemaker.CookieWorldTitleFactory
+import shortstate.report.ReportFactory
 
 class GameCharacter {
     val ID_NAME = "ID"
@@ -127,5 +128,9 @@ class GameCharacter {
 
     fun actionsReguarding(players: List<GameCharacter>): List<Action>{
         return titles.flatMap { title -> title.actionsReguarding(players) }
+    }
+
+    fun reportsEntitled(): Collection<ReportFactory>{
+        return titles.map { it.reportsEntitled }.flatten()
     }
 }
