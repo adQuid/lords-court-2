@@ -63,7 +63,7 @@ class Game {
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> GameCharacter(map, this) }.toMutableList()
 
         val tempActions = mutableMapOf<GameCharacter, MutableList<Action>>()
-        (saveString[ACTIONS_NAME] as Map<Int, Any>).forEach { key, value -> tempActions[characterById(key.toInt())] =
+        (saveString[ACTIONS_NAME] as Map<String, Any>).forEach { key, value -> tempActions[characterById(Integer.parseInt(key))] =
             (value as List<Map<String,Any>>).map { map -> GlobalActionTypeFactory.fromMap(map, this) }.toMutableList() }
         actionsByPlayer = tempActions
 
@@ -88,8 +88,8 @@ class Game {
         retval[TURN_NAME] = turn
         retval[PLAYERS_NAME] = players.map { it.saveString() }
         retval[LOCATIONS_NAME] = locations.map { it.saveString() }
-        val saveActions = mutableMapOf<Int, List<Map<String,Any>>>()
-        actionsByPlayer.forEach{(character, actions) -> saveActions[character.id] = actions.map { it.saveString() }}
+        val saveActions = mutableMapOf<String, List<Map<String,Any>>>()
+        actionsByPlayer.forEach{(character, actions) -> saveActions["${character.id}"] = actions.map { it.saveString() }}
         retval[ACTIONS_NAME] = saveActions
         retval[CONCLUDED_PLAYERS_NAME] = concludedPlayers.map { player -> player.id }
         retval[TITLES_NAME] = titles.map { it.saveString() }

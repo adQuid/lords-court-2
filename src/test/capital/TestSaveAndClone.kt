@@ -37,6 +37,7 @@ class TestSaveAndClone {
     @Test
     fun test_save(){
         val game = soloTestGame()
+        val debug = soloTestGame().saveString()
         val game2 = Game(soloTestGame().saveString())
 
         assert(game == game2)
