@@ -19,6 +19,8 @@ class ShortStateCharacter: PerspectiveDisplayable {
     var convoBrain: ConversationBrain
     val ENERGY_NAME = "ENERGY"
     var energy: Int
+    val DONE_NAME = "done"
+    var done = false
     val REPORTS_NAME = "REPORTS"
     var knownReports = mutableListOf<Report>()
 
@@ -34,6 +36,7 @@ class ShortStateCharacter: PerspectiveDisplayable {
     constructor(parent: Game, saveString: Map<String, Any>){
         this.player = parent.matchingPlayer(parent.characterById(saveString[PLAYER_NAME] as Int))!!
         this.energy = saveString[ENERGY_NAME] as Int
+        done = saveString[DONE_NAME] as Boolean
         sceneBrain = SceneBrain(this, player.brain)
         convoBrain = ConversationBrain(this)
         knownReports = (saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> parent.reportFromMap(map) }.toMutableList()
@@ -43,6 +46,7 @@ class ShortStateCharacter: PerspectiveDisplayable {
         return hashMapOf(
             PLAYER_NAME to player.id,
             ENERGY_NAME to energy,
+            DONE_NAME to done,
             REPORTS_NAME to knownReports.map{ report -> report.saveString()}
         )
     }

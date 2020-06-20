@@ -83,6 +83,7 @@ class ShortStateController: Runnable {
             } else {
                 println("OHH NO we need a new scene!!!!")
             }
+            shortGame.shortGameScene!!.characters.forEach { it.done = false }
         }
         player.nextSceneIWannaBeIn = null
         try{

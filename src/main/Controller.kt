@@ -117,6 +117,12 @@ class Controller {
         }
     }
 
+    //sort of a "poor man's concurrency" here: by putting this getter in the same singleton as the only modification, we can have multiple threads messing
+    //with this without running onto concurrent modification exceptions
+    fun playerThread(): ShortStateController{
+        return shortThreads.filter { it.shortGame.players.filter { !it.player.npc }.isNotEmpty() }.first()
+    }
+
     fun runPlayerThread(){
         if(shortThreads.any{!it.finished && it.shortGame.players.any { !it.player.npc }}){
             Thread(shortThreads.first{!it.finished && it.shortGame.players.any { !it.player.npc }}).start()

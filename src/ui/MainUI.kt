@@ -38,7 +38,7 @@ class MainUI() : Application() {
     }
 
     fun shortGame(): ShortStateGame {
-        return Controller.singleton!!.shortThreads.filter { it.shortGame.players.filter { !it.player.npc }.isNotEmpty() }.first().shortGame
+        return Controller.singleton!!.playerThread().shortGame
     }
 
     fun playingAs(): ShortStateCharacter? {

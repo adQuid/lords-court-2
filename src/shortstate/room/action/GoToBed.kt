@@ -18,7 +18,7 @@ class GoToBed: RoomAction() {
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         println("${player.toString()} is going to bed")
-        player.energy = 0
+        player.done = true
         game.sceneForPlayer(player)!!.terminated = true
         Controller.singleton!!.concludeTurnForPlayer(player.player)
     }

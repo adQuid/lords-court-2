@@ -51,7 +51,7 @@ class ShortStateGame {
 
     @Synchronized fun nextPlayerToDoShortStateStuff(): ShortStateCharacter?{
         players.sortedByDescending { player -> player.energy }.forEach {
-            if(it.player.npc && it.energy > 0 && it.nextSceneIWannaBeIn == null){
+            if(it.player.npc && !it.done && it.nextSceneIWannaBeIn == null){
                 return it
             }
         }
@@ -81,7 +81,7 @@ class ShortStateGame {
         if(stopped){
             return null
         }
-        return players.filter { it.energy > 0 }.sortedByDescending { it.energy }.getOrNull(0)
+        return players.filter { !it.done }.sortedByDescending { it.energy }.getOrNull(0)
     }
 
     fun sceneForPlayer(player: ShortStateCharacter): ShortGameScene?{
