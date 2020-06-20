@@ -12,6 +12,8 @@ import ui.specialdisplayables.selectionmodal.SelectionModal
 class ShortStateController: Runnable {
 
     val shortGame: ShortStateGame
+    var started = false
+    var finished = false
 
     constructor(shortGame: ShortStateGame){
         this.shortGame = shortGame
@@ -30,6 +32,7 @@ class ShortStateController: Runnable {
 
     override fun run(){
         println("starting run")
+        started = true
         var nextPlayer = shortGame.nextActingPlayer()
         while(nextPlayer != null){
             Thread.sleep(20)
@@ -60,6 +63,8 @@ class ShortStateController: Runnable {
             nextPlayer = shortGame.nextActingPlayer()
         }
         println("finished run")
+        finished=true
+        Controller.singleton!!.runAnotherThread()
     }
 
     private fun doAIIfAppropriate(){

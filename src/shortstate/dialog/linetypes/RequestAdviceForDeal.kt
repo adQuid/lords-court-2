@@ -58,7 +58,7 @@ class RequestAdviceForDeal: Line {
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            "deal" to (deal!! as FinishedDeal).saveString()
+            "deal" to (deal!!.toFinishedDeal()).saveString()
         )
     }
 

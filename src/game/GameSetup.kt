@@ -48,7 +48,7 @@ class GameSetup {
         game.addPlayer(advisor)
 
         val names = Stack<String>()
-        names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim"))
+        names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim", "Starwin", "Artyom", "Elsvin", "Krolm", "Ashta"))
         capitals.capitals.forEach {
             if(it != pcCapital){
                 val location = Location(game)

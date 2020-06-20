@@ -14,12 +14,16 @@ import shortstate.room.Room
 class SimpleLine: Line {
 
     override val type: String
-        get() = GlobalLineTypeFactory.APPROVE_TYPE_NAME
+        get() = GlobalLineTypeFactory.SIMPLE_TYPE_NAME
 
     val text: String
 
     constructor(text: String) {
         this.text = text
+    }
+
+    constructor(map: Map<String, Any>, game: Game){
+        text = map["txt"] as String
     }
 
     override fun tooltipName(): String {
@@ -35,7 +39,7 @@ class SimpleLine: Line {
     }
 
     override fun specialSaveString(): Map<String, Any> {
-        return hashMapOf()
+        return hashMapOf("txt" to text)
     }
 
     override fun validToSend(): Boolean {

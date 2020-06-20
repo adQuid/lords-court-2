@@ -1,6 +1,7 @@
 package aibrain
 
 import main.Controller
+import java.lang.System.currentTimeMillis
 
 class BrainThread: Runnable {
 
@@ -29,9 +30,7 @@ class BrainThread: Runnable {
                     val shortPlayer = shortThread.shortGame.nextPlayerToDoShortStateStuff()
 
                     if(shortPlayer != null){
-                        val scene = shortPlayer.nextSceneIWannaBeIn
-
-                        if(scene == null){
+                        if(shortPlayer.nextSceneIWannaBeIn == null){
                             shortPlayer.decideNextScene(shortThread.shortGame)
                         }
                     }

@@ -5,9 +5,7 @@ import aibrain.BrainThread
 import com.beust.klaxon.Klaxon
 import com.google.gson.Gson
 import game.Game
-import game.GameSetup
 import game.GameCharacter
-import game.Location
 import javafx.application.Application
 import shortstate.ShortGameScene
 import shortstate.ShortStateGame
@@ -65,7 +63,7 @@ class Controller {
             shortThreads.clear()
 
             populateShortThreads()
-            runShortTreads()
+            runAnotherThread()
         }
     }
 
@@ -113,14 +111,21 @@ class Controller {
         }
     }
 
-    private fun runShortTreads(){
-        shortThreads.forEach {
-            Thread(it).start()
+    fun runAnotherThread(){
+        if(shortThreads.any { !it.started && it.shortGame.players.none { !it.player.npc } }){
+            Thread(shortThreads.first{!it.started && it.shortGame.players.none { !it.player.npc }}).start()
+        }
+    }
+
+    fun runPlayerThread(){
+        if(shortThreads.any{!it.finished && it.shortGame.players.any { !it.player.npc }}){
+            Thread(shortThreads.first{!it.finished && it.shortGame.players.any { !it.player.npc }}).start()
         }
     }
 
     fun startPlaying(){
-        runShortTreads()
+        runPlayerThread()
+        runAnotherThread()
         Thread(brainThread1).start()
     }
 

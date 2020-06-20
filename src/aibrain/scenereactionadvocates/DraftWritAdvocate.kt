@@ -34,7 +34,7 @@ class DraftWritAdvocate: SceneReactionAdvocate {
     }
 
     private fun dealIWantToDraft(): Deal?{
-        val dealsToOffer = me.brain.dealsILike!!.keys.filter { deal -> me.writs.filter { writ -> writ.deal == deal }.isEmpty() }.sortedByDescending { me.brain.dealValueToMe(it) }
+        val dealsToOffer = me.brain.dealsILike!!.keys.filter { deal -> me.writs.filter { writ -> writ.deal == deal }.isEmpty() }.sortedByDescending { me.brain.dealsILike!![it] }
         if(dealsToOffer.isNotEmpty()){
             return dealsToOffer[0]
         }
