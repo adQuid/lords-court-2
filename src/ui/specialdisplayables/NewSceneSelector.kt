@@ -30,9 +30,10 @@ object NewSceneSelector {
     }
 
     private fun goToNewSceneIfApplicable(maker: SceneMaker, perspective: ShortStateCharacter){
-        perspective.nextSceneIWannaBeIn = maker
-        if(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.shortGameScene != null){
-            Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.shortGameScene!!.terminated = true
+        val shortGame = Controller.singleton!!.shortThreadForPlayer(perspective).shortGame
+        shortGame.shortPlayerForLongPlayer(perspective.player)!!.nextSceneIWannaBeIn = maker
+        if(shortGame.shortGameScene != null){
+            shortGame.shortGameScene!!.terminated = true
         }
     }
 }

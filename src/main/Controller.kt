@@ -63,7 +63,7 @@ class Controller {
             shortThreads.clear()
 
             populateShortThreads()
-            runAnotherThread()
+            runThreads()
         }
     }
 
@@ -111,6 +111,11 @@ class Controller {
         }
     }
 
+    fun runThreads(){
+        runPlayerThread()
+        runAnotherThread()
+    }
+
     fun runAnotherThread(){
         if(shortThreads.any { !it.started && it.shortGame.players.none { !it.player.npc } }){
             Thread(shortThreads.first{!it.started && it.shortGame.players.none { !it.player.npc }}).start()
@@ -130,8 +135,7 @@ class Controller {
     }
 
     fun startPlaying(){
-        runPlayerThread()
-        runAnotherThread()
+        runThreads()
         Thread(brainThread1).start()
     }
 

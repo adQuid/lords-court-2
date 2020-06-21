@@ -1,6 +1,7 @@
 package shortstate.room.action
 
 import main.Controller
+import main.UIGlobals
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
@@ -20,6 +21,7 @@ class GoToBed: RoomAction() {
         println("${player.toString()} is going to bed")
         player.done = true
         game.sceneForPlayer(player)!!.terminated = true
+        UIGlobals.resetFocus()
         Controller.singleton!!.concludeTurnForPlayer(player.player)
     }
 
