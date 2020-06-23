@@ -21,7 +21,9 @@ class GoToBed: RoomAction() {
         println("${player.toString()} is going to bed")
         player.done = true
         game.sceneForPlayer(player)!!.terminated = true
-        UIGlobals.resetFocus()
+        if(!player.player.npc){
+            UIGlobals.resetFocus()
+        }
         Controller.singleton!!.concludeTurnForPlayer(player.player)
     }
 
