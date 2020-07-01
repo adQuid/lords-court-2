@@ -1,5 +1,7 @@
 package ui.componentfactory
 
+import gamelogicmodules.territory.TerritoryLogicModule
+import gamelogicmodules.territory.specialdisplayables.TravelView
 import javafx.event.EventHandler
 import javafx.scene.control.Button
 import javafx.scene.layout.GridPane
@@ -11,6 +13,7 @@ import shortstate.ShortStateCharacter
 import shortstate.room.Room
 import shortstate.room.RoomActionMaker
 import ui.specialdisplayables.EndTurnMenu
+import ui.specialdisplayables.MapView
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -64,7 +67,11 @@ object BottomPaneComponentFactory {
             EndTurnMenu()
         )})
 
-        return listOf(localActionsButton, endTurnButton)
+        val leaveLocationButton = UtilityComponentFactory.shortButton("Leave Location", EventHandler { _ -> UIGlobals.focusOn(
+            TravelView(perspective)
+        )})
+
+        return listOf(localActionsButton, endTurnButton, leaveLocationButton)
     }
 
     private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomActionMaker>>{

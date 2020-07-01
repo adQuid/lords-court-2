@@ -1,10 +1,7 @@
 package gamelogicmodules.territory
 
 import aibrain.Plan
-import game.Effect
-import game.Game
-import game.GameCharacter
-import game.GameLogicModule
+import game.*
 import gamelogicmodules.territory.effects.Starvation
 import gamelogicmodules.territory.effects.TerritoryEffectFactory
 import shortstate.report.ReportFactory

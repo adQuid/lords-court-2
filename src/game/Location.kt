@@ -5,6 +5,8 @@ import shortstate.room.Room
 class Location {
 
     val id: Int
+    val x: Int
+    val y: Int
     var rooms: List<Room> = listOf(
         Room("Bedchamber", "assets/rooms/bedroom", Room.RoomType.BEDROOM),
         Room("Hallway", "assets/rooms/testRoom", Room.RoomType.ETC),
@@ -12,22 +14,30 @@ class Location {
         Room("Throne Room", "assets/rooms/throneRoom", Room.RoomType.THRONEROOM)
     )
 
-    constructor(game: Game){
+    constructor(game: Game, x: Int, y:Int){
         id = game.nextID++
+        this.x = x
+        this.y = y
     }
 
     constructor(other: Location){
         this.id = other.id
+        this.x = other.x
+        this.y = other.y
         this.rooms = other.rooms.map { room -> room }
     }
 
     constructor(parent: Game, saveString: Map<String, Any>){
         this.id = saveString["ID"] as Int
+        this.x = saveString["X"] as Int
+        this.y = saveString["Y"] as Int
     }
 
     fun saveString(): Map<String, Any>{
         return mutableMapOf<String, Any>(
-            "ID" to id
+            "ID" to id,
+            "X" to x,
+            "Y" to y
         )
     }
 
