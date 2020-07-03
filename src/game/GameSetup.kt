@@ -14,7 +14,7 @@ class GameSetup {
     fun setupCookieworld(): Game{
         val game = Game(listOf(CookieWorld()))
 
-        val defaultLocation = Location(game, 0, 0)
+        val defaultLocation = Location(0, 0)
 
         game.locations.add(defaultLocation)
 
@@ -36,7 +36,7 @@ class GameSetup {
         val game = Game(listOf(territoryLogic, capitals))
 
         val pcCapital = capitals.capitals.first()
-        val defaultLocation = Location(game, pcCapital.territory!!.x, pcCapital.territory!!.y)
+        val defaultLocation = Location(pcCapital.territory!!.x, pcCapital.territory!!.y)
         game.locations.add(defaultLocation)
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, defaultLocation, game)
         game.addPlayer(PC)
@@ -49,7 +49,7 @@ class GameSetup {
         names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim", "Starwin", "Artyom", "Elsvin", "Krolm", "Ashta"))
         capitals.capitals.forEach {
             if(it != pcCapital){
-                val location = Location(game, it.territory!!.x, it.territory!!.y)
+                val location = Location(it.territory!!.x, it.territory!!.y)
                 game.locations.add(location)
                 val NPC = GameCharacter("Lord "+names.pop(), "assets/portraits/faceman.png", true,location,game)
                 game.addPlayer(NPC)

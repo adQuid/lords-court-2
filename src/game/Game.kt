@@ -59,7 +59,7 @@ class Game {
         logicModulesInDependencyOrder().forEach { it.finishConstruction(this) }
         nextID = saveString[MAX_ID_NAME] as Int
         turn = saveString[TURN_NAME] as Int
-        locations = (saveString[LOCATIONS_NAME] as List<Map<String, Any>>).map { map -> Location(this, map) }.toMutableList()
+        locations = (saveString[LOCATIONS_NAME] as List<Map<String, Any>>).map { map -> Location(map) }.toMutableList()
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> GameCharacter(map, this) }.toMutableList()
 
         val tempActions = mutableMapOf<GameCharacter, MutableList<Action>>()

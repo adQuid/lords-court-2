@@ -19,7 +19,7 @@ import game.titles.Baker
 
 fun soloTestGame(): Game{
     val game = Game(listOf(CookieWorld()))
-    val defaultLocation = Location(game,0,0)
+    val defaultLocation = Location(0,0)
 
     game.locations.add(defaultLocation)
 
@@ -62,7 +62,7 @@ fun soloTestShortgameWithEverythingOnIt(): ShortStateGame{
 
 fun twoPlayerTestGame(): Game{
     val game = Game(listOf(CookieWorld()))
-    val location = Location(game,0,0)
+    val location = Location(0,0)
 
     game.locations.add(location)
     game.addPlayer(basicMilkman(game, location))
@@ -105,7 +105,7 @@ private fun basicBaker(game: Game, location: Location): GameCharacter{
 }
 
 fun addExtraLocation(game: Game) {
-    val extraLocation = Location(game,0,0)
+    val extraLocation = Location(0,0)
     game.locations.add(extraLocation)
 
     game.addPlayer(basicBaker(game, extraLocation))

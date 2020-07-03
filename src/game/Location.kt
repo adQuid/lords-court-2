@@ -4,6 +4,10 @@ import shortstate.room.Room
 
 class Location {
 
+    companion object{
+        var nextId = 0
+    }
+
     val id: Int
     val x: Int
     val y: Int
@@ -14,8 +18,8 @@ class Location {
         Room("Throne Room", "assets/rooms/throneRoom", Room.RoomType.THRONEROOM)
     )
 
-    constructor(game: Game, x: Int, y:Int){
-        id = game.nextID++
+    constructor(x: Int, y:Int){
+        id = nextId++
         this.x = x
         this.y = y
     }
@@ -27,8 +31,11 @@ class Location {
         this.rooms = other.rooms.map { room -> room }
     }
 
-    constructor(parent: Game, saveString: Map<String, Any>){
+    constructor(saveString: Map<String, Any>){
         this.id = saveString["ID"] as Int
+        if(this.id > nextId){
+            nextId = this.id
+        }
         this.x = saveString["X"] as Int
         this.y = saveString["Y"] as Int
     }

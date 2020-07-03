@@ -14,7 +14,7 @@ class TestSaveAndClone {
         val territories = TerritoryLogicModule(TerritoryMap("test"))
         territories.map.territories.add(Territory(territories.map.nextId,"Placeburg",0,0))
         val game = Game(listOf(territories))
-        val defaultLocation = Location(game, 0, 0)
+        val defaultLocation = Location(0, 0)
 
         game.locations.add(defaultLocation)
 
@@ -34,7 +34,7 @@ class TestSaveAndClone {
     @Test
     fun test_save(){
         val game = soloTestGame()
-        val game2 = Game(soloTestGame().saveString())
+        val game2 = Game(game.saveString())
 
         assert(game == game2)
         game2.endTurn() //just in case this makes something crash

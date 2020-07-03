@@ -1,21 +1,16 @@
-package gamelogicmodules.territory.specialdisplayables
+package gamelogicmodules.capital.specialdisplayables
 
 import gamelogicmodules.capital.CapitalLogicModule
 import gamelogicmodules.capital.Count
 import gamelogicmodules.territory.Territory
 import gamelogicmodules.territory.TerritoryLogicModule
-import javafx.event.EventHandler
-import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
-import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.PerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
 import ui.specialdisplayables.MapView
-import ui.specialdisplayables.selectionmodal.SelectionModal
-import ui.specialdisplayables.selectionmodal.Tab
 
 class TravelView: PerspectiveDisplayable {
     var focusedTerritory: Territory? = null

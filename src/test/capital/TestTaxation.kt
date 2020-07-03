@@ -34,7 +34,7 @@ class TestTaxation {
         val capitals = CapitalLogicModule(listOf(Capital(territories.territories().first())))
 
         val game = Game(listOf(territories, capitals))
-        game.locations.add(Location(game,0,0))
+        game.locations.add(Location(0,0))
 
         return game
     }

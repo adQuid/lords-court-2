@@ -18,7 +18,7 @@ class TestSaveAndClone {
         territories.territories.add(Territory(territories.nextId++,"Placeburg",0,0))
 
         val game = Game(listOf(TerritoryLogicModule(territories), CapitalLogicModule(listOf(Capital(territories.territories[0])))))
-        game.locations.add(Location(game,0,0))
+        game.locations.add(Location(0,0))
         game.players.add(GameCharacter("name", "image", true, game.locations[0], game))
 
         game.actionsByPlayer.put(game.players[0], mutableListOf(SetTaxRate(territories.territories[0].id, 0.2)))
