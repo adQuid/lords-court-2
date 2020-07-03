@@ -11,9 +11,8 @@ class Capital {
 
     val resources: Resources
     val terId: Int
-    var locationId: Int
     var territory: Territory?
-    var location: Location?
+    var location: Location
     val taxes: MutableMap<String, Double>
 
     constructor(territory: Territory){
@@ -21,7 +20,6 @@ class Capital {
         this.territory = territory
         terId = territory.id
         location = Location(territory.x, territory.y)
-        locationId = location!!.id
         taxes = mutableMapOf(Territory.FLOUR_NAME to 0.1)
     }
 
@@ -29,8 +27,7 @@ class Capital {
         resources = Resources(other.resources)
         territory = null //this will be overwritten in finishConstruction
         terId = other.territory!!.id
-        locationId = other.locationId
-        location = null
+        location = Location(other.location)
         taxes = other.taxes.toMutableMap()
     }
 
@@ -38,8 +35,7 @@ class Capital {
         resources = Resources(saveString["res"] as Map<String, Any>)
         territory = null //this will be overwritten in finishConstruction
         terId = saveString["ter"] as Int
-        locationId = saveString["loc"] as Int
-        location = null
+        location = Location(saveString["loc"] as Map<String, Any>)
         taxes = (saveString["tax"] as Map<String, Double>).toMutableMap()
     }
 
@@ -51,7 +47,7 @@ class Capital {
         return mapOf(
             "res" to resources.saveString(),
             "ter" to territory!!.id,
-            "loc" to locationId,
+            "loc" to location.saveString(),
             "tax" to taxes
         )
     }

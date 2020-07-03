@@ -14,11 +14,6 @@ class TestSaveAndClone {
         val territories = TerritoryLogicModule(TerritoryMap("test"))
         territories.map.territories.add(Territory(territories.map.nextId,"Placeburg",0,0))
         val game = Game(listOf(territories))
-        val defaultLocation = Location(0, 0)
-
-        game.locations.add(defaultLocation)
-
-        game.addPlayer(GameCharacter("Testman", "this should never come up in a test", true, defaultLocation, game))
         return game
     }
 

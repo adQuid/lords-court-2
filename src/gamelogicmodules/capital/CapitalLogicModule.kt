@@ -1,10 +1,7 @@
 package gamelogicmodules.capital
 
 import aibrain.Plan
-import game.Effect
-import game.Game
-import game.GameCharacter
-import game.GameLogicModule
+import game.*
 import gamelogicmodules.capital.actionTypes.SetTaxRate
 import gamelogicmodules.territory.Territory
 import gamelogicmodules.territory.TerritoryLogicModule
@@ -54,6 +51,10 @@ class CapitalLogicModule: GameLogicModule {
 
     override val type: String
         get() = CapitalLogicModule.type
+
+    override fun locations(): Collection<Location> {
+        return capitals.map { it.location }
+    }
 
     override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
         return null //This module has no effects yet

@@ -1,10 +1,7 @@
 package gamelogicmodules.cookieworld
 
 import aibrain.Plan
-import game.Effect
-import game.Game
-import game.GameCharacter
-import game.GameLogicModule
+import game.*
 import game.titlemaker.CookieWorldTitleFactory
 import game.titles.Baker
 import game.titles.Milkman
@@ -30,6 +27,7 @@ class CookieWorld: GameLogicModule {
     var deliciousness = 0.0
     val HAS_MILK_NAME = "hasMilk"
     var hasMilk = mutableListOf<GameCharacter>()
+    var locations = mutableListOf(Location(0,0))
 
     constructor() : super(listOf(DeliciousnessReportFactory()), CookieWorldTitleFactory, listOf()) {
         deliciousness = 0.0
@@ -39,15 +37,21 @@ class CookieWorld: GameLogicModule {
     constructor(other: CookieWorld): super(listOf(DeliciousnessReportFactory()), CookieWorldTitleFactory, listOf()){
         deliciousness = other.deliciousness
         hasMilk = other.hasMilk.toMutableList()
+        locations = other.locations.map { Location(it) }.toMutableList()
     }
 
     constructor(saveString: Map<String, Any>, game: Game): super(listOf(DeliciousnessReportFactory()), CookieWorldTitleFactory, listOf()){
         deliciousness = saveString[DELICIOUSNESS_NAME] as Double
         hasMilk = (saveString[HAS_MILK_NAME] as List<Int>).map { id -> game.characterById(id)}.toMutableList()
+        locations = (saveString["locations"] as List<Map<String,Any>>).map { map -> Location(map) }.toMutableList()
     }
 
     override fun finishConstruction(game: Game) {
 
+    }
+
+    override fun locations(): Collection<Location> {
+        return locations
     }
 
     override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
@@ -62,7 +66,8 @@ class CookieWorld: GameLogicModule {
     override fun specialSaveString(): Map<String, Any> {
         return mapOf(
             DELICIOUSNESS_NAME to deliciousness,
-            HAS_MILK_NAME to hasMilk.map { it.id }
+            HAS_MILK_NAME to hasMilk.map { it.id },
+            "locations" to locations.map { it.saveString() }
         )
     }
 

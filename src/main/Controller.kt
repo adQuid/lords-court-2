@@ -106,7 +106,7 @@ class Controller {
 
     private fun populateShortThreads(){
         shortThreads.clear()
-        game!!.locations.forEach {
+        game!!.locations().forEach {
             shortThreads.add(ShortStateController(ShortStateGame(game!!, it)))
         }
     }

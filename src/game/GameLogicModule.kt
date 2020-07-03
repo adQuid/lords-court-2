@@ -60,6 +60,8 @@ abstract class GameLogicModule {
 
     abstract fun endTurn(game: Game): List<Effect>
 
+    abstract fun locations(): Collection<Location>
+
     fun reportFromSaveString(saveString: Map<String, Any>, game: Game): Report?{
         if(reportTypes.containsKey(saveString[GlobalReportTypeFactory.TYPE_NAME])){
             return reportTypes[saveString[GlobalReportTypeFactory.TYPE_NAME]]!!.reportFromSaveString(saveString, game)

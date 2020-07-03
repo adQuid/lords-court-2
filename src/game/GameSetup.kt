@@ -12,17 +12,14 @@ import java.util.*
 class GameSetup {
 
     fun setupCookieworld(): Game{
-        val game = Game(listOf(CookieWorld()))
+        val cookieWorld = CookieWorld()
+        val game = Game(listOf(cookieWorld))
 
-        val defaultLocation = Location(0, 0)
-
-        game.locations.add(defaultLocation)
-
-        val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, defaultLocation, game)
+        val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, cookieWorld.locations.first(), game)
         game.applyTitleToCharacter(CookieWorldTitleFactory.makeBakerTitle("Cookies"), PC)
         game.addPlayer(PC)
 
-        val NPC = GameCharacter("Frip", "assets/portraits/faceman.png", true, defaultLocation, game)
+        val NPC = GameCharacter("Frip", "assets/portraits/faceman.png", true, cookieWorld.locations.first(), game)
         NPC.titles.add(CookieWorldTitleFactory.makeMilkmanTitle())
         game.addPlayer(NPC)
 
@@ -37,8 +34,7 @@ class GameSetup {
 
         val pcCapital = capitals.capitals.first()
         val defaultLocation = Location(pcCapital.territory!!.x, pcCapital.territory!!.y)
-        game.locations.add(defaultLocation)
-        val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, defaultLocation, game)
+        val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, pcCapital.location, game)
         game.addPlayer(PC)
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
 
@@ -49,9 +45,7 @@ class GameSetup {
         names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim", "Starwin", "Artyom", "Elsvin", "Krolm", "Ashta"))
         capitals.capitals.forEach {
             if(it != pcCapital){
-                val location = Location(it.territory!!.x, it.territory!!.y)
-                game.locations.add(location)
-                val NPC = GameCharacter("Lord "+names.pop(), "assets/portraits/faceman.png", true,location,game)
+                val NPC = GameCharacter("Lord "+names.pop(), "assets/portraits/faceman.png", true,it.location,game)
                 game.addPlayer(NPC)
                 game.applyTitleToCharacter(it.generateCountTitle(), NPC)
             }

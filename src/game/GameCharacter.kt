@@ -71,8 +71,9 @@ class GameCharacter {
         name = saveString[NAME_NAME] as String
         pictureString = saveString[PICTURE_NAME] as String
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> game.titleFromSaveString(map) }.toMutableSet()
-        location = game.locationById(saveString[LOCATION_NAME] as Int)
+
         //To avoid circular references these are populated in finishConstruction
+        location = Location(0,0)
         memory = Memory()
         acceptedDeals = mutableListOf()
         acceptedTreaties = mutableListOf()
@@ -84,6 +85,7 @@ class GameCharacter {
         acceptedDeals.addAll((saveString[ACCEPTED_DEALS_NAME] as List<Map<String, Any>>).map { map -> FinishedDeal(map, game)}.toMutableList())
         acceptedTreaties.addAll((saveString[ACCEPTED_TREATIES_NAME] as List<Map<String, Any>>).map { map -> Treaty(map, game)}.toMutableList())
         writs.addAll((saveString[WRITS_NAME] as List<Map<String, Any>>).map{map -> Writ(map, game)})
+        location = game.locationById(saveString[LOCATION_NAME] as Int)
     }
 
     fun saveString(): Map<String, Any>{

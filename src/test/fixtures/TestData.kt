@@ -18,12 +18,10 @@ import shortstate.report.DeliciousnessReport
 import game.titles.Baker
 
 fun soloTestGame(): Game{
-    val game = Game(listOf(CookieWorld()))
-    val defaultLocation = Location(0,0)
+    val cookieLogic = CookieWorld()
+    val game = Game(listOf(cookieLogic))
 
-    game.locations.add(defaultLocation)
-
-    game.addPlayer(basicMilkman(game, defaultLocation))
+    game.addPlayer(basicMilkman(game, cookieLogic.locations.first()))
     return game
 }
 
@@ -49,24 +47,23 @@ fun testGameWithTwoLocations(): Game{
 
 fun soloTestShortgame(): ShortStateGame{
     val game = soloTestGame()
-    return ShortStateGame(game, game.locations[0])
+    return ShortStateGame(game, game.locations().first())
 }
 
 fun soloTestShortgameWithEverythingOnIt(): ShortStateGame{
     val game = soloTestGameWithEverythingOnIt()
-    game.addPlayer(basicMilkman(game, game.locations[0]))
-    val retval = ShortStateGame(game, game.locations[0])
+    game.addPlayer(basicMilkman(game, game.locations().first()))
+    val retval = ShortStateGame(game, game.locations().first())
     retval.shortGameScene = ShortGameScene(listOf(retval.players[0], retval.players[1]), retval.location.rooms[0], Conversation(retval.location.rooms[0], retval.players[0], retval.players[1]))
     return retval
 }
 
 fun twoPlayerTestGame(): Game{
-    val game = Game(listOf(CookieWorld()))
-    val location = Location(0,0)
+    val cookieLogic = CookieWorld()
+    val game = Game(listOf(cookieLogic))
 
-    game.locations.add(location)
-    game.addPlayer(basicMilkman(game, location))
-    game.addPlayer(basicBaker(game, location))
+    game.addPlayer(basicMilkman(game, cookieLogic.locations().first()))
+    game.addPlayer(basicBaker(game, cookieLogic.locations().first()))
 
     return game
 }
@@ -84,12 +81,12 @@ fun twoPlayerGameWithWrits(): Game{
 
 fun twoPlayerShortGame(): ShortStateGame{
     val game = twoPlayerTestGame()
-    return ShortStateGame(game, game.locations[0])
+    return ShortStateGame(game, game.locations().first())
 }
 
 fun shortGameResultingInDeliciousness(): ShortStateGame{
     val game = twoPlayerTestGameResultingInDeliciousness()
-    return ShortStateGame(game, game.locations[0])
+    return ShortStateGame(game, game.locations().first())
 }
 
 private fun basicMilkman(game: Game, location: Location): GameCharacter{
@@ -106,7 +103,8 @@ private fun basicBaker(game: Game, location: Location): GameCharacter{
 
 fun addExtraLocation(game: Game) {
     val extraLocation = Location(0,0)
-    game.locations.add(extraLocation)
+    val cookieLogic = game.moduleOfType(CookieWorld.type) as CookieWorld
+    cookieLogic.locations.add(extraLocation)
 
     game.addPlayer(basicBaker(game, extraLocation))
 }

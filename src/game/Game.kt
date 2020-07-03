@@ -18,8 +18,6 @@ class Game {
     var turn = 1
     val PLAYERS_NAME = "players"
     var players = mutableListOf<GameCharacter>()
-    val LOCATIONS_NAME = "locations"
-    var locations = mutableListOf<Location>()
     val ACTIONS_NAME = "actions"
     var actionsByPlayer = mutableMapOf<GameCharacter, MutableList<Action>>()
     val CONCLUDED_PLAYERS_NAME = "concludedPlayers"
@@ -45,7 +43,6 @@ class Game {
         other.players.forEach{
             this.players.add(GameCharacter(it))
         }
-        locations = other.locations.toList().map { loc -> Location(loc) }.toMutableList()
         actionsByPlayer = other.actionsByPlayer.mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
         concludedPlayers = other.concludedPlayers.toMutableSet()
         titles = other.titles.map { title -> title.clone()}.toMutableSet()
@@ -59,7 +56,6 @@ class Game {
         logicModulesInDependencyOrder().forEach { it.finishConstruction(this) }
         nextID = saveString[MAX_ID_NAME] as Int
         turn = saveString[TURN_NAME] as Int
-        locations = (saveString[LOCATIONS_NAME] as List<Map<String, Any>>).map { map -> Location(map) }.toMutableList()
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> GameCharacter(map, this) }.toMutableList()
 
         val tempActions = mutableMapOf<GameCharacter, MutableList<Action>>()
@@ -87,7 +83,6 @@ class Game {
         retval[MAX_ID_NAME] = nextID
         retval[TURN_NAME] = turn
         retval[PLAYERS_NAME] = players.map { it.saveString() }
-        retval[LOCATIONS_NAME] = locations.map { it.saveString() }
         val saveActions = mutableMapOf<String, List<Map<String,Any>>>()
         actionsByPlayer.forEach{(character, actions) -> saveActions["${character.id}"] = actions.map { it.saveString() }}
         retval[ACTIONS_NAME] = saveActions
@@ -108,7 +103,7 @@ class Game {
         if (nextID != other.nextID) return false
         if (turn != other.turn) return false
         if (players != other.players) return false
-        if (locations != other.locations) return false
+        if (locations() != other.locations()) return false
         if (concludedPlayers != other.concludedPlayers) return false
         if (titles != other.titles) return false
 
@@ -119,11 +114,14 @@ class Game {
         var result = nextID
         result = 31 * result + turn
         result = 31 * result + players.hashCode()
-        result = 31 * result + locations.hashCode()
         result = 31 * result + actionsByPlayer.hashCode()
         result = 31 * result + concludedPlayers.hashCode()
         result = 31 * result + titles.hashCode()
         return result
+    }
+
+    fun locations(): Collection<Location> {
+        return gameLogicModules.flatMap { it.locations() }
     }
 
     fun imageFor(player: GameCharacter): Game{
@@ -279,7 +277,7 @@ class Game {
     }
 
     fun locationById(id: Int): Location{
-        return locations.filter { it.id == id }[0]
+        return locations().filter { it.id == id }[0]
     }
     
     fun characterById(id: Int): GameCharacter {

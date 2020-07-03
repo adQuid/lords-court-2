@@ -18,7 +18,7 @@ class TestTaxation {
     private fun basicCount(game: Game, ter: Int): GameCharacter {
         val capitals = game.moduleOfType(CapitalLogicModule.type)!! as CapitalLogicModule
 
-        val location = game.locations.first()
+        val location = game.locations().first()
 
         val retval = GameCharacter("player "+game.nextID, "this should never come up in a test", true, location, game)
         game.applyTitleToCharacter(capitals.capitalById(ter).generateCountTitle(), retval)
@@ -34,8 +34,6 @@ class TestTaxation {
         val capitals = CapitalLogicModule(listOf(Capital(territories.territories().first())))
 
         val game = Game(listOf(territories, capitals))
-        game.locations.add(Location(0,0))
-
         return game
     }
 

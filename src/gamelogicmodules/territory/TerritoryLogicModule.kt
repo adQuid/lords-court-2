@@ -61,6 +61,10 @@ class TerritoryLogicModule: GameLogicModule {
         reportTypes = reportFactories(map.territories.map { it.id }).associate { it.type to it }
     }
 
+    override fun locations(): Collection<Location> {
+        return listOf()
+    }
+
     override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
         return TerritoryEffectFactory.fromMap(saveString, game)
     }
