@@ -33,12 +33,11 @@ class GameSetup {
         val game = Game(listOf(territoryLogic, capitals))
 
         val pcCapital = capitals.capitals.first()
-        val defaultLocation = Location(pcCapital.territory!!.x, pcCapital.territory!!.y)
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, pcCapital.location, game)
         game.addPlayer(PC)
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
 
-        val advisor = GameCharacter("Frip", "assets/portraits/faceman.png", true, defaultLocation, game)
+        val advisor = GameCharacter("Frip", "assets/portraits/faceman.png", true, pcCapital.location, game)
         game.addPlayer(advisor)
 
         val names = Stack<String>()
