@@ -43,6 +43,10 @@ class AcceptWrit: Line {
         return "I'll be happy to sign that"
     }
 
+    override fun tooltipDescription(): String {
+        return "Add yourself to writ's signatories. The holder of this writ will be able to enact it once it's been signed by everyone."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "writ" to writ!!.saveString()

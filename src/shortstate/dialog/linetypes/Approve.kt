@@ -32,6 +32,10 @@ class Approve: Line {
         return "I like this."
     }
 
+    override fun tooltipDescription(): String {
+        return "Approve of this."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf()
     }

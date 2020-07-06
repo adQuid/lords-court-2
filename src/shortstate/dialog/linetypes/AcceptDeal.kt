@@ -42,6 +42,10 @@ class AcceptDeal: Line {
         return "sounds reasonable"
     }
 
+    override fun tooltipDescription(): String {
+        return "Agree to deal. Actions are still not enacted until enacted in a writ."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "DEAL" to deal!!.saveString()

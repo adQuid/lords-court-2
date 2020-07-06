@@ -40,6 +40,10 @@ class RejectDeal: Line {
         return "no thanks"
     }
 
+    override fun tooltipDescription(): String {
+        return "Express disinterest in this deal."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "deal" to deal!!.saveString()

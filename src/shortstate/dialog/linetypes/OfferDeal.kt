@@ -56,6 +56,10 @@ class OfferDeal: Line {
         }
     }
 
+    override fun tooltipDescription(): String {
+        return "Ask if a deal would be in this character's interest. Agreeing doesn't guarentee the actions will really happen."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "deal" to (deal!! as FinishedDeal).saveString()

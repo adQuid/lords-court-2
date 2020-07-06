@@ -43,6 +43,10 @@ class QuestionOffer: Line {
         return "Why would you say that?"
     }
 
+    override fun tooltipDescription(): String {
+        return "Request more details on why the character wants this."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "line" to line!!.saveString()

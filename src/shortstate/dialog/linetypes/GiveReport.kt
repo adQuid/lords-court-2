@@ -61,6 +61,10 @@ class GiveReport: Line {
         }
     }
 
+    override fun tooltipDescription(): String {
+        return "Hand over report so the character can consider it in future decisions."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "report" to report!!.saveString()

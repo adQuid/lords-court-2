@@ -56,6 +56,10 @@ class RequestAdviceForDeal: Line {
         }
     }
 
+    override fun tooltipDescription(): String {
+        return "Ask character if this deal would be a good plan for you."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "deal" to (deal!!.toFinishedDeal()).saveString()

@@ -38,6 +38,10 @@ class SimpleLine: Line {
         return text
     }
 
+    override fun tooltipDescription(): String {
+        return ""
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf("txt" to text)
     }

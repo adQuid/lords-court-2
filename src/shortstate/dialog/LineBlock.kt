@@ -7,13 +7,19 @@ import shortstate.ShortStateCharacter
 class LineBlock{
 
     val text: String
+    val tooltip: String?
     val behavior: ((perspective: ShortStateCharacter) -> Unit)?
     var tabs = 0
 
-    constructor(text: String): this(text, null)
+    constructor(text: String): this(text, null, null)
 
-    constructor(text: String, behavior: ((perspective: ShortStateCharacter) -> Unit)?){
+    constructor(text: String, tooltip: String?): this(text, tooltip, null)
+
+    constructor(text: String, behavior: ((perspective: ShortStateCharacter) -> Unit)?): this(text, null, behavior)
+
+    constructor(text: String, tooltip: String?, behavior: ((perspective: ShortStateCharacter) -> Unit)?){
         this.text = text
+        this.tooltip = tooltip
         this.behavior = behavior
     }
 

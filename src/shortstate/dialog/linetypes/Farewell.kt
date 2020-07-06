@@ -33,6 +33,10 @@ class Farewell: Line {
         return "Goodbye"
     }
 
+    override fun tooltipDescription(): String {
+        return "End this conversation."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return mapOf()
     }

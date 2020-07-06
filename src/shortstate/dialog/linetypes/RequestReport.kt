@@ -56,6 +56,10 @@ class RequestReport: Line, HasReportType {
         return "What can you tell me of "+if(report != null) report.toString() else "______"+"?"
     }
 
+    override fun tooltipDescription(): String {
+        return ""
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "report" to report.toString()

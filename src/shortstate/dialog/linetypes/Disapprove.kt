@@ -32,6 +32,10 @@ class Disapprove: Line {
         return "I don't like this."
     }
 
+    override fun tooltipDescription(): String {
+        return "Disapprove of this."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(GlobalLineTypeFactory.TYPE_NAME to "Disapprove")
     }

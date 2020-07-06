@@ -14,6 +14,8 @@ abstract class Line {
 
     abstract fun tooltipName(): String
 
+    abstract fun tooltipDescription(): String
+
     abstract fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock>
 
     abstract fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String

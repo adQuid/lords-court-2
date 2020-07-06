@@ -58,6 +58,10 @@ class OfferWrit: Line {
         }
     }
 
+    override fun tooltipDescription(): String {
+        return "Ask character to sign a writ. Once everyone in a writ has signed, the writ can be enacted in the throne room."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "writ" to writ!!.saveString()

@@ -40,7 +40,7 @@ class Announcement: Line, HasAction {
 
     override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
         return listOf(LineBlock("ANNOUNCE:"), LineBlock(if(action == null) "SELECT ACTION" else "Action: "+action.toString(),
-            {perspective -> UIGlobals.focusOn(
+            null, {perspective -> UIGlobals.focusOn(
                 SelectionModal( "Annouce...",
                     listOf(
                         Tab(
@@ -56,6 +56,10 @@ class Announcement: Line, HasAction {
 
     override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
         return "I will "+if(action != null) action.toString() else "______"+" by the end of the turn. Just wanted to let you know."
+    }
+
+    override fun tooltipDescription(): String {
+        return "Declare that you intend to do an action, either to inform others or just gauge reaction."
     }
 
     override fun specialSaveString(): Map<String, Any> {

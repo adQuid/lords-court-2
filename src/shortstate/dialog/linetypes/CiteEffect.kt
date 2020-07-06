@@ -62,6 +62,10 @@ class CiteEffect: Line {
         return "I have some very good reasons: " + effects?.map { effect -> effect.describe() }
     }
 
+    override fun tooltipDescription(): String {
+        return ""
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "effects" to effects!!.map { effect -> effect.saveString() },

@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView
 import javafx.scene.image.PixelFormat
 import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
+import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.util.Duration
 import main.UIGlobals
@@ -166,10 +167,13 @@ object UtilityComponentFactory {
         return listOf(completeTab, incompleteTab)
     }
 
-    fun applyTooltip(node: Node, text: String){
+    fun applyTooltip(node: Node, text: String): Node{
         val tooltip = Tooltip(text)
+        tooltip.font = Font(12.0)
         tooltip.showDelay = Duration(100.0)
         Tooltip.install(node, tooltip)
+
+        return node
     }
 
     fun iconButton(image: String, tooltip: String, action: () -> Unit): ImageView{

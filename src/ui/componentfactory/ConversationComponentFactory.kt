@@ -82,11 +82,10 @@ class ConversationComponentFactory {
             val textBlocks = if(line != null){
                 line.symbolicForm( game, conversation.otherParticipant(conversation.lastSpeaker), conversation.lastSpeaker)
             } else if(left){
-                lineOptions(perspective).map { line -> LineBlock(line.tooltipName(), {focusOnLine(line); UIGlobals.refresh()}) }
+                lineOptions(perspective).map { line -> LineBlock(line.tooltipName(), line.tooltipDescription(), {focusOnLine(line); UIGlobals.refresh()}) }
             } else {
                 listOf()
             }
-
             var index = 0 //gotta be a better way to do this
             textBlocks.forEach { block ->
                 val playerLineText = block.textForm(perspective)
@@ -95,6 +94,9 @@ class ConversationComponentFactory {
                     playerLineText.font = Font(20.0)
                 }
                 playerLineText.wrappingWidth = UIGlobals.totalWidth() * 0.28
+                if(block.tooltip != null && block.tooltip != ""){
+                    UtilityComponentFactory.applyTooltip(playerLineText, block.tooltip)
+                }
                 (lineNode as GridPane).add(playerLineText, 0, index++)
 
                 if(block.behavior==null){
