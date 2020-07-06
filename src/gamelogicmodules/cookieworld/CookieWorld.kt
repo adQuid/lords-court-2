@@ -9,6 +9,8 @@ import gamelogicmodules.cookieworld.actionTypes.BakeCookies
 import gamelogicmodules.cookieworld.actionTypes.GetMilk
 import gamelogicmodules.cookieworld.actionTypes.WasteTime
 import gamelogicmodules.cookieworld.effects.CookieWorldEffectFactory
+import javafx.scene.control.Button
+import shortstate.ShortStateCharacter
 import shortstate.report.DeliciousnessReportFactory
 
 class CookieWorld: GameLogicModule {
@@ -97,5 +99,9 @@ class CookieWorld: GameLogicModule {
             retval += 0.0
         }
         return retval
+    }
+
+    override fun bottomButtons(perspective: ShortStateCharacter): List<Button> {
+        return listOf()
     }
 }

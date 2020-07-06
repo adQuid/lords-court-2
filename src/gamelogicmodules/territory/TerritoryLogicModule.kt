@@ -4,6 +4,8 @@ import aibrain.Plan
 import game.*
 import gamelogicmodules.territory.effects.Starvation
 import gamelogicmodules.territory.effects.TerritoryEffectFactory
+import javafx.scene.control.Button
+import shortstate.ShortStateCharacter
 import shortstate.report.ReportFactory
 import kotlin.math.min
 
@@ -82,6 +84,10 @@ class TerritoryLogicModule: GameLogicModule {
 
     override fun value(perspective: GameCharacter): Double {
         return 0.0
+    }
+
+    override fun bottomButtons(perspective: ShortStateCharacter): List<Button> {
+        return listOf()
     }
 
     override fun planOptions(

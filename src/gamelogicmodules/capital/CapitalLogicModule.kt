@@ -5,7 +5,9 @@ import game.*
 import gamelogicmodules.capital.actionTypes.SetTaxRate
 import gamelogicmodules.territory.Territory
 import gamelogicmodules.territory.TerritoryLogicModule
+import javafx.scene.control.Button
 import main.UIGlobals
+import shortstate.ShortStateCharacter
 import shortstate.report.ReportFactory
 import shortstate.room.RoomActionMaker
 import shortstate.room.actionmaker.DefaultRoomActionMaker
@@ -101,6 +103,10 @@ class CapitalLogicModule: GameLogicModule {
         }
 
         return retval
+    }
+
+    override fun bottomButtons(perspective: ShortStateCharacter): List<Button> {
+        return listOf()
     }
 
     override fun planOptions(

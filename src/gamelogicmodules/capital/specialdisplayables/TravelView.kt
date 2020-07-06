@@ -4,6 +4,7 @@ import gamelogicmodules.capital.CapitalLogicModule
 import gamelogicmodules.capital.Count
 import gamelogicmodules.territory.Territory
 import gamelogicmodules.territory.TerritoryLogicModule
+import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import main.UIGlobals
@@ -30,7 +31,7 @@ class TravelView: PerspectiveDisplayable {
         mapView.focusX = myLocation!!.x.toDouble()
         mapView.focusY = myLocation!!.y.toDouble()
         mapView.zoom = 3.0
-        //mapView.onClick = {x,y -> focusedTerritory = mapView.selectTerritoryAt(x,y, highlight = false, makeNew = false); mapView.resize(1.0, height()); UIGlobals.refresh()}
+        mapView.onClick = {x,y -> focusedTerritory = mapView.selectTerritoryAt(x,y, highlight = false, makeNew = false); mapView.resize(1.0, height()); UIGlobals.refresh()}
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {
@@ -42,16 +43,15 @@ class TravelView: PerspectiveDisplayable {
         if(focusedTerritory != null){
             mapView.selectTerritoryAt(focusedTerritory!!.x.toDouble(), focusedTerritory!!.y.toDouble(), true, false)
 
-            val countTitleOfTerr = UIGlobals.activeGame().titles.filter { it is Count && it.capital.territory == focusedTerritory }.firstOrNull()
             val countOfTerr = (UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule).countOfCaptial((focusedTerritory!!.id))
-            val countText = if(countOfTerr == null){"no ruler"} else{ "Ruler: "+countOfTerr.fullName()}
+            val countText = if(countOfTerr == null){""} else{ ", "+countOfTerr.fullName()}
 
-            pane.add(UtilityComponentFactory.shortWideLabel(focusedTerritory!!.name), 0, 1)
+            pane.add(UtilityComponentFactory.shortWideLabel(focusedTerritory!!.name + countText), 0, 1)
 
             if(countOfTerr == perspective.player){
                 pane.add(UtilityComponentFactory.shortWideLabel("FILLER"), 0,2)
             } else {
-                pane.add(UtilityComponentFactory.shortWideLabel(countText), 0, 2)
+                pane.add(UtilityComponentFactory.shortWideButton("Travel to Capital", EventHandler {  }), 0, 2)
             }
         }
         pane.add(UtilityComponentFactory.backButton(), 0, 3)

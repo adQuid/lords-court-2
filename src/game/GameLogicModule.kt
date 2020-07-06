@@ -9,6 +9,8 @@ import java.lang.Exception
 import gamelogicmodules.territory.TerritoryLogicModule
 import gamelogicmodules.capital.CapitalLogicModule
 import game.titlemaker.TitleFactory
+import javafx.scene.control.Button
+import shortstate.ShortStateCharacter
 
 abstract class GameLogicModule {
 
@@ -88,4 +90,6 @@ abstract class GameLogicModule {
     abstract fun planOptions(perspective: GameCharacter, importantPlayers: Collection<GameCharacter>): Collection<Plan>
 
     abstract fun value(perspective: GameCharacter): Double
+
+    abstract fun bottomButtons(perspective: ShortStateCharacter): List<Button>
 }

@@ -65,11 +65,7 @@ object BottomPaneComponentFactory {
             EndTurnMenu()
         )})
 
-        val leaveLocationButton = UtilityComponentFactory.shortButton("Leave Location", EventHandler { _ -> UIGlobals.focusOn(
-            TravelView(perspective)
-        )})
-
-        return listOf(localActionsButton, endTurnButton, leaveLocationButton)
+        return listOf(localActionsButton, endTurnButton).plus(UIGlobals.activeGame().gameLogicModules.flatMap { it.bottomButtons(perspective) })
     }
 
     private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomActionMaker>>{
