@@ -40,7 +40,7 @@ object MiddlePaneComponentFactory {
             )
         }), 3,0)
 
-        val optionsButton = UtilityComponentFactory.shortButton("Options", EventHandler { UIGlobals.focusOn(OptionsMenu()) })
+        val optionsButton = UtilityComponentFactory.iconButton("assets/general/optionsIcon.png", "Options", { UIGlobals.focusOn(OptionsMenu()) })
         retval.add(optionsButton, 4,0)
 
         return retval
