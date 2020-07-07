@@ -11,30 +11,40 @@ import shortstate.room.actionmaker.DraftWritRoomActionMaker
 
 class Room {
 
-    val NAME_NAME = "NAME"
+    companion object{
+        val NAME_NAME = "NAME"
+        val TYPE_NAME = "TYPE"
+        val PICTURE_TEXT_NAME = "PICTURE"
+        val tooltips = mapOf(
+            RoomType.BEDROOM to "Sleep here",
+            RoomType.WORKROOM to "Gather reports, draft new writs, or view your lands",
+            RoomType.ETC to "",
+            RoomType.THRONEROOM to "announce your writs to enact them into law"
+        )
+    }
+
+
     val name: String
-    val TYPE_NAME = "TYPE"
     val type: RoomType
-    val PICTURE_TEXT_NAME = "PICTURE"
-    val pictureText: String
+    val imagePath: String
 
     constructor(name: String, pictureText: String, type: RoomType){
         this.name = name
         this.type = type
-        this.pictureText = pictureText
+        this.imagePath = pictureText
     }
 
     constructor(parent: ShortStateGame, saveString: Map<String, Any>){
         name = saveString[NAME_NAME] as String
         type = RoomType.valueOf(saveString[TYPE_NAME] as String)
-        pictureText = saveString[PICTURE_TEXT_NAME] as String
+        imagePath = saveString[PICTURE_TEXT_NAME] as String
     }
 
     fun saveString(): Map<String, Any>{
         return hashMapOf(
             NAME_NAME to name,
             TYPE_NAME to type.toString(),
-            PICTURE_TEXT_NAME to pictureText
+            PICTURE_TEXT_NAME to imagePath
         )
     }
 

@@ -153,25 +153,27 @@ object UtilityComponentFactory {
 
     fun reports(perspective: ShortStateCharacter): List<Tab<Report>>{
         val reportOptions = perspective.knownReports
-        val reportTab = Tab<Report>("Reports", reportOptions)
+        val reportTab = Tab("Reports", reportOptions)
 
         return listOf(reportTab)
     }
 
     fun writs(perspective: ShortStateCharacter): List<Tab<Writ>>{
         val complete = perspective.player.writs.filter { it.complete() }
-        val completeTab = Tab<Writ>("Complete", complete)
+        val completeTab = Tab("Complete", complete)
         val incomplete = perspective.player.writs.filter { !it.complete() }
-        val incompleteTab = Tab<Writ>("Incomplete", incomplete)
+        val incompleteTab = Tab("Incomplete", incomplete)
 
         return listOf(completeTab, incompleteTab)
     }
 
-    fun applyTooltip(node: Node, text: String): Node{
-        val tooltip = Tooltip(text)
-        tooltip.font = Font(12.0)
-        tooltip.showDelay = Duration(100.0)
-        Tooltip.install(node, tooltip)
+    fun applyTooltip(node: Node, text: String?): Node{
+        if(text != null){
+            val tooltip = Tooltip(text)
+            tooltip.font = Font(12.0)
+            tooltip.showDelay = Duration(100.0)
+            Tooltip.install(node, tooltip)
+        }
 
         return node
     }

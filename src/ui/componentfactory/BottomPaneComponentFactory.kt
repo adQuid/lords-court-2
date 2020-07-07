@@ -18,11 +18,7 @@ import ui.specialdisplayables.selectionmodal.Tab
 object BottomPaneComponentFactory {
 
     fun sceneBottomPane(scene: ShortGameScene, perspective: ShortStateCharacter): Pane {
-        if(scene.conversation == null){
-            return bottomPane(outOfConvoButtons(scene, perspective).plus(listOf(UtilityComponentFactory.newSceneButton(perspective))), perspective)
-        } else {
-            return bottomPane(listOf(UtilityComponentFactory.newSceneButton(perspective)), perspective)
-        }
+        return bottomPane(listOf(UtilityComponentFactory.newSceneButton(perspective)), perspective)
     }
 
     fun bottomPane(buttons: List<Button>, perspective: ShortStateCharacter): Pane {
@@ -40,37 +36,5 @@ object BottomPaneComponentFactory {
         retval.add(buttonsPane, 0,1)
 
         return retval
-    }
-
-
-    fun outOfConvoButtons(scene: ShortGameScene, perspective: ShortStateCharacter): List<Button> {
-        val localActionsButton = if(scene.room.getActions(perspective).isNotEmpty()){
-            UtilityComponentFactory.shortButton("Actions Here", EventHandler { _ ->
-                UIGlobals.focusOn(
-                    SelectionModal("Select Action",
-                        roomActionButtons(scene.room, perspective),
-                        { maker ->
-                            maker.onClick(
-                                Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,
-                                perspective
-                            )
-                        })
-                )
-            })
-        } else {
-            UtilityComponentFactory.shortButton("No Actions In this Room", null)
-        }
-
-        val endTurnButton = UtilityComponentFactory.shortButton("End Turn", EventHandler { _ -> UIGlobals.focusOn(
-            EndTurnMenu()
-        )})
-
-        return listOf(localActionsButton, endTurnButton).plus(UIGlobals.activeGame().gameLogicModules.flatMap { it.bottomButtons(perspective) })
-    }
-
-    private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomActionMaker>>{
-        val tab = Tab(room.name, room.getActions(perspective))
-
-        return listOf(tab)
     }
 }

@@ -1,12 +1,17 @@
 package ui.componentfactory
 
+import javafx.event.EventHandler
 import javafx.scene.Scene
-import javafx.scene.image.ImageView
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
+import main.Controller
 import main.UIGlobals
 import shortstate.ShortGameScene
 import shortstate.ShortStateCharacter
+import shortstate.room.Room
+import shortstate.room.RoomActionMaker
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 
 class SceneComponentFactory {
 
@@ -38,15 +43,37 @@ class SceneComponentFactory {
 
     fun sceneImage(perspective: ShortStateCharacter): Pane {
         val imagePane = Pane()
-        val backgroundView = UtilityComponentFactory.imageView(scene.room.pictureText+"/inside", 0.8)
+        val backgroundView = UtilityComponentFactory.imageView(scene.room.imagePath+"/inside", 0.8)
+
+        val interactView = UtilityComponentFactory.imageView(scene.room.imagePath+"/interact", 0.8)
+        UtilityComponentFactory.applyTooltip(interactView, Room.tooltips[scene.room.type])
+        interactView.onMouseClicked = EventHandler { _ ->
+            UIGlobals.focusOn(
+                SelectionModal("Select Action",
+                    roomActionButtons(scene.room, perspective),
+                    { maker ->
+                        maker.onClick(
+                            Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,
+                            perspective
+                        )
+                    })
+            )
+        }
+
+        imagePane.children.addAll(backgroundView, interactView)
         if(scene.characters!!.size > 1){
             val otherPlayer = scene.conversation!!.otherParticipant(perspective)
             val characterView = UtilityComponentFactory.imageView(otherPlayer.player.pictureString, 0.8)
             characterView.setOnMouseClicked { event -> UIGlobals.focusOn(otherPlayer) }
-            imagePane.children.addAll(backgroundView, characterView)
+            imagePane.children.addAll(characterView)
         } else {
-            imagePane.children.addAll(backgroundView)
         }
         return imagePane
+    }
+
+    private fun roomActionButtons(room: Room, perspective: ShortStateCharacter): List<Tab<RoomActionMaker>>{
+        val tab = Tab(room.name, room.getActions(perspective))
+
+        return listOf(tab)
     }
 }
