@@ -16,7 +16,9 @@ import kotlin.system.exitProcess
 
 var SIZE_SCALE = 0.8
 var BASE_WIDTH = 1200.0
-var BASE_HEIGHT = 900.0
+var BASE_HEIGHT = 800.0 //900.0
+const val MAIN_WINDOW_PORTION = 0.9
+const val BOTTOM_BAR_PORTION = 0.1
 
 class MainUI() : Application() {
 

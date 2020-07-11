@@ -10,6 +10,8 @@ import shortstate.ShortGameScene
 import shortstate.ShortStateCharacter
 import shortstate.room.Room
 import shortstate.room.RoomActionMaker
+import ui.MAIN_WINDOW_PORTION
+import ui.MainUI
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -35,17 +37,17 @@ class SceneComponentFactory {
         } else {
             root.add(sceneImage(perspective), 0, 0)
         }
-        root.add(MiddlePaneComponentFactory.middlePane(perspective), 0, 1)
-        root.add(BottomPaneComponentFactory.sceneBottomPane(scene, perspective), 0, 2)
+        root.add(MiddlePaneComponentFactory.middlePane(perspective, scene.conversation != null), 0, 1)
+        //root.add(BottomPaneComponentFactory.sceneBottomPane(scene, perspective), 0, 2)
 
         return Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
     }
 
     fun sceneImage(perspective: ShortStateCharacter): Pane {
         val imagePane = Pane()
-        val backgroundView = UtilityComponentFactory.imageView(scene.room.imagePath+"/inside", 0.8)
+        val backgroundView = UtilityComponentFactory.imageView(scene.room.imagePath+"/inside", MAIN_WINDOW_PORTION)
 
-        val interactView = UtilityComponentFactory.imageView(scene.room.imagePath+"/interact", 0.8)
+        val interactView = UtilityComponentFactory.imageView(scene.room.imagePath+"/interact", MAIN_WINDOW_PORTION)
         UtilityComponentFactory.applyTooltip(interactView, Room.tooltips[scene.room.type])
         interactView.onMouseClicked = EventHandler { _ ->
             UIGlobals.focusOn(
@@ -63,7 +65,7 @@ class SceneComponentFactory {
         imagePane.children.addAll(backgroundView, interactView)
         if(scene.characters!!.size > 1){
             val otherPlayer = scene.conversation!!.otherParticipant(perspective)
-            val characterView = UtilityComponentFactory.imageView(otherPlayer.player.pictureString, 0.8)
+            val characterView = UtilityComponentFactory.imageView(otherPlayer.player.pictureString, MAIN_WINDOW_PORTION)
             characterView.setOnMouseClicked { event -> UIGlobals.focusOn(otherPlayer) }
             imagePane.children.addAll(characterView)
         } else {

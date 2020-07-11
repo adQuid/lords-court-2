@@ -17,6 +17,7 @@ import javafx.util.Duration
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.report.Report
+import ui.BOTTOM_BAR_PORTION
 import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -180,7 +181,7 @@ object UtilityComponentFactory {
 
     fun iconButton(image: String, tooltip: String, action: () -> Unit): ImageView{
         val retval = ImageView(Image(image))
-        retval.fitHeight = UIGlobals.totalHeight()/10
+        retval.fitHeight = UIGlobals.totalHeight() * BOTTOM_BAR_PORTION
         retval.fitWidth = UIGlobals.totalWidth()/12
         applyTooltip(retval, tooltip)
         retval.onMouseClicked =  EventHandler { _ -> action()}

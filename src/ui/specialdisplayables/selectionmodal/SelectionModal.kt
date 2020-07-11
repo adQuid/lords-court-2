@@ -44,7 +44,7 @@ class SelectionModal<T>: PerspectiveDisplayable {
         data.addAll(focusedTab.items)
         val listView = ListView<T>(data)
         listView.items = data
-        listView.setPrefSize(parent.totalWidth,parent.totalHeight * (5.0/6.0))
+        listView.setPrefSize(parent.totalWidth,parent.totalHeight * (9.0/12.0))
         listView.setCellFactory({ _: ListView<T> ->
             ActionPickCell(
                 closeAction

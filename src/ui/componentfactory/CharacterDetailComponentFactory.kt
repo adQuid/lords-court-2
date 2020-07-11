@@ -24,7 +24,7 @@ class CharacterDetailComponentFactory {
     fun characterFocusPage(perspective: ShortStateCharacter): Scene {
         val root = GridPane()
         root.add(sceneImage(), 0, 0)
-        root.add(MiddlePaneComponentFactory.middlePane(perspective), 0,1)
+        root.add(MiddlePaneComponentFactory.middlePane(perspective, true), 0,1)
         root.add(characterFocusButtons(perspective), 0, 2)
         val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene

@@ -7,20 +7,23 @@ import javafx.scene.layout.Pane
 import javafx.scene.text.Font
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import ui.BOTTOM_BAR_PORTION
+import ui.specialdisplayables.EndTurnMenu
+import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.OptionsMenu
 import ui.specialdisplayables.selectionmodal.SelectionModal
 
 object MiddlePaneComponentFactory {
 
-    fun middlePane(perspective: ShortStateCharacter): Pane {
+    fun middlePane(perspective: ShortStateCharacter, locked: Boolean): Pane {
         val retval = GridPane()
 
         val turnDisplay = Label(UIGlobals.activeGame().turnName())
         turnDisplay.font = Font(20.0)
-        turnDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() / 10)
+        turnDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() * BOTTOM_BAR_PORTION)
         retval.add(turnDisplay, 0,0)
         val statsDisplay = Label("Energy: " + perspective.energy + "/1000")
-        statsDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() / 10)
+        statsDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() * BOTTOM_BAR_PORTION)
         retval.add(statsDisplay, 1,0)
 
 
@@ -42,6 +45,17 @@ object MiddlePaneComponentFactory {
 
         val optionsButton = UtilityComponentFactory.iconButton("assets/general/optionsIcon.png", "Options", { UIGlobals.focusOn(OptionsMenu()) })
         retval.add(optionsButton, 4,0)
+
+        if(!locked){
+            retval.add(UtilityComponentFactory.iconButton("assets/general/newSceneIcon.png", "Go somewhere else", { UIGlobals.focusOn(
+                NewSceneSelector.newSceneSelector(perspective)
+            )
+            }), 5,0)
+
+            retval.add(UtilityComponentFactory.iconButton("assets/general/endTurnIcon.png", "End turn", { UIGlobals.focusOn(
+                EndTurnMenu()
+            )}), 6,0)
+        }
 
         return retval
     }

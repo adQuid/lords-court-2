@@ -76,12 +76,12 @@ open class DealComponentFactory {
                 topic.font = Font(18.0)
                 topic.onAction = null
             }
-            topic.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 12)
+            topic.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 10)
             topPane.add(topic, index++, 0)
         }
         if(deal is UnfinishedDeal){
             val addButton = UtilityComponentFactory.proportionalButton("Add Character", EventHandler { _ -> UIGlobals.focusOn(characterSelector()) }, (actions.size+1).toDouble())
-            addButton.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 12)
+            addButton.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 10)
             topPane.add(addButton,index++,0)
         }
         return topPane
@@ -113,7 +113,7 @@ open class DealComponentFactory {
 
     private fun characterSelector(): SelectionModal<GameCharacter> {
         val tabs = listOf(
-            Tab<GameCharacter>(
+            Tab(
                 "Characters",
                 UIGlobals.activeGame().players.toList()
             )
