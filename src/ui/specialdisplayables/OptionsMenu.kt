@@ -49,7 +49,8 @@ class OptionsMenu: PerspectiveDisplayable() {
         pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 5)
         pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 6)
         pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 7)
-        pane.add(UtilityComponentFactory.backButton(), 0, 8)
+        pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 8)
+        pane.add(UtilityComponentFactory.backButton(), 0, 9)
 
         return Scene(pane)
     }
