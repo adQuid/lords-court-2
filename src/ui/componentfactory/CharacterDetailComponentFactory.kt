@@ -10,6 +10,7 @@ import javafx.scene.text.TextAlignment
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import ui.MAIN_WINDOW_PORTION
 import ui.MainUI
 import javax.naming.ldap.Control
 
@@ -25,15 +26,14 @@ class CharacterDetailComponentFactory {
         val root = GridPane()
         root.add(sceneImage(), 0, 0)
         root.add(MiddlePaneComponentFactory.middlePane(perspective, true), 0,1)
-        root.add(characterFocusButtons(perspective), 0, 2)
         val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene
     }
 
     private fun sceneImage(): Pane {
         val imagePane = StackPane()
-        val backgroundView = UtilityComponentFactory.imageView("assets/general/characterStage.png", 0.8)
-        val characterView = UtilityComponentFactory.imageView(character.player.pictureString, 0.8)
+        val backgroundView = UtilityComponentFactory.imageView("assets/general/characterStage.png", MAIN_WINDOW_PORTION)
+        val characterView = UtilityComponentFactory.imageView(character.player.pictureString, MAIN_WINDOW_PORTION)
         backgroundView.setOnMouseClicked { _ -> UIGlobals.defocus() }
         characterView.setOnMouseClicked { _ -> UIGlobals.defocus() }
 

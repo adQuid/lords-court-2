@@ -37,8 +37,11 @@ class GameSetup {
         game.addPlayer(PC)
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
 
-        val advisor = GameCharacter("Frip", "assets/portraits/faceman.png", true, pcCapital.location, game)
+        val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
         game.addPlayer(advisor)
+
+        val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
+        game.addPlayer(fishmonger)
 
         val names = Stack<String>()
         names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim", "Starwin", "Artyom", "Elsvin", "Krolm", "Ashta"))
@@ -51,7 +54,6 @@ class GameSetup {
         }
 
         game.endTurn()
-        //game.endTurn()
         return game
     }
 
