@@ -1,10 +1,7 @@
 package ui.componentfactory
 
 import shortstate.dialog.Line
-import javafx.event.EventHandler
 import javafx.scene.Node
-import javafx.scene.control.Button
-import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.Font
@@ -50,7 +47,7 @@ class ConversationComponentFactory {
                 backgroundPane.children.add(cancelButton)
             }
 
-            backgroundPane.children.add(descriptionPane(perspective))
+            backgroundPane.children.add(CharacterDetailComponentFactory.characterNameText(conversation.otherParticipant(perspective), false))
 
             val lineAnchorPane = MyAnchorPane()
             linePane(perspective, lineAnchorPane, lineBeingConstructed, myLineSymbolic, true)
@@ -60,16 +57,6 @@ class ConversationComponentFactory {
         }
 
         return backgroundPane
-    }
-
-    private fun descriptionPane(perspective: ShortStateCharacter): AnchorPane{
-        val nameText = Text(10.0, 50.0, conversation.otherParticipant(perspective).toString())
-        nameText.font = Font(24.0)
-        val descriptionAnchorPane = MyAnchorPane()
-        descriptionAnchorPane.realPane.children.add(nameText)
-        descriptionAnchorPane.setTopAnchor(nameText, UIGlobals.totalHeight() * 0.03)
-        descriptionAnchorPane.setLeftAnchor(nameText, UIGlobals.totalWidth() * 0.35)
-        return descriptionAnchorPane.realPane
     }
 
     private fun linePane(perspective: ShortStateCharacter, pane: MyAnchorPane, line: Line?, symbolic: Boolean, left: Boolean): MyAnchorPane {
