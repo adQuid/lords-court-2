@@ -1,6 +1,7 @@
 package gamelogicmodules.cookieworld
 
 import aibrain.Plan
+import aibrain.Score
 import game.*
 import game.titlemaker.CookieWorldTitleFactory
 import game.titles.Baker
@@ -91,13 +92,12 @@ class CookieWorld: GameLogicModule {
         return retval
     }
 
-    override fun value(perspective: GameCharacter): Double {
-        var retval = 0.0
+    override fun score(perspective: GameCharacter): Score {
+        var retval = Score()
         if(hasMilk.contains(perspective)){
-            retval += deliciousness * 1.0
-        } else {
-            retval += 0.0
+            retval.add("Deliciousness", "I will eat yummy cookies",deliciousness * 1.0)
         }
+        retval.add("Dummy", "Dummy score of ${perspective.dummyScore}", perspective.dummyScore)
         return retval
     }
 

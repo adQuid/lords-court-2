@@ -40,6 +40,7 @@ class TestAI {
         val brain = ForecastBrain(character) //should I be doing this? The Character class already makes a brain for itself...
 
         brain.thinkAboutNextTurn(game)
+        println(brain.dealValueToMe(badDeal(game.players)))
         assert(brain.dealValueToMe(badDeal(game.players)) < 0)
     }
 

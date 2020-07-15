@@ -1,6 +1,7 @@
 package gamelogicmodules.territory
 
 import aibrain.Plan
+import aibrain.Score
 import game.*
 import gamelogicmodules.territory.effects.Starvation
 import gamelogicmodules.territory.effects.TerritoryEffectFactory
@@ -82,8 +83,8 @@ class TerritoryLogicModule: GameLogicModule {
         return retval
     }
 
-    override fun value(perspective: GameCharacter): Double {
-        return 0.0
+    override fun score(perspective: GameCharacter): Score {
+        return Score()
     }
 
     override fun bottomButtons(perspective: ShortStateCharacter): List<Button> {

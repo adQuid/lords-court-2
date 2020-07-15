@@ -77,15 +77,12 @@ class GameCase {
     }
 
     fun valueToCharacter(character: game.GameCharacter): Double{
-        return gameValue(this.currentGame, this.currentGame.matchingPlayer(character)!!)
+        return gameScore(this.currentGame, this.currentGame.matchingPlayer(character)!!).components().sumByDouble { it.value }
     }
 
-    private fun gameValue(game: Game, player: GameCharacter): Double {
-        var retval = 0.0
-        game.gameLogicModules.forEach {
-            retval += it.value(player)
-        }
-        retval += player.dummyScore
-        return retval
+    private fun gameScore(game: Game, player: GameCharacter): Score {
+        return Score(game.gameLogicModules.flatMap {
+            it.score(player).components()
+        })
     }
 }

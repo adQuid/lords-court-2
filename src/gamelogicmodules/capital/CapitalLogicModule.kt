@@ -1,6 +1,7 @@
 package gamelogicmodules.capital
 
 import aibrain.Plan
+import aibrain.Score
 import game.*
 import gamelogicmodules.capital.actionTypes.SetTaxRate
 import gamelogicmodules.territory.Territory
@@ -92,13 +93,16 @@ class CapitalLogicModule: GameLogicModule {
         )
     }
 
-    override fun value(perspective: GameCharacter): Double {
-        var retval = 0.0
+    override fun score(perspective: GameCharacter): Score {
+        var retval = Score()
 
         capitals.forEach {
             if(countOfCaptial(it.terId) == perspective){
-                retval += it.resources.get(Territory.FLOUR_NAME)
-                retval += it.territory!!.crops.sumBy { crop -> crop.quantity }
+                val flourGained = it.resources.get(Territory.FLOUR_NAME)
+                retval.add("Flour Gained", "we will add ${flourGained} flour to our stockpile", flourGained.toDouble())
+
+                val newCrops = it.territory!!.crops.sumBy { crop -> crop.quantity }
+                retval.add("New Crops", "${newCrops} will be planted", newCrops.toDouble())
             }
         }
 

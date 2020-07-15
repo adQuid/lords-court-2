@@ -1,6 +1,7 @@
 package game
 
 import aibrain.Plan
+import aibrain.Score
 import gamelogicmodules.cookieworld.CookieWorld
 import shortstate.report.GlobalReportTypeFactory
 import shortstate.report.Report
@@ -89,7 +90,7 @@ abstract class GameLogicModule {
 
     abstract fun planOptions(perspective: GameCharacter, importantPlayers: Collection<GameCharacter>): Collection<Plan>
 
-    abstract fun value(perspective: GameCharacter): Double
+    abstract fun score(perspective: GameCharacter): Score
 
     abstract fun bottomButtons(perspective: ShortStateCharacter): List<Button>
 }

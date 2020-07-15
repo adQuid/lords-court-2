@@ -1,6 +1,7 @@
 package gamelogicmodules.travel
 
 import aibrain.Plan
+import aibrain.Score
 import game.*
 import gamelogicmodules.capital.specialdisplayables.TravelView
 import gamelogicmodules.territory.TerritoryLogicModule
@@ -45,7 +46,7 @@ class TravelLogicModule: GameLogicModule{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun value(perspective: GameCharacter): Double {
+    override fun score(perspective: GameCharacter): Score {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
