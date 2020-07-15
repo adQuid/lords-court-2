@@ -153,15 +153,6 @@ class ForecastBrain {
     }
 
     private fun actionPossibilitiesForPlayer(game: Game, target: GameCharacter): List<Plan>{
-
-        //TODO: reimplement this
-        /*rawActions.forEach {
-            action ->
-             val weight = this.target.memory.lines.fold(1.0, {acc, mem -> acc + oddsModifierGivenLine(target, action, mem)})
-             planWeights.put(action, weight)
-        }*/
-
-        val debug = game.gameLogicModules.flatMap { it.planOptions(player, listOf(target)) }
         return game.gameLogicModules.flatMap { it.planOptions(player, listOf(target)) }
     }
 
