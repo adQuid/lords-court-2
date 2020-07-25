@@ -54,10 +54,12 @@ class TestTaxation {
         val lowTaxResult = test_tax_rate(0.1)
         val medTaxResult = test_tax_rate(0.3)
         val highTaxResult = test_tax_rate(0.7)
+        val maxTaxResult = test_tax_rate(1.0)
 
         println("$lowTaxResult, $medTaxResult, $highTaxResult")
         assert(medTaxResult > lowTaxResult)
         assert(medTaxResult > highTaxResult)
+        assert(highTaxResult > maxTaxResult)
     }
 
     fun test_tax_rate(rate: Double): Int{
