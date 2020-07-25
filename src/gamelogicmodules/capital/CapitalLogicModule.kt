@@ -101,6 +101,9 @@ class CapitalLogicModule: GameLogicModule {
                 val flourGained = it.resources.get(Territory.FLOUR_NAME)
                 retval.add("Flour Gained", "we will add ${flourGained} flour to our stockpile", flourGained.toDouble())
 
+                val population = it.resources.get(Territory.POPULATION_NAME)
+                retval.add("", "pop change", population.toDouble() * 2.0)
+
                 val newCrops = it.territory!!.crops.sumBy { crop -> crop.quantity }
                 retval.add("New Crops", "${newCrops} will be planted", newCrops.toDouble())
             }

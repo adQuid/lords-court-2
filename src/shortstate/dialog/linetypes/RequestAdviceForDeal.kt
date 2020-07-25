@@ -85,6 +85,7 @@ class RequestAdviceForDeal: Line {
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
         val value = brain.shortCharacter.player.brain.dealValueToCharacter(deal, speaker)
+        val marginalScore = brain.shortCharacter.player.brain.dealScoreToCharacter(deal, speaker)
         if(value > 0){
             return SimpleLine("Seems like a good idea to me")
         } else if(value < 0){

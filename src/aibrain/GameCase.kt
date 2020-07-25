@@ -76,12 +76,12 @@ class GameCase {
         return plan.actions.fold("{If  ${plan.player.toString()} did: ", {acc, action -> "$acc $action" }) + "}"
     }
 
-    fun valueToCharacter(character: game.GameCharacter): Double{
-        return gameScore(this.currentGame, this.currentGame.matchingPlayer(character)!!).components().sumByDouble { it.value }
+    fun valueToCharacter(character: GameCharacter): Double{
+        return gameScore(this.currentGame.matchingPlayer(character)!!).components().sumByDouble { it.value }
     }
 
-    private fun gameScore(game: Game, player: GameCharacter): Score {
-        return Score(game.gameLogicModules.flatMap {
+    fun gameScore(player: GameCharacter): Score {
+        return Score(this.currentGame.gameLogicModules.flatMap {
             it.score(player).components()
         })
     }
