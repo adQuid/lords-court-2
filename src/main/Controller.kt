@@ -111,7 +111,7 @@ class Controller {
         }
     }
 
-    fun runThreads(){
+    private fun runThreads(){
         runPlayerThread()
         runAnotherThread()
     }
@@ -128,7 +128,7 @@ class Controller {
         return shortThreads.filter { it.shortGame.players.filter { !it.player.npc }.isNotEmpty() }.first()
     }
 
-    fun runPlayerThread(){
+    private fun runPlayerThread(){
         if(shortThreads.any{!it.finished && it.shortGame.players.any { !it.player.npc }}){
             Thread(shortThreads.first{!it.finished && it.shortGame.players.any { !it.player.npc }}).start()
         }

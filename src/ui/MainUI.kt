@@ -71,7 +71,9 @@ class MainUI() : Application() {
     }
 
     fun defocus(){
-        curFocus.pop()
+        if(curFocus.isNotEmpty()){
+            curFocus.pop()
+        }
         display()
     }
 

@@ -22,7 +22,7 @@ class GoToBed: RoomAction() {
         player.done = true
         game.sceneForPlayer(player)!!.terminated = true
         if(!player.player.npc){
-            UIGlobals.resetFocus()
+            UIGlobals.focusOn(null)
         }
         Controller.singleton!!.concludeTurnForPlayer(player.player)
     }
