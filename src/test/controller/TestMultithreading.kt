@@ -15,15 +15,10 @@ class TestMultithreading {
     @Test
     fun testControllerRuns(){
         val testGame = testGame()
-
         var waitForSetup = true
-
-        Controller.singleton = null
-
         Thread{
             while(waitForSetup){
                 //busy wait until the controller has started
-                println("waiting")
                 Thread.sleep(20)
             }
             Controller.singleton!!.concludeTurnForPlayer(testGame.players.first().player)
@@ -31,17 +26,36 @@ class TestMultithreading {
 
         TestWithController {
             Controller.singleton!!.game = testGame.game
-            println("setup test game")
-            //val testController = ShortStateController(testGame)
             waitForSetup = false
             Controller.singleton!!.startPlaying()
-            //testController.run() //This will hang if the AI doesn't find a way to finish the round
             assert(true)
         }.doit()
-
     }
 
-    fun testGame(): ShortStateGame{
+    @Test
+    fun testDoubleEndingTurn(){
+        val testGame = testGame()
+        var waitForSetup = true
+        Thread{
+            while(waitForSetup){
+                //busy wait until the controller has started
+                Thread.sleep(20)
+            }
+            Controller.singleton!!.concludeTurnForPlayer(testGame.players.first().player)
+            Controller.singleton!!.playerThread()
+            Controller.singleton!!.concludeTurnForPlayer(testGame.players.first().player)
+            Controller.singleton!!.playerThread()
+        }.start()
+
+        TestWithController {
+            Controller.singleton!!.game = testGame.game
+            waitForSetup = false
+            Controller.singleton!!.startPlaying()
+            assert(true)
+        }.doit()
+    }
+
+    private fun testGame(): ShortStateGame{
         val logic = SlowModule()
         val game = Game(listOf(logic))
 

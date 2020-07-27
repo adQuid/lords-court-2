@@ -22,7 +22,8 @@ class Controller {
     }
 
     var game: Game? = null
-    var shortThreads = mutableListOf<ShortStateController>()
+    private val shortThreads = mutableListOf<ShortStateController>()
+        @Synchronized get() {return field}
     var GUI: MainUI? = null
 
     private var brainThread1 = BrainThread(this)
