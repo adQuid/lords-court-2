@@ -13,7 +13,7 @@ class Location {
     val y: Int
     var rooms: List<Room> = listOf(
         Room("Bedchamber", "assets/rooms/bedroom", Room.RoomType.BEDROOM),
-        Room("Hallway", "assets/rooms/testRoom", Room.RoomType.ETC),
+        Room("Hallway", "assets/rooms/hallway", Room.RoomType.ETC),
         Room("Workroom", "assets/rooms/workRoom", Room.RoomType.WORKROOM),
         Room("Throne Room", "assets/rooms/throneRoom", Room.RoomType.THRONEROOM)
     )

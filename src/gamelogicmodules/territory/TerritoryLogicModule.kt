@@ -28,7 +28,7 @@ class TerritoryLogicModule: GameLogicModule {
         }
 
         private fun reportFactories(territories: Collection<Int>): List<ReportFactory>{
-            return territories.map{FoodStocksReportFactory(it)} + territories.map{ActiveCropsReportFactory(it)}
+            return territories.map{FoodStocksReportFactory(it)} + territories.map{ActiveCropsReportFactory(it)} + territories.map { PopulationReportFactory(it) }
         }
     }
 

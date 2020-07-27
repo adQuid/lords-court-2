@@ -10,6 +10,7 @@ import gamelogicmodules.territory.ActiveCropsReportFactory
 import gamelogicmodules.territory.FoodStocksReportFactory
 import game.titlemaker.CookieWorldTitleFactory
 import gamelogicmodules.capital.actionTypes.SetTaxRate
+import gamelogicmodules.territory.PopulationReportFactory
 import shortstate.report.ReportFactory
 
 class Count: Title{
@@ -21,20 +22,21 @@ class Count: Title{
     constructor(capital: Capital){
         this.capital = capital
         this.name = "Count of ${capital.territory!!.name}"
-        reportsEntitled = listOf(
-            FoodStocksReportFactory(capital.territory!!.id),
-            ActiveCropsReportFactory(capital.territory!!.id),
-            CapitalStocksReportFactory(capital)
-        )
+        reportsEntitled = reportsEntitled()
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
         val capitalLogic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
         this.name = saveString[NAME_NAME] as String
         this.capital = capitalLogic.capitalById(saveString[CAPITAL_NAME] as Int)
-        reportsEntitled = listOf(
+        reportsEntitled = reportsEntitled()
+    }
+
+    private fun reportsEntitled(): List<ReportFactory>{
+        return listOf(
             FoodStocksReportFactory(capital.territory!!.id),
             ActiveCropsReportFactory(capital.territory!!.id),
+            PopulationReportFactory(capital.territory!!.id),
             CapitalStocksReportFactory(capital)
         )
     }

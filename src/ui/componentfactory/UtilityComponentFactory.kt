@@ -24,7 +24,15 @@ import ui.specialdisplayables.selectionmodal.Tab
 object UtilityComponentFactory {
 
     fun imageView(url: String, height: Double): ImageView {
+        val retval = ImageView(imageFromPath(url))
+        retval.fitHeight = (UIGlobals.totalHeight()) * height
+        retval.fitWidth = UIGlobals.totalWidth()
+        return retval
+    }
+
+    fun imageFromPath(url: String): Image{
         val path = url.replace("//","\\")
+
         var image: Image
         try{
             image = Image(path)
@@ -35,10 +43,7 @@ object UtilityComponentFactory {
                 image = Image(path+".jpeg")
             }
         }
-        val retval = ImageView(image)
-        retval.fitHeight = (UIGlobals.totalHeight()) * height
-        retval.fitWidth = UIGlobals.totalWidth()
-        return retval
+        return image
     }
 
     fun writableImageView(height: Double): ImageView {

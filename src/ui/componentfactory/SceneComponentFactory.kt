@@ -62,6 +62,9 @@ class SceneComponentFactory {
             )
         }
 
+        interactView.onMouseEntered = EventHandler { _ -> interactView.image = UtilityComponentFactory.imageFromPath(scene.room.imagePath+"/interact_highlight"); }
+        interactView.onMouseExited = EventHandler { _ -> interactView.image = UtilityComponentFactory.imageFromPath(scene.room.imagePath+"/interact"); }
+
         imagePane.children.addAll(backgroundView, interactView)
         if(scene.characters!!.size > 1){
             val otherPlayer = scene.conversation!!.otherParticipant(perspective)
