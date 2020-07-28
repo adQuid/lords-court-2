@@ -69,23 +69,23 @@ class Controller {
     }
 
     //TODO: Have save and load use the same library
-    fun save(){
+    fun save(name: String){
         val gson = Gson()
         val saveMap = mapOf<String, Any>(
             "game" to game!!.saveString(),
             "shortGames" to shortThreads.map { it.shortGame!!.saveString()}
         )
 
-        val saveFile = File("save/test.savgam")
+        val saveFile = File("save/${name}.savgam")
         saveFile.writeText(gson.toJson(saveMap))
     }
 
     //TODO: Have save and load use the same library
-    fun load(){
+    fun load(name: String){
         brainThread1.stopped = true
 
         val klac = Klaxon()
-        val loadMap = klac.parse<Map<String,Any>>(File("save/test.savgam").readText())!!
+        val loadMap = klac.parse<Map<String,Any>>(File("save/${name}.savgam").readText())!!
         game = Game(loadMap["game"] as Map<String,Any>)
         val shortGames = loadMap["shortGames"] as List<Map<String, Any>>
         shortThreads.clear()

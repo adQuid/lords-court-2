@@ -12,12 +12,13 @@ import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import ui.NoPerspectiveDisplayable
 import ui.PerspectiveDisplayable
 import ui.commoncomponents.PrettyPrintable
 import ui.componentfactory.UtilityComponentFactory
 
 
-class SelectionModal<T>: PerspectiveDisplayable {
+class SelectionModal<T>: NoPerspectiveDisplayable {
 
     val parent = UIGlobals.GUI()
     val title: String
@@ -33,7 +34,7 @@ class SelectionModal<T>: PerspectiveDisplayable {
         this.closeAction = action
     }
 
-    override fun display(perspective: ShortStateCharacter): Scene {
+    override fun display(): Scene {
         return getScene()
     }
 

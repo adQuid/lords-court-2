@@ -6,12 +6,14 @@ import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
 import shortstate.scenemaker.GoToRoomSoloMaker
 import shortstate.scenemaker.SceneMaker
+import ui.NoPerspectiveDisplayable
 import ui.PerspectiveDisplayable
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
 object NewSceneSelector {
-    fun newSceneSelector(perspective: ShortStateCharacter): PerspectiveDisplayable{
+    //kind of jenky, since this passes the perspective down. Will need to change if hotseat multiplayer ever becomes a thing
+    fun newSceneSelector(perspective: ShortStateCharacter): NoPerspectiveDisplayable {
         return SelectionModal("New Scene",
             newSceneOptions(perspective),
             { maker -> goToNewSceneIfApplicable(maker, perspective) })

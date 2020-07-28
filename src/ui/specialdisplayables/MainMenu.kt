@@ -7,7 +7,11 @@ import main.Controller
 import main.UIGlobals
 import ui.NoPerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 import ui.specialdisplayables.worldgen.WorldEditorMainMenu
+import java.io.File
+import java.nio.file.Files
 
 class MainMenu: NoPerspectiveDisplayable() {
 
@@ -21,7 +25,9 @@ class MainMenu: NoPerspectiveDisplayable() {
         pane.add(UtilityComponentFactory.shortWideLabel("babababababababababa"), 0, 6)
         pane.add(UtilityComponentFactory.shortWideLabel("Filler"), 0, 7)
         pane.add(UtilityComponentFactory.shortWideLabel("Filler"), 0, 8)
-        pane.add( UtilityComponentFactory.shortWideButton("Load", EventHandler { Controller.singleton!!.load(); UIGlobals.resetFocus() }), 0, 9)
+
+        pane.add( UtilityComponentFactory.shortWideButton("Load", EventHandler { UIGlobals.focusOn(SelectionModal("Load Game", listOf(Tab("save files", saveGames())), { name -> Controller.singleton!!.load(name)}))}), 0, 9)
+
         pane.add(UtilityComponentFactory.shortWideButton("MAP EDITOR",  EventHandler { UIGlobals.focusOn(WorldEditorMainMenu) }), 0, 10)
         pane.add(UtilityComponentFactory.shortWideButton("PLAY NEW GAME", EventHandler {
             UIGlobals.focusOn(NewGameMenu())}), 0, 11)
@@ -29,4 +35,8 @@ class MainMenu: NoPerspectiveDisplayable() {
 
         return Scene(pane)
     }
+}
+
+fun saveGames(): List<String>{
+    return File("save/").walkTopDown().map { it.name }.filter{it.endsWith(".savgam")}.map { it.substringBeforeLast(".savgam") }.toList()
 }

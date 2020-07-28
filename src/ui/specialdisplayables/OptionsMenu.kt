@@ -9,6 +9,8 @@ import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.PerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 
 class OptionsMenu: PerspectiveDisplayable() {
 
@@ -37,7 +39,9 @@ class OptionsMenu: PerspectiveDisplayable() {
         topPane.add(resolutionPane, 0, 1)
 
         val saveLoadPane = GridPane()
-        val saveButton = UtilityComponentFactory.proportionalButton("Save", EventHandler { Controller.singleton!!.save() }, 2.0)
+        val saveButton = UtilityComponentFactory.proportionalButton("Save", EventHandler { UIGlobals.focusOn(
+            SelectionModal("Save Game", listOf(Tab("save files", saveGames().plus("New"))), { name -> if(name == "New") { UIGlobals.focusOn(NewSaveGameMenu()) } else {Controller.singleton!!.save(name); UIGlobals.resetFocus()}})
+        ) }, 2.0)
         saveLoadPane.add(saveButton, 0,2)
         val loadButton = UtilityComponentFactory.proportionalButton("Quit and Return to Main Menu", EventHandler { Controller.singleton!!.stopPlaying(); UIGlobals.focusOn(MainMenu()) }, 2.0)
         saveLoadPane.add(loadButton, 1,2)
