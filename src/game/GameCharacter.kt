@@ -5,6 +5,7 @@ import aibrain.ForecastBrain
 import aibrain.Treaty
 import game.action.Action
 import game.titlemaker.CookieWorldTitleFactory
+import gamelogic.resources.Resources
 import shortstate.report.ReportFactory
 
 class GameCharacter {
@@ -34,6 +35,9 @@ class GameCharacter {
     val WRITS_NAME = "WRITS"
     val writs: MutableList<Writ>
 
+    val RESOURCES_NAME = "RESOURCES"
+    val resources: Resources
+
     //testing only; starts positive to prevent infinite relative scores
     var dummyScore = 10.0
 
@@ -47,6 +51,7 @@ class GameCharacter {
         this.acceptedDeals = mutableListOf()
         this.acceptedTreaties = mutableListOf()
         this.writs = mutableListOf()
+        this.resources = Resources()
     }
 
     constructor(other: GameCharacter){
@@ -60,6 +65,7 @@ class GameCharacter {
         this.acceptedDeals = mutableListOf() //TODO: Fix this
         this.acceptedTreaties = mutableListOf() //TODO: Fix this
         this.writs = other.writs.map { writ -> Writ(writ) }.toMutableList()
+        this.resources = Resources(other.resources)
 
         //testing only
         this.dummyScore = other.dummyScore
@@ -71,6 +77,7 @@ class GameCharacter {
         name = saveString[NAME_NAME] as String
         pictureString = saveString[PICTURE_NAME] as String
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> game.titleFromSaveString(map) }.toMutableSet()
+        resources = Resources((saveString[RESOURCES_NAME] as Map<String, Any>))
 
         //To avoid circular references these are populated in finishConstruction
         location = Location(0,0)
@@ -101,6 +108,7 @@ class GameCharacter {
         retval[ACCEPTED_DEALS_NAME] = acceptedDeals.map { deal -> deal.saveString() }
         retval[ACCEPTED_TREATIES_NAME] = acceptedTreaties.map { treaty -> treaty.saveString() }
         retval[WRITS_NAME] = writs.map { writ -> writ.saveString() }
+        retval[RESOURCES_NAME] = resources.saveString()
 
         return retval
     }

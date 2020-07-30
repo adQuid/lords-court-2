@@ -2,8 +2,8 @@ package ui.specialdisplayables.worldgen
 
 import com.beust.klaxon.Klaxon
 import com.google.gson.Gson
-import gamelogicmodules.territory.Territory
-import gamelogicmodules.territory.TerritoryMap
+import gamelogic.territory.Territory
+import gamelogic.territory.TerritoryMap
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane

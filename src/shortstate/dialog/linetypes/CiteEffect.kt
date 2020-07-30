@@ -8,7 +8,7 @@ import shortstate.dialog.LineBlock
 import game.GameCharacter
 import game.Game
 import shortstate.dialog.GlobalLineTypeFactory
-import gamelogicmodules.cookieworld.effects.CookieWorldEffectFactory
+import gamelogic.cookieworld.effects.CookieWorldEffectFactory
 import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter

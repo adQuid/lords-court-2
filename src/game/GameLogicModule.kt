@@ -2,13 +2,13 @@ package game
 
 import aibrain.Plan
 import aibrain.Score
-import gamelogicmodules.cookieworld.CookieWorld
+import gamelogic.cookieworld.CookieWorld
 import shortstate.report.GlobalReportTypeFactory
 import shortstate.report.Report
 import shortstate.report.ReportFactory
 import java.lang.Exception
-import gamelogicmodules.territory.TerritoryLogicModule
-import gamelogicmodules.capital.CapitalLogicModule
+import gamelogic.territory.TerritoryLogicModule
+import gamelogic.capital.CapitalLogicModule
 import game.titlemaker.TitleFactory
 import javafx.scene.control.Button
 import shortstate.ShortStateCharacter

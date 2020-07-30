@@ -4,11 +4,10 @@ import game.action.Action
 import game.Effect
 import game.Game
 import game.GameCharacter
-import gamelogicmodules.capital.CapitalLogicModule
-import gamelogicmodules.cookieworld.actionTypes.BakeCookies
-import gamelogicmodules.cookieworld.actionTypes.GetMilk
-import gamelogicmodules.cookieworld.actionTypes.WasteTime
-import gamelogicmodules.cookieworld.CookieWorld
+import gamelogic.cookieworld.actionTypes.BakeCookies
+import gamelogic.cookieworld.actionTypes.GetMilk
+import gamelogic.cookieworld.actionTypes.WasteTime
+import gamelogic.cookieworld.CookieWorld
 import main.Controller
 import shortstate.dialog.LineMemory
 import shortstate.dialog.linetypes.Announcement

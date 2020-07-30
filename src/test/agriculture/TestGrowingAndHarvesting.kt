@@ -1,9 +1,9 @@
 package test.agriculture
 
 import game.Game
-import gamelogicmodules.territory.Territory
-import gamelogicmodules.territory.TerritoryLogicModule
-import gamelogicmodules.territory.TerritoryMap
+import gamelogic.territory.Territory
+import gamelogic.territory.TerritoryLogicModule
+import gamelogic.territory.TerritoryMap
 import org.junit.Test
 
 class TestGrowingAndHarvesting {

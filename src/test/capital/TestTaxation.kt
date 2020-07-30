@@ -2,15 +2,13 @@ package test.capital
 
 import aibrain.GameCase
 import game.Game
-import game.Location
 import game.GameCharacter
-import gamelogicmodules.capital.Capital
-import gamelogicmodules.capital.CapitalLogicModule
-import gamelogicmodules.capital.Count
-import gamelogicmodules.capital.actionTypes.SetTaxRate
-import gamelogicmodules.territory.Territory
-import gamelogicmodules.territory.TerritoryLogicModule
-import gamelogicmodules.territory.TerritoryMap
+import gamelogic.capital.Capital
+import gamelogic.capital.CapitalLogicModule
+import gamelogic.capital.actionTypes.SetTaxRate
+import gamelogic.territory.Territory
+import gamelogic.territory.TerritoryLogicModule
+import gamelogic.territory.TerritoryMap
 import org.junit.Test
 
 class TestTaxation {

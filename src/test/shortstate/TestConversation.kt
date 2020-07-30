@@ -2,7 +2,7 @@ package test.shortstate
 
 import shortstate.Conversation
 import shortstate.dialog.linetypes.Announcement
-import gamelogicmodules.cookieworld.actionTypes.BakeCookies
+import gamelogic.cookieworld.actionTypes.BakeCookies
 import test.fixtures.twoPlayerShortGame
 import org.junit.Test
 

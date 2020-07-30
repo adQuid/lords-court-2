@@ -1,7 +1,7 @@
 package shortstate.report
 
 import game.Game
-import gamelogicmodules.cookieworld.CookieWorld
+import gamelogic.cookieworld.CookieWorld
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 

@@ -1,6 +1,6 @@
 package shortstate.room
 
-import gamelogicmodules.territory.TerritoryLogicModule
+import gamelogic.territory.TerritoryLogicModule
 import main.UIGlobals
 import shortstate.GameRules
 import shortstate.ShortStateCharacter

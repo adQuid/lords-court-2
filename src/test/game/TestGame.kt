@@ -1,7 +1,7 @@
 package test.game
 
 import game.Game
-import gamelogicmodules.cookieworld.CookieWorld
+import gamelogic.cookieworld.CookieWorld
 import org.junit.Test
 import test.fixtures.soloTestGame
 import test.fixtures.soloTestGameWithEverythingOnIt

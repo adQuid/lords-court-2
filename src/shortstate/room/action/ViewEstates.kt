@@ -4,7 +4,7 @@ import main.UIGlobals
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.room.RoomAction
-import gamelogicmodules.capital.specialdisplayables.EstatesView
+import gamelogic.capital.specialdisplayables.EstatesView
 
 class ViewEstates: RoomAction() {
 

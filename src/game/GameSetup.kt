@@ -1,11 +1,12 @@
 package game
 
-import gamelogicmodules.cookieworld.CookieWorld
-import gamelogicmodules.capital.Capital
-import gamelogicmodules.capital.CapitalLogicModule
-import gamelogicmodules.territory.TerritoryLogicModule
-import gamelogicmodules.territory.TerritoryMap
+import gamelogic.cookieworld.CookieWorld
+import gamelogic.capital.Capital
+import gamelogic.capital.CapitalLogicModule
+import gamelogic.territory.TerritoryLogicModule
+import gamelogic.territory.TerritoryMap
 import game.titlemaker.CookieWorldTitleFactory
+import gamelogic.playerresources.PlayerResourceTypes
 import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 import java.util.*
 
@@ -34,6 +35,7 @@ class GameSetup {
 
         val pcCapital = capitals.capitals.first()
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, pcCapital.location, game)
+        PC.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
         game.addPlayer(PC)
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
 
