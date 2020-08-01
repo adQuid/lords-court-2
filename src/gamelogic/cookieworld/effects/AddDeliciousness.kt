@@ -3,6 +3,7 @@ package gamelogic.cookieworld.effects
 import game.Game
 import game.Effect
 import gamelogic.cookieworld.CookieWorld
+import shortstate.ShortStateCharacter
 
 class AddDelicousness(override var probability: Double) : Effect() {
 
@@ -35,6 +36,10 @@ class AddDelicousness(override var probability: Double) : Effect() {
             CookieWorldEffectFactory.TYPE_NAME to typeName,
             CookieWorldEffectFactory.PROBABLITY_NAME to probability
         )
+    }
+
+    override fun tooltip(perspective: ShortStateCharacter): String {
+        return "add Deliciousness"
     }
 
     override fun description(): String {

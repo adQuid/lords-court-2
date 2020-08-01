@@ -2,6 +2,7 @@ package gamelogic.territory.effects
 
 import game.Effect
 import game.Game
+import shortstate.ShortStateCharacter
 
 class Starvation(override var probability: Double) : Effect() {
 
@@ -19,6 +20,10 @@ class Starvation(override var probability: Double) : Effect() {
 
     override fun apply(game: Game) {
         //just a tag for now. Not certain this is a good idea
+    }
+
+    override fun tooltip(perspective: ShortStateCharacter): String {
+        return "Starvation"
     }
 
     override fun description(): String {

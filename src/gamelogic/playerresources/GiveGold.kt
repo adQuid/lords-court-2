@@ -123,6 +123,10 @@ class GiveGold: Action {
             )
         }
 
+        override fun tooltip(perspective: ShortStateCharacter): String {
+            return "Get gold"
+        }
+
         override fun description(): String {
             return "${characterId} would get $amount gold"
         }

@@ -39,8 +39,6 @@ abstract class Action: Displayable, Describable {
 
     abstract fun saveString(): Map<String, Any>
 
-    abstract fun tooltip(perspective: ShortStateCharacter): String
-
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
         return Scene(baseActionPane(this, null))
     }

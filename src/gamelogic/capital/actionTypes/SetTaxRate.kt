@@ -113,6 +113,10 @@ class SetTaxRate: Action {
             )
         }
 
+        override fun tooltip(perspective: ShortStateCharacter): String {
+            return "change taxes"
+        }
+
         override fun description(): String {
             return "taxes would be set to $amount"
         }

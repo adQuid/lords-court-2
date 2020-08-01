@@ -7,6 +7,7 @@ import game.Game
 import game.GameCharacter
 import game.action.Action
 import gamelogic.cookieworld.actionTypes.WasteTime
+import javafx.scene.Scene
 import shortstate.ShortStateCharacter
 
 class DummyGoodThing: DummyAction() {
@@ -26,6 +27,10 @@ class DummyGoodThing: DummyAction() {
             game.players.forEach {
                 player -> player.dummyScore++
             }
+        }
+
+        override fun tooltip(perspective: ShortStateCharacter): String {
+            return description()
         }
 
         override fun description(): String {
@@ -62,6 +67,10 @@ class DummyOneTimeGoodThing: DummyAction() {
             }
         }
 
+        override fun tooltip(perspective: ShortStateCharacter): String {
+            return description()
+        }
+
         override fun description(): String {
             return "dummy one-time good"
         }
@@ -91,6 +100,10 @@ class DummyBadThing: DummyAction() {
             game.players.forEach {
                     player -> player.dummyScore--
             }
+        }
+
+        override fun tooltip(perspective: ShortStateCharacter): String {
+            return description()
         }
 
         override fun description(): String {

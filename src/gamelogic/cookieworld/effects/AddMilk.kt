@@ -4,6 +4,7 @@ import game.GameCharacter
 import game.Effect
 import game.Game
 import gamelogic.cookieworld.CookieWorld
+import shortstate.ShortStateCharacter
 
 class AddMilk: Effect {
 
@@ -45,6 +46,10 @@ class AddMilk: Effect {
             CookieWorldEffectFactory.PROBABLITY_NAME to probability,
             "PLAYER" to player.id
         )
+    }
+
+    override fun tooltip(perspective: ShortStateCharacter): String {
+        return "add milk"
     }
 
     override fun description(): String {
