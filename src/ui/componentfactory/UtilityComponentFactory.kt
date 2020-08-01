@@ -18,6 +18,7 @@ import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import ui.BOTTOM_BAR_PORTION
+import ui.Describable
 import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -76,7 +77,7 @@ object UtilityComponentFactory {
         return proportionalButton("Back", EventHandler { UIGlobals.defocus() }, proportion)
     }
 
-    fun <T> basicList(items: List<T>, onClick: (T) -> Unit, width: Double, height: Double): ListView<T> {
+    fun <T: Describable> basicList(items: List<T>, onClick: (T) -> Unit, width: Double, height: Double): ListView<T> {
         val data = FXCollections.observableArrayList<T>()
         data.addAll(items)
         val listView = ListView<T>(data)
@@ -87,11 +88,11 @@ object UtilityComponentFactory {
         return listView
     }
 
-    internal class ActionPickCell<T>(val closeAction: (T) -> Unit) : ListCell<T>() {
+    internal class ActionPickCell<T: Describable>(val closeAction: (T) -> Unit) : ListCell<T>() {
         public override fun updateItem(item: T?, empty: Boolean) {
             if(item != null){
                 super.updateItem(item, empty)
-                this.graphic = Text(item.toString())
+                this.graphic = Text(item.description())
                 this.onMouseClicked = EventHandler{_ -> closeAction(item)}
             }
         }

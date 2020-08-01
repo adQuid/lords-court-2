@@ -21,7 +21,7 @@ class Starvation(override var probability: Double) : Effect() {
         //just a tag for now. Not certain this is a good idea
     }
 
-    override fun describe(): String {
+    override fun description(): String {
         return "the people will starve"
     }
 

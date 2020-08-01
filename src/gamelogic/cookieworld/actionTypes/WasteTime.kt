@@ -5,6 +5,7 @@ import game.Effect
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
+import shortstate.ShortStateCharacter
 
 class WasteTime: Action {
 
@@ -20,7 +21,7 @@ class WasteTime: Action {
         return listOf()
     }
 
-    override fun toString(): String {
+    override fun tooltip(perspective: ShortStateCharacter): String {
         return "be useless"
     }
 

@@ -47,7 +47,7 @@ class AddMilk: Effect {
         )
     }
 
-    override fun describe(): String {
+    override fun description(): String {
         return "${player} would get milk"
     }
 }

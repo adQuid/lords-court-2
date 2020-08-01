@@ -5,6 +5,8 @@ import aibrain.ForecastBrain
 import aibrain.Treaty
 import game.action.Action
 import game.titlemaker.CookieWorldTitleFactory
+import gamelogic.playerresources.GiveGold
+import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.Resources
 import shortstate.report.ReportFactory
 
@@ -137,7 +139,7 @@ class GameCharacter {
     }
 
     fun actionsReguarding(players: List<GameCharacter>): List<Action>{
-        return titles.flatMap { title -> title.actionsReguarding(players) }
+        return titles.flatMap { title -> title.actionsReguarding(players) }.plus(PlayerResourceTypes.allTypes.map{ GiveGold(1, players.first().id) })
     }
 
     fun reportsEntitled(): Collection<ReportFactory>{

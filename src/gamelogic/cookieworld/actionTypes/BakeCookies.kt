@@ -7,6 +7,7 @@ import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import game.titles.Baker
+import shortstate.ShortStateCharacter
 
 class BakeCookies: Action{
 
@@ -24,7 +25,7 @@ class BakeCookies: Action{
         return listOf()
     }
 
-    override fun toString(): String {
+    override fun tooltip(perspective: ShortStateCharacter): String {
         return "bake tasty cookies"
     }
 

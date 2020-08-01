@@ -37,7 +37,7 @@ class AddDelicousness(override var probability: Double) : Effect() {
         )
     }
 
-    override fun describe(): String {
+    override fun description(): String {
         return "deliciousness levels would increase by $probability"
     }
 }

@@ -59,7 +59,7 @@ class CiteEffect: Line {
     }
 
     override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        return "I have some very good reasons: " + effects?.map { effect -> effect.describe() }
+        return "I have some very good reasons: " + effects?.map { effect -> effect.description() }
     }
 
     override fun tooltipDescription(): String {

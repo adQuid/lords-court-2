@@ -1,6 +1,8 @@
 package game
 
-abstract class Effect {
+import ui.Describable
+
+abstract class Effect: Describable {
 
     abstract var probability: Double
 
@@ -12,8 +14,6 @@ abstract class Effect {
         this.probability *= probability
         return this
     }
-
-    abstract fun describe(): String
 
     abstract fun saveString(): Map<String, Any>
 }

@@ -7,6 +7,7 @@ import game.Game
 import game.GameCharacter
 import game.action.Action
 import gamelogic.cookieworld.actionTypes.WasteTime
+import shortstate.ShortStateCharacter
 
 class DummyGoodThing: DummyAction() {
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
@@ -27,7 +28,7 @@ class DummyGoodThing: DummyAction() {
             }
         }
 
-        override fun describe(): String {
+        override fun description(): String {
             return "dummy good"
         }
 
@@ -61,7 +62,7 @@ class DummyOneTimeGoodThing: DummyAction() {
             }
         }
 
-        override fun describe(): String {
+        override fun description(): String {
             return "dummy one-time good"
         }
 
@@ -92,7 +93,7 @@ class DummyBadThing: DummyAction() {
             }
         }
 
-        override fun describe(): String {
+        override fun description(): String {
             return "dummy bad"
         }
 
@@ -141,8 +142,12 @@ abstract class DummyAction: Action(){
         return mapOf()
     }
 
+    override fun tooltip(perspective: ShortStateCharacter): String {
+        return "Dummy Action"
+    }
+
     override fun description(): String {
-        return "Dummy Neutral Thing"
+        return "Dummy Action, only intended for tests"
     }
 
     override fun collidesWith(other: Action): Boolean {

@@ -7,6 +7,7 @@ import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import game.titles.Milkman
+import shortstate.ShortStateCharacter
 
 class GetMilk: Action {
 
@@ -27,7 +28,7 @@ class GetMilk: Action {
         return listOf()
     }
 
-    override fun toString(): String {
+    override fun tooltip(perspective: ShortStateCharacter): String {
         return "get milk for ${player}"
     }
 

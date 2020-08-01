@@ -1,4 +1,4 @@
-package gamelogic.capital.actionTypes
+package gamelogic.playerresources
 
 import game.action.Action
 import game.Effect
@@ -12,87 +12,95 @@ import gamelogic.territory.Territory
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
+import jdk.jshell.execution.Util
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.componentfactory.UtilityComponentFactory
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 import java.text.DecimalFormat
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-class SetTaxRate: Action {
+class GiveGold: Action {
 
     companion object{
         val typeName: String
-            get() = "SetTaxRate"
+            get() = "GiveGold"
     }
-    val terId: Int
-    var amount: Double
+    var characterId: Int
+    var amount: Int
 
-    constructor(id: Int, amount: Double){
-        this.terId = id
+    constructor(id: Int, amount: Int){
+        this.characterId = id
         this.amount = amount
     }
 
+    fun characterName(): String{
+        return UIGlobals.activeGame().characterById(characterId).name
+    }
+
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
-        return listOf(ChangeTax(1.0, terId, amount))
+        return listOf(ChangeGold(1.0, characterId, amount))
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {
-        return "set taxes to ${DecimalFormat("#.##").format(amount)}"
+        return "give ${amount} Gold"
     }
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
             GlobalActionTypeFactory.TYPE_NAME to typeName,
             "amount" to amount,
-            "territory" to terId
+            "territory" to characterId
         )
     }
 
     override fun description(): String {
-        return "Sets the tax for ${capitalById().territory!!.name} to ${(amount*100).roundToInt()}% of the harvest. This will be extracted from the peasants every harvest."
-    }
-
-    private fun capitalById(): Capital {
-        val logic = UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
-        return logic.capitalById(terId)
+        return "Give ${amount} gold to ${characterName()}"
     }
 
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
         val retval = baseActionPane(this)
 
-        val amountPane = GridPane()
-        amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-0.05,0.0); UIGlobals.refresh() }, 3.0),0,0)
-        amountPane.add(UtilityComponentFactory.shortProportionalLabel(DecimalFormat("#.##").format(amount), 3.0),1,0)
-        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = min(amount+0.05,1.0); UIGlobals.refresh() }, 3.0),2,0)
+        val targetPane = GridPane()
+        targetPane.add(UtilityComponentFactory.shortWideButton("Give to: ${characterName()}", EventHandler { UIGlobals.focusOn(SelectionModal("Recipient", listOf(
+            Tab("Recipient",UIGlobals.activeGame().players)), {character -> characterId = character.id; UIGlobals.defocus()}
+        )) }), 0, 0)
 
-        retval.add(amountPane,0,2)
+        val amountPane = GridPane()
+        amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-1,0); UIGlobals.refresh() }, 3.0),0,0)
+        amountPane.add(UtilityComponentFactory.shortProportionalLabel(DecimalFormat("#.##").format(amount), 3.0),1,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = min(amount+1,perspective!!.player.resources.get(PlayerResourceTypes.GOLD_NAME)); UIGlobals.refresh() }, 3.0),2,0)
+
+        retval.add(targetPane, 0,2)
+        retval.add(amountPane,0,3)
 
         return Scene(retval)
     }
 
     override fun equals(other: Any?): Boolean {
-        return other is SetTaxRate && other.terId == terId && other.amount == amount
+        return other is GiveGold && other.characterId == characterId && other.amount == amount
     }
 
     override fun collidesWith(other: Action): Boolean{
-        return other is SetTaxRate && other.terId == this.terId
+        return other is GiveGold && other.characterId == this.characterId
     }
 
-    class ChangeTax(override var probability: Double, val terId: Int, val amount: Double) : Effect() {
+    class ChangeGold(override var probability: Double, val characterId: Int, val amount: Int) : Effect() {
 
         companion object{
             val typeName = "cngeTax"
         }
 
-        constructor(saveString: Map<String, Any>, game: Game) : this(saveString[CookieWorldEffectFactory.PROBABLITY_NAME] as Double, saveString["terId"] as Int, saveString["amount"] as Double) {
+        constructor(saveString: Map<String, Any>, game: Game) : this(saveString[CookieWorldEffectFactory.PROBABLITY_NAME] as Double, saveString["terId"] as Int, saveString["amount"] as Int) {
 
         }
 
         override fun equals(other: Any?): Boolean {
-            if(other is ChangeTax){
-                return other.terId == terId && other.amount == amount
+            if(other is ChangeGold){
+                return other.characterId == characterId && other.amount == amount
             }
             return false
         }
@@ -100,10 +108,10 @@ class SetTaxRate: Action {
         override fun apply(game: Game) {
             val logic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
 
-            logic.capitalById(terId).taxes[Territory.FLOUR_NAME] = amount
+            game.characterById(characterId).resources.add(PlayerResourceTypes.GOLD_NAME, amount)
         }
         override fun toString(): String{
-            return "change tax rate for ${terId} to ${amount}"
+            return "give ${amount} gold to ${characterId}"
         }
 
         override fun saveString(): Map<String, Any> {
@@ -114,7 +122,7 @@ class SetTaxRate: Action {
         }
 
         override fun description(): String {
-            return "taxes would be set to $amount"
+            return "${characterId} would get $amount gold"
         }
     }
 }
