@@ -62,7 +62,7 @@ class GiveGold: Action {
     }
 
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
-        val retval = baseActionPane(this)
+        val retval = baseActionPane(this, null)
 
         val targetPane = GridPane()
         targetPane.add(UtilityComponentFactory.shortWideButton("Give to: ${characterName()}", EventHandler { UIGlobals.focusOn(SelectionModal("Recipient", listOf(
@@ -70,9 +70,11 @@ class GiveGold: Action {
         )) }), 0, 0)
 
         val amountPane = GridPane()
-        amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-1,0); UIGlobals.refresh() }, 3.0),0,0)
-        amountPane.add(UtilityComponentFactory.shortProportionalLabel(DecimalFormat("#.##").format(amount), 3.0),1,0)
-        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = min(amount+1,perspective!!.player.resources.get(PlayerResourceTypes.GOLD_NAME)); UIGlobals.refresh() }, 3.0),2,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("50 Less", EventHandler { amount = max(amount-50,0); UIGlobals.refresh() }, 6.0),0,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-1,0); UIGlobals.refresh() }, 6.0),1,0)
+        amountPane.add(UtilityComponentFactory.shortProportionalLabel(DecimalFormat("#.##").format(amount), 3.0),2,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = min(amount+1,perspective!!.player.resources.get(PlayerResourceTypes.GOLD_NAME)); UIGlobals.refresh() }, 6.0),3,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("50 More", EventHandler { amount = min(amount+50,perspective!!.player.resources.get(PlayerResourceTypes.GOLD_NAME)); UIGlobals.refresh() }, 6.0),4,0)
 
         retval.add(targetPane, 0,2)
         retval.add(amountPane,0,3)

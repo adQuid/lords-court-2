@@ -3,6 +3,7 @@ package game.action
 import game.Game
 import game.GameCharacter
 import game.Effect
+import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
@@ -16,7 +17,7 @@ import ui.componentfactory.UtilityComponentFactory
 abstract class Action: Displayable, Describable {
 
     companion object{
-        fun baseActionPane(action: Action): GridPane {
+        fun baseActionPane(action: Action, parent: MutableSet<Action>?): GridPane {
             val root = GridPane()
 
             val title = UtilityComponentFactory.shortWideLabel(action.tooltip(UIGlobals.playingAs()))
@@ -24,6 +25,9 @@ abstract class Action: Displayable, Describable {
 
             root.add(title,0,0)
             root.add(UtilityComponentFactory.shortWideLabel(action.description()),0,1)
+            if(parent != null){
+                root.add(UtilityComponentFactory.shortWideButton("Remove", EventHandler { parent.remove(action); UIGlobals.defocus() }), 0, 9)
+            }
             root.add(UtilityComponentFactory.backButton(),0,10)
 
             root.setPrefSize(UIGlobals.totalWidth(), UIGlobals.totalHeight())
@@ -38,7 +42,7 @@ abstract class Action: Displayable, Describable {
     abstract fun tooltip(perspective: ShortStateCharacter): String
 
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
-        return Scene(baseActionPane(this))
+        return Scene(baseActionPane(this, null))
     }
 
     override fun hashCode(): Int {
@@ -46,4 +50,19 @@ abstract class Action: Displayable, Describable {
     }
 
     abstract fun collidesWith(other: Action): Boolean
+}
+
+class ActionComponentFactory: Displayable{
+        val action: Action
+        val parent: MutableSet<Action>
+
+        constructor(action: Action, parent: MutableSet<Action>){
+            this.action = action
+            this.parent = parent
+        }
+
+        override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
+        return Scene(Action.baseActionPane(action, parent))
+    }
+
 }

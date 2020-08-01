@@ -60,7 +60,7 @@ class SetTaxRate: Action {
     }
 
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
-        val retval = baseActionPane(this)
+        val retval = baseActionPane(this, null)
 
         val amountPane = GridPane()
         amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-0.05,0.0); UIGlobals.refresh() }, 3.0),0,0)
