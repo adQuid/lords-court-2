@@ -9,7 +9,6 @@ import game.titles.Milkman
 import gamelogic.cookieworld.actionTypes.BakeCookies
 import gamelogic.cookieworld.actionTypes.GetMilk
 import gamelogic.cookieworld.actionTypes.WasteTime
-import gamelogic.cookieworld.effects.CookieWorldEffectFactory
 import javafx.scene.control.Button
 import shortstate.ShortStateCharacter
 import shortstate.report.DeliciousnessReportFactory
@@ -57,13 +56,11 @@ class CookieWorld: GameLogicModule {
         return locations
     }
 
-    override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
-        return CookieWorldEffectFactory.fromMap(saveString, game)
-    }
 
 
-    override fun endTurn(game: Game): List<Effect> {
-        return listOf()
+
+    override fun endTurn(game: Game){
+        //do nothing
     }
 
     override fun specialSaveString(): Map<String, Any> {

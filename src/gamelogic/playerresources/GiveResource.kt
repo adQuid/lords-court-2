@@ -1,12 +1,9 @@
 package gamelogic.playerresources
 
 import game.action.Action
-import game.Effect
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
-import gamelogic.cookieworld.effects.CookieWorldEffectFactory
-import gamelogic.capital.CapitalLogicModule
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
@@ -39,12 +36,11 @@ class GiveResource: Action {
         return UIGlobals.activeGame().characterById(characterId).name
     }
 
-    override fun doAction(game: Game, player: GameCharacter): List<Effect> {
+    override fun doAction(game: Game, player: GameCharacter){
         if(player.resources.get(resource) >= amount){
             player.resources.add(resource, -amount)
-            return listOf(ChangeGold(1.0, characterId, resource, amount))
+            game.characterById(characterId).resources.add(resource, amount)
         }
-        return listOf()
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {
@@ -93,46 +89,4 @@ class GiveResource: Action {
         return other is GiveResource && other.characterId == this.characterId
     }
 
-    class ChangeGold(override var probability: Double, val characterId: Int, val resource: String, val amount: Int) : Effect() {
-
-        companion object{
-            val typeName = "cngeRsrce"
-        }
-
-        constructor(saveString: Map<String, Any>, game: Game) : this(saveString[CookieWorldEffectFactory.PROBABLITY_NAME] as Double, saveString["terId"] as Int, saveString["resource"] as String, saveString["amount"] as Int) {
-
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if(other is ChangeGold){
-                return other.characterId == characterId && other.amount == amount
-            }
-            return false
-        }
-
-        override fun apply(game: Game) {
-            val logic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
-
-            game.characterById(characterId).resources.add(resource, amount)
-        }
-        override fun toString(): String{
-            return "give ${amount} ${resource} to ${characterId}"
-        }
-
-        override fun saveString(): Map<String, Any> {
-            return hashMapOf(
-                CookieWorldEffectFactory.TYPE_NAME to typeName,
-                CookieWorldEffectFactory.PROBABLITY_NAME to probability,
-                "resource" to resource
-            )
-        }
-
-        override fun tooltip(perspective: ShortStateCharacter): String {
-            return "Get ${resource}"
-        }
-
-        override fun description(): String {
-            return "${characterId} would get $amount ${resource}"
-        }
-    }
 }

@@ -1,12 +1,11 @@
 package gamelogic.cookieworld.actionTypes
 
 import game.action.Action
-import game.Effect
-import gamelogic.cookieworld.effects.AddDelicousness
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import game.titles.Baker
+import gamelogic.cookieworld.CookieWorld
 import shortstate.ShortStateCharacter
 
 class BakeCookies: Action{
@@ -18,11 +17,11 @@ class BakeCookies: Action{
 
     constructor(){}
 
-    override fun doAction(game: Game, player: GameCharacter): List<Effect> {
+    override fun doAction(game: Game, player: GameCharacter){
         if(player.titles.filter { title -> title is Baker }.isNotEmpty()) {
-            return listOf(AddDelicousness(1.0))
+            val logic = CookieWorld.getCookieWorld(game)
+            logic.deliciousness = logic.deliciousness + 10
         }
-        return listOf()
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {

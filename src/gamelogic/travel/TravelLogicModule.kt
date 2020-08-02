@@ -23,16 +23,12 @@ class TravelLogicModule: GameLogicModule{
 
     }
 
-    override fun endTurn(game: Game): List<Effect> {
-        return listOf()
+    override fun endTurn(game: Game){
+        //do nothing
     }
 
     override fun locations(): Collection<Location> {
         return listOf()
-    }
-
-    override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun specialSaveString(): Map<String, Any> {

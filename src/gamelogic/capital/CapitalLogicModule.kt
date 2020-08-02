@@ -57,11 +57,7 @@ class CapitalLogicModule: GameLogicModule {
         return capitals.map { it.location }
     }
 
-    override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
-        return null //This module has no effects yet
-    }
-
-    override fun endTurn(game: Game): List<Effect> {
+    override fun endTurn(game: Game){
 
         val territories = (game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).map.territories
 
@@ -81,8 +77,6 @@ class CapitalLogicModule: GameLogicModule {
             }
 
         }
-
-        return listOf()
     }
 
     override fun specialSaveString(): Map<String, Any> {

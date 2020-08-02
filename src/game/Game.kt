@@ -147,29 +147,21 @@ class Game {
         }
     }
 
-    fun endTurn(): List<Effect>{
+    fun endTurn(){
         concludedPlayers.clear()
 
-        val effectsFromActions = actionsByPlayer.entries.flatMap{ entry ->
+        actionsByPlayer.entries.forEach{ entry ->
             doActions(entry.value, entry.key)
         }
-        effectsFromActions.forEach { it.apply(this) }
 
-        val effectsFromEndTurn = runLogicModules()
-        effectsFromEndTurn.forEach { it.apply(this) }
-
+        runLogicModules()
 
         actionsByPlayer.clear()
         turn++
-        return effectsFromActions.plus(effectsFromEndTurn)
     }
 
-    private fun runLogicModules(): List<Effect>{
-        val retval = mutableListOf<Effect>()
-
-        logicModulesInDependencyOrder().forEach { retval.addAll(it.endTurn(this)) }
-
-        return retval
+    private fun runLogicModules(){
+        logicModulesInDependencyOrder().forEach { it.endTurn(this) }
     }
 
     private fun logicModulesInDependencyOrder(): List<GameLogicModule>{
@@ -192,14 +184,8 @@ class Game {
         return retval
     }
 
-    fun applyActions(actions: Collection<Action>, player: GameCharacter): List<Effect>{
-        val effects = doActions(actions, player)
-        effects.forEach { it.apply(this) }
-        return effects
-    }
-
-    private fun doActions(actions: Collection<Action>, player: GameCharacter): List<Effect>{
-        return actions.flatMap{
+    private fun doActions(actions: Collection<Action>, player: GameCharacter){
+    actions.forEach{
             it.doAction(this, matchingPlayer(player)!!)
         }
     }
@@ -226,12 +212,6 @@ class Game {
 
     fun reportFactoryFromType(type: String): ReportFactory {
         return gameLogicModules.map { module -> module.reportFactoryFromType(type, this) }
-            .filterNotNull()
-            .first()!!
-    }
-
-    fun effectFromMap(saveString: Map<String, Any>): Effect {
-        return gameLogicModules.map { module -> module.effectFromSaveString(saveString, this)}
             .filterNotNull()
             .first()!!
     }

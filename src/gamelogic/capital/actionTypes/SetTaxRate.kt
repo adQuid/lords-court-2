@@ -1,11 +1,9 @@
 package gamelogic.capital.actionTypes
 
 import game.action.Action
-import game.Effect
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
-import gamelogic.cookieworld.effects.CookieWorldEffectFactory
 import gamelogic.capital.Capital
 import gamelogic.capital.CapitalLogicModule
 import gamelogic.territory.Territory
@@ -34,8 +32,10 @@ class SetTaxRate: Action {
         this.amount = amount
     }
 
-    override fun doAction(game: Game, player: GameCharacter): List<Effect> {
-        return listOf(ChangeTax(1.0, terId, amount))
+    override fun doAction(game: Game, player: GameCharacter){
+        val logic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
+
+        logic.capitalById(terId).taxes[Territory.FLOUR_NAME] = amount
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {
@@ -78,47 +78,5 @@ class SetTaxRate: Action {
 
     override fun collidesWith(other: Action): Boolean{
         return other is SetTaxRate && other.terId == this.terId
-    }
-
-    class ChangeTax(override var probability: Double, val terId: Int, val amount: Double) : Effect() {
-
-        companion object{
-            val typeName = "cngeTax"
-        }
-
-        constructor(saveString: Map<String, Any>, game: Game) : this(saveString[CookieWorldEffectFactory.PROBABLITY_NAME] as Double, saveString["terId"] as Int, saveString["amount"] as Double) {
-
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if(other is ChangeTax){
-                return other.terId == terId && other.amount == amount
-            }
-            return false
-        }
-
-        override fun apply(game: Game) {
-            val logic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
-
-            logic.capitalById(terId).taxes[Territory.FLOUR_NAME] = amount
-        }
-        override fun toString(): String{
-            return "change tax rate for ${terId} to ${amount}"
-        }
-
-        override fun saveString(): Map<String, Any> {
-            return hashMapOf(
-                CookieWorldEffectFactory.TYPE_NAME to typeName,
-                CookieWorldEffectFactory.PROBABLITY_NAME to probability
-            )
-        }
-
-        override fun tooltip(perspective: ShortStateCharacter): String {
-            return "change taxes"
-        }
-
-        override fun description(): String {
-            return "taxes would be set to $amount"
-        }
     }
 }

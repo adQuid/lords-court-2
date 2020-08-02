@@ -1,6 +1,5 @@
 package aibrain
 
-import game.Effect
 import game.Game
 import game.GameCharacter
 
@@ -12,10 +11,6 @@ class GameCase {
     val baseGame: Game
     var currentGame: Game
     val plan: Plan
-    //effects imposed on the inside from outside the simulation
-    var initialEffects = listOf<Effect>()
-    //all effects that applied to this game after simulation
-    var finalEffects = mutableListOf<Effect>()
 
     constructor(game: Game, player: GameCharacter){
         this.baseGame = game
@@ -23,31 +18,26 @@ class GameCase {
         this.currentGame = calculateGame()
     }
 
-    constructor(game: Game, plan: Plan, effects: List<Effect>){
+    constructor(game: Game, plan: Plan){
         this.baseGame = Game(game)
         this.plan = plan
-        effects.forEach { addEffect(it) }
         this.currentGame = calculateGame()
     }
 
     constructor(other: GameCase){
         this.baseGame = Game(other.baseGame)
         this.plan = other.plan
-        other.initialEffects.forEach { addEffect(it) }
         this.currentGame = calculateGame()
     }
 
     private fun calculateGame(): Game{
         val tempGame = Game(baseGame)
-        initialEffects.forEach { it.apply(tempGame) }
         if(plan.player != null){
             tempGame.appendActionsForPlayer(plan.player, plan.actions)
         }
-        finalEffects.addAll(initialEffects)
 
         for ( turn in 1..LOOKAHEAD){
-            //this has the side effect of actually ending the turn
-            finalEffects.addAll(listOf(initialEffects, tempGame.endTurn()).flatten().toMutableList())
+            tempGame.endTurn()
         }
         return tempGame
     }
@@ -62,10 +52,6 @@ class GameCase {
         }*/
         retval.currentGame = retval.calculateGame()
         return retval
-    }
-
-    fun addEffect(effect: Effect){
-        initialEffects = initialEffects + effect
     }
 
     fun probability(): Double{

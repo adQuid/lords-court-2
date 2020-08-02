@@ -25,7 +25,6 @@ object GlobalLineTypeFactory {
         ACCEPT_DEAL_TYPE_NAME to {map, game -> AcceptDeal(map, game)},
         ANNOUNCEMENT_TYPE_NAME to {map, game -> Announcement(map, game)},
         APPROVE_TYPE_NAME to {map, game -> Approve() },
-        CITE_EFFECT_TYPE_NAME to {map, game -> CiteEffect(map, game) },
         DISAPPROVE_TYPE_NAME to {map, game -> Disapprove() },
         GIVE_REPORT_TYPE_NAME to {map, game -> GiveReport(map, game)},
         OFFER_DEAL_TYPE_NAME to {map, game -> OfferDeal(map, game)},

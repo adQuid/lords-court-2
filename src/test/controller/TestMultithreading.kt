@@ -85,16 +85,12 @@ class SlowModule: GameLogicModule {
         //do nothing
     }
 
-    override fun endTurn(game: Game): List<Effect> {
-        return listOf()
+    override fun endTurn(game: Game){
+        //do nothing
     }
 
     override fun locations(): Collection<Location> {
         return listOf(location)
-    }
-
-    override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
-        return null
     }
 
     override fun specialSaveString(): Map<String, Any> {

@@ -17,7 +17,6 @@ class TestAI {
         //basic sanity checks
         assert(brain.player == character)
         assert(brain.lastCasesOfConcern!!.isNotEmpty())
-        assert(brain.lastFavoriteEffects != null)
         assert(brain.lastActionsToCommitTo != null)
     }
 

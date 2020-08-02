@@ -1,7 +1,5 @@
 package aibrain
 
-import game.Effect
-import game.Game
 import game.GameCharacter
 
 class DealCase {
@@ -34,19 +32,13 @@ class DealCase {
         return reality.fold(Score(), { acc, case -> acc.plus(case.gameScore(player)) })
     }
 
-    fun effectsOfDeal(cases: List<GameCase>): List<Effect>{
+    fun marginalScore(cases: List<GameCase>, players: Collection<GameCharacter>): Score{
         val casesWithDeal = cases.map{ it.applyDeal(deal)}
-        casesWithDeal.forEach { case -> case.finalEffects.forEach { effect -> effect.probability *= case.probability() } }
-        val allEffects =  casesWithDeal.flatMap { it.finalEffects }
-        val compressedEffects = mutableListOf<Effect>()
-        allEffects.forEach {
-            effect -> if(compressedEffects.contains(effect)){
-                compressedEffects.first { it == effect }.probability += effect.probability
-            } else {
-                compressedEffects.add(effect)
-            }
-        }
-        return compressedEffects
+
+        val scoreWithoutDeal = Score(players.flatMap {player -> cases.flatMap { case -> case.gameScore(player).components() }})
+        val scoreWithDeal = Score(players.flatMap {player -> casesWithDeal.flatMap { case -> case.gameScore(player).components() }})
+
+        return scoreWithDeal.minus(scoreWithoutDeal)
     }
 
 }

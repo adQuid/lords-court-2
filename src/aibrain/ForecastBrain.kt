@@ -1,7 +1,6 @@
 package aibrain
 
 import game.action.Action
-import game.Effect
 import game.Game
 import game.GameCharacter
 import gamelogic.cookieworld.actionTypes.BakeCookies
@@ -26,7 +25,6 @@ class ForecastBrain {
     var dealsILike: Map<FinishedDeal, Double>? = null
         get() {if(field == null){thinkAboutNextTurn(Controller.singleton!!.game!!)}; return field} //I presume this call is still safe because the brain only runs on the real game
 
-    var lastFavoriteEffects: List<Effect>? = null
     var lastActionsToCommitTo: List<Action>? = null
 
 
@@ -43,7 +41,6 @@ class ForecastBrain {
     private fun thinkAboutNextTurnHelper(game: Game){
         var myGame = game.imageFor(player)
         lastCasesOfConcern = casesOfConcern(myGame).toList().sortedBy { case -> -case.valueToCharacter(player) }
-        lastFavoriteEffects = favoriteEffects()
         dealsILike = dealsILike(myGame)
         if(dealsILike!!.filter { it.key.actions.keys.size == 1 }.isNotEmpty()){
             lastActionsToCommitTo = dealsILike!!.filter { it.key.actions.keys.size == 1 }.keys.toList().sortedBy { dealValueToMe(it) }.first().actions[player]!!.toList() //TODO: cry
@@ -58,22 +55,6 @@ class ForecastBrain {
         }
 
         lastGameIEvaluated = myGame
-    }
-
-    private fun favoriteEffects(): List<Effect>{
-        var cases = lastCasesOfConcern
-
-        val averageScore = cases!!.map{case -> case.valueToCharacter(player)}.average()
-
-        //map cases to how different they are from average
-        val modCases = HashMap<GameCase, Double>()
-        cases.forEach { case -> modCases[case] = (case.valueToCharacter(player) - averageScore) * case.probability() }
-
-        var orderedCaseList = modCases.toList().sortedBy { (key, value) -> -value }
-
-        val bestCase = orderedCaseList[0].first
-
-        return bestCase.finalEffects.toMutableList()
     }
 
     private fun dealsILike(game: Game): Map<FinishedDeal, Double> {
@@ -101,7 +82,7 @@ class ForecastBrain {
         }
         likelyPlans[null] = listOf(Plan(null, listOf(), 1.0))
 
-        return likelyPlans.values.flatten().map{GameCase(game, it, listOf())}
+        return likelyPlans.values.flatten().map{GameCase(game, it)}
     }
 
     private fun prospectiveDealsWithPlayer(game: Game, target: GameCharacter): List<FinishedDeal>{
@@ -139,8 +120,8 @@ class ForecastBrain {
         return DealCase(deal).dealScore(lastCasesOfConcern!!.filter { it.plan.player != character }, listOf(character))[character]!!
     }
 
-    fun justifyDeal(deal: Deal, subject: GameCharacter): List<Effect>{
-        return DealCase(deal).effectsOfDeal(lastCasesOfConcern!!)
+    fun justifyDeal(deal: Deal, subject: GameCharacter): List<Score.ScoreComponent>{
+        return DealCase(deal).marginalScore(lastCasesOfConcern!!, listOf(subject)).components()
     }
 
     private fun mostSignificantPlayersToMe(game: Game): List<GameCharacter>{

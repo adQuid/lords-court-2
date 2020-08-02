@@ -3,8 +3,6 @@ package gamelogic.territory
 import aibrain.Plan
 import aibrain.Score
 import game.*
-import gamelogic.territory.effects.Starvation
-import gamelogic.territory.effects.TerritoryEffectFactory
 import javafx.scene.control.Button
 import shortstate.ShortStateCharacter
 import shortstate.report.ReportFactory
@@ -68,19 +66,12 @@ class TerritoryLogicModule: GameLogicModule {
         return listOf()
     }
 
-    override fun effectFromSaveString(saveString: Map<String, Any>, game: Game): Effect? {
-        return TerritoryEffectFactory.fromMap(saveString, game)
-    }
-
-    override fun endTurn(game: Game): List<Effect> {
-        val retval = mutableListOf<Effect>()
-
+    override fun endTurn(game: Game){
         map.territories.forEach {
             growCrops(it, game)
         }
 
         weekOfYear = (weekOfYear + 2) % WEEKS_IN_YEAR
-        return retval
     }
 
     override fun score(perspective: GameCharacter): Score {
@@ -117,9 +108,7 @@ class TerritoryLogicModule: GameLogicModule {
         return map.territories.filter { it.id == id }.first()
     }
 
-    private fun growCrops(territory: Territory, game: Game): List<Effect>{
-        val retval = mutableListOf<Effect>()
-
+    private fun growCrops(territory: Territory, game: Game){
         var farmersLeft = territory.resources.get(Territory.POPULATION_NAME)
         var landLeft = territory.resources.get(Territory.ARABLE_LAND_NAME) - territory.totalCropsPlanted()
         if(!isGrowingSeason()){
@@ -178,12 +167,10 @@ class TerritoryLogicModule: GameLogicModule {
             territory.modifyResource(Territory.BREAD_NAME, -breadToEat)
         } else {
             //println("starvation")
-            retval.add(Starvation(1.0))
             territory.resources.multiply(Territory.POPULATION_NAME, (1.0 + (breadToEat / territory.resources.get(Territory.POPULATION_NAME)))/2.0)
             territory.resources.set(Territory.BREAD_NAME, 0)
         }
 
-        return retval
     }
 
     private fun goodIdeaToPlant(crop: Crop): Boolean{

@@ -1,8 +1,6 @@
 package aibrain.scenereactionadvocates
 
-import shortstate.Conversation
 import shortstate.ShortGameScene
-import shortstate.ShortStateController
 import shortstate.ShortStateGame
 import shortstate.dialog.Line
 import shortstate.dialog.linetypes.Farewell

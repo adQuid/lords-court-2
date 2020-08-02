@@ -1,6 +1,7 @@
 package shortstate.dialog.linetypes
 
 import aibrain.ConversationBrain
+import aibrain.FinishedDeal
 import game.action.Action
 import shortstate.Conversation
 import shortstate.dialog.Line
@@ -93,12 +94,11 @@ class Announcement: Line, HasAction {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
-        val action = action
+        val action = action!!
 
-        val effectsILike = brain.shortCharacter.player.brain.lastFavoriteEffects!!
-        val effectsOfAction = action!!.doAction(game, speaker)
+        val implicitDeal = FinishedDeal(mapOf(speaker to hashSetOf(action)))
 
-        if(effectsILike.intersect(effectsOfAction).isNotEmpty()){
+        if(brain.shortCharacter.player.brain.dealValueToMe(implicitDeal) > 0){
             return Approve()
         } else {
             return Disapprove()

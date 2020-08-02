@@ -1,7 +1,6 @@
 package gamelogic.cookieworld.actionTypes
 
 import game.action.Action
-import game.Effect
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
@@ -17,8 +16,8 @@ class WasteTime: Action {
 
     }
 
-    override fun doAction(game: Game, player: GameCharacter): List<Effect> {
-        return listOf()
+    override fun doAction(game: Game, player: GameCharacter) {
+        //do nothing
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {

@@ -1,12 +1,11 @@
 package gamelogic.cookieworld.actionTypes
 
 import game.action.Action
-import game.Effect
-import gamelogic.cookieworld.effects.AddMilk
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import game.titles.Milkman
+import gamelogic.cookieworld.CookieWorld
 import shortstate.ShortStateCharacter
 
 class GetMilk: Action {
@@ -21,11 +20,12 @@ class GetMilk: Action {
         this.player = player.id
     }
 
-    override fun doAction(game: Game, player: GameCharacter): List<Effect> {
+    override fun doAction(game: Game, player: GameCharacter){
         if(player.titles.filter { title -> title is Milkman }.isNotEmpty()) {
-            return listOf(AddMilk(1.0, game.characterById(this.player)!!))
+            val logic = CookieWorld.getCookieWorld(game)
+            logic.hasMilk.add(game.characterById(this.player))
+            player.dummyScore -= 0.45
         }
-        return listOf()
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {

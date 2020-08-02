@@ -88,7 +88,7 @@ class OfferDeal: Line {
         if(value > 0){
             return AcceptDeal(deal.toFinishedDeal())
         } else if(value < 0){
-            return QuestionOffer(this)
+            return RejectDeal(deal.toFinishedDeal())
         } else {
             return SimpleLine("Whatever you want, my lord")
         }

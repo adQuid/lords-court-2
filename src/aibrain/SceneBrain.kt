@@ -40,7 +40,7 @@ class SceneBrain {
     }
 
     fun nextSceneIWantToBeIn(player: ShortStateCharacter, game: ShortStateGame): SceneMaker?{
-        //val debug = creationAdvocates.sortedByDescending { adv -> adv.weight(game).weight }.map { adv -> adv.weight(game) }
+        val debug = creationAdvocates.sortedByDescending { adv -> adv.weight(game).weight }.map { adv -> adv.weight(game) }
         return bestCreationAdvocate(game).createScene(game, player)
     }
 

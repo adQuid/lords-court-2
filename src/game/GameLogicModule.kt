@@ -68,7 +68,7 @@ abstract class GameLogicModule {
 
     abstract fun finishConstruction(game: Game)
 
-    abstract fun endTurn(game: Game): List<Effect>
+    abstract fun endTurn(game: Game)
 
     abstract fun locations(): Collection<Location>
 
@@ -82,8 +82,6 @@ abstract class GameLogicModule {
     fun reportFactoryFromType(type: String, game: Game): ReportFactory?{
         return reportTypes[type]
     }
-
-    abstract fun effectFromSaveString(saveString: Map<String, Any>, game:Game): Effect?
 
     fun titleFromSaveString(saveString: Map<String, Any>, game: Game): Title?{
         return titleTypes.titleFromSaveString(saveString, game)

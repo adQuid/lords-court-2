@@ -2,11 +2,9 @@ package game.action
 
 import game.Game
 import game.GameCharacter
-import game.Effect
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
-import javafx.scene.layout.Pane
 import javafx.scene.text.Font
 import main.UIGlobals
 import shortstate.ShortStateCharacter
@@ -35,7 +33,7 @@ abstract class Action: Displayable, Describable {
         }
     }
 
-    abstract fun doAction(game: Game, player: GameCharacter): List<Effect>
+    abstract fun doAction(game: Game, player: GameCharacter)
 
     abstract fun saveString(): Map<String, Any>
 
