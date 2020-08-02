@@ -6,13 +6,10 @@ import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import gamelogic.cookieworld.effects.CookieWorldEffectFactory
-import gamelogic.capital.Capital
 import gamelogic.capital.CapitalLogicModule
-import gamelogic.territory.Territory
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
-import jdk.jshell.execution.Util
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.componentfactory.UtilityComponentFactory
@@ -21,19 +18,20 @@ import ui.specialdisplayables.selectionmodal.Tab
 import java.text.DecimalFormat
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.math.roundToInt
 
-class GiveGold: Action {
+class GiveResource: Action {
 
     companion object{
         val typeName: String
             get() = "GiveGold"
     }
     var characterId: Int
+    var resource: String
     var amount: Int
 
-    constructor(id: Int, amount: Int){
+    constructor(id: Int, resource: String, amount: Int){
         this.characterId = id
+        this.resource = resource
         this.amount = amount
     }
 
@@ -53,7 +51,8 @@ class GiveGold: Action {
         return hashMapOf(
             GlobalActionTypeFactory.TYPE_NAME to typeName,
             "amount" to amount,
-            "territory" to characterId
+            "resource" to resource,
+            "char" to characterId
         )
     }
 
@@ -83,11 +82,11 @@ class GiveGold: Action {
     }
 
     override fun equals(other: Any?): Boolean {
-        return other is GiveGold && other.characterId == characterId && other.amount == amount
+        return other is GiveResource && other.characterId == characterId && other.amount == amount
     }
 
     override fun collidesWith(other: Action): Boolean{
-        return other is GiveGold && other.characterId == this.characterId
+        return other is GiveResource && other.characterId == this.characterId
     }
 
     class ChangeGold(override var probability: Double, val characterId: Int, val amount: Int) : Effect() {

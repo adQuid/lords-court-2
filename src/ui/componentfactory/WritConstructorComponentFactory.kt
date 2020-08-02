@@ -23,7 +23,7 @@ class WritConstructorComponentFactory {
 
         root.add(textField, 0,0)
 
-        val description = UtilityComponentFactory.shortWideLabel(parent.deal.actions.map { entry -> entry.key.fullName()+" will "+entry.value.map{it.toString()}.joinToString() }.joinToString())
+        val description = UtilityComponentFactory.shortWideLabel(parent.deal.actions.map { entry -> entry.key.fullName()+" will "+entry.value.map{it.description()}.joinToString() }.joinToString("\n"))
         root.add(description,0,1)
 
         root.add(UtilityComponentFactory.shortWideButton("Modify Actions", EventHandler { _ -> UIGlobals.focusOn(parent.deal) }), 0,2)

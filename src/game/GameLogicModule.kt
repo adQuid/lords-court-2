@@ -10,6 +10,7 @@ import java.lang.Exception
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.capital.CapitalLogicModule
 import game.titlemaker.TitleFactory
+import gamelogic.playerresources.PlayerResourceModule
 import javafx.scene.control.Button
 import shortstate.ShortStateCharacter
 
@@ -35,6 +36,9 @@ abstract class GameLogicModule {
         fun cloneModule(logicModule: GameLogicModule, game: Game): GameLogicModule{
             if(logicModule is CookieWorld){
                 return CookieWorld(logicModule)
+            }
+            if(logicModule is PlayerResourceModule){
+                return PlayerResourceModule(logicModule)
             }
             if(logicModule is TerritoryLogicModule){
                 return TerritoryLogicModule(logicModule)

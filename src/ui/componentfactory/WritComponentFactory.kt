@@ -23,14 +23,15 @@ class WritComponentFactory {
 
         root.add(UtilityComponentFactory.shortWideLabel(writ.name), 0,0)
 
-        val description = UtilityComponentFactory.shortWideLabel(writ.deal.actions.map { entry -> entry.key.fullName()+" will "+entry.value.map{it.toString()}.joinToString() }.joinToString())
+        val description = UtilityComponentFactory.shortWideLabel(writ.deal.actions.map { entry -> entry.key.fullName()+" will "+entry.value.map{it.description()}.joinToString() }.joinToString())
         root.add(description,0,1)
 
-        root.add(UtilityComponentFactory.shortWideLabel("Signed by (${writ.prettyPrintSignatories()})"),0,2)
+        root.add(UtilityComponentFactory.shortWideLabel("Signed by: ${writ.prettyPrintSignatories()}"),0,2)
 
-        root.add(UtilityComponentFactory.shortWideButton("Modify (clears signatories)", EventHandler { _ -> perspective.player.writs.remove(writ); UIGlobals.defocus(); UIGlobals.focusOn(WritConstructor(writ.deal.toUnfinishedDeal())) }), 0,3)
+        root.add(UtilityComponentFactory.shortWideButton("Details", EventHandler { _ -> UIGlobals.focusOn(writ.deal) }), 0,3)
+        root.add(UtilityComponentFactory.shortWideButton("Modify (clears signatories)", EventHandler { _ -> perspective.player.writs.remove(writ); UIGlobals.defocus(); UIGlobals.focusOn(WritConstructor(writ.deal.toUnfinishedDeal())) }), 0,4)
         val bottomPane = GridPane()
-        bottomPane.add(UtilityComponentFactory.backButton(),0,4)
+        bottomPane.add(UtilityComponentFactory.backButton(),0,5)
 
         root.add(bottomPane,0,5)
 

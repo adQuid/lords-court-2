@@ -6,6 +6,7 @@ import gamelogic.capital.CapitalLogicModule
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
 import game.titlemaker.CookieWorldTitleFactory
+import gamelogic.playerresources.PlayerResourceModule
 import gamelogic.playerresources.PlayerResourceTypes
 import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 import java.util.*
@@ -31,7 +32,7 @@ class GameSetup {
         val territories = TerritoryMap.fromMap(WorldEditorMainMenu.mapName)
         val territoryLogic = TerritoryLogicModule(territories)
         val capitals = CapitalLogicModule(territoryLogic.map.territories.map { Capital(it) })
-        val game = Game(listOf(territoryLogic, capitals))
+        val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals))
 
         val pcCapital = capitals.capitals.first()
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, pcCapital.location, game)
