@@ -52,7 +52,8 @@ class PlayerResourceModule: GameLogicModule {
     override fun score(perspective: GameCharacter): Score {
         val retval = Score()
 
-        retval.add("gold", "i'll have money", perspective.resources.get(PlayerResourceTypes.GOLD_NAME).toDouble())
+        retval.add("gold", "I'll have money", perspective.resources.get(PlayerResourceTypes.GOLD_NAME).toDouble())
+        retval.add("fish", "I'll have fish", perspective.resources.get(PlayerResourceTypes.FISH_NAME).toDouble() * 0.5)
 
         return retval
     }

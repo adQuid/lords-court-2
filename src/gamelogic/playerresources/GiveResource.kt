@@ -41,6 +41,7 @@ class GiveResource: Action {
 
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
         if(player.resources.get(resource) >= amount){
+            player.resources.add(resource, -amount)
             return listOf(ChangeGold(1.0, characterId, resource, amount))
         }
         return listOf()
@@ -112,7 +113,7 @@ class GiveResource: Action {
         override fun apply(game: Game) {
             val logic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
 
-            game.characterById(characterId).resources.add(PlayerResourceTypes.GOLD_NAME, amount)
+            game.characterById(characterId).resources.add(resource, amount)
         }
         override fun toString(): String{
             return "give ${amount} ${resource} to ${characterId}"

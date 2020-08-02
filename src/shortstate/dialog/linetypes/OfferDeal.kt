@@ -90,7 +90,7 @@ class OfferDeal: Line {
         } else if(value < 0){
             return QuestionOffer(this)
         } else {
-            return SimpleLine("Whatever you want, lord")
+            return SimpleLine("Whatever you want, my lord")
         }
     }
 }
