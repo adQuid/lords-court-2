@@ -9,12 +9,18 @@ import shortstate.ShortStateCharacter
 
 class PlayerResourceModule: GameLogicModule {
 
+    companion object{
+        val type = "player resources"
+    }
+
     override val type: String
-        get() = "player resources"
+        get() = Companion.type
 
     constructor(): super(listOf(), EmptyTitleFactory(), listOf())
 
     constructor(other: PlayerResourceModule): super(listOf(), EmptyTitleFactory(), listOf())
+
+    constructor(saveString: Map<String, Any>, context: Game): super(listOf(), EmptyTitleFactory(), listOf())
 
     override fun finishConstruction(game: Game) {
 

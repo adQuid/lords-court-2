@@ -138,7 +138,7 @@ class GameCharacter {
     }
 
     fun actionsReguarding(players: List<GameCharacter>): List<Action>{
-        return titles.flatMap { title -> title.actionsReguarding(players) }.plus(PlayerResourceTypes.allTypes.map{ GiveResource(1, PlayerResourceTypes.GOLD_NAME, players.first().id) })
+        return titles.flatMap { title -> title.actionsReguarding(players) }.plus(PlayerResourceTypes.allTypes.map{ GiveResource(1, it, players.first().id) })
     }
 
     fun reportsEntitled(): Collection<ReportFactory>{

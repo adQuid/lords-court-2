@@ -40,11 +40,14 @@ class GiveResource: Action {
     }
 
     override fun doAction(game: Game, player: GameCharacter): List<Effect> {
-        return listOf(ChangeGold(1.0, characterId, amount))
+        if(player.resources.get(resource) >= amount){
+            return listOf(ChangeGold(1.0, characterId, resource, amount))
+        }
+        return listOf()
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {
-        return "give ${amount} Gold"
+        return "give ${amount} ${resource}"
     }
 
     override fun saveString(): Map<String, Any> {
@@ -57,7 +60,7 @@ class GiveResource: Action {
     }
 
     override fun description(): String {
-        return "Give ${amount} gold to ${characterName()}"
+        return "Give ${amount} ${resource} to ${characterName()}"
     }
 
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
@@ -72,8 +75,8 @@ class GiveResource: Action {
         amountPane.add(UtilityComponentFactory.proportionalButton("50 Less", EventHandler { amount = max(amount-50,0); UIGlobals.refresh() }, 6.0),0,0)
         amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-1,0); UIGlobals.refresh() }, 6.0),1,0)
         amountPane.add(UtilityComponentFactory.shortProportionalLabel(DecimalFormat("#.##").format(amount), 3.0),2,0)
-        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = min(amount+1,perspective!!.player.resources.get(PlayerResourceTypes.GOLD_NAME)); UIGlobals.refresh() }, 6.0),3,0)
-        amountPane.add(UtilityComponentFactory.proportionalButton("50 More", EventHandler { amount = min(amount+50,perspective!!.player.resources.get(PlayerResourceTypes.GOLD_NAME)); UIGlobals.refresh() }, 6.0),4,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = amount+1; UIGlobals.refresh() }, 6.0),3,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("50 More", EventHandler { amount = amount+50; UIGlobals.refresh() }, 6.0),4,0)
 
         retval.add(targetPane, 0,2)
         retval.add(amountPane,0,3)
@@ -89,13 +92,13 @@ class GiveResource: Action {
         return other is GiveResource && other.characterId == this.characterId
     }
 
-    class ChangeGold(override var probability: Double, val characterId: Int, val amount: Int) : Effect() {
+    class ChangeGold(override var probability: Double, val characterId: Int, val resource: String, val amount: Int) : Effect() {
 
         companion object{
-            val typeName = "cngeTax"
+            val typeName = "cngeRsrce"
         }
 
-        constructor(saveString: Map<String, Any>, game: Game) : this(saveString[CookieWorldEffectFactory.PROBABLITY_NAME] as Double, saveString["terId"] as Int, saveString["amount"] as Int) {
+        constructor(saveString: Map<String, Any>, game: Game) : this(saveString[CookieWorldEffectFactory.PROBABLITY_NAME] as Double, saveString["terId"] as Int, saveString["resource"] as String, saveString["amount"] as Int) {
 
         }
 
@@ -112,22 +115,23 @@ class GiveResource: Action {
             game.characterById(characterId).resources.add(PlayerResourceTypes.GOLD_NAME, amount)
         }
         override fun toString(): String{
-            return "give ${amount} gold to ${characterId}"
+            return "give ${amount} ${resource} to ${characterId}"
         }
 
         override fun saveString(): Map<String, Any> {
             return hashMapOf(
                 CookieWorldEffectFactory.TYPE_NAME to typeName,
-                CookieWorldEffectFactory.PROBABLITY_NAME to probability
+                CookieWorldEffectFactory.PROBABLITY_NAME to probability,
+                "resource" to resource
             )
         }
 
         override fun tooltip(perspective: ShortStateCharacter): String {
-            return "Get gold"
+            return "Get ${resource}"
         }
 
         override fun description(): String {
-            return "${characterId} would get $amount gold"
+            return "${characterId} would get $amount ${resource}"
         }
     }
 }

@@ -92,7 +92,7 @@ object UtilityComponentFactory {
         public override fun updateItem(item: T?, empty: Boolean) {
             if(item != null){
                 super.updateItem(item, empty)
-                this.graphic = Text(item.tooltip(UIGlobals.playingAs()))
+                this.graphic = Text(item.description())
                 this.onMouseClicked = EventHandler{_ -> closeAction(item)}
             }
         }

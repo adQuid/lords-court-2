@@ -21,6 +21,9 @@ abstract class GameLogicModule {
         val TYPE_NAME = "TYPE"
 
         fun moduleFromSaveString(saveString: Map<String, Any>, game: Game): GameLogicModule{
+            if(saveString[TYPE_NAME] == PlayerResourceModule.type){
+                return PlayerResourceModule(saveString, game)
+            }
             if(saveString[TYPE_NAME] == CookieWorld.type){
                 return CookieWorld(saveString, game)
             }
