@@ -11,6 +11,7 @@ import gamelogic.playerresources.PlayerResourceTypes
 import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 import game.linetriggers.LineTrigger
 import shortstate.dialog.linetypes.SimpleLine
+import game.linetriggers.*
 import java.util.*
 
 class GameSetup {
@@ -43,7 +44,7 @@ class GameSetup {
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
-        advisor.specialLines.add(LineTrigger({  -> SimpleLine("test") }))
+        advisor.specialLines.add(testTrigger)
         game.addPlayer(advisor)
 
         val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
