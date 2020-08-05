@@ -41,7 +41,11 @@ object UtilityComponentFactory {
             try{
                 image = Image(path+".png")
             }catch (e: IllegalArgumentException){
-                image = Image(path+".jpeg")
+                try{
+                    image = Image(path+".jpeg")
+                } catch (e: Exception){
+                    throw Exception("Image file $path not found!")
+                }
             }
         }
         return image
@@ -186,11 +190,12 @@ object UtilityComponentFactory {
     }
 
     fun iconButton(image: String, tooltip: String, action: () -> Unit): ImageView{
-        val retval = ImageView(Image(image))
+        val retval = ImageView(imageFromPath(image))
         retval.fitHeight = UIGlobals.totalHeight() * BOTTOM_BAR_PORTION
         retval.fitWidth = UIGlobals.totalWidth()/12
         applyTooltip(retval, tooltip)
         retval.onMouseClicked =  EventHandler { _ -> action()}
         return retval
     }
+
 }

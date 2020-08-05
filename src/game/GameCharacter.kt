@@ -4,6 +4,7 @@ import aibrain.FinishedDeal
 import aibrain.ForecastBrain
 import aibrain.Treaty
 import game.action.Action
+import game.linetriggers.LineTrigger
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.Resources
@@ -35,6 +36,8 @@ class GameCharacter {
     val acceptedTreaties: MutableList<Treaty>
     val WRITS_NAME = "WRITS"
     val writs: MutableList<Writ>
+    val SPECIAL_LINES_NAME = "SPECIALLINES"
+    val specialLines: MutableList<LineTrigger>
 
     val RESOURCES_NAME = "RESOURCES"
     val resources: Resources
@@ -52,6 +55,7 @@ class GameCharacter {
         this.acceptedDeals = mutableListOf()
         this.acceptedTreaties = mutableListOf()
         this.writs = mutableListOf()
+        this.specialLines = mutableListOf()
         this.resources = Resources()
     }
 
@@ -66,6 +70,7 @@ class GameCharacter {
         this.acceptedDeals = mutableListOf() //TODO: Fix this
         this.acceptedTreaties = mutableListOf() //TODO: Fix this
         this.writs = other.writs.map { writ -> Writ(writ) }.toMutableList()
+        this.specialLines = other.specialLines //at the time of writing, special lines are immutable
         this.resources = Resources(other.resources)
 
         //testing only
@@ -79,6 +84,7 @@ class GameCharacter {
         pictureString = saveString[PICTURE_NAME] as String
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> game.titleFromSaveString(map) }.toMutableSet()
         resources = Resources((saveString[RESOURCES_NAME] as Map<String, Any>))
+        this.specialLines = mutableListOf()
 
         //To avoid circular references these are populated in finishConstruction
         location = Location(0,0)
