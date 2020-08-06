@@ -29,7 +29,7 @@ private fun dealHasBadOfferForFish(deal: Deal): Boolean{
 
 val adviseToGetFish = LineTrigger("gogetfish", { data, game, line, me -> data["calls"] == 0 && gameWouldEndWithoutFish(game, me)}, replyWithSimpleLine("You fool, get some fish!"))
 private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolean{
-    if(me.energy > 850 || game.playerCharacter().writs.isNotEmpty()){
+    if(me.energy > 850 || (me.energy > 400 && game.playerCharacter().writs.isNotEmpty())){
         return false
     }
     game.endTurn()

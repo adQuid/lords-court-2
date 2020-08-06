@@ -138,6 +138,7 @@ class Controller {
     }
 
     private fun runPlayerThread(){
+        UIGlobals.resetFocus()
         if(shortThreads.any{!it.finished && it.shortGame.players.any { !it.player.npc }}){
             Thread(shortThreads.first{!it.finished && it.shortGame.players.any { !it.player.npc }}).start()
         }
