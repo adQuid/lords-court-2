@@ -56,8 +56,16 @@ class Controller {
         game!!.appendActionsForPlayer(player, actions)
     }
 
-    @Synchronized fun concludeTurnForPlayer(player: GameCharacter){
-        game!!.concludedPlayers.add(player)
+    fun concludeTurnForPlayer(player: GameCharacter){
+        concludeTurnForPlayer(player, false)
+    }
+
+    @Synchronized fun concludeTurnForPlayer(player: GameCharacter, unconclude: Boolean){
+        if(unconclude){
+            game!!.concludedPlayers.remove(player)
+        } else {
+            game!!.concludedPlayers.add(player)
+        }
         if(game!!.concludedPlayers.size == game!!.players.size){
             println("ENDING TURN ${game!!.turn}")
             game!!.endTurn()

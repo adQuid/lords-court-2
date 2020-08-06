@@ -24,7 +24,7 @@ private fun dealHasBadOfferForFish(deal: Deal): Boolean{
     return false
 }
 
-val approachTestTrigger = LineTrigger("approach", { data, game, line, me -> true}, {data, game, line, me -> SimpleLine("yo, I'z talkin to ya") } )
+val approachTestTrigger = LineTrigger("approach", { data, game, line, me -> data["calls"] == 0}, {data, game, line, me -> SimpleLine("yo, I'z talkin to ya") } )
 
 val TRIGGER_MAP = listOf(approachTestTrigger, adviceOnBadFishTrade, testTrigger).map { it.id to it }.toMap().toMutableMap()
 

@@ -14,7 +14,7 @@ class LineTrigger {
 
     constructor(id: String, condition: (data: MutableMap<String, Any>,
                             game: Game, line: Line?, me: ShortStateCharacter) -> Boolean,
-                line: (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter) -> Line): this(id, mutableMapOf<String, Any>(), condition, line){
+                line: (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter) -> Line): this(id, mutableMapOf<String, Any>("calls" to 0), condition, line){
     }
 
     constructor(id: String, data: MutableMap<String, Any>, condition: (data: MutableMap<String, Any>,
@@ -31,7 +31,9 @@ class LineTrigger {
     }
 
     fun generateLine(game: Game, line: Line?, me: ShortStateCharacter): Line {
-        return line(this.data, game, line, me)
+        val retval = line(this.data, game, line, me)
+        retval.source = this
+        return retval
     }
 
     fun saveString(): Map<String, Any>{

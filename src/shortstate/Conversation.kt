@@ -93,6 +93,9 @@ class Conversation {
         println("\"${line.fullTextForm(game, lastSpeaker, otherParticipant(lastSpeaker))}\"(${line::class}) submitted by ${otherParticipant(lastSpeaker)}")
         if(line.validToSend()){
             line.specialEffect(room, this, otherParticipant(lastSpeaker))
+            if(line.source != null){
+                line.source!!.data["calls"] = (line.source!!.data["calls"] as Int) + 1
+            }
             age++
             lastLine = line
             lastSpeaker = otherParticipant(lastSpeaker)
