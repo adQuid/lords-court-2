@@ -1,5 +1,9 @@
 package game.linetriggers
 
+import aibrain.Deal
+import gamelogic.playerresources.GiveResource
+import gamelogic.playerresources.PlayerResourceTypes
+import shortstate.dialog.linetypes.RequestAdviceForDeal
 import shortstate.dialog.linetypes.SimpleLine
 
 val testTrigger = LineTrigger("test", { data, game, line, me ->
@@ -8,7 +12,20 @@ val testTrigger = LineTrigger("test", { data, game, line, me ->
     {data, game, line, me -> SimpleLine("test") }
 )
 
-val TRIGGER_MAP = mutableMapOf(testTrigger.id to testTrigger)
+val adviceOnBadFishTrade = LineTrigger("badfish", { data, game, line, me ->
+    line is RequestAdviceForDeal && dealHasBadOfferForFish(line.deal)}, {data, game, line, me -> SimpleLine("Your idea is bad, and you should feel bad.") } )
+private fun dealHasBadOfferForFish(deal: Deal): Boolean{
+    val cost = deal.theActions().entries.filter { it.key.npc == false }.flatMap{it.value}.filter { it is GiveResource && it.resource == PlayerResourceTypes.GOLD_NAME}.firstOrNull()
+    val fish = deal.theActions().entries.filter  { it.key.npc }.flatMap{it.value}.filter { it is GiveResource && it.resource == PlayerResourceTypes.FISH_NAME}.firstOrNull()
+
+    if(cost != null && fish != null){
+        return (cost as GiveResource).amount > (fish as GiveResource).amount * 12
+    }
+    return false
+}
+
+
+val TRIGGER_MAP = mutableMapOf(testTrigger.id to testTrigger, adviceOnBadFishTrade.id to adviceOnBadFishTrade)
 
 fun triggerFromSaveString(saveString: Map<String, Any>): LineTrigger{
     val retval = TRIGGER_MAP[saveString["type"] as String]!!

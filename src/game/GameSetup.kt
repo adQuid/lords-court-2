@@ -44,7 +44,7 @@ class GameSetup {
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
-        advisor.specialLines.add(testTrigger)
+        advisor.specialLines.add(adviceOnBadFishTrade)
         game.addPlayer(advisor)
 
         val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
