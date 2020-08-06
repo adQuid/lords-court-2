@@ -4,7 +4,7 @@ import aibrain.ConversationBrain
 import shortstate.Conversation
 import game.GameCharacter
 import game.Game
-import game.linetriggers.LineTrigger
+import shortstate.linetriggers.LineTrigger
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.room.Room

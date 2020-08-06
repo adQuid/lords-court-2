@@ -9,9 +9,7 @@ import game.titlemaker.CookieWorldTitleFactory
 import gamelogic.playerresources.PlayerResourceModule
 import gamelogic.playerresources.PlayerResourceTypes
 import ui.specialdisplayables.worldgen.WorldEditorMainMenu
-import game.linetriggers.LineTrigger
-import shortstate.dialog.linetypes.SimpleLine
-import game.linetriggers.*
+import shortstate.linetriggers.*
 import java.util.*
 
 class GameSetup {

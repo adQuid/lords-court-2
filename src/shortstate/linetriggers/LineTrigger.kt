@@ -1,11 +1,18 @@
-package game.linetriggers
+package shortstate.linetriggers
 
 import game.Game
 import shortstate.ShortStateCharacter
-import shortstate.ShortStateGame
 import shortstate.dialog.Line
 
 class LineTrigger {
+
+    companion object{
+        fun triggerFromSaveString(saveString: Map<String, Any>): LineTrigger{
+            val retval = TRIGGER_MAP[saveString["type"] as String]!!
+            retval.data = (saveString["data"] as Map<String, Any>).toMutableMap()
+            return retval
+        }
+    }
 
     val id: String
     private val condition: (data: MutableMap<String, Any>, game: Game, line: Line?,  me: ShortStateCharacter) -> Boolean

@@ -1,4 +1,4 @@
-package game.linetriggers
+package shortstate.linetriggers
 
 import aibrain.Deal
 import gamelogic.playerresources.GiveResource
@@ -24,12 +24,6 @@ private fun dealHasBadOfferForFish(deal: Deal): Boolean{
     return false
 }
 
-val approachTestTrigger = LineTrigger("approach", { data, game, line, me -> data["calls"] == 0}, {data, game, line, me -> SimpleLine("yo, I'z talkin to ya") } )
+val approachTestTrigger = LineTrigger("approach", neverBeenCalled, replyWithSimpleLine("Yo, I'z talking to ya.") )
 
 val TRIGGER_MAP = listOf(approachTestTrigger, adviceOnBadFishTrade, testTrigger).map { it.id to it }.toMap().toMutableMap()
-
-fun triggerFromSaveString(saveString: Map<String, Any>): LineTrigger{
-    val retval = TRIGGER_MAP[saveString["type"] as String]!!
-    retval.data = (saveString["data"] as Map<String, Any>).toMutableMap()
-    return retval
-}

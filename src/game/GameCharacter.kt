@@ -4,8 +4,7 @@ import aibrain.FinishedDeal
 import aibrain.ForecastBrain
 import aibrain.Treaty
 import game.action.Action
-import game.linetriggers.LineTrigger
-import game.linetriggers.triggerFromSaveString
+import shortstate.linetriggers.LineTrigger
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.Resources
@@ -85,7 +84,7 @@ class GameCharacter {
         pictureString = saveString[PICTURE_NAME] as String
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> game.titleFromSaveString(map) }.toMutableSet()
         resources = Resources((saveString[RESOURCES_NAME] as Map<String, Any>))
-        this.specialLines = (saveString[SPECIAL_LINES_NAME] as List<Map<String, Any>>).map { triggerFromSaveString(it) }.toMutableList()
+        this.specialLines = (saveString[SPECIAL_LINES_NAME] as List<Map<String, Any>>).map { LineTrigger.triggerFromSaveString(it) }.toMutableList()
 
         //To avoid circular references these are populated in finishConstruction
         location = Location(0,0)

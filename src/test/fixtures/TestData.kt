@@ -5,7 +5,7 @@ import game.GameCharacter
 import game.Game
 import game.Writ
 import game.Location
-import game.linetriggers.testTrigger
+import shortstate.linetriggers.testTrigger
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.ShortStateGame
 import shortstate.dialog.LineMemory
