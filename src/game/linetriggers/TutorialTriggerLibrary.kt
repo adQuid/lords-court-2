@@ -24,8 +24,9 @@ private fun dealHasBadOfferForFish(deal: Deal): Boolean{
     return false
 }
 
+val approachTestTrigger = LineTrigger("approach", { data, game, line, me -> true}, {data, game, line, me -> SimpleLine("yo, I'z talkin to ya") } )
 
-val TRIGGER_MAP = mutableMapOf(testTrigger.id to testTrigger, adviceOnBadFishTrade.id to adviceOnBadFishTrade)
+val TRIGGER_MAP = listOf(approachTestTrigger, adviceOnBadFishTrade, testTrigger).map { it.id to it }.toMap().toMutableMap()
 
 fun triggerFromSaveString(saveString: Map<String, Any>): LineTrigger{
     val retval = TRIGGER_MAP[saveString["type"] as String]!!

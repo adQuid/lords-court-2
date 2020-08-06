@@ -42,13 +42,12 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
 
     private fun nextLineIWouldSay(game: ShortStateGame, shortGameScene: ShortGameScene): Line {
         val convo = shortGameScene.conversation!!
+        val specialLine = me.specialLines.filter { it.shouldGenerateLine(game.game, convo.lastLine, game.shortPlayerForLongPlayer(me)!!)}.firstOrNull()
+        if(specialLine != null){
+            return specialLine.generateLine(game.game, convo.lastLine, game.shortPlayerForLongPlayer(me)!!)
+        }
         if(convo.lastLine != null){
-            val specialLine = me.specialLines.filter { it.shouldGenerateLine(game, convo.lastLine!!, game.shortPlayerForLongPlayer(me)!!)}.firstOrNull()
-            if(specialLine != null){
-                return specialLine.generateLine(game, convo.lastLine!!, game.shortPlayerForLongPlayer(me)!!)
-            } else {
-                return convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker.player, game.game)
-            }
+            return convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker.player, game.game)
         } else {
             return convo.otherParticipant(convo.lastSpeaker).convoBrain.startConversation(convo.lastSpeaker.player, game.game)
         }

@@ -1,9 +1,6 @@
 package aibrain
 
-import aibrain.conversationadvocates.ConversationAdvocate
-import aibrain.conversationadvocates.FarewellAdvocate
-import aibrain.conversationadvocates.OfferDealAdvocate
-import aibrain.conversationadvocates.OfferWritAdvocate
+import aibrain.conversationadvocates.*
 import shortstate.dialog.Line
 import game.Game
 import game.GameCharacter
@@ -21,7 +18,7 @@ class ConversationBrain {
 
     constructor(shortCharacter: ShortStateCharacter){
         this.shortCharacter = shortCharacter
-        conversationAdvocates = listOf(FarewellAdvocate(shortCharacter), OfferDealAdvocate(shortCharacter), OfferWritAdvocate(shortCharacter))
+        conversationAdvocates = listOf(FarewellAdvocate(shortCharacter), OfferDealAdvocate(shortCharacter), OfferWritAdvocate(shortCharacter), SpecialLineAdvocate(shortCharacter))
     }
 
     fun putOrAddDealToMemory(player: GameCharacter, deal: Deal){

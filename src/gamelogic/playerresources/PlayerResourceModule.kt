@@ -49,7 +49,7 @@ class PlayerResourceModule: GameLogicModule {
         val retval = Score()
 
         retval.add("gold", "I'll have money", perspective.resources.get(PlayerResourceTypes.GOLD_NAME).toDouble())
-        retval.add("fish", "I'll have fish", perspective.resources.get(PlayerResourceTypes.FISH_NAME).toDouble() * 0.5)
+        retval.add("fish", "I'll have fish", perspective.resources.get(PlayerResourceTypes.FISH_NAME).toDouble() * 0.1)
 
         return retval
     }

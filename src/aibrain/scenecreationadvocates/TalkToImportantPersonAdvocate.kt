@@ -1,5 +1,6 @@
 package aibrain.scenecreationadvocates
 
+import aibrain.conversationadvocates.SpecialLineAdvocate
 import aibrain.scenereactionadvocates.SceneReactionAdvocate
 import aibrain.scenereactionadvocates.TalkMoreAdvocate
 import game.GameCharacter
