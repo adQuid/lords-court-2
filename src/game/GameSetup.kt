@@ -43,11 +43,13 @@ class GameSetup {
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
         advisor.specialLines.add(adviceOnBadFishTrade)
+        advisor.specialLines.add(adviseToGetFish)
+        advisor.specialLines.add(chideForBadDeal)
         game.addPlayer(advisor)
 
         val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
         fishmonger.resources.set(PlayerResourceTypes.FISH_NAME, 100)
-        fishmonger.specialLines.add(approachTestTrigger)
+        //fishmonger.specialLines.add(approachTestTrigger)
         game.addPlayer(fishmonger)
 
         val names = Stack<String>()

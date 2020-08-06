@@ -81,6 +81,10 @@ class ShortStateGame {
         if(stopped){
             return null
         }
+        //debug
+        if(players.filter { !it.done }.sortedByDescending { it.energy }.getOrNull(0) != null){
+            //println( players.filter { !it.done }.sortedByDescending { it.energy }.getOrNull(0)!!.player.name +" is next")
+        }
         return players.filter { !it.done }.sortedByDescending { it.energy }.getOrNull(0)
     }
 

@@ -28,6 +28,6 @@ class SpecialLineAdvocate: ConversationAdvocate {
     }
 
     private fun bestLine(game: Game): Line? {
-        return me.player.specialLines.filter { it.shouldGenerateLine(game, null, perspective)}.firstOrNull()?.generateLine(game, null, me)
+        return me.player.specialLines.filter { it.shouldGenerateLine(game.imageFor(perspective.player), null, perspective)}.firstOrNull()?.generateLine(game, null, me)
     }
 }

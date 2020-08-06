@@ -42,7 +42,7 @@ class WritConstructorComponentFactory {
 
     private fun finish(perspective: ShortStateCharacter){
         parent.name = textField.text
-        if(perspective.addEnergy(DraftWrit(parent.deal, parent.name).cost())){
+        if(perspective.addEnergy(-DraftWrit(parent.deal, parent.name).cost())){
             DraftWrit(parent.deal, parent.name).addWritToCharacter(perspective)
             UIGlobals.defocus()
             UIGlobals.defocus()

@@ -113,7 +113,8 @@ class ForecastBrain {
     }
 
     fun dealValueToCharacter(deal: Deal, character: GameCharacter): Double{
-        return DealCase(deal).dealValue(lastCasesOfConcern!!.filter { it.plan.player != character }, listOf(character))[character]!!
+        return DealCase(deal).dealValue(lastCasesOfConcern!!
+            .filter { it.plan.player != character }, listOf(character))[character]!!
     }
 
     fun dealScoreToCharacter(deal: Deal, character: GameCharacter): Score{

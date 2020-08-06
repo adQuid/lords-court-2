@@ -6,8 +6,9 @@ import shortstate.ShortStateGame
 import shortstate.room.Room
 import shortstate.room.RoomAction
 import shortstate.room.action.GoToBed
+import shortstate.room.action.Wait
 
-class GoToBedAdvocate: SceneReactionAdvocate {
+class WaitAdvocate: SceneReactionAdvocate {
 
     private val me: game.GameCharacter
 
@@ -16,10 +17,14 @@ class GoToBedAdvocate: SceneReactionAdvocate {
     }
 
     override fun weight(game: ShortStateGame, shortGameScene: ShortGameScene): Double {
-        return if(game.shortPlayerForLongPlayer(me)!!.energy < 800){ return 2.0} else {return 0.0}
+        if(shortGameScene.conversation == null){
+            return 0.5
+        } else {
+            return 0.0
+        }
     }
 
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene):RoomAction {
-        return GoToBed()
+        return Wait()
     }
 }

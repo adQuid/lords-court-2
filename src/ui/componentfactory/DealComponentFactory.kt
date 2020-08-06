@@ -23,17 +23,21 @@ open class DealComponentFactory {
     val deal: Deal
     var actions: MutableMap<GameCharacter, MutableSet<Action>>
     var currentPage: GameCharacter
-    var actionLists: MutableMap<GameCharacter, AppendableActionList>
+    lateinit var actionLists: MutableMap<GameCharacter, AppendableActionList>
 
     constructor(deal: Deal){
         this.deal = deal
         this.actions = deal.theActions().mapValues { entry -> entry.value.toMutableSet() }.toMutableMap()
         currentPage = actions.keys.first()
-        actionLists = actions.entries.associate { entry -> entry.key to AppendableActionList() }.toMutableMap()
+        setupActionLists()
     }
 
     private fun resetActions(){
         actions = deal.theActions().mapValues { entry -> entry.value.toMutableSet() }.toMutableMap()
+        setupActionLists()
+    }
+
+    private fun setupActionLists(){
         actionLists = actions.entries.associate { entry -> entry.key to AppendableActionList() }.toMutableMap()
     }
 
@@ -54,7 +58,7 @@ open class DealComponentFactory {
             bottomPane.add(UtilityComponentFactory.shortButton("Import from Writ", EventHandler { UIGlobals.focusOn(
                 SelectionModal( "Writs",
                     UtilityComponentFactory.writs(perspective),
-                    { writ -> actions = writ.deal.actions.entries.associate{entry -> entry.key to entry.value.toMutableSet()}.toMutableMap(); UIGlobals.defocus() })
+                    { writ -> actions = writ.deal.actions.entries.associate{entry -> entry.key to entry.value.toMutableSet()}.toMutableMap(); setupActionLists(); UIGlobals.defocus() })
             )}),1,0)
             bottomPane.add(UtilityComponentFactory.shortButton("Complete", EventHandler { deal.actions = actions ; UIGlobals.defocus()}, 2),2,0)
         } else {

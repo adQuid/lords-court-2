@@ -99,6 +99,7 @@ class ShortStateController: Runnable {
     fun endScene(shortGameScene: ShortGameScene){
         var partingMessage: Message? = null
         if(shortGame.shortGameScene == shortGameScene){
+            println("ending scene")
             shortGameScene.characters.forEach { player -> player.energy -= GameRules.COST_TO_END_SCENE}
             //if there was a conversation, characters might have learned something in this time
             if(shortGameScene.conversation != null){
@@ -108,6 +109,7 @@ class ShortStateController: Runnable {
                 }
             }
             if(shortGameScene.characters.any { character -> !character.player.npc }){
+                shortGameScene.characters.filter { character -> !character.player.npc && character.nextSceneIWannaBeIn == null }.forEach { it.nextSceneIWannaBeIn = GoToRoomSoloMaker(it, shortGameScene.room) }
                 UIGlobals.defocus()
             }
             shortGame.shortGameScene = null

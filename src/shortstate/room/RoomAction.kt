@@ -14,7 +14,7 @@ abstract class RoomAction {
 
     fun doActionIfCanAfford(game: ShortStateGame, player: ShortStateCharacter){
         if(player.canAffordAction(this)){
-            player.energy -= cost()
+            player.addEnergy(-cost())
             doAction(game, player)
         } else if(!player.player.npc){
             UIGlobals.focusOn(Message("You don't have energy to do this"))
