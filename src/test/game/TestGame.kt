@@ -51,6 +51,7 @@ class TestGame {
             assertTrue { player.name == game2.characterById(player.id).name };
             assertTrue { player.titles.size == game2.characterById(player.id).titles.size }
             assertTrue { player.memory.lines.size == game2.characterById(player.id).memory.lines.size }
+            assert(player.memory.lines.map{it.line.javaClass} == game2.characterById(player.id).memory.lines.map{it.line.javaClass})
             player.memory.lines.forEachIndexed { index, memory -> memory.line.type == (game2.characterById(player.id).memory.lines[index].line.type) }
         }
     }

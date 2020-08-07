@@ -14,7 +14,7 @@ import shortstate.room.Room
 class TreeLine: Line {
 
     override val type: String
-        get() = GlobalLineTypeFactory.SIMPLE_TYPE_NAME
+        get() = GlobalLineTypeFactory.TREE_TYPE_NAME
 
     val text: String
     val children: List<Line>
@@ -54,7 +54,7 @@ class TreeLine: Line {
     }
 
     override fun canChangeTopic(): Boolean {
-        return true
+        return false
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {

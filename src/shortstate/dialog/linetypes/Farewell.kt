@@ -15,7 +15,7 @@ import shortstate.scenemaker.GoToRoomSoloMaker
 class Farewell: Line {
 
     override val type: String
-        get() = GlobalLineTypeFactory.APPROVE_TYPE_NAME
+        get() = GlobalLineTypeFactory.FAREWELL_TYPE_NAME
 
     constructor(){
 

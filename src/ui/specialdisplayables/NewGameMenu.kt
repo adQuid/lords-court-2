@@ -14,8 +14,10 @@ class NewGameMenu: NoPerspectiveDisplayable() {
     override fun display(): Scene {
         val pane = GridPane()
 
+        val characterDetails = UtilityComponentFactory.shortWideLabel("")
+
         val characterBio = UtilityComponentFactory.shortWideLabel("")
-        characterBio.setMinSize(UIGlobals.totalWidth(), UIGlobals.totalHeight() * 0.6)
+        characterBio.setMinSize(UIGlobals.totalWidth(), UIGlobals.totalHeight() * 0.5)
 
         val startGameButton = UtilityComponentFactory.shortWideButton("Start", EventHandler {
             Controller.singleton!!.newGame(GameSetup().setupAgricultureGame()) })
@@ -24,17 +26,19 @@ class NewGameMenu: NoPerspectiveDisplayable() {
         pane.add(UtilityComponentFactory.shortWideLabel("Select Character"), 0, 1)
 
         val characterSelectPane = GridPane()
-        characterSelectPane.add(UtilityComponentFactory.proportionalButton("Melkar", EventHandler {
-            characterBio.text = "You are Melkar, prince of Kingdomland. This is more filler text. It's very long filler, and for a good reason. A good testing reason. Anyhow, you should go see out your father, since he's going to give you stuff because you're a spoiled rich kid and whatnot."; startGameButton.isDisable = false }, 4.0), 0, 0)
-        characterSelectPane.add(UtilityComponentFactory.proportionalButton("", EventHandler { characterBio.text = ""; startGameButton.isDisable = true }, 4.0), 1, 0)
-        characterSelectPane.add(UtilityComponentFactory.proportionalButton("", EventHandler { characterBio.text = ""; startGameButton.isDisable = true }, 4.0), 2, 0)
-        characterSelectPane.add(UtilityComponentFactory.proportionalButton("", EventHandler { characterBio.text = ""; startGameButton.isDisable = true }, 4.0), 3, 0)
+        characterSelectPane.add(UtilityComponentFactory.proportionalButton("Prince Melkar", EventHandler {
+            characterDetails.text = "Age: 15   Difficulty: Easy"
+            characterBio.text = "    You are Melkar, prince of Danswada. Your father, King Mayron, has summoned you to Port Fog, but denied you a chance at battle against your enemies. You now await further instructions. \n    As the heir of a stable dynasty ruling a thriving land, Melkar has a bright future. The realm of Danswada has troubles, which will only grow worse as time goes on, but in the immediate future he has the privilage to be able to make quite a few mistakes. The start of Melkar's story also serves as a game tutorial."; startGameButton.isDisable = false }, 4.0), 0, 0)
+        characterSelectPane.add(UtilityComponentFactory.proportionalButton("", EventHandler { characterDetails.text = ""; characterBio.text = ""; startGameButton.isDisable = true }, 4.0), 1, 0)
+        characterSelectPane.add(UtilityComponentFactory.proportionalButton("", EventHandler { characterDetails.text = ""; characterBio.text = ""; startGameButton.isDisable = true }, 4.0), 2, 0)
+        characterSelectPane.add(UtilityComponentFactory.proportionalButton("", EventHandler { characterDetails.text = ""; characterBio.text = ""; startGameButton.isDisable = true }, 4.0), 3, 0)
 
         pane.add(characterSelectPane,0,2)
 
-        pane.add(characterBio, 0, 3)
-        pane.add(startGameButton, 0, 4)
-        pane.add(UtilityComponentFactory.backButton(), 0, 5)
+        pane.add(characterDetails, 0,3)
+        pane.add(characterBio, 0, 4)
+        pane.add(startGameButton, 0, 5)
+        pane.add(UtilityComponentFactory.backButton(), 0, 6)
 
 
 

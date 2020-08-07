@@ -56,6 +56,11 @@ private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean
 
 val approachTestTrigger = LineTrigger("approach", neverBeenCalled, replyWithSimpleLine("Yo, I'z talking to ya.") )
 
-val talkToDadTrigger = LineTrigger("talktodad", talkingToSpecific("Mayren"), replyWithSimpleLine("Whazup?"))
+val talkToDadTrigger = LineTrigger("talktodad",
+    and(neverBeenCalled,talkingToSpecific("Mayren")), replyWithTreeLine(
+    TreeLine("How goes the war, father?",
+        TreeLine("We stand victorious. The Grogan were repelled at sea. Not a single Danswadan man lost.",
+            TreeLine("Excellent!", SimpleLine("Which is where you come in")),
+            TreeLine("If you didn't need me, why did you send for me?", SimpleLine("You're a little bitch, ya know that?"))))))
 
 val TRIGGER_MAP = listOf(approachTestTrigger, adviceOnBadFishTrade, adviseToGetFish, chideForBadDeal, talkToDadTrigger, testTrigger).map { it.id to it }.toMap().toMutableMap()
