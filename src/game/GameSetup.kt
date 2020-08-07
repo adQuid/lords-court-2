@@ -37,9 +37,10 @@ class GameSetup {
 
         val pcCapital = capitals.capitals.first()
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, pcCapital.location, game)
-        PC.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
+        //PC.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
+        PC.specialLines.add(talkToDadTrigger)
         game.addPlayer(PC)
-        game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
+        //game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
         advisor.specialLines.add(adviceOnBadFishTrade)
@@ -50,7 +51,10 @@ class GameSetup {
         val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
         fishmonger.resources.set(PlayerResourceTypes.FISH_NAME, 100)
         //fishmonger.specialLines.add(approachTestTrigger)
-        game.addPlayer(fishmonger)
+        //game.addPlayer(fishmonger)
+
+        val dad = GameCharacter("Mayren", "assets/portraits/King.png", true, pcCapital.location, game)
+        game.addPlayer(dad)
 
         val names = Stack<String>()
         names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim", "Starwin", "Artyom", "Elsvin", "Krolm", "Ashta"))

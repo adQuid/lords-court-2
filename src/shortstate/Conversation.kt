@@ -73,7 +73,7 @@ class Conversation {
 
     fun defaultConversationLines(perspective: ShortStateCharacter): List<Line>{
         return listOfNotNull(
-            Announcement(null),
+            if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) Announcement(null) else null,
             RequestReport(null),
             OfferDeal(UnfinishedDeal(participants().map { it.player })),
             RequestAdviceForDeal(UnfinishedDeal(participants().map { it.player })),

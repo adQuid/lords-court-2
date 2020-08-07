@@ -22,6 +22,6 @@ class ConversationMaker: SceneMaker {
     }
 
     override fun toString(): String {
-        return "Talk to $target in $room"
+        return "Talk to $target"
     }
 }

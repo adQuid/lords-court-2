@@ -57,7 +57,7 @@ class RequestReport: Line, HasReportType {
     }
 
     override fun tooltipDescription(): String {
-        return ""
+        return "Add this type of report (if they have it, and will tell you) to your list."
     }
 
     override fun specialSaveString(): Map<String, Any> {

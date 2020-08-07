@@ -56,4 +56,6 @@ private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean
 
 val approachTestTrigger = LineTrigger("approach", neverBeenCalled, replyWithSimpleLine("Yo, I'z talking to ya.") )
 
-val TRIGGER_MAP = listOf(approachTestTrigger, adviceOnBadFishTrade, adviseToGetFish, chideForBadDeal, testTrigger).map { it.id to it }.toMap().toMutableMap()
+val talkToDadTrigger = LineTrigger("talktodad", neverBeenCalled, replyWithSimpleLine("Whazup?"))
+
+val TRIGGER_MAP = listOf(approachTestTrigger, adviceOnBadFishTrade, adviseToGetFish, chideForBadDeal, talkToDadTrigger, testTrigger).map { it.id to it }.toMap().toMutableMap()

@@ -20,7 +20,7 @@ object NewSceneSelector {
     }
 
     private fun newSceneOptions(perspective: ShortStateCharacter): List<Tab<SceneMaker>>{
-        val goToRoomMakers = perspective.player.location.rooms.map { room -> GoToRoomSoloMaker(perspective, room) }
+        val goToRoomMakers = perspective.player.location.rooms.filter{it.type in listOf(Room.RoomType.BEDROOM, Room.RoomType.ETC) || perspective.player.titles.isNotEmpty()}.map { room -> GoToRoomSoloMaker(perspective, room) }
         val goToRoomTab = Tab<SceneMaker>("Go to Room", goToRoomMakers)
 
         val conversationMakers = Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.players.minusElement(perspective)
