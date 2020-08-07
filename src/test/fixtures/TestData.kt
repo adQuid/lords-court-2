@@ -1,6 +1,7 @@
 package test.fixtures
 
 import aibrain.FinishedDeal
+import com.sun.source.tree.Tree
 import game.GameCharacter
 import game.Game
 import game.Writ
@@ -125,6 +126,7 @@ private fun fullMemory(dealDummy: GameCharacter): List<LineMemory>{
     LineMemory(RequestReport(DeliciousnessReport.type)),
     LineMemory(OfferWrit(Writ("test writ", savableDeal(dealDummy), listOf(dealDummy)))),
     LineMemory(SimpleLine("memory ")),
+    LineMemory(TreeLine("tree", TreeLine("tree2", SimpleLine("tree3")))),
     LineMemory(Farewell())
     )
 }

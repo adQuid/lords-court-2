@@ -8,6 +8,7 @@ import gamelogic.playerresources.PlayerResourceTypes
 import shortstate.ShortStateCharacter
 import shortstate.dialog.linetypes.RequestAdviceForDeal
 import shortstate.dialog.linetypes.SimpleLine
+import shortstate.dialog.linetypes.TreeLine
 
 val testTrigger = LineTrigger("test", { data, game, line, me ->
     if(me.player.memory.lines.size < 2){ true } else { false }
@@ -16,13 +17,14 @@ val testTrigger = LineTrigger("test", { data, game, line, me ->
 )
 
 val adviceOnBadFishTrade = LineTrigger("badfish", { data, game, line, me ->
-    line is RequestAdviceForDeal && dealHasBadOfferForFish(line.deal)}, replyWithSimpleLine("Your idea is bad, and you should feel bad.") )
+    line is RequestAdviceForDeal && dealHasBadOfferForFish(line.deal)},
+    replyWithTreeLine(TreeLine("Your idea is bad, and you should feel bad.",TreeLine("How much do you think I should be paying?", SimpleLine("Maybe like 10 fish per gold?")))) )
 private fun dealHasBadOfferForFish(deal: Deal): Boolean{
     val cost = deal.theActions().entries.filter { it.key.npc == false }.flatMap{it.value}.filter { it is GiveResource && it.resource == PlayerResourceTypes.GOLD_NAME}.firstOrNull()
     val fish = deal.theActions().entries.filter  { it.key.npc }.flatMap{it.value}.filter { it is GiveResource && it.resource == PlayerResourceTypes.FISH_NAME}.firstOrNull()
 
     if(cost != null && fish != null){
-        return (cost as GiveResource).amount > (fish as GiveResource).amount * 12
+        return (cost as GiveResource).amount * 12 > (fish as GiveResource).amount
     }
     return false
 }
