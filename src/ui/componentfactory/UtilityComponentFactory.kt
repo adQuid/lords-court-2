@@ -3,6 +3,7 @@ package ui.componentfactory
 import game.Writ
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
+import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.control.*
@@ -146,6 +147,8 @@ object UtilityComponentFactory {
         val retval = Label(text)
         setSize(retval, proportion)
         retval.alignment = Pos.CENTER
+        retval.padding = Insets(15.0)
+        retval.isWrapText = true
         return retval
     }
 
