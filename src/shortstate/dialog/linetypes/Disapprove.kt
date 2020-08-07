@@ -56,7 +56,7 @@ class Disapprove: Line {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         return brain.startConversation(speaker, game)
     }
 }

@@ -83,7 +83,7 @@ class OfferDeal: Line {
         conversation.participants().forEach { it.convoBrain.putOrAddDealToMemory(conversation.otherParticipant(it).player, deal) }
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         val value = brain.shortCharacter.player.brain.dealValueToMe(deal)
         if(value > 0){
             return AcceptDeal(deal.toFinishedDeal())

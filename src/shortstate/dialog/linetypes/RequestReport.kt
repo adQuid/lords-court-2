@@ -90,7 +90,7 @@ class RequestReport: Line, HasReportType {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         val relatedReport = brain.shortCharacter.reportOfType(report!!)
         if(relatedReport != null){
             return GiveReport(relatedReport)

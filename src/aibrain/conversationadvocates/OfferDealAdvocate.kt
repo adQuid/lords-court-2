@@ -13,16 +13,16 @@ class OfferDealAdvocate: ConversationAdvocate {
     constructor(perspective: ShortStateCharacter) : super(perspective) {
     }
 
-    override fun weight(game: Game, target: GameCharacter): ConversationWeight {
-        if(dealIWouldDiscuss(target) != null){
-            return ConversationWeight(me.player.brain.dealsILike!![dealIWouldDiscuss(target)!!]!! * 80.0, line(target))
+    override fun weight(game: Game, target: ShortStateCharacter): ConversationWeight {
+        if(dealIWouldDiscuss(target.player) != null){
+            return ConversationWeight(me.player.brain.dealsILike!![dealIWouldDiscuss(target.player)!!]!! * 80.0, line(target))
         } else {
             return ConversationWeight(0.0, Farewell())
         }
     }
 
-    override fun line(target: GameCharacter): Line {
-        val deal = dealIWouldDiscuss(target)
+    override fun line(target: ShortStateCharacter): Line {
+        val deal = dealIWouldDiscuss(target.player)
         if(deal != null) {
             return OfferDeal(deal)
         }

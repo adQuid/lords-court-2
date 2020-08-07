@@ -130,8 +130,8 @@ class ConversationComponentFactory {
         if(conversation.lastLine == null || conversation.lastLine!!.canChangeTopic() || retval.size == 0){
             retval = retval.plus(conversation.defaultConversationLines(perspective))
         }
-        retval = retval.plus(perspective.player.specialLines.filter{it.shouldGenerateLine(UIGlobals.activeGame(), conversation.lastLine, perspective)}
-            .map { it.generateLine(UIGlobals.activeGame(), conversation.lastLine, perspective) })
+        retval = retval.plus(perspective.player.specialLines.filter{it.shouldGenerateLine(UIGlobals.activeGame(), conversation.lastLine, perspective, conversation.otherParticipant(perspective))}
+            .map { it.generateLine(UIGlobals.activeGame(), conversation.lastLine, perspective, conversation.otherParticipant(perspective)) })
         return retval
     }
 

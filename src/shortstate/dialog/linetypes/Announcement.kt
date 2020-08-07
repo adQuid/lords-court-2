@@ -93,10 +93,10 @@ class Announcement: Line, HasAction {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         val action = action!!
 
-        val implicitDeal = FinishedDeal(mapOf(speaker to hashSetOf(action)))
+        val implicitDeal = FinishedDeal(mapOf(speaker.player to hashSetOf(action)))
 
         if(brain.shortCharacter.player.brain.dealValueToMe(implicitDeal) > 0){
             return Approve()

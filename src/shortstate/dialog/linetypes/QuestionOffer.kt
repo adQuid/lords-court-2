@@ -71,7 +71,7 @@ class QuestionOffer: Line {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         //TODO
         //return CiteEffect(line!!.deal.toFinishedDeal(), brain.shortCharacter.player.brain.justifyDeal(line!!.deal, brain.shortCharacter.player))
         return QuestionOffer(this.line)

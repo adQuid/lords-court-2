@@ -2,6 +2,7 @@ package shortstate
 
 import aibrain.UnfinishedDeal
 import game.action.Action
+import main.UIGlobals
 import shortstate.dialog.Line
 import shortstate.dialog.LineMemory
 import shortstate.dialog.GlobalLineTypeFactory
@@ -74,9 +75,9 @@ class Conversation {
     fun defaultConversationLines(perspective: ShortStateCharacter): List<Line>{
         return listOfNotNull(
             if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) Announcement(null) else null,
-            RequestReport(null),
-            OfferDeal(UnfinishedDeal(participants().map { it.player })),
-            RequestAdviceForDeal(UnfinishedDeal(participants().map { it.player })),
+            if(UIGlobals.playingAs().player.titles.flatMap { title -> title.reportsEntitled }.isNotEmpty()) RequestReport(null) else null,
+            if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) OfferDeal(UnfinishedDeal(participants().map { it.player })) else null,
+            if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) RequestAdviceForDeal(UnfinishedDeal(participants().map { it.player })) else null,
             if(perspective.player.writs.filter{it.deal.actions.getOrDefault(this.otherParticipant(perspective).player, setOf()).isNotEmpty()}.isNotEmpty()) OfferWrit(null) else null,
             Farewell()
         )

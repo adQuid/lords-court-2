@@ -11,11 +11,11 @@ class FarewellAdvocate: ConversationAdvocate {
     constructor(perspective: ShortStateCharacter) : super(perspective) {
     }
 
-    override fun weight(game: Game, target: GameCharacter): ConversationWeight {
+    override fun weight(game: Game, target: ShortStateCharacter): ConversationWeight {
         return ConversationWeight(0.5, line(target))
     }
 
-    override fun line(target: GameCharacter): Line {
+    override fun line(target: ShortStateCharacter): Line {
         return Farewell()
     }
 }

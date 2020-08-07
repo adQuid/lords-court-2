@@ -15,19 +15,19 @@ class SpecialLineAdvocate: ConversationAdvocate {
         this.perspective = perspective
     }
 
-    override fun weight(game: Game, target: GameCharacter): ConversationWeight {
-        val line = bestLine(game)
+    override fun weight(game: Game, target: ShortStateCharacter): ConversationWeight {
+        val line = bestLine(game, target)
         if(line != null){
             return ConversationWeight(15.0, line)
         }
         return ConversationWeight(0.0, SimpleLine("This should never come up"))
     }
 
-    override fun line(target: GameCharacter): Line {
+    override fun line(target: ShortStateCharacter): Line {
         return SimpleLine("test")
     }
 
-    private fun bestLine(game: Game): Line? {
-        return me.player.specialLines.filter { it.shouldGenerateLine(game.imageFor(perspective.player), null, perspective)}.firstOrNull()?.generateLine(game, null, me)
+    private fun bestLine(game: Game, target: ShortStateCharacter): Line? {
+        return me.player.specialLines.filter { it.shouldGenerateLine(game.imageFor(perspective.player), null, perspective, target)}.firstOrNull()?.generateLine(game, null, me, target)
     }
 }

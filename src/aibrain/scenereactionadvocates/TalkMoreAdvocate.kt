@@ -20,7 +20,7 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
             if(shortGameScene!!.conversation!!.otherParticipant(shortGameScene!!.conversation!!.lastSpeaker).player.npc){
                 if(IAmStartingThisConvo(shortGameScene)){
                     return shortGameScene!!.conversation!!.otherParticipant(shortGameScene!!.conversation!!.lastSpeaker)
-                        .convoBrain.bestWeight(shortGameScene!!.conversation!!.lastSpeaker.player, game.game)
+                        .convoBrain.bestWeight(shortGameScene!!.conversation!!.lastSpeaker, game.game)
                 }
                 if(!(nextLineIWouldSay(game, shortGameScene) is Farewell)){
                     return 50.0 - shortGameScene.conversation!!.age //TODO: This needs to make more sense
@@ -42,15 +42,15 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
 
     private fun nextLineIWouldSay(game: ShortStateGame, shortGameScene: ShortGameScene): Line {
         val convo = shortGameScene.conversation!!
-        val specialLine = me.specialLines.filter { it.shouldGenerateLine(game.game.imageFor(me), convo.lastLine, game.shortPlayerForLongPlayer(me)!!)}.firstOrNull()
+        val specialLine = me.specialLines.filter { it.shouldGenerateLine(game.game.imageFor(me), convo.lastLine, game.shortPlayerForLongPlayer(me)!!, null)}.firstOrNull()
         if(specialLine != null){
-            return specialLine.generateLine(game.game.imageFor(me), convo.lastLine, game.shortPlayerForLongPlayer(me)!!)
+            return specialLine.generateLine(game.game.imageFor(me), convo.lastLine, game.shortPlayerForLongPlayer(me)!!, null)
         }
         if(convo.lastLine != null){
-            return convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker.player, game.game)
+            return convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker, game.game)
         } else {
 
-            return convo.otherParticipant(convo.lastSpeaker).convoBrain.startConversation(convo.lastSpeaker.player, game.game)
+            return convo.otherParticipant(convo.lastSpeaker).convoBrain.startConversation(convo.lastSpeaker, game.game)
         }
     }
 }

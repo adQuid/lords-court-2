@@ -89,7 +89,7 @@ class GiveReport: Line {
         }
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         throw NotImplementedError()
     }
 }

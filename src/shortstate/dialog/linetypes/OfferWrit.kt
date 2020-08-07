@@ -84,7 +84,7 @@ class OfferWrit: Line {
         //No special effects
     }
 
-    override fun AIResponseFunction(brain: ConversationBrain, speaker: GameCharacter, game: Game): Line {
+    override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         if(brain.shortCharacter.player.brain.dealValueToMe(writ!!.deal) > 0){
             return AcceptWrit(writ!!)
         } else {
