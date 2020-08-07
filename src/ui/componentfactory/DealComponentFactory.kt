@@ -39,6 +39,7 @@ open class DealComponentFactory {
 
     private fun setupActionLists(){
         actionLists = actions.entries.associate { entry -> entry.key to AppendableActionList() }.toMutableMap()
+        currentPage = actions.keys.first()
     }
 
     private fun action(): ActionChooser{

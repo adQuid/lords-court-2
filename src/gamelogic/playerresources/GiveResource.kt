@@ -60,7 +60,7 @@ class GiveResource: Action {
         return "Give ${amount} ${resource} to ${characterName()}"
     }
 
-    override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
+    override fun actionPane(action: Action, parent: MutableSet<Action>?): GridPane{
         val retval = baseActionPane(this, null)
 
         val targetPane = GridPane()
@@ -77,8 +77,15 @@ class GiveResource: Action {
 
         retval.add(targetPane, 0,2)
         retval.add(amountPane,0,3)
+        if(parent != null){
+            retval.add(UtilityComponentFactory.shortWideButton("Remove", EventHandler { parent.remove(action); UIGlobals.defocus() }), 0, 4)
+        }
 
-        return Scene(retval)
+        return retval
+    }
+
+    override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
+        return Scene(actionPane(this, null))
     }
 
     override fun equals(other: Any?): Boolean {

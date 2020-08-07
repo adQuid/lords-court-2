@@ -46,6 +46,10 @@ abstract class Action: Displayable, Describable {
     }
 
     abstract fun collidesWith(other: Action): Boolean
+
+    open fun actionPane(action: Action, parent: MutableSet<Action>?): GridPane{
+        return baseActionPane(action, parent)
+    }
 }
 
 class ActionComponentFactory: Displayable{
@@ -58,7 +62,7 @@ class ActionComponentFactory: Displayable{
         }
 
         override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
-        return Scene(Action.baseActionPane(action, parent))
+        return Scene(action.actionPane(action, parent))
     }
 
 }

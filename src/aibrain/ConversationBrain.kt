@@ -30,7 +30,6 @@ class ConversationBrain {
     }
 
     fun startConversation(target: GameCharacter, game: Game): Line {
-        val dbug = conversationAdvocates.map { adv -> adv.weight(game, target) }
         return conversationAdvocates.sortedByDescending { adv -> adv.weight(game, target).weight }[0].line(target)
     }
 
