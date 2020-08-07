@@ -59,7 +59,7 @@ class SetTaxRate: Action {
         return logic.capitalById(terId)
     }
 
-    override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
+    override fun actionPane(action: Action, parent: MutableSet<Action>?): GridPane {
         val retval = baseActionPane(this, null)
 
         val amountPane = GridPane()
@@ -69,7 +69,13 @@ class SetTaxRate: Action {
 
         retval.add(amountPane,0,2)
 
-        return Scene(retval)
+        return retval
+    }
+
+    override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
+
+
+        return Scene(actionPane(this, null))
     }
 
     override fun equals(other: Any?): Boolean {
