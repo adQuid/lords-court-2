@@ -16,7 +16,7 @@ class Room {
         val TYPE_NAME = "TYPE"
         val PICTURE_TEXT_NAME = "PICTURE"
         val tooltips = mapOf(
-            RoomType.BEDROOM to "Sleep here",
+            RoomType.BEDROOM to "Take a nap",
             RoomType.WORKROOM to "Gather reports, draft new writs, or view your lands",
             RoomType.ETC to "",
             RoomType.THRONEROOM to "announce your writs to enact them into law"

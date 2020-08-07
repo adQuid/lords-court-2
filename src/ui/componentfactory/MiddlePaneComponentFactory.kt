@@ -25,6 +25,7 @@ object MiddlePaneComponentFactory {
         turnDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() * BOTTOM_BAR_PORTION)
         retval.add(turnDisplay, 0,0)
         val statsDisplay = Label("Energy: " + perspective.energy + "/1000")
+        UtilityComponentFactory.applyTooltip(statsDisplay, "Every action will cost energy. Running out of energy with leave you with no option but to end turn.")
         statsDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() * BOTTOM_BAR_PORTION)
         retval.add(statsDisplay, 1,0)
 
