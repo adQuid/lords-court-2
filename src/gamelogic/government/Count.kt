@@ -1,4 +1,4 @@
-package gamelogic.capital
+package gamelogic.government
 
 import game.Game
 import game.GameCharacter
@@ -7,11 +7,12 @@ import game.action.Action
 import gamelogic.territory.ActiveCropsReportFactory
 import gamelogic.territory.FoodStocksReportFactory
 import game.titlemaker.CookieWorldTitleFactory
-import gamelogic.capital.actionTypes.SetTaxRate
+import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.territory.PopulationReportFactory
 import shortstate.report.ReportFactory
 
 class Count: Title{
+    override val importance = 10
     override val name: String
     val CAPITAL_NAME = "Capital"
     val capital: Capital
@@ -24,7 +25,7 @@ class Count: Title{
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
-        val capitalLogic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
+        val capitalLogic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
         this.name = saveString[NAME_NAME] as String
         this.capital = capitalLogic.capitalById(saveString[CAPITAL_NAME] as Int)
         reportsEntitled = reportsEntitled()

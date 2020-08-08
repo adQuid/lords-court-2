@@ -1,4 +1,4 @@
-package gamelogic.capital
+package gamelogic.government
 
 import game.Game
 import game.Location

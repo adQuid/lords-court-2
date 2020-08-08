@@ -1,9 +1,9 @@
-package gamelogic.capital
+package gamelogic.government
 
 import aibrain.Plan
 import aibrain.Score
 import game.*
-import gamelogic.capital.actionTypes.SetTaxRate
+import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import javafx.scene.control.Button
@@ -12,11 +12,12 @@ import shortstate.report.ReportFactory
 import shortstate.room.RoomActionMaker
 import kotlin.math.roundToInt
 
-class CapitalLogicModule: GameLogicModule {
+class GovernmentLogicModule: GameLogicModule {
 
     companion object{
         val type = "capital"
         val CAPITAL_NAME = "cap"
+        val KINGDOM_NAME = "kng"
 
         private fun capitalsFromSaveString(saveString: Map<String, Any>): Collection<Capital>{
             return (saveString[CAPITAL_NAME] as List<Map<String, Any>>).map{ map -> Capital(map)}
@@ -27,31 +28,36 @@ class CapitalLogicModule: GameLogicModule {
         }
 
         fun capitalById(game: Game, id: Int): Capital{
-            val module = game.moduleOfType(type) as CapitalLogicModule
+            val module = game.moduleOfType(type) as GovernmentLogicModule
 
             return module.capitalById(id)
         }
     }
     val capitals: Collection<Capital>
+    val kingdoms: Collection<Kingdom>
 
-    constructor(capitals: Collection<Capital>): super(reportFactories(capitals), CapitalTitleFactory, listOf(TerritoryLogicModule.type)){
+    constructor(capitals: Collection<Capital>, kingdoms: Collection<Kingdom>): super(reportFactories(capitals), CapitalTitleFactory, listOf(TerritoryLogicModule.type)){
         this.capitals = capitals
+        this.kingdoms = kingdoms
     }
 
-    constructor(other: CapitalLogicModule, game: Game): super(reportFactories(other.capitals), CapitalTitleFactory, listOf(TerritoryLogicModule.type)){
+    constructor(other: GovernmentLogicModule, game: Game): super(reportFactories(other.capitals), CapitalTitleFactory, listOf(TerritoryLogicModule.type)){
         this.capitals = other.capitals.map { Capital(it) }
+        this.kingdoms = other.kingdoms.map { Kingdom(it)}
     }
 
     constructor(saveString: Map<String, Any>, game: Game): super(reportFactories(capitalsFromSaveString(saveString)), CapitalTitleFactory, listOf(TerritoryLogicModule.type)){
         this.capitals = (saveString[CAPITAL_NAME] as List<Map<String, Any>>).map { Capital(it) }
+        this.kingdoms = (saveString[KINGDOM_NAME] as List<Map<String, Any>>).map { Kingdom(it) }
     }
 
     override fun finishConstruction(game: Game) {
         capitals.forEach { it.finishConstruction(game) }
+        kingdoms.forEach { it.finishConstruction(game) }
     }
 
     override val type: String
-        get() = CapitalLogicModule.type
+        get() = GovernmentLogicModule.type
 
     override fun locations(): Collection<Location> {
         return capitals.map { it.location }
@@ -81,7 +87,8 @@ class CapitalLogicModule: GameLogicModule {
 
     override fun specialSaveString(): Map<String, Any> {
         return mapOf(
-            CAPITAL_NAME to capitals.map { it.saveString() }
+            CAPITAL_NAME to capitals.map { it.saveString() },
+            KINGDOM_NAME to kingdoms.map { it.saveString() }
         )
     }
 
@@ -139,6 +146,10 @@ class CapitalLogicModule: GameLogicModule {
         }
     }
 
+    fun kingdomOf(territory: Territory): Kingdom?{
+        return kingdoms.firstOrNull { it.territories!!.contains(territory) }
+    }
+
     fun matchingCapital(capital: Capital): Capital {
         return capitals.filter { it == capital }.first()
     }
@@ -147,9 +158,18 @@ class CapitalLogicModule: GameLogicModule {
         return capitals.filter { it.terId == id }.first()
     }
 
+    fun kingdomByName(name: String): Kingdom {
+        return kingdoms.filter{ it.name == name }.first()
+    }
+
     fun countOfCaptial(terId: Int): GameCharacter?{
         val countTitle = parent!!.titles.filter { it is Count && it.capital.territory!!.id == terId }.firstOrNull()
         return parent!!.players.filter { it.titles.contains(countTitle) }.firstOrNull()
+    }
+
+    fun kingOfKingdom(kingdom: String): GameCharacter?{
+        val kingTitle = parent!!.titles.filter { it is King && it.kingdom.name == kingdom }.firstOrNull()
+        return parent!!.players.filter { it.titles.contains(kingTitle) }.firstOrNull()
     }
 
     fun legalActionsReguarding(player: GameCharacter, capital: Capital): List<RoomActionMaker>{

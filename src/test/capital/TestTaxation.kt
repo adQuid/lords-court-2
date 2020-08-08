@@ -3,9 +3,9 @@ package test.capital
 import aibrain.GameCase
 import game.Game
 import game.GameCharacter
-import gamelogic.capital.Capital
-import gamelogic.capital.CapitalLogicModule
-import gamelogic.capital.actionTypes.SetTaxRate
+import gamelogic.government.Capital
+import gamelogic.government.GovernmentLogicModule
+import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
@@ -14,7 +14,7 @@ import org.junit.Test
 class TestTaxation {
 
     private fun basicCount(game: Game, ter: Int): GameCharacter {
-        val capitals = game.moduleOfType(CapitalLogicModule.type)!! as CapitalLogicModule
+        val capitals = game.moduleOfType(GovernmentLogicModule.type)!! as GovernmentLogicModule
 
         val location = game.locations().first()
 
@@ -29,7 +29,7 @@ class TestTaxation {
         territories.map.territories.add(Territory(territories.map.nextId, "Placeburg",0,0))
         territories.weekOfYear = 7
 
-        val capitals = CapitalLogicModule(listOf(Capital(territories.territories().first())))
+        val capitals = GovernmentLogicModule(listOf(Capital(territories.territories().first())), listOf())
 
         val game = Game(listOf(territories, capitals))
         return game
@@ -38,7 +38,7 @@ class TestTaxation {
     @Test
     fun test_setting_taxes(){
         val game = capitalTestGame()
-        val capitals = game.moduleOfType(CapitalLogicModule.type)!! as CapitalLogicModule
+        val capitals = game.moduleOfType(GovernmentLogicModule.type)!! as GovernmentLogicModule
 
         game.players.add(basicCount(game, capitals.capitals.first().terId))
 
@@ -70,7 +70,7 @@ class TestTaxation {
         ter.resources.set(Territory.BREAD_NAME, 100)
         ter.resources.set(Territory.ARABLE_LAND_NAME, 300)
 
-        val capitals = game.moduleOfType(CapitalLogicModule.type)!! as CapitalLogicModule
+        val capitals = game.moduleOfType(GovernmentLogicModule.type)!! as GovernmentLogicModule
         val capital = capitals.capitals.first()
         capital.taxes[Territory.FLOUR_NAME] = rate
 

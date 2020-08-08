@@ -1,9 +1,9 @@
-package gamelogic.capital.specialdisplayables
+package gamelogic.government.specialdisplayables
 
 import aibrain.UnfinishedDeal
 import game.GameCharacter
-import gamelogic.capital.CapitalLogicModule
-import gamelogic.capital.actionTypes.SetTaxRate
+import gamelogic.government.GovernmentLogicModule
+import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.territory.Territory
 import javafx.event.EventHandler
 import javafx.scene.Scene
@@ -23,7 +23,7 @@ class LawsView: Displayable {
     }
 
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
-        val capital = (UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule).capitalById(terId)
+        val capital = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule).capitalById(terId)
 
         val pane = GridPane()
 
@@ -48,7 +48,7 @@ class LawsView: Displayable {
     }
 
     private fun makeWritFromAction(perspective: ShortStateCharacter){
-        val newAction = SetTaxRate(terId, CapitalLogicModule.capitalById(UIGlobals.activeGame(), terId).taxes[Territory.FLOUR_NAME]!!)
+        val newAction = SetTaxRate(terId, GovernmentLogicModule.capitalById(UIGlobals.activeGame(), terId).taxes[Territory.FLOUR_NAME]!!)
         val newDeal = UnfinishedDeal(mapOf(perspective.player to setOf(newAction)))
 
         UIGlobals.focusOn(WritConstructor(newDeal))

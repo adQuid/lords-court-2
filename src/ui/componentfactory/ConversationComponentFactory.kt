@@ -33,7 +33,7 @@ class ConversationComponentFactory {
             val npcSpeechView = UtilityComponentFactory.imageView("assets/general/leftSpeechBubble.png", MAIN_WINDOW_PORTION)
             val playerSpeechView = UtilityComponentFactory.imageView("assets/general/rightSpeechBubble.png", MAIN_WINDOW_PORTION)
             playerSpeechView.setOnMouseClicked { _ -> otherLineSymbolic = !otherLineSymbolic; UIGlobals.refresh() }
-            backgroundPane.children.addAll(npcSpeechView, playerSpeechView)
+            backgroundPane.children.addAll(npcSpeechView, playerSpeechView, CharacterDetailComponentFactory.characterNameText(conversation.otherParticipant(perspective), false))
 
             if(lineBeingConstructed != null){
                 if(lineBeingConstructed!!.validToSend()){
@@ -46,8 +46,6 @@ class ConversationComponentFactory {
                 cancelButton.setOnMouseClicked { lineBeingConstructed = null; UIGlobals.refresh()}
                 backgroundPane.children.add(cancelButton)
             }
-
-            backgroundPane.children.add(CharacterDetailComponentFactory.characterNameText(conversation.otherParticipant(perspective), false))
 
             val lineAnchorPane = MyAnchorPane()
             linePane(perspective, lineAnchorPane, lineBeingConstructed, myLineSymbolic, true)

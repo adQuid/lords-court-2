@@ -9,6 +9,7 @@ import shortstate.report.DeliciousnessReportFactory
 import shortstate.report.ReportFactory
 
 class Milkman: Title{
+    override val importance = 1
     override val name: String
     override val reportsEntitled: List<ReportFactory>
 

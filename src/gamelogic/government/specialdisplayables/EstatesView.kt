@@ -1,7 +1,7 @@
-package gamelogic.capital.specialdisplayables
+package gamelogic.government.specialdisplayables
 
-import gamelogic.capital.CapitalLogicModule
-import gamelogic.capital.Count
+import gamelogic.government.GovernmentLogicModule
+import gamelogic.government.Count
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import javafx.event.EventHandler
@@ -45,19 +45,31 @@ class EstatesView: PerspectiveDisplayable {
         pane.add(mapView.display(), 0,0)
         mapView.secondaryHighlight(territoriesControlledByPlayer(perspective))
 
+        val kingdom = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule).kingdomOf(territoriesControlledByPlayer(perspective).first())
+        if(kingdom != null){
+            mapView.tertiaryHighlight(kingdom.territories!!)
+        }
+
         if(focusedTerritory != null){
             mapView.selectTerritoryAt(focusedTerritory!!.x.toDouble(), focusedTerritory!!.y.toDouble(), true, false)
 
+            val govLogic = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule)
+
             val countTitleOfTerr = UIGlobals.activeGame().titles.filter { it is Count && it.capital.territory == focusedTerritory }.firstOrNull()
-            val countOfTerr = (UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule).countOfCaptial((focusedTerritory!!.id))
+            val countOfTerr = govLogic.countOfCaptial((focusedTerritory!!.id))
             val countText = if(countOfTerr == null){"no ruler"} else{ "Ruler: "+countOfTerr.fullName()}
+            val kingdom = govLogic.kingdomOf(focusedTerritory!!)
+            val kingdomText = if(kingdom != null){ "Part of ${kingdom.name}, ruled by ${govLogic.kingOfKingdom(kingdom.name)}" } else { "Independent" }
 
             pane.add(UtilityComponentFactory.shortWideLabel(focusedTerritory!!.name), 0, 1)
 
             if(countOfTerr == perspective.player){
                 pane.add(actionsOnMyTerritory(perspective, countTitleOfTerr as Count), 0,2)
             } else {
-                pane.add(UtilityComponentFactory.shortWideLabel(countText), 0, 2)
+                val ownerPanel = GridPane()
+                ownerPanel.add(UtilityComponentFactory.shortProportionalLabel(countText, 2.0), 0, 0)
+                ownerPanel.add(UtilityComponentFactory.shortProportionalLabel(kingdomText, 2.0), 1, 0)
+                pane.add(ownerPanel, 0, 2)
             }
         }
         pane.add(UtilityComponentFactory.backButton(), 0, 3)
@@ -78,7 +90,7 @@ class EstatesView: PerspectiveDisplayable {
     }
 
     private fun actionsOnMyTerritory(perspective: ShortStateCharacter, countTitle: Count): Node {
-        val logic = UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
+        val logic = UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
         val buttonsPane = GridPane()
         buttonsPane.add(UtilityComponentFactory.proportionalButton("Reports", EventHandler { UIGlobals.focusOn(
             SelectionModal("Select Action",

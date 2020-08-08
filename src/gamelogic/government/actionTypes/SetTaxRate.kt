@@ -1,11 +1,11 @@
-package gamelogic.capital.actionTypes
+package gamelogic.government.actionTypes
 
 import game.action.Action
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
-import gamelogic.capital.Capital
-import gamelogic.capital.CapitalLogicModule
+import gamelogic.government.Capital
+import gamelogic.government.GovernmentLogicModule
 import gamelogic.territory.Territory
 import javafx.event.EventHandler
 import javafx.scene.Scene
@@ -33,7 +33,7 @@ class SetTaxRate: Action {
     }
 
     override fun doAction(game: Game, player: GameCharacter){
-        val logic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
+        val logic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
         logic.capitalById(terId).taxes[Territory.FLOUR_NAME] = amount
     }
@@ -55,7 +55,7 @@ class SetTaxRate: Action {
     }
 
     private fun capitalById(): Capital {
-        val logic = UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
+        val logic = UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
         return logic.capitalById(terId)
     }
 

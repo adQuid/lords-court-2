@@ -1,11 +1,12 @@
 package game
 
 import gamelogic.cookieworld.CookieWorld
-import gamelogic.capital.Capital
-import gamelogic.capital.CapitalLogicModule
+import gamelogic.government.Capital
+import gamelogic.government.GovernmentLogicModule
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
 import game.titlemaker.CookieWorldTitleFactory
+import gamelogic.government.Kingdom
 import gamelogic.playerresources.PlayerResourceModule
 import gamelogic.playerresources.PlayerResourceTypes
 import ui.specialdisplayables.worldgen.WorldEditorMainMenu
@@ -32,7 +33,14 @@ class GameSetup {
     fun setupAgricultureGame(): Game{
         val territories = TerritoryMap.fromMap(WorldEditorMainMenu.mapName)
         val territoryLogic = TerritoryLogicModule(territories)
-        val capitals = CapitalLogicModule(territoryLogic.map.territories.map { Capital(it) })
+        val danswada = Kingdom("Dansawda", listOf(
+            territoryLogic.territories().first { it.name == "Port Fog" },
+            territoryLogic.territories().first { it.name == "Worthford" },
+            territoryLogic.territories().first { it.name == "Sarsburg" },
+            territoryLogic.territories().first { it.name == "Mt. Mist" },
+            territoryLogic.territories().first { it.name == "Craytoyl" }
+        ))
+        val capitals = GovernmentLogicModule(territoryLogic.map.territories.map { Capital(it) }, listOf(danswada))
         val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals))
 
         val pcCapital = capitals.capitals.first()
@@ -42,7 +50,6 @@ class GameSetup {
         PC.specialLines.add(talkToDadTrigger2)
         PC.specialLines.add(talkToDadTrigger3)
         game.addPlayer(PC)
-        //game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
         //advisor.specialLines.add(adviceOnBadFishTrade)
@@ -56,12 +63,15 @@ class GameSetup {
         //game.addPlayer(fishmonger)
 
         val dad = GameCharacter("Mayren", "assets/portraits/King.png", true, pcCapital.location, game)
+        game.applyTitleToCharacter(capitals.capitalOf(territoryLogic.territories().first { it.name == "Worthford" }).generateCountTitle(), dad)
+        game.applyTitleToCharacter(pcCapital.generateCountTitle(), dad)
+        game.applyTitleToCharacter(danswada.generateKingTitle(), dad)
         game.addPlayer(dad)
 
         val names = Stack<String>()
         names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim", "Starwin", "Artyom", "Elsvin", "Krolm", "Ashta"))
         capitals.capitals.forEach {
-            if(it != pcCapital){
+            if(capitals.countOfCaptial(it.terId) == null){
                 val NPC = GameCharacter("Lord "+names.pop(), "assets/portraits/faceman.png", true,it.location,game)
                 game.addPlayer(NPC)
                 game.applyTitleToCharacter(it.generateCountTitle(), NPC)

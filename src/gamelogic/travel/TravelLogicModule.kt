@@ -3,7 +3,7 @@ package gamelogic.travel
 import aibrain.Plan
 import aibrain.Score
 import game.*
-import gamelogic.capital.specialdisplayables.TravelView
+import gamelogic.government.specialdisplayables.TravelView
 import gamelogic.territory.TerritoryLogicModule
 import javafx.event.EventHandler
 import javafx.scene.control.Button

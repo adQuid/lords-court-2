@@ -9,6 +9,8 @@ import shortstate.room.actionmaker.DefaultRoomActionMaker
 
 abstract class Title {
 
+    abstract val importance: Int
+
     val NAME_NAME = "name"
     abstract val name: String
     val REPORTS_NAME = "reports"

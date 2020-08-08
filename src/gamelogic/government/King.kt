@@ -1,43 +1,53 @@
-package game.titles
+package gamelogic.government
 
+import game.Game
 import game.GameCharacter
 import game.Title
 import game.action.Action
-import gamelogic.cookieworld.actionTypes.BakeCookies
-import gamelogic.cookieworld.actionTypes.WasteTime
 import game.titlemaker.CookieWorldTitleFactory
-import shortstate.report.DeliciousnessReportFactory
 import shortstate.report.ReportFactory
 
-class Baker: Title{
-    override val importance = 1
+class King: Title{
+    override val importance = 100
     override val name: String
+    val KINGDOM_NAME = "Kingdom"
+    val kingdom: Kingdom
     override val reportsEntitled: List<ReportFactory>
 
-    constructor(name: String){
-       this.name = "Baker of $name"
-       reportsEntitled = listOf(DeliciousnessReportFactory())
+    constructor(kingdom: Kingdom){
+        this.kingdom = kingdom
+        this.name = "King of of ${kingdom.name}"
+        reportsEntitled = reportsEntitled()
     }
 
-    constructor(saveString: Map<String, Any>){
+    constructor(saveString: Map<String, Any>, game: Game){
+        val capitalLogic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
         this.name = saveString[NAME_NAME] as String
-        reportsEntitled = listOf(DeliciousnessReportFactory())
+        this.kingdom = capitalLogic.kingdomByName(saveString[KINGDOM_NAME] as String)
+        reportsEntitled = reportsEntitled()
     }
 
-    override fun clone(): Baker {
-        return Baker(name)
+    private fun reportsEntitled(): List<ReportFactory>{
+        return listOf(
+
+        )
+    }
+
+    override fun clone(): King {
+        return King(kingdom)
     }
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            CookieWorldTitleFactory.TYPE_NAME to "Baker",
+            CookieWorldTitleFactory.TYPE_NAME to "King",
             NAME_NAME to name,
-            REPORTS_NAME to reportsEntitled.map { report -> report.toString() }
+            REPORTS_NAME to reportsEntitled.map { report -> report.toString() },
+            KINGDOM_NAME to kingdom.name
         )
     }
 
     override fun actionsReguarding(players: List<GameCharacter>): List<Action> {
-        return listOf(BakeCookies(), WasteTime())
+        return listOf()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -45,7 +55,7 @@ class Baker: Title{
         if (javaClass != other?.javaClass) return false
         if (!super.equals(other)) return false
 
-        other as Baker
+        other as King
 
         if (name != other.name) return false
         if (reportsEntitled != other.reportsEntitled) return false

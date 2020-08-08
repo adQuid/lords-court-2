@@ -8,7 +8,7 @@ import shortstate.report.Report
 import shortstate.report.ReportFactory
 import java.lang.Exception
 import gamelogic.territory.TerritoryLogicModule
-import gamelogic.capital.CapitalLogicModule
+import gamelogic.government.GovernmentLogicModule
 import game.titlemaker.TitleFactory
 import gamelogic.playerresources.PlayerResourceModule
 import javafx.scene.control.Button
@@ -30,8 +30,8 @@ abstract class GameLogicModule {
             if(saveString[TYPE_NAME] == TerritoryLogicModule.type){
                 return TerritoryLogicModule(saveString, game)
             }
-            if(saveString[TYPE_NAME] == CapitalLogicModule.type){
-                return CapitalLogicModule(saveString, game)
+            if(saveString[TYPE_NAME] == GovernmentLogicModule.type){
+                return GovernmentLogicModule(saveString, game)
             }
             throw Exception("Logic module name: ${saveString.getOrDefault(TYPE_NAME, null)} not found!")
         }
@@ -46,8 +46,8 @@ abstract class GameLogicModule {
             if(logicModule is TerritoryLogicModule){
                 return TerritoryLogicModule(logicModule)
             }
-            if(logicModule is CapitalLogicModule){
-                return CapitalLogicModule(logicModule, game)
+            if(logicModule is GovernmentLogicModule){
+                return GovernmentLogicModule(logicModule, game)
             }
             throw Exception("Can't figure out type: ${logicModule.javaClass}!")
         }

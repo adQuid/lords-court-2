@@ -1,7 +1,7 @@
-package gamelogic.capital.specialdisplayables
+package gamelogic.government.specialdisplayables
 
-import gamelogic.capital.CapitalLogicModule
-import gamelogic.capital.Count
+import gamelogic.government.GovernmentLogicModule
+import gamelogic.government.Count
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import javafx.event.EventHandler
@@ -43,7 +43,7 @@ class TravelView: PerspectiveDisplayable {
         if(focusedTerritory != null){
             mapView.selectTerritoryAt(focusedTerritory!!.x.toDouble(), focusedTerritory!!.y.toDouble(), true, false)
 
-            val countOfTerr = (UIGlobals.activeGame().moduleOfType(CapitalLogicModule.type) as CapitalLogicModule).countOfCaptial((focusedTerritory!!.id))
+            val countOfTerr = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule).countOfCaptial((focusedTerritory!!.id))
             val countText = if(countOfTerr == null){""} else{ ", "+countOfTerr.fullName()}
 
             pane.add(UtilityComponentFactory.shortWideLabel(focusedTerritory!!.name + countText), 0, 1)

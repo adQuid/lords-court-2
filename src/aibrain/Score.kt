@@ -13,7 +13,7 @@ class Score {
     }
 
     fun add(name: String, description: String, value: Double){
-        if(components.filter{it.name == name}.isNotEmpty()){
+        if(components.filter{it.name == name && it.description == description}.isNotEmpty()){
             components.filter{it.name == name && it.description == description}.first().value += value
         } else {
             components.add(ScoreComponent(name, description, value))

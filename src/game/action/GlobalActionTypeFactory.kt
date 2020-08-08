@@ -1,7 +1,7 @@
 package game.action
 
 import game.Game
-import gamelogic.capital.actionTypes.SetTaxRate
+import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.cookieworld.actionTypes.BakeCookies
 import gamelogic.cookieworld.actionTypes.GetMilk
 import gamelogic.cookieworld.actionTypes.WasteTime

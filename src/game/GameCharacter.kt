@@ -9,6 +9,7 @@ import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.Resources
 import shortstate.report.ReportFactory
+import kotlin.math.min
 
 class GameCharacter {
     val ID_NAME = "ID"
@@ -138,7 +139,7 @@ class GameCharacter {
 
     fun fullName(): String{
         if(titles.isNotEmpty()){
-            return name + ", " + titles.map{it.name}.joinToString(", ")
+            return name + ", " + titles.sortedByDescending { it.importance }.subList(0,min(4, titles.size)).map{ it.name }.joinToString(", ")
         } else {
             return name
         }

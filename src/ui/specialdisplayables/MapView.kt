@@ -167,6 +167,10 @@ class MapView {
         highlightArea(secondaryAnnotations, territories.map { adjacentPixels(it.x.toDouble(), it.y.toDouble())}.flatten(), Color(0.2607843, 0.9607843, 0.2627451, 0.7))
     }
 
+    fun tertiaryHighlight(territories: Collection<Territory>){
+        highlightArea(secondaryAnnotations, territories.map { adjacentPixels(it.x.toDouble(), it.y.toDouble())}.flatten(), Color(0.1607843, 0.9607843, 0.7627451, 0.5))
+    }
+
     private fun highlightArea(layer: MapLayer, coords: List<Pair<Int,Int>>, color: Color){
         coords.forEach {
             if(layer.imageView.image.pixelReader.getArgb(it.first, it.second) == 0){

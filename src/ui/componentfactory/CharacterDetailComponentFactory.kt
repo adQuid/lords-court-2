@@ -24,6 +24,13 @@ class CharacterDetailComponentFactory {
             nameText.textAlignment = TextAlignment.CENTER
             nameText.x = UIGlobals.totalWidth() * 0.5 - (nameText.boundsInLocal.width * 0.5)
             nameText.y = UIGlobals.totalHeight() * 0.05
+            if(full){
+                if(nameString.length > 30){
+                    nameText.x = UIGlobals.totalWidth() * 0.55 - (nameText.boundsInLocal.width * 0.5)
+                }
+                nameText.textAlignment = TextAlignment.JUSTIFY
+                nameText.wrappingWidth = UIGlobals.totalWidth() * 0.65
+            }
             return nameText
         }
     }

@@ -1,4 +1,4 @@
-package gamelogic.capital
+package gamelogic.government
 
 import game.Game
 import shortstate.ShortStateCharacter
@@ -25,7 +25,7 @@ class CapitalStocksReport: Report {
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
-        val logic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
+        val logic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
         capital = logic.capitalById(saveString["id"] as Int)
         flour = saveString["flour"] as Int
@@ -33,7 +33,7 @@ class CapitalStocksReport: Report {
     }
 
     override fun apply(game: Game) {
-        val logic = game.moduleOfType(CapitalLogicModule.type) as CapitalLogicModule
+        val logic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
         logic.matchingCapital(capital).resources.set(Territory.FLOUR_NAME, flour)
         logic.matchingCapital(capital).resources.set(Territory.BREAD_NAME, bread)
     }
