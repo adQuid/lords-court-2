@@ -6,7 +6,6 @@ import game.GameCharacter
 import game.Game
 import game.Writ
 import game.Location
-import shortstate.linetriggers.testTrigger
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.ShortStateGame
 import shortstate.dialog.LineMemory
@@ -18,6 +17,7 @@ import shortstate.ShortGameScene
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.DeliciousnessReport
 import game.titles.Baker
+import shortstate.linetriggers.approachTestTrigger
 
 fun soloTestGame(): Game{
     val cookieLogic = CookieWorld()
@@ -31,7 +31,7 @@ fun soloTestGameWithEverythingOnIt(): Game{
     val game = soloTestGame()
 
     game.players[0].memory.lines.addAll(fullMemory(game.players[0]))
-    game.players[0].specialLines.add(testTrigger)
+    game.players[0].specialLines.add(approachTestTrigger)
 
     //If these two aren't equal, then there's probably a type of line we aren't accounting for
     assert(game.players[0].memory.lines.size == GlobalLineTypeFactory.typeMap.size)

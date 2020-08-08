@@ -38,7 +38,9 @@ class GameSetup {
         val pcCapital = capitals.capitals.first()
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, pcCapital.location, game)
         //PC.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
-        PC.specialLines.add(talkToDadTrigger)
+        PC.specialLines.add(talkToDadTrigger1)
+        PC.specialLines.add(talkToDadTrigger2)
+        PC.specialLines.add(talkToDadTrigger3)
         game.addPlayer(PC)
         //game.applyTitleToCharacter(pcCapital.generateCountTitle(), PC)
 

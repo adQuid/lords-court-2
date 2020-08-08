@@ -10,12 +10,6 @@ import shortstate.dialog.linetypes.RequestAdviceForDeal
 import shortstate.dialog.linetypes.SimpleLine
 import shortstate.dialog.linetypes.TreeLine
 
-val testTrigger = LineTrigger("test", { data, game, line, me, other ->
-    if(me.player.memory.lines.size < 2){ true } else { false }
-},
-    {data, game, line, me, other -> SimpleLine("test") }
-)
-
 val adviceOnBadFishTrade = LineTrigger("badfish", { data, game, line, me, other ->
     line is RequestAdviceForDeal && dealHasBadOfferForFish(line.deal)},
     replyWithTreeLine(TreeLine("Your idea is bad, and you should feel bad.",TreeLine("How much do you think I should be paying?", SimpleLine("Maybe like 10 fish per gold?")))) )
@@ -56,11 +50,34 @@ private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean
 
 val approachTestTrigger = LineTrigger("approach", neverBeenCalled, replyWithSimpleLine("Yo, I'z talking to ya.") )
 
-val talkToDadTrigger = LineTrigger("talktodad",
+val talkToDadTrigger1 = LineTrigger("talktodad1",
     and(neverBeenCalled,talkingToSpecific("Mayren")), replyWithTreeLine(
-    TreeLine("How goes the war, father?",
-        TreeLine("We stand victorious. The Grogan were repelled at sea. Not a single Danswadan man lost.",
-            TreeLine("Excellent!", SimpleLine("Which is where you come in")),
-            TreeLine("If you didn't need me, why did you send for me?", SimpleLine("You're a little bitch, ya know that?"))))))
+        TreeLine("Are you hurt, father?",
+            SimpleLine("I am well son. And now that I see you are safe, my heart is well too."))))
 
-val TRIGGER_MAP = listOf(approachTestTrigger, adviceOnBadFishTrade, adviseToGetFish, chideForBadDeal, talkToDadTrigger, testTrigger).map { it.id to it }.toMap().toMutableMap()
+val talkToDadTrigger2 = LineTrigger("talktodad2",
+    and(neverBeenCalled,safeForNewTopic,talkingToSpecific("Mayren")), replyWithTreeLine(
+    TreeLine("Did you fight the enemy? Did we win?",
+        TreeLine("We stand victorious. The Grogan were repelled at sea. Not a single Danswadan man lost. If only you had been there to see the men cheer.",
+            TreeLine("Glorious!", SimpleLine("Which is where you come in..")),
+            TreeLine("If you had sent word where you were, I would have.",
+                TreeLine("I couldn't risk losing you in the field. I had no way to know the battle would go so well.",
+                    TreeLine("I understand.", SimpleLine("I knew you would. You'll have your chance someday.")),
+                    TreeLine("How am I supposed to learn command when you won't let me fight!?", TreeLine("Melkar, you may be my son, but I am still your king. Come back when you have a better attitude."))
+                )
+            )
+        )
+    )))
+
+val talkToDadTrigger3 = LineTrigger("talktodad3",
+    and(neverBeenCalled, otherTriggerCalled(talkToDadTrigger2),safeForNewTopic,talkingToSpecific("Mayren")), replyWithTreeLine(
+        TreeLine("If I wasn't sent here to help you fight, why am I here?",
+            TreeLine("You are here to take command of this town. Our armies will be marching off to counter attack, and with God's grace end this war. This will leave Port Fog undefended, and I want to show that these people still fall under my protection.",
+                TreeLine("You would put your son at risk to prove a point?",
+                    SimpleLine("You are a prince, and thus you are this kingdom. It is the duty of royalty to stand in the face of your people's danger.")
+                )
+            )
+        )
+    ))
+
+val TRIGGER_MAP = listOf(approachTestTrigger, adviceOnBadFishTrade, adviseToGetFish, chideForBadDeal, talkToDadTrigger1, talkToDadTrigger2, talkToDadTrigger3).map { it.id to it }.toMap().toMutableMap()
