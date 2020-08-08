@@ -93,7 +93,7 @@ class Conversation {
     fun submitLine(line: Line, game: ShortStateGame){
         println("\"${line.fullTextForm(game, lastSpeaker, otherParticipant(lastSpeaker))}\"(${line::class}) submitted by ${otherParticipant(lastSpeaker)}")
         if(line.validToSend()){
-            line.specialEffect(room, this, otherParticipant(lastSpeaker))
+            line.specialEffect(room, game, otherParticipant(lastSpeaker))
             if(line.source != null){
                 line.source!!.data["calls"] = (line.source!!.data["calls"] as Int) + 1
             }

@@ -89,10 +89,6 @@ class Announcement: Line, HasAction {
         return this.action
     }
 
-    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
-        //No special effects
-    }
-
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         val action = action!!
 

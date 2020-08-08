@@ -62,10 +62,6 @@ class RejectDeal: Line {
         return listOf()
     }
 
-    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
-
-    }
-
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         return Disapprove()
     }

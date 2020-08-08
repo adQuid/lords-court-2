@@ -19,6 +19,9 @@ class EndScene: RoomAction() {
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
+        if(game.shortGameScene!!.conversation != null){
+            throw Exception("Tried to end scene out of a conversation!")
+        }
         game.shortGameScene!!.terminated = true
     }
 

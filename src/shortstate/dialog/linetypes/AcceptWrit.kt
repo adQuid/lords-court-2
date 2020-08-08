@@ -65,7 +65,7 @@ class AcceptWrit: Line {
         return listOf()
     }
 
-    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
         writ.signatories.add(speaker.player)
     }
 

@@ -53,7 +53,10 @@ class Farewell: Line {
         return listOf(Farewell())
     }
 
-    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
+        if(shortGame.shortGameScene!!.conversation!!.lastLine is Farewell){
+            shortGame.shortGameScene!!.terminated = true
+        }
         speaker.nextSceneIWannaBeIn = GoToRoomSoloMaker(speaker, room)
     }
 

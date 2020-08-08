@@ -61,10 +61,6 @@ class TreeLine: Line {
         return children
     }
 
-    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
-        //No special effects
-    }
-
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         if(children.isNotEmpty()){
             return children.first()

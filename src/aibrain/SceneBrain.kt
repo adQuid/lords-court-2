@@ -30,10 +30,12 @@ class SceneBrain {
 
     fun reactToScene(shortGameScene: ShortGameScene, game: ShortStateGame){
         val shortMe = game.shortPlayerForLongPlayer(longBrain.player)!!
-        /*val debug = reactionAdvocates.sortedByDescending { adv -> adv.weight(game, shortGameScene) }.map{adv -> "${adv.javaClass}: ${adv.weight(game, shortGameScene)}"}
-        if( reactionAdvocates.filter{adv -> adv.weight(game, shortGameScene) > 0}.filter{shortMe.canAffordAction(it.doToScene(game, shortGameScene))}.size==1){
-            println("debug")
-        }*/
+
+        if(shortGameScene.conversation?.lastLine != null && !shortGameScene.conversation.lastLine!!.canChangeTopic()){
+            return reactionAdvocates.filter { it is TalkMoreAdvocate }.first().doToScene(game, shortGameScene).doActionIfCanAfford(game, shortMe)
+        }
+
+        val debug = reactionAdvocates.sortedByDescending { adv -> adv.weight(game, shortGameScene) }.map{adv -> "${adv.javaClass}: ${adv.weight(game, shortGameScene)}"}
 
         reactionAdvocates.filter{adv -> adv.weight(game, shortGameScene) > 0}.filter{shortMe.canAffordAction(it.doToScene(game, shortGameScene))}
             .sortedByDescending { adv -> adv.weight(game, shortGameScene) }[0].doToScene(game, shortGameScene).doActionIfCanAfford(game, shortMe)

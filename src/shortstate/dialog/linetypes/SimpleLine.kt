@@ -58,10 +58,6 @@ class SimpleLine: Line {
         return listOf()
     }
 
-    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
-        //No special effects
-    }
-
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         return brain.startConversation(speaker, game)
     }

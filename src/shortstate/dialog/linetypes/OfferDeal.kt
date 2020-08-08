@@ -79,8 +79,8 @@ class OfferDeal: Line {
         return listOf(AcceptDeal(newDeal), RejectDeal(newDeal), OfferDeal(newDeal.toUnfinishedDeal()), QuestionOffer(this))
     }
 
-    override fun specialEffect(room: Room, conversation: Conversation, speaker: ShortStateCharacter) {
-        conversation.participants().forEach { it.convoBrain.putOrAddDealToMemory(conversation.otherParticipant(it).player, deal) }
+    override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
+        shortGame.shortGameScene!!.conversation!!.participants().forEach { it.convoBrain.putOrAddDealToMemory(shortGame.shortGameScene!!.conversation!!.otherParticipant(it).player, deal) }
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
