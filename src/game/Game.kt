@@ -261,6 +261,10 @@ class Game {
         return players.filter { it.id == id }[0]
     }
 
+    fun characterByName(name: String): GameCharacter {
+        return players.filter { it.name == name }[0]
+    }
+
     fun turnName(): String {
         if(gameLogicModules.filterIsInstance<TerritoryLogicModule>().isNotEmpty()){
             return (moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).currentWeekName()

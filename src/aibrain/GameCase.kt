@@ -69,6 +69,6 @@ class GameCase {
     fun gameScore(player: GameCharacter): Score {
         return Score(this.currentGame.gameLogicModules.flatMap {
             it.score(player).components()
-        })
+        }).plus(Score(player.specialScoreGenerators.flatMap { it.score(this.currentGame).components() }))
     }
 }

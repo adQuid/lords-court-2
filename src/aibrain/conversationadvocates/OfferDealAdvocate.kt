@@ -15,13 +15,13 @@ class OfferDealAdvocate: ConversationAdvocate {
 
     override fun weight(game: Game, target: ShortStateCharacter): ConversationWeight {
         if(dealIWouldDiscuss(target.player) != null){
-            return ConversationWeight(me.player.brain.dealsILike!![dealIWouldDiscuss(target.player)!!]!! * 80.0, line(target))
+            return ConversationWeight(me.player.brain.dealsILike!![dealIWouldDiscuss(target.player)!!]!! * 80.0, line(game, target))
         } else {
             return ConversationWeight(0.0, Farewell())
         }
     }
 
-    override fun line(target: ShortStateCharacter): Line {
+    override fun line(game: Game, target: ShortStateCharacter): Line {
         val deal = dealIWouldDiscuss(target.player)
         if(deal != null) {
             return OfferDeal(deal)

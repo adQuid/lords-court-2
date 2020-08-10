@@ -1,5 +1,6 @@
 package game
 
+import aibrain.FinishedDeal
 import gamelogic.cookieworld.CookieWorld
 import gamelogic.government.Capital
 import gamelogic.government.GovernmentLogicModule
@@ -7,10 +8,12 @@ import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
 import game.titlemaker.CookieWorldTitleFactory
 import gamelogic.government.Kingdom
+import gamelogic.government.actionTypes.GiveTerritory
+import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceModule
 import gamelogic.playerresources.PlayerResourceTypes
+import scenario.*
 import ui.specialdisplayables.worldgen.WorldEditorMainMenu
-import shortstate.linetriggers.*
 import java.util.*
 
 class GameSetup {
@@ -63,6 +66,16 @@ class GameSetup {
         //game.addPlayer(fishmonger)
 
         val dad = GameCharacter("Mayren", "assets/portraits/King.png", true, pcCapital.location, game)
+        dad.specialScoreGenerators.add(MayronScoreGen())
+        dad.specialLines.add(talkToDadTrigger4)
+
+        val deal = FinishedDeal(mapOf(
+            dad to setOf(GiveTerritory(territoryLogic.territories().first().id,PC.id)),
+            PC to setOf(GiveResource(dad.id, PlayerResourceTypes.FISH_NAME, 0))
+        ))
+        val writ = Writ("Transfer of Title to ${PC.fullName()} for Indefinite Period", deal, listOf(dad))
+        dad.writs.add(writ)
+
         game.applyTitleToCharacter(capitals.capitalOf(territoryLogic.territories().first { it.name == "Worthford" }).generateCountTitle(), dad)
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), dad)
         game.applyTitleToCharacter(danswada.generateKingTitle(), dad)
@@ -73,7 +86,7 @@ class GameSetup {
         capitals.capitals.forEach {
             if(capitals.countOfCaptial(it.terId) == null){
                 val NPC = GameCharacter("Lord "+names.pop(), "assets/portraits/faceman.png", true,it.location,game)
-                game.addPlayer(NPC)
+                //game.addPlayer(NPC)
                 game.applyTitleToCharacter(it.generateCountTitle(), NPC)
             }
         }

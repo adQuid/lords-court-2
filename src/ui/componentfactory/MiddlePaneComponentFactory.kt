@@ -32,7 +32,9 @@ object MiddlePaneComponentFactory {
         nonModifyingComponents(perspective).entries.forEach { retval.add(it.value, it.key, 0) }
 
         if(!locked){
-            modifyingComponents(perspective).entries.forEach { retval.add(it.value, it.key, 0) }
+            modifyingComponents(perspective, locked).entries.forEach { retval.add(it.value, it.key, 0) }
+        } else {
+            modifyingComponents(perspective, locked).entries.forEach { retval.add(it.value, it.key, 0); retval.children[it.key].isDisable = true }
         }
 
         return retval
@@ -61,13 +63,14 @@ object MiddlePaneComponentFactory {
         )
     }
 
-    private fun modifyingComponents(perspective: ShortStateCharacter): Map<Int, Node>{
+    private fun modifyingComponents(perspective: ShortStateCharacter, disabled: Boolean): Map<Int, Node>{
+        val extra = if(disabled) "Disabled" else ""
         return mapOf(
-            6 to UtilityComponentFactory.iconButton("assets/general/newSceneIcon.png", "Go somewhere else", { UIGlobals.focusOn(
+            6 to UtilityComponentFactory.iconButton("assets/general/newSceneIcon${extra}.png", "Go somewhere else", { UIGlobals.focusOn(
                 NewSceneSelector.newSceneSelector(perspective)
             )
             }),
-            7 to UtilityComponentFactory.iconButton("assets/general/endTurnIcon.png", "End turn", { UIGlobals.focusOn(
+            7 to UtilityComponentFactory.iconButton("assets/general/endTurnIcon${extra}.png", "End turn", { UIGlobals.focusOn(
                 EndTurnMenu()
             )})
         )

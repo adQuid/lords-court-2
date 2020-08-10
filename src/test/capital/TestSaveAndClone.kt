@@ -11,30 +11,50 @@ import org.junit.Test
 import game.GameCharacter
 import gamelogic.government.Kingdom
 
+fun soloGovernmentTestGame(): Game {
+    val territories = TerritoryMap("test")
+    territories.territories.add(Territory(territories.nextId++,"Placeburg",0,0))
+
+    val govLogic = GovernmentLogicModule(listOf(Capital(territories.territories[0])),
+        listOf(Kingdom("Test Kingdom", territories.territories)))
+    val game = Game(listOf(TerritoryLogicModule(territories),
+        govLogic
+    ))
+    val player = GameCharacter("name", "image", true, game.locations().first(), game)
+    game.applyTitleToCharacter(govLogic.capitals.first().generateCountTitle(), player)
+    game.applyTitleToCharacter(govLogic.kingdoms.first().generateKingTitle(), player)
+    player.resources.set("some resource", 10)
+    game.players.add(player)
+
+    game.actionsByPlayer.put(game.players[0], mutableListOf(SetTaxRate(territories.territories[0].id, 0.2)))
+    return game
+}
+
+fun twoCapitalTestGame(): Game {
+    val territories = TerritoryMap("test")
+    territories.territories.add(Territory(territories.nextId++,"Placeburg",0,0))
+    territories.territories.add(Territory(territories.nextId++,"Townsville",0,0))
+
+    val govLogic = GovernmentLogicModule(listOf(Capital(territories.territories[0]),Capital(territories.territories[1])),
+        listOf(Kingdom("Test Kingdom", territories.territories)))
+    val game = Game(listOf(TerritoryLogicModule(territories),
+        govLogic
+    ))
+    val player = GameCharacter("name", "image", true, game.locations().first(), game)
+    govLogic.capitals.forEach { game.applyTitleToCharacter(it.generateCountTitle(), player) }
+    game.applyTitleToCharacter(govLogic.kingdoms.first().generateKingTitle(), player)
+    player.resources.set("some resource", 10)
+    game.players.add(player)
+
+    game.actionsByPlayer.put(game.players[0], mutableListOf(SetTaxRate(territories.territories[0].id, 0.2)))
+    return game
+}
+
 class TestSaveAndClone {
-
-    fun soloTestGame(): Game {
-        val territories = TerritoryMap("test")
-        territories.territories.add(Territory(territories.nextId++,"Placeburg",0,0))
-
-        val govLogic = GovernmentLogicModule(listOf(Capital(territories.territories[0])),
-            listOf(Kingdom("Test Kingdom", territories.territories)))
-        val game = Game(listOf(TerritoryLogicModule(territories),
-            govLogic
-        ))
-        val player = GameCharacter("name", "image", true, game.locations().first(), game)
-        game.applyTitleToCharacter(govLogic.capitals.first().generateCountTitle(), player)
-        game.applyTitleToCharacter(govLogic.kingdoms.first().generateKingTitle(), player)
-        player.resources.set("some resource", 10)
-        game.players.add(player)
-
-        game.actionsByPlayer.put(game.players[0], mutableListOf(SetTaxRate(territories.territories[0].id, 0.2)))
-        return game
-    }
 
     @Test
     fun test_clone(){
-        val game = soloTestGame()
+        val game = soloGovernmentTestGame()
         val game2 = Game(game)
 
         assert(game == game2)
@@ -43,7 +63,7 @@ class TestSaveAndClone {
 
     @Test
     fun test_save(){
-        val game = soloTestGame()
+        val game = soloGovernmentTestGame()
         val game2 = Game(game.saveString())
 
         assert(game == game2)

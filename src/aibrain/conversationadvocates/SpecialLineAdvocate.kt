@@ -23,8 +23,8 @@ class SpecialLineAdvocate: ConversationAdvocate {
         return ConversationWeight(0.0, SimpleLine("This should never come up"))
     }
 
-    override fun line(target: ShortStateCharacter): Line {
-        return SimpleLine("test")
+    override fun line(game: Game, target: ShortStateCharacter): Line {
+        return bestLine(game, target)!!
     }
 
     private fun bestLine(game: Game, target: ShortStateCharacter): Line? {

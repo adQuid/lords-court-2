@@ -15,7 +15,11 @@ class LeaveSceneAdvocate: SceneReactionAdvocate {
     }
 
     override fun weight(game: ShortStateGame, shortGameScene: ShortGameScene): Double {
-        return game.shortPlayerForLongPlayer(me)!!.sceneBrain.bestCreationAdvocate(game).weight(game).weight - 0.01
+        if(shortGameScene.conversation == null){
+            return game.shortPlayerForLongPlayer(me)!!.sceneBrain.bestCreationAdvocate(game).weight(game).weight - 0.01
+        } else {
+            return 0.0
+        }
     }
 
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene): RoomAction {

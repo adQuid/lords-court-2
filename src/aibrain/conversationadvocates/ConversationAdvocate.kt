@@ -15,6 +15,6 @@ abstract class ConversationAdvocate {
 
     abstract fun weight(game: Game, target: ShortStateCharacter): ConversationWeight
 
-    abstract fun line(target: ShortStateCharacter): Line
+    abstract fun line(game: Game, target: ShortStateCharacter): Line
 
 }

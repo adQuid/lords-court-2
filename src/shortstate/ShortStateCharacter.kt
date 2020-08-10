@@ -5,6 +5,7 @@ import aibrain.SceneBrain
 import game.GameCharacter
 import game.Game
 import javafx.scene.Scene
+import shortstate.linetriggers.LineTrigger
 import shortstate.report.Report
 import shortstate.room.RoomAction
 import shortstate.scenemaker.SceneMaker

@@ -12,10 +12,10 @@ class FarewellAdvocate: ConversationAdvocate {
     }
 
     override fun weight(game: Game, target: ShortStateCharacter): ConversationWeight {
-        return ConversationWeight(0.5, line(target))
+        return ConversationWeight(0.5, line(game, target))
     }
 
-    override fun line(target: ShortStateCharacter): Line {
+    override fun line(game: Game, target: ShortStateCharacter): Line {
         return Farewell()
     }
 }

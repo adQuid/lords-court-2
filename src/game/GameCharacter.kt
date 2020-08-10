@@ -2,12 +2,14 @@ package game
 
 import aibrain.FinishedDeal
 import aibrain.ForecastBrain
+import aibrain.SpecialScoreGenerator
 import aibrain.Treaty
 import game.action.Action
 import shortstate.linetriggers.LineTrigger
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.Resources
+import scenario.MayronScoreGen
 import shortstate.report.ReportFactory
 import kotlin.math.min
 
@@ -37,8 +39,11 @@ class GameCharacter {
     val acceptedTreaties: MutableList<Treaty>
     val WRITS_NAME = "WRITS"
     val writs: MutableList<Writ>
+
     val SPECIAL_LINES_NAME = "SPECIALLINES"
     val specialLines: MutableList<LineTrigger>
+    val SPECIAL_SCORE_NAME = "SPECIALSCORE"
+    val specialScoreGenerators: MutableList<SpecialScoreGenerator>
 
     val RESOURCES_NAME = "RESOURCES"
     val resources: Resources
@@ -57,6 +62,7 @@ class GameCharacter {
         this.acceptedTreaties = mutableListOf()
         this.writs = mutableListOf()
         this.specialLines = mutableListOf()
+        this.specialScoreGenerators = mutableListOf()
         this.resources = Resources()
     }
 
@@ -72,6 +78,7 @@ class GameCharacter {
         this.acceptedTreaties = mutableListOf() //TODO: Fix this
         this.writs = other.writs.map { writ -> Writ(writ) }.toMutableList()
         this.specialLines = other.specialLines //at the time of writing, special lines are immutable
+        this.specialScoreGenerators = other.specialScoreGenerators //at the time of writing, score generators are immutable
         this.resources = Resources(other.resources)
 
         //testing only
@@ -86,6 +93,7 @@ class GameCharacter {
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> game.titleFromSaveString(map) }.toMutableSet()
         resources = Resources((saveString[RESOURCES_NAME] as Map<String, Any>))
         this.specialLines = (saveString[SPECIAL_LINES_NAME] as List<Map<String, Any>>).map { LineTrigger.triggerFromSaveString(it) }.toMutableList()
+        this.specialScoreGenerators = (saveString[SPECIAL_SCORE_NAME] as List<Map<String, Any>>).map { SpecialScoreGenerator.scoreMap[it["type"]]!!(saveString, game) }.toMutableList()
 
         //To avoid circular references these are populated in finishConstruction
         location = Location(0,0)
@@ -118,6 +126,7 @@ class GameCharacter {
         retval[WRITS_NAME] = writs.map { writ -> writ.saveString() }
         retval[RESOURCES_NAME] = resources.saveString()
         retval[SPECIAL_LINES_NAME] = specialLines.map { it.saveString() }
+        retval[SPECIAL_SCORE_NAME] = specialScoreGenerators.map{ it.saveString() }
 
         return retval
     }
@@ -155,5 +164,15 @@ class GameCharacter {
 
     fun reportsEntitled(): Collection<ReportFactory>{
         return titles.map { it.reportsEntitled }.flatten()
+    }
+
+    fun lineTriggerById(id: String): LineTrigger{
+        val retval = specialLines.filter { it.id == id }.firstOrNull()
+
+        if(retval != null){
+            return retval
+        } else {
+            throw Exception("Line trigger ${id} not found for ${name}!")
+        }
     }
 }

@@ -5,6 +5,7 @@ import aibrain.UnfinishedDeal
 import game.GameCharacter
 import game.Writ
 import game.action.ActionMemory
+import gamelogic.government.actionTypes.SetTaxRate
 import main.UIGlobals
 import shortstate.GameRules
 import shortstate.ShortStateCharacter
@@ -40,6 +41,10 @@ class DraftWrit: RoomAction {
 
     fun addWritToCharacter(character: ShortStateCharacter){
         val writToAdd = generateWrit(character.player)
+        if(writToAdd.deal.actions.values.flatten().first() is SetTaxRate){
+            val tax = writToAdd.deal.actions.values.flatten().first() as SetTaxRate
+            println("changing tax for ${tax.terId} to ${tax.amount}")
+        }
         println(character.player.name+" drafts writ: "+writToAdd.deal.theActions())
         character.player.writs.add(generateWrit(character.player))
         character.player.memory.comittedActions.addAll(writToAdd.deal.actions.values.flatten().map { action -> ActionMemory(action) })

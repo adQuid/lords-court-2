@@ -2,6 +2,7 @@ package shortstate.linetriggers
 
 import aibrain.Deal
 import game.Game
+import game.GameCharacter
 import shortstate.ShortStateCharacter
 import shortstate.dialog.Line
 import shortstate.dialog.linetypes.OfferDeal
@@ -12,6 +13,8 @@ val neverBeenCalled = { data: MutableMap<String, Any>, game: Game, line: Line?, 
 
 val safeForNewTopic = { data: MutableMap<String, Any>, game: Game, line: Line?,  me: ShortStateCharacter, other: ShortStateCharacter? -> (line == null || line.canChangeTopic())}
 
+val notStartingConvo = { data: MutableMap<String, Any>, game: Game, line: Line?,  me: ShortStateCharacter, other: ShortStateCharacter? -> other != null}
+
 fun and(vararg functions: (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Boolean): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Boolean{
     return {data, game, line, me, other -> functions.filter{!it(data, game, line, me, other)}.isEmpty()}
 }
@@ -20,8 +23,12 @@ fun talkingToSpecific(text: String): (data: MutableMap<String, Any>, game: Game,
     return {data, game, line, me, other -> other != null && other.player.name == text }
 }
 
-fun otherTriggerCalled(trigger: LineTrigger): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Boolean{
-    return {data, game, line, me, other -> me.player.specialLines.filter { it.id == trigger.id }.first().data["calls"] as Int > 0 }
+fun otherTriggerCalledByMe(trigger: LineTrigger): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Boolean{
+    return {data, game, line, me, other -> me.player.lineTriggerById(trigger.id).data["calls"] as Int > 0 }
+}
+
+fun otherTriggerCalledByPlayer(trigger: LineTrigger): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Boolean{
+    return {data, game, line, me, other -> game.playerCharacter().lineTriggerById(trigger.id).data["calls"] as Int > 0 }
 }
 
 fun replyWithSimpleLine(text: String): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Line{

@@ -22,9 +22,7 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
                     return shortGameScene!!.conversation!!.otherParticipant(shortGameScene!!.conversation!!.lastSpeaker)
                         .convoBrain.bestWeight(shortGameScene!!.conversation!!.lastSpeaker, game.game)
                 }
-                if(!(nextLineIWouldSay(game, shortGameScene) is Farewell)){
-                    return 50.0 - shortGameScene.conversation!!.age //TODO: This needs to make more sense
-                }
+                return 50.0 - shortGameScene.conversation!!.age //TODO: This needs to make more sense
             }
             return 0.0
         }

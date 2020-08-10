@@ -1,7 +1,6 @@
 package test.fixtures
 
 import aibrain.FinishedDeal
-import com.sun.source.tree.Tree
 import game.GameCharacter
 import game.Game
 import game.Writ
@@ -17,7 +16,7 @@ import shortstate.ShortGameScene
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.DeliciousnessReport
 import game.titles.Baker
-import shortstate.linetriggers.approachTestTrigger
+import scenario.approachTestTrigger
 
 fun soloTestGame(): Game{
     val cookieLogic = CookieWorld()

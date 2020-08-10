@@ -17,7 +17,7 @@ class EnactWritAdvocate: SceneReactionAdvocate {
 
     override fun weight(game: ShortStateGame, scene: ShortGameScene): Double {
         if(scene.room.type == Room.RoomType.THRONEROOM && writToEnact() != null){
-            return me.brain.dealsILike!!.getOrDefault(writToEnact()!!.deal,0.0) * 200.0
+            return me.brain.dealValueToMe(writToEnact()!!.deal) * 200.0
         }
         return 0.0
     }
@@ -27,6 +27,6 @@ class EnactWritAdvocate: SceneReactionAdvocate {
     }
 
     private fun writToEnact(): Writ?{
-        return me.writs.filter { writ -> writ.complete() && me.brain.dealsILike!!.containsKey(writ.deal) }.getOrNull(0)
+        return me.writs.filter { writ -> writ.complete() && me.brain.dealValueToMe(writ.deal) > 0 }.getOrNull(0)
     }
 }
