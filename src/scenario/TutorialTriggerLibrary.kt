@@ -78,6 +78,7 @@ val talkToDadTrigger1 = LineTrigger(
     "talktodad1",
     and(
         neverBeenCalled,
+        safeForNewTopic,
         talkingToSpecific("Mayren")
     ), replyWithTreeLine(
         TreeLine(
