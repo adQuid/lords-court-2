@@ -36,11 +36,11 @@ class LineTrigger {
 
     fun shouldGenerateLine(game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?): Boolean{
         try{
-           generateLine(game, line, me, other) //if generating the line would crash, the condition fails silently.
-           return condition(this.data, game, line, me, other)
+           generateLine(game, line, me, other) //if generating the line would crash, the condition fails silently
         } catch(e: Exception){
             return false
         }
+        return condition(this.data, game, line, me, other)
     }
 
     fun generateLine(game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?): Line {

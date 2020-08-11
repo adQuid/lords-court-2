@@ -59,7 +59,7 @@ object GameSetup {
         //advisor.specialLines.add(adviceOnBadFishTrade)
         //advisor.specialLines.add(adviseToGetFish)
         //advisor.specialLines.add(chideForBadDeal)
-        //game.addPlayer(advisor)
+        game.addPlayer(advisor)
 
         val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
         fishmonger.resources.set(PlayerResourceTypes.FISH_NAME, 100)
