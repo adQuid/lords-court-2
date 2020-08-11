@@ -20,7 +20,7 @@ class NewGameMenu: NoPerspectiveDisplayable() {
         characterBio.setMinSize(UIGlobals.totalWidth(), UIGlobals.totalHeight() * 0.5)
 
         val startGameButton = UtilityComponentFactory.shortWideButton("Start", EventHandler {
-            Controller.singleton!!.newGame(GameSetup().setupAgricultureGame()) })
+            Controller.singleton!!.newGame(GameSetup.setupAgricultureGame()) })
         startGameButton.isDisable = true
 
         pane.add(UtilityComponentFactory.shortWideLabel("Select Character"), 0, 1)

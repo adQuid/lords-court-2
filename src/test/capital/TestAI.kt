@@ -1,6 +1,8 @@
 package test.capital
 
 import aibrain.ForecastBrain
+import game.GameSetup
+import gamelogic.government.Count
 import gamelogic.government.GovernmentLogicModule
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.territory.Territory
@@ -38,7 +40,9 @@ class TestAI {
             val govModule = testGame.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
             govModule.capitals.forEach {
-                assert(it.taxes.get(Territory.FLOUR_NAME)!! > 0.1)
+                if(testGame.players[0].titles.filter { title -> title is Count && title.capital == it}.isNotEmpty()){
+                    assert(it.taxes.get(Territory.FLOUR_NAME)!! > 0.2)
+                }
             }
         }.doit()
     }

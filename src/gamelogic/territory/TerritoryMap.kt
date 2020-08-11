@@ -26,6 +26,7 @@ class TerritoryMap {
     }
 
     constructor(other: TerritoryMap){
+        nextId = other.nextId
         imageUrl = other.imageUrl
         territories = other.territories.map { Territory(it) }.toMutableList()
     }

@@ -32,16 +32,31 @@ fun soloGovernmentTestGame(): Game {
 
 fun twoCapitalTestGame(): Game {
     val territories = TerritoryMap("test")
-    territories.territories.add(Territory(territories.nextId++,"Placeburg",0,0))
-    territories.territories.add(Territory(territories.nextId++,"Townsville",0,0))
+    territories.territories.add(Territory(territories.nextId++,"Port Fog",0,0))
+    territories.territories.add(Territory(territories.nextId++,"Worthford",0,0))
+    territories.territories.add(Territory(territories.nextId++,"Sarsburg",0,0))
+    territories.territories.add(Territory(territories.nextId++,"Mt. Mist",0,0))
+    territories.territories.add(Territory(territories.nextId++,"Craytoyl",0,0))
+    territories.territories.add(Territory(territories.nextId++,"Some other",0,0))
+    territories.territories.add(Territory(territories.nextId++,"Placeland",0,0))
+    territories.territories.add(Territory(territories.nextId++,"Near",0,0))
+    territories.territories.add(Territory(territories.nextId++,"Far",0,0))
 
-    val govLogic = GovernmentLogicModule(listOf(Capital(territories.territories[0]),Capital(territories.territories[1])),
-        listOf(Kingdom("Test Kingdom", territories.territories)))
-    val game = Game(listOf(TerritoryLogicModule(territories),
+    val territoryLogic = TerritoryLogicModule(territories)
+
+    val govLogic = GovernmentLogicModule(territories.territories.map{Capital(it)},
+        listOf(Kingdom("Test Kingdom", listOf(
+            territoryLogic.territories().first { it.name == "Port Fog" },
+            territoryLogic.territories().first { it.name == "Worthford" },
+            territoryLogic.territories().first { it.name == "Sarsburg" },
+            territoryLogic.territories().first { it.name == "Mt. Mist" },
+            territoryLogic.territories().first { it.name == "Craytoyl" }
+        ))))
+    val game = Game(listOf(territoryLogic,
         govLogic
     ))
     val player = GameCharacter("name", "image", true, game.locations().first(), game)
-    govLogic.capitals.forEach { game.applyTitleToCharacter(it.generateCountTitle(), player) }
+    govLogic.capitals.filter{it.territory!!.name == "Port Fog" || it.territory!!.name == "Sarsburg"}.forEach { game.applyTitleToCharacter(it.generateCountTitle(), player) }
     game.applyTitleToCharacter(govLogic.kingdoms.first().generateKingTitle(), player)
     player.resources.set("some resource", 10)
     game.players.add(player)

@@ -9,14 +9,16 @@ import gamelogic.territory.TerritoryMap
 import game.titlemaker.CookieWorldTitleFactory
 import gamelogic.government.Kingdom
 import gamelogic.government.actionTypes.GiveTerritory
+import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceModule
 import gamelogic.playerresources.PlayerResourceTypes
+import gamelogic.territory.Territory
 import scenario.*
 import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 import java.util.*
 
-class GameSetup {
+object GameSetup {
 
     fun setupCookieworld(): Game{
         val cookieWorld = CookieWorld()
@@ -48,7 +50,7 @@ class GameSetup {
 
         val pcCapital = capitals.capitals.first()
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, pcCapital.location, game)
-        //PC.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
+        PC.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
         PC.specialLines.add(talkToDadTrigger1)
         PC.specialLines.add(talkToDadTrigger2)
         PC.specialLines.add(talkToDadTrigger3)
@@ -86,7 +88,7 @@ class GameSetup {
         capitals.capitals.forEach {
             if(capitals.countOfCaptial(it.terId) == null){
                 val NPC = GameCharacter("Lord "+names.pop(), "assets/portraits/faceman.png", true,it.location,game)
-                //game.addPlayer(NPC)
+                game.addPlayer(NPC)
                 game.applyTitleToCharacter(it.generateCountTitle(), NPC)
             }
         }
@@ -94,5 +96,4 @@ class GameSetup {
         game.endTurn()
         return game
     }
-
 }
