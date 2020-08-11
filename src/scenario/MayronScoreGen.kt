@@ -20,7 +20,7 @@ class MayronScoreGen: SpecialScoreGenerator {
             .filter { it is Count && it.capital == (game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule).capitals.filter{it.territory!!.name=="Port Fog"}.first()}.first()
 
         if(mySon.titles.contains(startingCountyTitle)){
-            //retval.add("land for son", "My son will have lands of his own", 100.0)
+            retval.add("land for son", "My son will have lands of his own", 10000.0)
         }
         return retval
     }

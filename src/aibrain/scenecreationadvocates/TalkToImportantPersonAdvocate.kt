@@ -1,6 +1,7 @@
 package aibrain.scenecreationadvocates
 
 import aibrain.conversationadvocates.SpecialLineAdvocate
+import aibrain.scenereactionadvocates.LeaveSceneAdvocate
 import aibrain.scenereactionadvocates.SceneReactionAdvocate
 import aibrain.scenereactionadvocates.TalkMoreAdvocate
 import game.GameCharacter
@@ -23,11 +24,15 @@ class TalkToImportantPersonAdvocate: SceneCreationAdvocate {
     }
 
     override fun createScene(game: ShortStateGame, player: ShortStateCharacter): SceneMaker{
-        val target = characterIWantToTalkTo()
+        val charactersToTalkTo = game.players.filter{it != me}
+            .associate{
+                ConversationMaker(me, it, roomToMeetCharacterIn(it, game)) to
+                        reactionAdvocates.map { adv -> if(adv is LeaveSceneAdvocate){SceneCreationWeight(0.0,adv)} else { SceneCreationWeight(adv.weight(game, ConversationMaker(me, it, roomToMeetCharacterIn(it, game)).makeScene(game)!!),adv) }}
+            .sortedByDescending { it.weight }[0]
+            }
 
-        if(target != null){
-            return ConversationMaker(player, game.shortPlayerForLongPlayer(target!!)!!,
-                roomToMeetCharacterIn(game.shortPlayerForLongPlayer(target!!)!!, game))
+        if(charactersToTalkTo.isNotEmpty()){
+            return charactersToTalkTo.maxBy { it.value.weight }!!.key
         }
 
         return GoToRoomSoloMaker(player, game.location.startRoom())
