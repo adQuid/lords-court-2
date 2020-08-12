@@ -40,9 +40,9 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
 
     private fun nextLineIWouldSay(game: ShortStateGame, shortGameScene: ShortGameScene): Line {
         val convo = shortGameScene.conversation!!
-        val specialLine = me.specialLines.filter { it.shouldGenerateLine(game.game.imageFor(me), convo.lastLine, game.shortPlayerForLongPlayer(me)!!, null)}.firstOrNull()
+        val specialLine = me.specialLines.filter { it.shouldGenerateLine(game.game.imageFor(me), convo.lastLine, game.shortPlayerForLongPlayer(me)!!, convo.lastSpeaker)}.firstOrNull()
         if(specialLine != null){
-            return specialLine.generateLine(game.game.imageFor(me), convo.lastLine, game.shortPlayerForLongPlayer(me)!!, null)
+            return specialLine.generateLine(game.game.imageFor(me), convo.lastLine, game.shortPlayerForLongPlayer(me)!!, convo.lastSpeaker)
         }
         if(convo.lastLine != null){
             return convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker, game.game)

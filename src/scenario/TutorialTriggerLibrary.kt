@@ -42,6 +42,18 @@ private fun dealHasBadOfferForFish(deal: Deal): Boolean{
     return false
 }
 
+val adviceOnDraftingWrit = LineTrigger(
+    "fishnowrit", { data, game, line, me, other ->
+        line is OfferDeal && other != null && line.AIResponseFunction(me.convoBrain, other!!, game) is AcceptDeal
+    },
+    replyWithTreeLine(
+        TreeLine(
+            "That sounds like a good deal to me, lad. You'll need that in writing though before I can sign on to anything.",
+            TreeLine("You've got it; I'll be right back.", SimpleLine("Looking forward to it, lad!"))
+        )
+    )
+)
+
 val adviseToGetFish = LineTrigger(
     "gogetfish",
     { data, game, line, me, other -> data["calls"] == 0 && gameWouldEndWithoutFish(game, me) },
@@ -106,7 +118,9 @@ val talkToDadTrigger2 = LineTrigger(
             "Did you fight the enemy? Did we win?",
             TreeLine(
                 "We stand victorious. The Grogan were repelled at sea. Not a single Danswadan man lost. If only you had been there to see the men cheer.",
-                TreeLine("Glorious!", SimpleLine("Which is where you come in..")),
+                TreeLine("Glorious!",
+                    SimpleLine("Indeed, and now that I've done my part in this war, it's time you do yours.")
+                ),
                 TreeLine(
                     "If you had sent word where you were, I would have.",
                     TreeLine(
@@ -134,7 +148,8 @@ val talkToDadTrigger3 = LineTrigger(
         TreeLine(
             "If I wasn't sent here to help you fight, why am I here?",
             TreeLine(
-                "You are here to take command of this town. Our armies will be marching off to counter attack, and with God's grace end this war. This will leave Port Fog undefended, and I want to show that these people still fall under my protection.",
+                "You are here to take command of this town. I will be marching off to counter attack, and God willing end this war. This will leave Port Fog undefended, and I want to show that these people still fall under my protection.",
+                SimpleLine("I won't fail you, father."),
                 TreeLine(
                     "You would put your son at risk to prove a point?",
                     TreeLine("You are a prince, and thus you are this kingdom. It is the duty of royalty to stand in the face of your people's danger.",
@@ -177,6 +192,7 @@ val TRIGGER_MAP = listOf(
     approachTestTrigger,
     adviseToTalkToDad,
     adviceOnBadFishTrade,
+    adviceOnDraftingWrit,
     adviseToGetFish,
     chideForBadDeal,
     talkToDadTrigger1,

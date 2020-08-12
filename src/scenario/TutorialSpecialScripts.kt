@@ -4,6 +4,7 @@ import game.Game
 import game.GameCharacter
 import game.SpecialScript
 import gamelogic.government.GovernmentLogicModule
+import gamelogic.government.actionTypes.GiveTerritory
 import gamelogic.playerresources.PlayerResourceTypes
 import main.UIGlobals
 import ui.specialdisplayables.Message
@@ -62,12 +63,13 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
     val pcCapital = governments.capitals.first()
     val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
     fishmonger.resources.set(PlayerResourceTypes.FISH_NAME, 100)
+    fishmonger.specialLines.add(adviceOnDraftingWrit)
     fishmonger
     }
 
     return listOf(
         addCharacter(2, makeFishMonger),
         moveCharacter(2, "Mayren", 7),
-        FailIf(2, {game -> game.playerCharacter().titles.isEmpty()}, "    As you have failed to discuss important matters with your father, the busy man was forced to return to campaign without telling you what you needed to know. Either restart the game, or persist in the doomed world you have created.")
+        FailIf(2, {game -> game.actionsByPlayer.values.flatten().filter { it is GiveTerritory }.isEmpty()}, "    As you have failed to discuss important matters with your father, the busy man was forced to return to campaign without telling you what you needed to know. Either restart the game, or persist in the doomed world you have created.")
     )
 }
