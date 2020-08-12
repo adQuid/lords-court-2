@@ -56,6 +56,7 @@ object GameSetup {
         game.addPlayer(PC)
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
+        advisor.specialLines.add(adviseToTalkToDad)
         advisor.specialLines.add(adviceOnBadFishTrade)
         advisor.specialLines.add(adviseToGetFish)
         advisor.specialLines.add(chideForBadDeal)

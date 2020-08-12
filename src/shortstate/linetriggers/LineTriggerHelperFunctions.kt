@@ -31,6 +31,10 @@ fun otherTriggerCalledByPlayer(trigger: LineTrigger): (data: MutableMap<String, 
     return {data, game, line, me, other -> game.playerCharacter().lineTriggerById(trigger.id).data["calls"] as Int > 0 }
 }
 
+fun otherTriggerNotCalledByPlayer(trigger: LineTrigger): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Boolean{
+    return {data, game, line, me, other -> game.playerCharacter().lineTriggerById(trigger.id).data["calls"] as Int == 0 }
+}
+
 fun replyWithSimpleLine(text: String): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Line{
     return {data, game, line, me, other -> SimpleLine(text) }
 }

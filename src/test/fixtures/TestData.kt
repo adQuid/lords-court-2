@@ -17,6 +17,9 @@ import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.DeliciousnessReport
 import game.titles.Baker
 import scenario.approachTestTrigger
+import shortstate.linetriggers.LineTrigger
+import shortstate.linetriggers.neverBeenCalled
+import shortstate.linetriggers.replyWithSimpleLine
 
 fun soloTestGame(): Game{
     val cookieLogic = CookieWorld()

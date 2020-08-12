@@ -5,6 +5,7 @@ import aibrain.FinishedDeal
 import game.Game
 import game.Writ
 import game.GameCharacter
+import gamelogic.government.King
 import gamelogic.government.actionTypes.GiveTerritory
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
@@ -14,14 +15,20 @@ import shortstate.dialog.Line
 import shortstate.dialog.linetypes.*
 import shortstate.linetriggers.*
 
+val approachTestTrigger = LineTrigger(
+    "approach",
+    neverBeenCalled,
+    replyWithSimpleLine("Yo, I'z talking to ya.")
+)
+
 val adviceOnBadFishTrade = LineTrigger(
     "badfish", { data, game, line, me, other ->
         line is RequestAdviceForDeal && dealHasBadOfferForFish(line.deal)
     },
     replyWithTreeLine(
         TreeLine(
-            "Your idea is bad, and you should feel bad.",
-            TreeLine("How much do you think I should be paying?", SimpleLine("Maybe like 10 fish per gold?"))
+            "Honestly, I think you miscalculated the market price for fish. This is too generous.",
+            TreeLine("How much do you think I should be paying?", SimpleLine("Perhaps you should set the price to 10 gold per unit of fish."))
         )
     )
 )
@@ -38,7 +45,7 @@ private fun dealHasBadOfferForFish(deal: Deal): Boolean{
 val adviseToGetFish = LineTrigger(
     "gogetfish",
     { data, game, line, me, other -> data["calls"] == 0 && gameWouldEndWithoutFish(game, me) },
-    replyWithSimpleLine("You fool, get some fish!")
+    replyWithSimpleLine("My lord, I'm concerned about food stocks here. We need to trade with the merchants around here to get additional supplies to last until harvest.")
 )
 private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolean{
     if(me.energy > 850 || (me.energy > 400 && game.playerCharacter().writs.isNotEmpty())){
@@ -73,13 +80,6 @@ private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean
     }
     return false
 }
-
-val approachTestTrigger = LineTrigger(
-    "approach",
-    and(neverBeenCalled,
-    safeForNewTopic),
-    replyWithSimpleLine("Yo, I'z talking to ya.")
-)
 
 val talkToDadTrigger1 = LineTrigger(
     "talktodad1",
@@ -148,7 +148,7 @@ val talkToDadTrigger3 = LineTrigger(
 
 val talkToDadTrigger4 = LineTrigger(
     "talktodad4",
-    and(notStartingConvo, otherTriggerCalledByPlayer(talkToDadTrigger3)),
+    and(notStartingConvo, neverBeenCalled, otherTriggerCalledByPlayer(talkToDadTrigger3)),
     grantStartingCounty()
 )
 fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Line {
@@ -167,8 +167,15 @@ fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Lin
     }
 }
 
+val adviseToTalkToDad = LineTrigger(
+    "talktodad",
+    and(neverBeenCalled, otherTriggerNotCalledByPlayer(talkToDadTrigger1), otherTriggerNotCalledByPlayer(talkToDadTrigger2)),
+    replyWithSimpleLine("Your father is back in town, and you don't know for how long. You should spend more time with him.")
+)
+
 val TRIGGER_MAP = listOf(
     approachTestTrigger,
+    adviseToTalkToDad,
     adviceOnBadFishTrade,
     adviseToGetFish,
     chideForBadDeal,

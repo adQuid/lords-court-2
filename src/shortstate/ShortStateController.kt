@@ -77,13 +77,18 @@ class ShortStateController: Runnable {
             println("OHH NO we need a new scene!!!!")
         }
         if(shortGame.shortGameScene == null){
-            val toAdd = creator!!.makeScene(shortGame)
-            if(toAdd != null){
-                shortGame.shortGameScene = toAdd
+            if(creator!! is GoToRoomSoloMaker || player.addEnergy(-GameRules.COST_TO_MAKE_SCENE)){
+                val toAdd = creator!!.makeScene(shortGame)
+
+                if(toAdd != null){
+                    shortGame.shortGameScene = toAdd
+                } else {
+                    println("OHH NO we need a new scene!!!!")
+                }
+                shortGame.shortGameScene!!.characters.forEach { it.done = false; Controller.singleton!!.concludeTurnForPlayer(it.player, true) }
             } else {
-                println("OHH NO we need a new scene!!!!")
+                println("Attempted to start a scene that player can't afford!")
             }
-            shortGame.shortGameScene!!.characters.forEach { it.done = false; Controller.singleton!!.concludeTurnForPlayer(it.player, true) }
         }
         player.nextSceneIWannaBeIn = null
         try{
