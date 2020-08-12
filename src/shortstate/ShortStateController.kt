@@ -25,6 +25,9 @@ class ShortStateController: Runnable {
     private fun establishStartingScene(){
         shortGame.players.forEach { player ->
             player.nextSceneIWannaBeIn = GoToRoomSoloMaker(player,shortGame.location.startRoom())
+            if(!player.player.npc){
+                UIGlobals.specialFocusOn(Message("You awake in your room"))
+            }
         }
         //this SHOULD be safe, since the game just started. this will crash on an empty location
         addScene(shortGame.nextActingPlayer()!!, shortGame.nextActingPlayer()!!.nextSceneIWannaBeIn)

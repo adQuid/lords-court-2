@@ -5,6 +5,8 @@ import game.GameCharacter
 import game.SpecialScript
 import gamelogic.government.GovernmentLogicModule
 import gamelogic.playerresources.PlayerResourceTypes
+import main.UIGlobals
+import ui.specialdisplayables.Message
 
 class addCharacter: SpecialScript{
     val turntoActivate: Int
@@ -21,7 +23,6 @@ class addCharacter: SpecialScript{
 }
 
 class moveCharacter: SpecialScript{
-
     val character: String
     val destination: Int
 
@@ -37,6 +38,23 @@ class moveCharacter: SpecialScript{
     }
 }
 
+class FailIf: SpecialScript{
+
+    val condition: (game: Game) -> Boolean
+    val message: String
+
+    constructor(turn: Int, condition: (game: Game) -> Boolean, message: String): super(turn){
+        this.condition = condition
+        this.message = message
+    }
+
+    override fun doscript(game: Game) {
+        if(game.isLive && condition(game)){
+            UIGlobals.specialFocusOn(Message(message))
+        }
+    }
+}
+
 fun tutorialSpecialScripts(): Collection<SpecialScript>{
 
     val makeFishMonger = { game: Game ->
@@ -49,6 +67,7 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
 
     return listOf(
         addCharacter(2, makeFishMonger),
-        moveCharacter(2, "Mayren", 7)
+        moveCharacter(2, "Mayren", 7),
+        FailIf(2, {game -> game.playerCharacter().titles.isEmpty()}, "    As you have failed to discuss important matters with your father, the busy man was forced to return to campaign without telling you what you needed to know. Either restart the game, or persist in the doomed world you have created.")
     )
 }
