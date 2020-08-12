@@ -27,7 +27,8 @@ class MainUI() : Application() {
     var totalWidth = BASE_WIDTH * SIZE_SCALE
     var totalHeight = BASE_HEIGHT * SIZE_SCALE
 
-    var curFocus: Stack<Displayable?> = Stack<Displayable?>()
+    var curFocus: Stack<Displayable?> = Stack()
+    var specialFocus: Displayable? = null
 
     override fun init(){
         Controller.singleton!!.registerUI(this)
@@ -61,6 +62,10 @@ class MainUI() : Application() {
         display()
     }
 
+    fun specialFocusOn(focus: Displayable?){
+        specialFocus = focus
+    }
+
     fun focusOnMainMenu(){
         focusOn(MainMenu())
     }
@@ -71,14 +76,18 @@ class MainUI() : Application() {
     }
 
     fun defocus(){
-        if(curFocus.isNotEmpty()){
+        if(specialFocus != null){
+            specialFocus = null
+        }else if(curFocus.isNotEmpty()){
             curFocus.pop()
         }
         display()
     }
 
     fun display(){
-        if(curFocus.size > 0){
+        if(specialFocus != null){
+            setScene(specialFocus!!.universalDisplay(playingAs()))
+        }else if(curFocus.size > 0){
             setScene(curFocus.peek()!!.universalDisplay(playingAs()))
         }else{
             setScene(WaitingSceneComponentFactory().waitingPage(playingAs()!!))

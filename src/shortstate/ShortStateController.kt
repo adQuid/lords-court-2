@@ -120,7 +120,7 @@ class ShortStateController: Runnable {
             shortGame.shortGameScene = null
 
             if(partingMessage != null){
-                UIGlobals.focusOn(partingMessage)
+                UIGlobals.specialFocusOn(partingMessage)
             }
 
         }

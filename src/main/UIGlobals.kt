@@ -55,6 +55,12 @@ object UIGlobals {
         }
     }
 
+    fun specialFocusOn(focus: Displayable?){
+        if(guiOrNull() != null){
+            GUI().specialFocusOn(focus)
+        }
+    }
+
     fun appendActionsForPlayer(player: GameCharacter, actions: List<Action>){
         Controller.singleton!!.commitActionsForPlayer(player, actions)
     }

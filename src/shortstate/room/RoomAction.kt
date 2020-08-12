@@ -17,7 +17,7 @@ abstract class RoomAction {
             player.addEnergy(-cost())
             doAction(game, player)
         } else if(!player.player.npc){
-            UIGlobals.focusOn(Message("You don't have energy to do this"))
+            UIGlobals.specialFocusOn(Message("You don't have energy to do this"))
         }
     }
 
