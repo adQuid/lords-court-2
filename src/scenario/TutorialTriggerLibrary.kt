@@ -44,6 +44,9 @@ private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolea
     if(me.energy > 850 || (me.energy > 400 && game.playerCharacter().writs.isNotEmpty())){
         return false
     }
+    if(game.playerCharacter().resources.get(PlayerResourceTypes.GOLD_NAME) == 0){
+        return false
+    }
     game.endTurn()
     return game.players.filter { it.resources.get(PlayerResourceTypes.FISH_NAME) > 0 }.size < 2
 }
@@ -55,10 +58,13 @@ val chideForBadDeal = LineTrigger(
 )
 private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean{
     val player = game.playerCharacter()
-    val merchant = game.players.filter { it.npc && it.resources.get(PlayerResourceTypes.FISH_NAME) > 0 }.first()
+    val merchant = game.players.filter { it.npc && it.resources.get(PlayerResourceTypes.FISH_NAME) > 0 }.firstOrNull()
+    if(merchant == null){
+        return false
+    }
     if(player.writs.filter { it.complete() && it.signatories.contains(merchant)}.isNotEmpty()){
         val writ = player.writs.filter { it.complete() && it.signatories.contains(merchant)}.first()
-        if(me.brain.dealValueToCharacter(writ.deal, merchant) > 0.2){
+        if(me.brain.dealValueToCharacter(writ.deal, merchant!!) > 0.2){
             return true
         }else{
             println(me.brain.dealValueToCharacter(writ.deal, merchant))
@@ -70,7 +76,8 @@ private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean
 
 val approachTestTrigger = LineTrigger(
     "approach",
-    neverBeenCalled,
+    and(neverBeenCalled,
+    safeForNewTopic),
     replyWithSimpleLine("Yo, I'z talking to ya.")
 )
 
@@ -147,7 +154,16 @@ val talkToDadTrigger4 = LineTrigger(
 fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Line {
     return {data, game, line, me, other ->
 
-        OfferWrit(me.player.writs.filter { it.deal.actions.values.flatten().filter {action -> action is GiveTerritory }.isNotEmpty() }.first())
+        val PC = game.playerCharacter()
+        val territoryLogic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
+        val territory = territoryLogic.territories().first()
+        val deal = FinishedDeal(mapOf(
+            me.player to setOf(GiveTerritory(territory.id,PC.id), GiveResource(PC.id, PlayerResourceTypes.GOLD_NAME, 100)),
+            PC to setOf(GiveResource(me.player.id, PlayerResourceTypes.GOLD_NAME, 0))
+        ))
+        val writ = Writ("Transfer of Title to ${PC.fullName()} for Indefinite Period", deal, listOf(me.player))
+
+        OfferWrit(writ).withSpecialText("I march to the Grogan homeland soon. If you would sign the paper, ${territory.name} is yours. (click to see writ details)")
     }
 }
 

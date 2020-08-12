@@ -91,7 +91,7 @@ class ConversationComponentFactory {
             }
         } else {
             if(line != null){
-                lineNode = Text(line.fullTextForm(game, conversation.lastSpeaker, conversation.otherParticipant(conversation.lastSpeaker)))
+                lineNode = Text(line.displayText(game, conversation.lastSpeaker, conversation.otherParticipant(conversation.lastSpeaker)))
 
                 lineNode.maxWidth(UIGlobals.totalWidth() / 2)
                 if (UIGlobals.totalWidth() > 800.0) {

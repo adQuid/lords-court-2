@@ -14,6 +14,13 @@ abstract class Line {
     var source: LineTrigger? = null
     abstract val type: String
 
+    var specialText: String? = null
+
+    fun withSpecialText(text: String): Line{
+        specialText = text
+        return this
+    }
+
     abstract fun tooltipName(): String
 
     abstract fun tooltipDescription(): String
@@ -21,6 +28,14 @@ abstract class Line {
     abstract fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock>
 
     abstract fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String
+
+    fun displayText(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String{
+        if(specialText != null){
+            return specialText!!
+        } else {
+            return fullTextForm(context, speaker, target)
+        }
+    }
 
     abstract fun specialSaveString(): Map<String, Any>
 

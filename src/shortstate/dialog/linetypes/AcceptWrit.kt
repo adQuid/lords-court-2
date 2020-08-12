@@ -67,6 +67,9 @@ class AcceptWrit: Line {
 
     override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
         writ.signatories.add(speaker.player)
+        if(!shortGame.shortGameScene!!.conversation!!.otherParticipant(speaker).player.writs.contains(writ)){
+            shortGame.shortGameScene!!.conversation!!.otherParticipant(speaker).player.writs.add(writ)
+        }
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {

@@ -46,7 +46,7 @@ object GameSetup {
             territoryLogic.territories().first { it.name == "Craytoyl" }
         ))
         val capitals = GovernmentLogicModule(territoryLogic.map.territories.map { Capital(it) }, listOf(danswada))
-        val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals))
+        val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals), "tutorial")
 
         val pcCapital = capitals.capitals.first()
         val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, pcCapital.location, game)
@@ -56,26 +56,20 @@ object GameSetup {
         game.addPlayer(PC)
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
-        //advisor.specialLines.add(adviceOnBadFishTrade)
-        //advisor.specialLines.add(adviseToGetFish)
-        //advisor.specialLines.add(chideForBadDeal)
+        advisor.specialLines.add(adviceOnBadFishTrade)
+        advisor.specialLines.add(adviseToGetFish)
+        advisor.specialLines.add(chideForBadDeal)
         game.addPlayer(advisor)
 
-        val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
-        fishmonger.resources.set(PlayerResourceTypes.FISH_NAME, 100)
-        //fishmonger.specialLines.add(approachTestTrigger)
-        //game.addPlayer(fishmonger)
+
 
         val dad = GameCharacter("Mayren", "assets/portraits/King.png", true, pcCapital.location, game)
+        dad.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
         dad.specialScoreGenerators.add(MayronScoreGen())
         dad.specialLines.add(talkToDadTrigger4)
 
-        val deal = FinishedDeal(mapOf(
-            dad to setOf(GiveTerritory(territoryLogic.territories().first().id,PC.id)),
-            PC to setOf(GiveResource(dad.id, PlayerResourceTypes.FISH_NAME, 0))
-        ))
-        val writ = Writ("Transfer of Title to ${PC.fullName()} for Indefinite Period", deal, listOf(dad))
-        dad.writs.add(writ)
+
+        //dad.writs.add(writ)
 
         game.applyTitleToCharacter(capitals.capitalOf(territoryLogic.territories().first { it.name == "Worthford" }).generateCountTitle(), dad)
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), dad)

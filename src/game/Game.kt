@@ -28,8 +28,16 @@ class Game {
     val MODULES_NAME = "modules"
     val gameLogicModules: Collection<GameLogicModule> //TODO: Make this mutable
 
-    constructor(gameLogic: Collection<GameLogicModule>){
+    val SPECIAL_SCRIPTS_NAME = "specialscripts"
+    val specialScriptClass: String
+    val specialScripts: Collection<SpecialScript>
+
+    constructor(gameLogic: Collection<GameLogicModule>): this(gameLogic, "")
+
+    constructor(gameLogic: Collection<GameLogicModule>, speicalScripts: String){
         gameLogicModules = gameLogic
+        specialScriptClass = speicalScripts
+        specialScripts = specialScriptsFromId(specialScriptClass)
         setModuleParents()
     }
 
@@ -45,12 +53,16 @@ class Game {
         titles = other.titles.map { title -> title.clone()}.toMutableSet()
         gameLogicModules = other.gameLogicModules.map { GameLogicModule.cloneModule(it, this) }
         gameLogicModules.forEach { it.finishConstruction(this) }
+        specialScriptClass = other.specialScriptClass
+        specialScripts = other.specialScripts //these are not mutable
         setModuleParents()
     }
 
     constructor(saveString: Map<String,Any>){
         gameLogicModules = (saveString[MODULES_NAME] as List<Map<String, Any>>).map { map -> GameLogicModule.moduleFromSaveString(map, this) }
         logicModulesInDependencyOrder().forEach { it.finishConstruction(this) }
+        specialScriptClass = saveString[SPECIAL_SCRIPTS_NAME] as String
+        specialScripts = specialScriptsFromId(specialScriptClass)
         nextID = saveString[MAX_ID_NAME] as Int
         turn = saveString[TURN_NAME] as Int
         players = (saveString[PLAYERS_NAME] as List<Map<String, Any>>).map { map -> GameCharacter(map, this) }.toMutableList()
@@ -86,6 +98,7 @@ class Game {
         retval[CONCLUDED_PLAYERS_NAME] = concludedPlayers.map { player -> player.id }
         retval[TITLES_NAME] = titles.map { it.saveString() }
         retval[MODULES_NAME] = gameLogicModules.map { module -> module.saveString() }
+        retval[SPECIAL_SCRIPTS_NAME] = specialScriptClass
 
         return retval
     }
@@ -150,6 +163,9 @@ class Game {
     fun endTurn(){
         concludedPlayers.clear()
 
+        specialScripts.filter{it.turnToActivate == turn}.forEach { it.doscript(this) }
+
+        actionsByPlayer = actionsByPlayer.filter { it.key in players }.toMutableMap()
         actionsByPlayer.entries.forEach{ entry ->
             doActions(entry.value, entry.key)
         }
