@@ -4,6 +4,7 @@ import game.Game
 import game.GameCharacter
 import shortstate.ShortStateCharacter
 import shortstate.dialog.Line
+import shortstate.dialog.linetypes.AbandonConversation
 import shortstate.dialog.linetypes.Farewell
 
 class FarewellAdvocate: ConversationAdvocate {
@@ -16,6 +17,6 @@ class FarewellAdvocate: ConversationAdvocate {
     }
 
     override fun line(game: Game, target: ShortStateCharacter): Line {
-        return Farewell()
+        return AbandonConversation()
     }
 }

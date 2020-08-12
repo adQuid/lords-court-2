@@ -169,7 +169,7 @@ fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Lin
 
 val adviseToTalkToDad = LineTrigger(
     "talktodad",
-    and(neverBeenCalled, otherTriggerNotCalledByPlayer(talkToDadTrigger1), otherTriggerNotCalledByPlayer(talkToDadTrigger2)),
+    and(neverBeenCalled, belowEnergy(800), otherTriggerNotCalledByPlayer(talkToDadTrigger1), otherTriggerNotCalledByPlayer(talkToDadTrigger2)),
     replyWithSimpleLine("Your father is back in town, and you don't know for how long. You should spend more time with him.")
 )
 

@@ -72,6 +72,14 @@ class Conversation {
         return listOf(initiator, target)
     }
 
+    fun bestLineToLeaveConversation(perspective: ShortStateCharacter): Line{
+        if(lastLine == null){
+            return AbandonConversation()
+        } else {
+            return Farewell()
+        }
+    }
+
     fun defaultConversationLines(perspective: ShortStateCharacter): List<Line>{
         return listOfNotNull(
             if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) Announcement(null) else null,
@@ -79,7 +87,7 @@ class Conversation {
             if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) OfferDeal(UnfinishedDeal(participants().map { it.player })) else null,
             if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) RequestAdviceForDeal(UnfinishedDeal(participants().map { it.player })) else null,
             if(perspective.player.writs.filter{it.deal.actions.getOrDefault(this.otherParticipant(perspective).player, setOf()).isNotEmpty()}.isNotEmpty()) OfferWrit(null) else null,
-            Farewell()
+            bestLineToLeaveConversation(perspective)
         )
     }
 

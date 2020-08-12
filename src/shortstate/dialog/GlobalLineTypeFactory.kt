@@ -19,6 +19,7 @@ object GlobalLineTypeFactory {
     val TREE_TYPE_NAME = "Tree"
     val OFFER_WRIT_TYPE_NAME = "OfrWrt"
     val FAREWELL_TYPE_NAME = "Farewell"
+    val ABANDON_TYPE_NAME = "Abandn"
 
     val TYPE_NAME = "TYPE"
     val typeMap: HashMap<String, (map: Map<String, Any>, game: Game) -> Line> = hashMapOf(
@@ -35,7 +36,8 @@ object GlobalLineTypeFactory {
         SIMPLE_TYPE_NAME to {map, game -> SimpleLine(map, game)},
         TREE_TYPE_NAME to {map, game -> TreeLine(map, game)},
         OFFER_WRIT_TYPE_NAME to {map, game -> OfferWrit(map, game)},
-        FAREWELL_TYPE_NAME to {map, game -> Farewell()}
+        FAREWELL_TYPE_NAME to {map, game -> Farewell()},
+        ABANDON_TYPE_NAME to {map, game -> AbandonConversation()}
     )
 
     fun fromMap(map: Map<String, Any>, game: Game): Line {

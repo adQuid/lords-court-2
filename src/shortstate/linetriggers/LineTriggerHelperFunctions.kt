@@ -19,6 +19,10 @@ fun and(vararg functions: (data: MutableMap<String, Any>, game: Game, line: Line
     return {data, game, line, me, other -> functions.filter{!it(data, game, line, me, other)}.isEmpty()}
 }
 
+fun belowEnergy(energy: Int): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Boolean{
+    return {data, game, line, me, other -> me.energy < energy }
+}
+
 fun talkingToSpecific(text: String): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Boolean{
     return {data, game, line, me, other -> other != null && other.player.name == text }
 }

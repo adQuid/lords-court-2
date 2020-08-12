@@ -5,6 +5,7 @@ import game.Game
 import game.GameCharacter
 import shortstate.ShortStateCharacter
 import shortstate.dialog.Line
+import shortstate.dialog.linetypes.AbandonConversation
 import shortstate.dialog.linetypes.Farewell
 import shortstate.dialog.linetypes.OfferDeal
 
@@ -26,7 +27,7 @@ class OfferDealAdvocate: ConversationAdvocate {
         if(deal != null) {
             return OfferDeal(deal)
         }
-        return Farewell() //We should never be getting here
+        return AbandonConversation() //We should never be getting here
     }
 
     private fun dealIWouldDiscuss(target: GameCharacter): Deal?{
