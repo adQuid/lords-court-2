@@ -18,12 +18,21 @@ class NewSaveGameMenu: PerspectiveDisplayable() {
 
         val textField = UtilityComponentFactory.shortWideTextField("")
 
-        pane.add(textField, 0, 2)
+        pane.add(textField, 0, 0)
+
+        pane.add(UtilityComponentFactory.shortWideLabel("Filler"),0,1)
+        pane.add(UtilityComponentFactory.shortWideLabel("Filler"),0,2)
+        pane.add(UtilityComponentFactory.shortWideLabel("Filler"),0,3)
+        pane.add(UtilityComponentFactory.shortWideLabel("Filler"),0,4)
+        pane.add(UtilityComponentFactory.shortWideLabel("Filler"),0,5)
+        pane.add(UtilityComponentFactory.shortWideLabel("Filler"),0,6)
+        pane.add(UtilityComponentFactory.shortWideLabel("Filler"),0,7)
+        pane.add(UtilityComponentFactory.shortWideLabel("Filler"),0,8)
+
         val bottomPane = GridPane()
         bottomPane.add(UtilityComponentFactory.proportionalBackButton(2.0), 0, 0)
         bottomPane.add(UtilityComponentFactory.proportionalButton("Save Game", EventHandler { _ -> Controller.singleton!!.save(textField.text); UIGlobals.defocus(); UIGlobals.resetFocus()},2.0), 1, 0)
-
-        pane.add(bottomPane, 0, 3)
+        pane.add(bottomPane, 0, 9)
 
         return Scene(pane)
     }
