@@ -6,6 +6,7 @@ import shortstate.dialog.linetypes.*
 object GlobalLineTypeFactory {
 
     val ACCEPT_DEAL_TYPE_NAME = "AcptDeal"
+    val ACCEPT_WRIT_TYPE_NAME = "AcptWrt"
     val ANNOUNCEMENT_TYPE_NAME = "Ancmnt"
     val APPROVE_TYPE_NAME = "Aprve"
     val DISAPPROVE_TYPE_NAME = "Disaprve"
@@ -24,6 +25,7 @@ object GlobalLineTypeFactory {
     val TYPE_NAME = "TYPE"
     val typeMap: HashMap<String, (map: Map<String, Any>, game: Game) -> Line> = hashMapOf(
         ACCEPT_DEAL_TYPE_NAME to {map, game -> AcceptDeal(map, game)},
+        ACCEPT_WRIT_TYPE_NAME to {map, game -> AcceptWrit(map, game)},
         ANNOUNCEMENT_TYPE_NAME to {map, game -> Announcement(map, game)},
         APPROVE_TYPE_NAME to {map, game -> Approve() },
         DISAPPROVE_TYPE_NAME to {map, game -> Disapprove() },

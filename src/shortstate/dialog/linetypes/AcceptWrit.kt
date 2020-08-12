@@ -17,7 +17,7 @@ import shortstate.room.Room
 class AcceptWrit: Line {
 
     override val type: String
-        get() = GlobalLineTypeFactory.ACCEPT_DEAL_TYPE_NAME
+        get() = GlobalLineTypeFactory.ACCEPT_WRIT_TYPE_NAME
 
     lateinit var writ: Writ
 

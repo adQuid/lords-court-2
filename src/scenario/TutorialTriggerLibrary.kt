@@ -47,9 +47,17 @@ val adviceOnDraftingWrit = LineTrigger(
         line is OfferDeal && other != null && line.AIResponseFunction(me.convoBrain, other!!, game) is AcceptDeal
     },
     replyWithTreeLine(
-        TreeLine(
-            "That sounds like a good deal to me, lad. You'll need that in writing though before I can sign on to anything.",
-            TreeLine("You've got it; I'll be right back.", SimpleLine("Looking forward to it, lad!"))
+        TreeLine("That sounds like a good deal to me, lad. You'll need that in writing though before I can sign on to anything.",
+            TreeLine("You've got it; I'll be right back.",
+                SimpleLine("Looking forward to it, lad!")
+            ),
+            TreeLine("I'm afraid that my father is out, and won't be back for a while. I can't get you a king's seal.",
+                TreeLine("Ohh no no, that's no problem. I don't need a king's seal or anything. You're a prince, after all!",
+                    TreeLine("So what do you need from me?",
+                        SimpleLine("Just a simple writ, really. Anything that came from your desk at your workroom and your hand will convince people I'm not scamming them...you can write, right?")
+                    )
+                )
+            )
         )
     )
 )
