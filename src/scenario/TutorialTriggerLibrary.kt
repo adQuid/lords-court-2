@@ -48,7 +48,7 @@ val adviceOnDraftingWrit = LineTrigger(
     },
     replyWithTreeLine(
         TreeLine("That sounds like a good deal to me, lad. You'll need that in writing though before I can sign on to anything.",
-            TreeLine("You've got it; I'll be right back.",
+            TreeLine("You've got it; I'll be right back with a writ for you to sign.",
                 SimpleLine("Looking forward to it, lad!")
             ),
             TreeLine("I'm afraid that my father is out, and won't be back for a while. I can't get you a king's seal.",
@@ -65,7 +65,7 @@ val adviceOnDraftingWrit = LineTrigger(
 val adviseToGetFish = LineTrigger(
     "gogetfish",
     { data, game, line, me, other -> data["calls"] == 0 && gameWouldEndWithoutFish(game, me) },
-    replyWithSimpleLine("My lord, I'm concerned about food stocks here. We need to trade with the merchants around here to get additional supplies to last until harvest.")
+    replyWithSimpleLine("My lord, I'm concerned about food stocks here. We need to trade with the merchants around here to get additional supplies to last until harvest. I've taken the liberty of inviting a Mr. Laerten to your hall. I suggest you speak to him.")
 )
 private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolean{
     if(me.energy > 850 || (me.energy > 400 && game.playerCharacter().writs.isNotEmpty())){
