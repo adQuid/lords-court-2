@@ -12,6 +12,7 @@ import main.Controller
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import ui.PerspectiveDisplayable
+import ui.componentfactory.MiddlePaneComponentFactory
 import ui.componentfactory.UtilityComponentFactory
 import ui.specialdisplayables.MapView
 import ui.specialdisplayables.selectionmodal.SelectionModal
@@ -73,15 +74,16 @@ class EstatesView: PerspectiveDisplayable {
             }
         }
         pane.add(UtilityComponentFactory.backButton(), 0, 3)
+        pane.add(MiddlePaneComponentFactory.middlePane(perspective, true),0,4)
 
         return Scene(pane)
     }
 
     private fun height(): Double{
         if(focusedTerritory == null){
-            return 0.9
+            return 0.8
         } else {
-            return 0.7
+            return 0.6
         }
     }
 

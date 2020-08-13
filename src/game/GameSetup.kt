@@ -49,7 +49,7 @@ object GameSetup {
         val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals), "tutorial")
 
         val pcCapital = capitals.capitals.first()
-        val PC = GameCharacter("Melkar the Magnificant", "assets/general/conversation frame.png", false, pcCapital.location, game)
+        val PC = GameCharacter("Melkar", "assets/general/conversation frame.png", false, pcCapital.location, game)
         PC.specialLines.add(talkToDadTrigger1)
         PC.specialLines.add(talkToDadTrigger2)
         PC.specialLines.add(talkToDadTrigger3)
@@ -62,15 +62,10 @@ object GameSetup {
         advisor.specialLines.add(chideForBadDeal)
         game.addPlayer(advisor)
 
-
-
         val dad = GameCharacter("Mayren", "assets/portraits/King.png", true, pcCapital.location, game)
         dad.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
         dad.specialScoreGenerators.add(MayronScoreGen())
         dad.specialLines.add(talkToDadTrigger4)
-
-
-        //dad.writs.add(writ)
 
         game.applyTitleToCharacter(capitals.capitalOf(territoryLogic.territories().first { it.name == "Worthford" }).generateCountTitle(), dad)
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), dad)
