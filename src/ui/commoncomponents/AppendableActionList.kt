@@ -26,9 +26,8 @@ class AppendableActionList {
         }
 
 
-        retval.add(UtilityComponentFactory.basicList(collection.toList(), behavior, UIGlobals.totalWidth(), UIGlobals.totalHeight() * 0.8), 0, 0)
+        retval.add(UtilityComponentFactory.basicList(collection.toList(), behavior, UIGlobals.totalWidth(), UIGlobals.totalHeight()), 0, 0)
 
-        retval.setPrefSize(UIGlobals.totalWidth(), UIGlobals.totalHeight() * 0.8)
         return retval
     }
 }
