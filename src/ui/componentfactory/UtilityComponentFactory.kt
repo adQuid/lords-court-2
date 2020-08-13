@@ -177,8 +177,10 @@ object UtilityComponentFactory {
         val completeTab = Tab("Complete", complete)
         val incomplete = perspective.player.writs.filter { !it.complete() }
         val incompleteTab = Tab("Incomplete", incomplete)
+        val includingPlayer = UIGlobals.activeGame().players.filter{it != perspective.player}.flatMap { it.writs }.filter { it.signatories.contains(perspective.player) }
+        val includingPlayerTab = Tab("Signed by You", includingPlayer)
 
-        return listOf(completeTab, incompleteTab)
+        return listOf(completeTab, incompleteTab, includingPlayerTab)
     }
 
     fun applyTooltip(node: Node, text: String?): Node{

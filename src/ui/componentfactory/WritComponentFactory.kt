@@ -30,6 +30,9 @@ class WritComponentFactory {
 
         root.add(UtilityComponentFactory.shortWideButton("Details", EventHandler { _ -> UIGlobals.focusOn(writ.deal) }), 0,3)
         root.add(UtilityComponentFactory.shortWideButton("Modify (clears signatories)", EventHandler { _ -> perspective.player.writs.remove(writ); UIGlobals.defocus(); UIGlobals.focusOn(WritConstructor(writ.deal.toUnfinishedDeal())) }), 0,4)
+        if(!perspective.player.writs.contains(writ)){
+            root.children[4].isDisable = true
+        }
         val bottomPane = GridPane()
         bottomPane.add(UtilityComponentFactory.backButton(),0,5)
 
