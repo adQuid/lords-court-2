@@ -63,7 +63,7 @@ val adviceOnDraftingWrit = LineTrigger(
 
 val adviseToGetFish = LineTrigger(
     "gogetfish",
-    { data, game, line, me, other -> data["calls"] == 0 && gameWouldEndWithoutFish(game, me) },
+    { data, game, line, me, other -> (line == null || line.canChangeTopic()) && data["calls"] == 0 && gameWouldEndWithoutFish(game, me) },
     replyWithSimpleLine("My lord, I'm concerned about food stocks here. We need to trade with the merchants around here to get additional supplies to last until harvest. I've taken the liberty of inviting a Mr. Laerten to your hall. I suggest you speak to him.")
 )
 private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolean{
@@ -159,7 +159,7 @@ val talkToDadTrigger3 = LineTrigger(
         TreeLine(
             "If I wasn't sent here to help you fight, why am I here?",
             TreeLine(
-                "You are here to take command of this town. I will be marching off to counter attack, and God willing end this war. This will leave Port Fog undefended, and I want to show that these people still fall under my protection.",
+                "You are here to take command of this town. I will be marching off to counter attack, and God willing end this war. This will leave Port Fog undefended, and I want to show that these people still fall under my protection. Kaireth will stay here to serve as your advisor. Listen to him; he's a smart man.",
                 SimpleLine("I won't fail you, father."),
                 TreeLine(
                     "You would put your son at risk to prove a point?",

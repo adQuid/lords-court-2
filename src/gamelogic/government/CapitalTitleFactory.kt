@@ -8,6 +8,7 @@ import game.titlemaker.TitleFactory
 object CapitalTitleFactory: TitleFactory {
 
     val typeMap: HashMap<String, (map: Map<String, Any>, game: Game) -> Title> = hashMapOf(
+        "Advisor" to {map, game -> Advisor(map, game)},
         "Count" to {map, game -> Count(map, game)},
         "King" to {map, game -> King(map, game)}
     )

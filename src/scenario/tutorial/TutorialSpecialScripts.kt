@@ -89,7 +89,7 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
         FailIf(
             2,
             { game -> game.actionsByPlayer.values.flatten().filter { it is GiveTerritory }.isEmpty() },
-            "    As you have failed to discuss important matters with your father, the busy man was forced to return to campaign without telling you what you needed to know. Either restart the game, or persist in the doomed world you have created."
+            "    You chose to either not discuss important events with your father on this turn, or you rejected his offer. In either event, you have missed your chance to take an active part in world events. Either restart your game, or resign yourself to sit out this chapter of history."
         ),
         addCulture(2, "tutorial", "Kaireth")
     )

@@ -90,7 +90,7 @@ class RequestReport: Line, HasReportType {
         val relatedReport = brain.shortCharacter.reportOfType(report!!)
         if(relatedReport != null){
             return GiveReport(relatedReport)
-        } else if(brain.shortCharacter.player.reportsEntitled().any{it.type == type}){
+        } else if(brain.shortCharacter.player.reportsEntitled().any{it.type == report!!}){
             return GiveReport(generateEmptyReport())
         } else {
             return SimpleLine("I'm not authorized to look that up")

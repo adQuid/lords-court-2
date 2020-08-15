@@ -13,6 +13,7 @@ import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 import game.GameCharacter
 import java.util.*
 import game.culture.Topic
+import gamelogic.government.Advisor
 
 object TutorialGameSetup {
 
@@ -33,7 +34,7 @@ object TutorialGameSetup {
             Topic(
                 "How to Govern",
                 "Writ",
-                "I'm sure that, growing up, you mostly heard about what the kingdom was up to from your father directly, but for most of us the news came from the enactment of a writ, where the orders of the ruler are announced in the throne room for all to hear, and displayed for the land's agents to interpret. In a civilized land like ours, even simple transfers to and from the treasury require documentation."
+                "I'm sure that, growing up, you mostly heard about what the kingdom was up to from your father directly, but for most of us the news came from the enactment of a writ. That's where the orders of the ruler are announced in the throne room for all to hear, and displayed for the land's agents to interpret. In a civilized land like ours, even simple transfers to and from the treasury require documentation. We've already set up a workroom for you here, which I suggest you get familiar with."
             )
         ))
         game.cultures.add(tutorialCulture)
@@ -46,6 +47,7 @@ object TutorialGameSetup {
         game.addPlayer(PC)
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
+        game.applyTitleToCharacter(Advisor(pcCapital), advisor)
         advisor.specialLines.add(adviseToTalkToDad)
         advisor.specialLines.add(adviceOnBadFishTrade)
         advisor.specialLines.add(adviseToGetFish)
