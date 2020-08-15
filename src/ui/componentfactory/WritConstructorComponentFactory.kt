@@ -36,6 +36,13 @@ class WritConstructorComponentFactory {
         }
         root.add(bottomPane,0,3)
 
+        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,4)
+        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,5)
+        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,6)
+        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,7)
+        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,8)
+        root.add(MiddlePaneComponentFactory.middlePane(perspective, true), 0,9)
+
         val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
         return scene
     }
