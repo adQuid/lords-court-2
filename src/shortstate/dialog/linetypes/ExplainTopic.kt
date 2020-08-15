@@ -77,11 +77,19 @@ class ExplainTopic: Line {
         return true
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
-        return listOf()
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
+        val otherTopicsMentioned = other.player.topics().filter { isMentioned(other.player, it.key) }.keys
+
+        return otherTopicsMentioned.map { AskAboutTopic(it) }
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         return brain.startConversation(speaker, game)
+    }
+
+    private fun isMentioned(player: GameCharacter, topic: String): Boolean{
+        val text = player.topics()[this.topic]!!.toLowerCase()
+
+        return topic != this.topic && text.contains(topic.toLowerCase())
     }
 }

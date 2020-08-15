@@ -61,7 +61,7 @@ class AcceptWrit: Line {
         return false
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
         return listOf()
     }
 

@@ -56,7 +56,7 @@ abstract class Line {
 
     abstract fun canChangeTopic(): Boolean
 
-    abstract fun possibleReplies(perspective: ShortStateCharacter): List<Line>
+    abstract fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line>
 
     open fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter){}
 

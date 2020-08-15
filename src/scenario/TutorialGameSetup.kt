@@ -28,7 +28,10 @@ object TutorialGameSetup {
         val capitals = GovernmentLogicModule(territoryLogic.map.territories.map { Capital(it) }, listOf(danswada))
         val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals), "tutorial")
 
-        val tutorialCulture = Culture("tutorial", mutableMapOf("Writ" to "Writs are made in the workroom"))
+        val tutorialCulture = Culture("tutorial", mutableMapOf(
+            "Writ" to "Writs are made in the workroom",
+            "Workroom" to "Any place that a ruler claims to govern from will inevitably have some room covered with maps, books, and all the boring stuff needed to actually get a law together."
+        ))
         game.cultures.add(tutorialCulture)
 
         val pcCapital = capitals.capitals.first()

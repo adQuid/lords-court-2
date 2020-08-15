@@ -36,7 +36,11 @@ class AskAboutTopic: Line {
     }
 
     override fun tooltipName(): String {
-        return "Ask About Topic"
+        if(topic == null){
+            return "Ask About Topic"
+        } else {
+            return "Ask About ${topic}"
+        }
     }
 
     override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
@@ -77,7 +81,7 @@ class AskAboutTopic: Line {
         return false
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
         return listOf()
     }
 

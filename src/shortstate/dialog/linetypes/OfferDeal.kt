@@ -74,7 +74,7 @@ class OfferDeal: Line {
         return false
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
         val newDeal = deal!!.toFinishedDeal()
         return listOf(AcceptDeal(newDeal), RejectDeal(newDeal), OfferDeal(newDeal.toUnfinishedDeal()), QuestionOffer(this))
     }
