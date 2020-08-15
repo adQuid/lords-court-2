@@ -46,7 +46,7 @@ class AskAboutTopic: Line {
                     listOf(
                         Tab(
                             "Topics",
-                            target.player.topics.keys.toList()
+                            target.player.topics().keys.toList()
                         )
                     ),
                     { topic ->
@@ -82,7 +82,7 @@ class AskAboutTopic: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
-        if(brain.shortCharacter.player.topics.keys.contains(topic!!)){
+        if(brain.shortCharacter.player.topics().keys.contains(topic!!)){
             return ExplainTopic(topic)
         } else {
             return SimpleLine("I don't know anything about that.")

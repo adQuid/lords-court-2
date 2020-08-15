@@ -87,7 +87,7 @@ class Conversation {
             if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) OfferDeal(UnfinishedDeal(participants().map { it.player })) else null,
             if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) RequestAdviceForDeal(UnfinishedDeal(participants().map { it.player })) else null,
             if(perspective.player.writs.filter{it.deal.actions.getOrDefault(this.otherParticipant(perspective).player, setOf()).isNotEmpty()}.isNotEmpty()) OfferWrit(null) else null,
-            if(otherParticipant(perspective).player.topics.isNotEmpty()) AskAboutTopic(null) else null,
+            if(otherParticipant(perspective).player.topics().isNotEmpty()) AskAboutTopic(null) else null,
             bestLineToLeaveConversation(perspective)
         )
     }

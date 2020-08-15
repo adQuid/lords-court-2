@@ -2,6 +2,7 @@ package game
 
 import game.action.Action
 import game.action.GlobalActionTypeFactory
+import game.culture.Culture
 import gamelogic.territory.TerritoryLogicModule
 import shortstate.report.Report
 import shortstate.report.ReportFactory
@@ -27,6 +28,8 @@ class Game {
 
     val MODULES_NAME = "modules"
     val gameLogicModules: Collection<GameLogicModule> //TODO: Make this mutable
+    val CULTURES_NAME = "cultures"
+    val cultures: MutableSet<Culture>
 
     val SPECIAL_SCRIPTS_NAME = "specialscripts"
     val specialScriptClass: String
@@ -36,6 +39,7 @@ class Game {
 
     constructor(gameLogic: Collection<GameLogicModule>, speicalScripts: String){
         gameLogicModules = gameLogic
+        cultures = mutableSetOf()
         specialScriptClass = speicalScripts
         specialScripts = specialScriptsFromId(specialScriptClass)
         setModuleParents()
@@ -45,8 +49,11 @@ class Game {
         isLive = other.isLive
         nextID = other.nextID
         turn = other.turn
+
+        cultures = other.cultures.map { Culture(it) }.toMutableSet()
+
         other.players.forEach{
-            this.players.add(GameCharacter(it))
+            this.players.add(GameCharacter(it, this))
         }
         actionsByPlayer = other.actionsByPlayer.mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
         concludedPlayers = other.concludedPlayers.toMutableSet()
@@ -61,6 +68,7 @@ class Game {
     constructor(saveString: Map<String,Any>){
         gameLogicModules = (saveString[MODULES_NAME] as List<Map<String, Any>>).map { map -> GameLogicModule.moduleFromSaveString(map, this) }
         logicModulesInDependencyOrder().forEach { it.finishConstruction(this) }
+        cultures = (saveString[CULTURES_NAME] as List<Map<String, Any>>).map{Culture(it)}.toMutableSet()
         specialScriptClass = saveString[SPECIAL_SCRIPTS_NAME] as String
         specialScripts = specialScriptsFromId(specialScriptClass)
         nextID = saveString[MAX_ID_NAME] as Int
@@ -98,6 +106,7 @@ class Game {
         retval[CONCLUDED_PLAYERS_NAME] = concludedPlayers.map { player -> player.id }
         retval[TITLES_NAME] = titles.map { it.saveString() }
         retval[MODULES_NAME] = gameLogicModules.map { module -> module.saveString() }
+        retval[CULTURES_NAME] = cultures.map { it.saveString() }
         retval[SPECIAL_SCRIPTS_NAME] = specialScriptClass
 
         return retval
@@ -116,6 +125,7 @@ class Game {
         if (locations() != other.locations()) return false
         if (concludedPlayers != other.concludedPlayers) return false
         if (titles != other.titles) return false
+        if (cultures != other.cultures) return false
 
         return true
     }
@@ -269,6 +279,10 @@ class Game {
         character.titles.add(title)
     }
 
+    fun applyCultureToCharacter(name: String, character: GameCharacter){
+        character.addCulture(name, this)
+    }
+
     fun locationById(id: Int): Location{
         return locations().filter { it.id == id }[0]
     }
@@ -279,6 +293,10 @@ class Game {
 
     fun characterByName(name: String): GameCharacter {
         return players.filter { it.name == name }[0]
+    }
+
+    fun cultureByName(name: String): Culture {
+        return cultures.filter { it.name == name }.first()
     }
 
     fun turnName(): String {

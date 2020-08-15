@@ -46,7 +46,7 @@ class ExplainTopic: Line {
                     listOf(
                         Tab(
                             "Topics",
-                            speaker.player.topics.keys.toList()
+                            speaker.player.topics().keys.toList()
                         )
                     ),
                     { topic ->
@@ -56,7 +56,7 @@ class ExplainTopic: Line {
     }
 
     override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        return speaker.player.topics[topic]!!
+        return speaker.player.topics()[topic]!!
     }
 
     override fun tooltipDescription(): String {

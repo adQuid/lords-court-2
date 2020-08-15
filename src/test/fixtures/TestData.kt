@@ -17,9 +17,7 @@ import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.DeliciousnessReport
 import game.titles.Baker
 import scenario.approachTestTrigger
-import shortstate.linetriggers.LineTrigger
-import shortstate.linetriggers.neverBeenCalled
-import shortstate.linetriggers.replyWithSimpleLine
+import game.culture.Culture
 
 fun soloTestGame(): Game{
     val cookieLogic = CookieWorld()
@@ -32,8 +30,13 @@ fun soloTestGame(): Game{
 fun soloTestGameWithEverythingOnIt(): Game{
     val game = soloTestGame()
 
+    val testCulture = Culture("Test", mutableMapOf("Test Topic" to "test Details"))
+    game.cultures.add(testCulture)
+
     game.players[0].memory.lines.addAll(fullMemory(game.players[0]))
     game.players[0].specialLines.add(approachTestTrigger)
+    game.applyCultureToCharacter(testCulture.name, game.players[0])
+
 
     //If these two aren't equal, then there's probably a type of line we aren't accounting for
     assert(game.players[0].memory.lines.size == GlobalLineTypeFactory.typeMap.size)
