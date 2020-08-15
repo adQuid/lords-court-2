@@ -87,6 +87,7 @@ class Conversation {
             if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) OfferDeal(UnfinishedDeal(participants().map { it.player })) else null,
             if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) RequestAdviceForDeal(UnfinishedDeal(participants().map { it.player })) else null,
             if(perspective.player.writs.filter{it.deal.actions.getOrDefault(this.otherParticipant(perspective).player, setOf()).isNotEmpty()}.isNotEmpty()) OfferWrit(null) else null,
+            if(otherParticipant(perspective).player.topics.isNotEmpty()) AskAboutTopic(null) else null,
             bestLineToLeaveConversation(perspective)
         )
     }
@@ -99,7 +100,7 @@ class Conversation {
     }
 
     fun submitLine(line: Line, game: ShortStateGame){
-        println("\"${line.displayText(game, lastSpeaker, otherParticipant(lastSpeaker))}\"(${line::class}) submitted by ${otherParticipant(lastSpeaker)}")
+        println("\"${line.displayText(game, otherParticipant(lastSpeaker), lastSpeaker)}\"(${line::class}) submitted by ${otherParticipant(lastSpeaker)}")
         if(line.validToSend()){
             line.specialEffect(room, game, otherParticipant(lastSpeaker))
             if(line.source != null){

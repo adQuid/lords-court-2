@@ -128,6 +128,8 @@ private fun fullMemory(dealDummy: GameCharacter): List<LineMemory>{
     LineMemory(RequestAdviceForDeal(savableDeal(dealDummy))),
     LineMemory(RequestReport(DeliciousnessReport.type)),
     LineMemory(OfferWrit(Writ("test writ", savableDeal(dealDummy), listOf(dealDummy)))),
+    LineMemory(AskAboutTopic("ask ")),
+    LineMemory(ExplainTopic("explain ")),
     LineMemory(SimpleLine("memory ")),
     LineMemory(TreeLine("tree", TreeLine("tree2", SimpleLine("tree3")))),
     LineMemory(Farewell()),

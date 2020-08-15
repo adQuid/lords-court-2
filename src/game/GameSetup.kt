@@ -60,6 +60,7 @@ object GameSetup {
         advisor.specialLines.add(adviceOnBadFishTrade)
         advisor.specialLines.add(adviseToGetFish)
         advisor.specialLines.add(chideForBadDeal)
+        advisor.topics["Writs"] = "Writs are created in the workroom. "
         game.addPlayer(advisor)
 
         val dad = GameCharacter("Mayren", "assets/portraits/King.png", true, pcCapital.location, game)

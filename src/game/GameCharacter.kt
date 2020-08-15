@@ -14,38 +14,46 @@ import shortstate.report.ReportFactory
 import kotlin.math.min
 
 class GameCharacter {
-    val ID_NAME = "ID"
+
+    companion object{
+        val ID_NAME = "ID"
+        val NPC_NAME = "NPC"
+        val NAME_NAME = "NAME"
+        val PICTURE_NAME = "PICTURESTRING"
+        val TITLES_NAME = "TITLES"
+        val LOCATION_NAME = "LOCATION"
+        val MEMORY_NAME = "MEMORY"
+        val ACCEPTED_DEALS_NAME = "ACCEPTEDDEALS"
+        val ACCEPTED_TREATIES_NAME = "ACCEPTEDTREATIES"
+        val WRITS_NAME = "WRITS"
+        val TOPICS_NAME = "TOPICS"
+        val SPECIAL_LINES_NAME = "SPECIALLINES"
+        val SPECIAL_SCORE_NAME = "SPECIALSCORE"
+        val RESOURCES_NAME = "RESOURCES"
+    }
+
+
     val id: Int
-    val NPC_NAME = "NPC"
+
     var npc: Boolean
     //This brain is still sometimes used by non-NPC characters to determine effects to deals
     var brain = ForecastBrain(this)
 
-    val NAME_NAME = "NAME"
     val name: String
-    val PICTURE_NAME = "PICTURESTRING"
     val pictureString: String
-    val TITLES_NAME = "TITLES"
     var titles = mutableSetOf<Title>()
 
-    val LOCATION_NAME = "LOCATION"
     var location: Location
 
-    val MEMORY_NAME = "MEMORY"
     var memory: Memory
-    val ACCEPTED_DEALS_NAME = "ACCEPTEDDEALS"
     val acceptedDeals: MutableList<FinishedDeal>
-    val ACCEPTED_TREATIES_NAME = "ACCEPTEDTREATIES"
     val acceptedTreaties: MutableList<Treaty>
-    val WRITS_NAME = "WRITS"
     val writs: MutableList<Writ>
 
-    val SPECIAL_LINES_NAME = "SPECIALLINES"
+    val topics: MutableMap<String, String>
     val specialLines: MutableList<LineTrigger>
-    val SPECIAL_SCORE_NAME = "SPECIALSCORE"
     val specialScoreGenerators: MutableList<SpecialScoreGenerator>
 
-    val RESOURCES_NAME = "RESOURCES"
     val resources: Resources
 
     //testing only; starts positive to prevent infinite relative scores
@@ -61,6 +69,7 @@ class GameCharacter {
         this.acceptedDeals = mutableListOf()
         this.acceptedTreaties = mutableListOf()
         this.writs = mutableListOf()
+        this.topics = mutableMapOf()
         this.specialLines = mutableListOf()
         this.specialScoreGenerators = mutableListOf()
         this.resources = Resources()
@@ -77,6 +86,7 @@ class GameCharacter {
         this.acceptedDeals = mutableListOf() //TODO: Fix this
         this.acceptedTreaties = mutableListOf() //TODO: Fix this
         this.writs = other.writs.map { writ -> Writ(writ) }.toMutableList()
+        this.topics = other.topics //immutable
         this.specialLines = other.specialLines //at the time of writing, special lines are immutable
         this.specialScoreGenerators = other.specialScoreGenerators //at the time of writing, score generators are immutable
         this.resources = Resources(other.resources)
@@ -92,6 +102,7 @@ class GameCharacter {
         pictureString = saveString[PICTURE_NAME] as String
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> game.titleFromSaveString(map) }.toMutableSet()
         resources = Resources((saveString[RESOURCES_NAME] as Map<String, Any>))
+        this.topics = (saveString[TOPICS_NAME] as MutableMap<String, String>)
         this.specialLines = (saveString[SPECIAL_LINES_NAME] as List<Map<String, Any>>).map { LineTrigger.triggerFromSaveString(it) }.toMutableList()
         this.specialScoreGenerators = (saveString[SPECIAL_SCORE_NAME] as List<Map<String, Any>>).map { SpecialScoreGenerator.scoreMap[it["type"]]!!(saveString, game) }.toMutableList()
 
@@ -125,6 +136,7 @@ class GameCharacter {
         retval[ACCEPTED_TREATIES_NAME] = acceptedTreaties.map { treaty -> treaty.saveString() }
         retval[WRITS_NAME] = writs.map { writ -> writ.saveString() }
         retval[RESOURCES_NAME] = resources.saveString()
+        retval[TOPICS_NAME] = topics
         retval[SPECIAL_LINES_NAME] = specialLines.map { it.saveString() }
         retval[SPECIAL_SCORE_NAME] = specialScoreGenerators.map{ it.saveString() }
 

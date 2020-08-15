@@ -9,6 +9,8 @@ object GlobalLineTypeFactory {
     val ACCEPT_WRIT_TYPE_NAME = "AcptWrt"
     val ANNOUNCEMENT_TYPE_NAME = "Ancmnt"
     val APPROVE_TYPE_NAME = "Aprve"
+    val ASK_TOPIC_NAME = "Asktpc"
+    val EXPLAIN_TOPIC_NAME = "ExTpc"
     val DISAPPROVE_TYPE_NAME = "Disaprve"
     val GIVE_REPORT_TYPE_NAME = "GveRprt"
     val OFFER_DEAL_TYPE_NAME = "OfrDeal"
@@ -28,6 +30,8 @@ object GlobalLineTypeFactory {
         ACCEPT_WRIT_TYPE_NAME to {map, game -> AcceptWrit(map, game)},
         ANNOUNCEMENT_TYPE_NAME to {map, game -> Announcement(map, game)},
         APPROVE_TYPE_NAME to {map, game -> Approve() },
+        ASK_TOPIC_NAME to {map, game -> AskAboutTopic(map, game)},
+        EXPLAIN_TOPIC_NAME to {map, game -> ExplainTopic(map, game)},
         DISAPPROVE_TYPE_NAME to {map, game -> Disapprove() },
         GIVE_REPORT_TYPE_NAME to {map, game -> GiveReport(map, game)},
         OFFER_DEAL_TYPE_NAME to {map, game -> OfferDeal(map, game)},
