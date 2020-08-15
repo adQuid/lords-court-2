@@ -1,4 +1,4 @@
-package scenario
+package scenario.tutorial
 
 import aibrain.Score
 import aibrain.SpecialScoreGenerator

@@ -1,7 +1,7 @@
 package shortstate.linetriggers
 
 import game.Game
-import scenario.TRIGGER_MAP
+import scenario.tutorial.TRIGGER_MAP
 import shortstate.ShortStateCharacter
 import shortstate.dialog.Line
 

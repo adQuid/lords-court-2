@@ -4,9 +4,9 @@ class Culture {
 
     val name: String
 
-    val topics: MutableMap<String, String>
+    val topics: MutableSet<Topic>
 
-    constructor(name: String, topics: MutableMap<String, String>){
+    constructor(name: String, topics: MutableSet<Topic>){
         this.name = name
         this.topics = topics
     }
@@ -14,18 +14,18 @@ class Culture {
     constructor(other: Culture){
         this.name = other.name
 
-        this.topics = HashMap(other.topics)
+        this.topics = HashSet(other.topics)
     }
 
     constructor(saveString: Map<String, Any>){
         name = saveString["name"] as String
-        topics = (saveString["topics"] as Map<String, String>).toMutableMap()
+        topics = (saveString["topics"] as List<Map<String, Any>>).map{Topic(it)}.toMutableSet()
     }
 
     fun saveString(): Map<String, Any>{
         return mapOf(
             "name" to name,
-            "topics" to topics
+            "topics" to topics.map { it.saveString() }
         )
     }
 

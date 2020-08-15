@@ -16,8 +16,8 @@ import shortstate.ShortGameScene
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.report.DeliciousnessReport
 import game.titles.Baker
-import scenario.approachTestTrigger
-import game.culture.Culture
+import scenario.tutorial.approachTestTrigger
+import game.culture.*
 
 fun soloTestGame(): Game{
     val cookieLogic = CookieWorld()
@@ -30,7 +30,7 @@ fun soloTestGame(): Game{
 fun soloTestGameWithEverythingOnIt(): Game{
     val game = soloTestGame()
 
-    val testCulture = Culture("Test", mutableMapOf("Test Topic" to "test Details"))
+    val testCulture = Culture("Test", mutableSetOf(Topic("test group", "Test Topic", "test Details")))
     game.cultures.add(testCulture)
 
     game.players[0].memory.lines.addAll(fullMemory(game.players[0]))

@@ -1,4 +1,4 @@
-package scenario
+package scenario.tutorial
 
 import game.Game
 import game.GameCharacter
@@ -39,6 +39,22 @@ class moveCharacter: SpecialScript{
     }
 }
 
+class addCulture: SpecialScript{
+
+    val culture: String
+    val character: String
+
+    constructor(turn: Int, cultureName: String, characterName: String): super(turn){
+        this.culture = cultureName
+        this.character = characterName
+    }
+
+    override fun doscript(game: Game) {
+        game.applyCultureToCharacter(culture, game.characterByName(character))
+    }
+
+}
+
 class FailIf: SpecialScript{
 
     val condition: (game: Game) -> Boolean
@@ -70,6 +86,11 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
     return listOf(
         addCharacter(2, makeFishMonger),
         moveCharacter(2, "Mayren", 7),
-        FailIf(2, {game -> game.actionsByPlayer.values.flatten().filter { it is GiveTerritory }.isEmpty()}, "    As you have failed to discuss important matters with your father, the busy man was forced to return to campaign without telling you what you needed to know. Either restart the game, or persist in the doomed world you have created.")
+        FailIf(
+            2,
+            { game -> game.actionsByPlayer.values.flatten().filter { it is GiveTerritory }.isEmpty() },
+            "    As you have failed to discuss important matters with your father, the busy man was forced to return to campaign without telling you what you needed to know. Either restart the game, or persist in the doomed world you have created."
+        ),
+        addCulture(2, "tutorial", "Kaireth")
     )
 }

@@ -47,14 +47,9 @@ class AskAboutTopic: Line {
         return listOf(LineBlock("ASK ABOUT:"), LineBlock(if(topic == null) "SELECT TOPIC" else "Topic: "+topic,
             null, {perspective -> UIGlobals.focusOn(
                 SelectionModal( "Ask About...",
-                    listOf(
-                        Tab(
-                            "Topics",
-                            target.player.topics().keys.toList()
-                        )
-                    ),
+                    target.player.topics().groupBy { it.group }.map { Tab(it.key, it.value) },
                     { topic ->
-                       this.topic = topic; UIGlobals.defocus()
+                        this.topic = topic.name; UIGlobals.defocus()
                     })
             )}))
     }
@@ -82,11 +77,14 @@ class AskAboutTopic: Line {
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
-        return listOf()
+        if(perspective.player.infoOnTopic(topic!!) != null){
+            return listOf(ExplainTopic(topic!!))
+        }
+        return listOf(SimpleLine("Sorry, I don't know about that."))
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
-        if(brain.shortCharacter.player.topics().keys.contains(topic!!)){
+        if(brain.shortCharacter.player.infoOnTopic(topic!!) != null){
             return ExplainTopic(topic)
         } else {
             return SimpleLine("I don't know anything about that.")

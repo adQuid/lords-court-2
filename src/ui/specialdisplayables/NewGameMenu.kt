@@ -1,12 +1,11 @@
 package ui.specialdisplayables
 
-import game.GameSetup
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import main.Controller
 import main.UIGlobals
-import scenario.TutorialGameSetup
+import scenario.tutorial.TutorialGameSetup
 import ui.NoPerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
 

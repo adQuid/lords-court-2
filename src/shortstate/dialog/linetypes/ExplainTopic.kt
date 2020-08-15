@@ -40,23 +40,11 @@ class ExplainTopic: Line {
     }
 
     override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
-        return listOf(LineBlock("ASK ABOUT:"), LineBlock(if(topic == null) "SELECT TOPIC" else "Topic: "+topic,
-            null, {perspective -> UIGlobals.focusOn(
-                SelectionModal( "Ask About...",
-                    listOf(
-                        Tab(
-                            "Topics",
-                            speaker.player.topics().keys.toList()
-                        )
-                    ),
-                    { topic ->
-                       this.topic = topic
-                    })
-            )}))
+        return listOf(LineBlock("Explain:"), LineBlock( "Topic: "+topic))
     }
 
     override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        return speaker.player.topics()[topic]!!
+        return speaker.player.infoOnTopic(topic!!)!!
     }
 
     override fun tooltipDescription(): String {
@@ -78,7 +66,7 @@ class ExplainTopic: Line {
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
-        val otherTopicsMentioned = other.player.topics().filter { isMentioned(other.player, it.key) }.keys
+        val otherTopicsMentioned = other.player.topics().filter { isMentioned(other.player, it.name) }.map{it.name}
 
         return otherTopicsMentioned.map { AskAboutTopic(it) }
     }
@@ -88,7 +76,7 @@ class ExplainTopic: Line {
     }
 
     private fun isMentioned(player: GameCharacter, topic: String): Boolean{
-        val text = player.topics()[this.topic]!!.toLowerCase()
+        val text = player.infoOnTopic(this.topic!!)!!.toLowerCase()
 
         return topic != this.topic && text.contains(topic.toLowerCase())
     }

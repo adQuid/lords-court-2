@@ -5,12 +5,11 @@ import aibrain.ForecastBrain
 import aibrain.SpecialScoreGenerator
 import aibrain.Treaty
 import game.action.Action
-import game.culture.Culture
+import game.culture.*
 import shortstate.linetriggers.LineTrigger
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.Resources
-import scenario.MayronScoreGen
 import shortstate.report.ReportFactory
 import kotlin.math.min
 
@@ -163,8 +162,13 @@ class GameCharacter {
         cultures.add(game.cultureByName(culture))
     }
 
-    fun topics(): Map<String, String>{
-        return cultures.fold(mutableMapOf(), {acc, cul -> cul.topics.forEach{if(!acc.containsKey(it.key)) acc[it.key] = it.value}; return acc})
+    fun topics(): Set<Topic>{
+        return cultures.fold(mutableSetOf(), {acc, culture -> culture.topics.forEach { if(acc.filter { topic -> topic.name == it.name }.isEmpty()) acc.add(it) }; acc}) //.fold(mutableSetOf(), {acc, cul -> cul.topics.forEach{if(!acc.contains(it)) acc[it.key] = it.value}; return acc})
+    }
+
+    fun infoOnTopic(topic: String): String?{
+        val topics = topics()
+        return topics.filter { it.name == topic }.firstOrNull()?.description
     }
 
     fun fullName(): String{

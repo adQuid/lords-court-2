@@ -1,13 +1,13 @@
 package aibrain
 
 import game.Game
-import scenario.MayronScoreGen
+import scenario.tutorial.MayronScoreGen
 
 interface SpecialScoreGenerator {
 
     companion object{
         val scoreMap = mapOf<String, (saveString: Map<String, Any>, game: Game) -> SpecialScoreGenerator>(
-            MayronScoreGen.typeName to {saveString, game -> MayronScoreGen()}
+            MayronScoreGen.typeName to { saveString, game -> MayronScoreGen() }
         )
     }
 

@@ -1,6 +1,6 @@
 package game
 
-import scenario.tutorialSpecialScripts
+import scenario.tutorial.tutorialSpecialScripts
 
 fun specialScriptsFromId(id: String): Collection<SpecialScript>{
     if(id == "tutorial"){

@@ -1,11 +1,10 @@
-package scenario
+package scenario.tutorial
 
 import aibrain.Deal
 import aibrain.FinishedDeal
 import game.Game
 import game.Writ
 import game.GameCharacter
-import gamelogic.government.King
 import gamelogic.government.actionTypes.GiveTerritory
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
@@ -80,7 +79,11 @@ private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolea
 
 val chideForBadDeal = LineTrigger(
     "badfishdeal",
-    { data, game, line, me, other -> data["calls"] == 0 && playerIsPayingTooMuchForFish(game, me.player) },
+    { data, game, line, me, other -> data["calls"] == 0 && playerIsPayingTooMuchForFish(
+        game,
+        me.player
+    )
+    },
     replyWithSimpleLine("That was a horrible deal!")
 )
 private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean{
@@ -192,7 +195,9 @@ fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Lin
 
 val adviseToTalkToDad = LineTrigger(
     "talktodad",
-    and(neverBeenCalled, belowEnergy(800), otherTriggerNotCalledByPlayer(talkToDadTrigger1), otherTriggerNotCalledByPlayer(talkToDadTrigger2)),
+    and(neverBeenCalled, belowEnergy(800), otherTriggerNotCalledByPlayer(talkToDadTrigger1), otherTriggerNotCalledByPlayer(
+        talkToDadTrigger2
+    )),
     replyWithSimpleLine("Your father is back in town, and you don't know for how long. You should spend more time with him.")
 )
 
