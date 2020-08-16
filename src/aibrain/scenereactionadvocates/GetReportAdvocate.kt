@@ -10,6 +10,7 @@ import shortstate.report.ReportType
 import shortstate.room.Room
 import shortstate.room.RoomAction
 import shortstate.room.action.MakeReport
+import shortstate.room.action.Wait
 
 class GetReportAdvocate: SceneReactionAdvocate {
 
@@ -20,15 +21,21 @@ class GetReportAdvocate: SceneReactionAdvocate {
     }
 
     override fun weight(game: ShortStateGame, scene: ShortGameScene): Double {
-        if(reportFactories().isEmpty() || scene.room.type != Room.RoomType.WORKROOM){
+        if(scene.shortPlayerForLongPlayer(me)!!.energy < 200 || doToScene(game, scene) is Wait || reportFactories().isEmpty() || scene.room.type != Room.RoomType.WORKROOM){
             return 0.0
         }
-        return 15.0 - (15.0 * scene.shortPlayerForLongPlayer(me)!!.knownReports.size)
+        return 15.0 * ( me.reportsEntitled().size - scene.shortPlayerForLongPlayer(me)!!.knownReports.size)
     }
 
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene): RoomAction {
         //TODO: Make this better
-        return MakeReport(reportFactories().first())
+        val reportToGet = reportFactories().filter { shortGameScene.shortPlayerForLongPlayer(me)!!.knownReports.filter{report -> report.type == it.type}.isEmpty() }.firstOrNull()
+
+        if(reportToGet != null){
+            return MakeReport(reportToGet!!)
+        } else {
+            return Wait()
+        }
     }
 
     private fun reportFactories(): List<ReportFactory>{

@@ -76,11 +76,11 @@ class GiveReport: Line {
     }
 
     override fun canChangeTopic(): Boolean {
-        return false
+        return true
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
-        return listOf(Approve(), Disapprove())
+        return listOf()
     }
 
     override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {

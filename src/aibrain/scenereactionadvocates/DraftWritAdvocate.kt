@@ -9,6 +9,7 @@ import shortstate.room.Room
 import shortstate.room.RoomAction
 import shortstate.room.action.DraftWrit
 import shortstate.room.action.MakeReport
+import shortstate.room.action.Wait
 
 class DraftWritAdvocate: SceneReactionAdvocate {
 
@@ -30,7 +31,12 @@ class DraftWritAdvocate: SceneReactionAdvocate {
     }
 
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene): RoomAction {
-        return DraftWrit(dealIWantToDraft()!!, "test name")
+        val deal = dealIWantToDraft()
+        if(deal != null){
+            return DraftWrit(deal!!, "test name")
+        } else {
+            return Wait()
+        }
     }
 
     private fun dealIWantToDraft(): Deal?{

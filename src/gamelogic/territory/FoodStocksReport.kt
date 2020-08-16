@@ -9,7 +9,7 @@ import shortstate.report.ReportFactory
 class FoodStocksReport: Report {
 
     companion object{
-        val type = "AgriculturalReport"
+        val type = "FoodStocksReport"
     }
 
     override val type: String = FoodStocksReport.type
@@ -28,6 +28,9 @@ class FoodStocksReport: Report {
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
 
         territory = logic.territoryById(saveString["territory"] as Int)
+        if(saveString["flour"] == null){
+            println("debug")
+        }
         flour = saveString["flour"] as Int
         bread = saveString["bread"] as Int
     }

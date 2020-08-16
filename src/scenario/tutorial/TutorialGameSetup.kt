@@ -13,7 +13,7 @@ import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 import game.GameCharacter
 import java.util.*
 import game.culture.Topic
-import gamelogic.government.Advisor
+import gamelogic.government.Minister
 
 object TutorialGameSetup {
 
@@ -47,7 +47,7 @@ object TutorialGameSetup {
         game.addPlayer(PC)
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
-        game.applyTitleToCharacter(Advisor(pcCapital), advisor)
+        game.applyTitleToCharacter(Minister(pcCapital), advisor)
         advisor.specialLines.add(adviseToTalkToDad)
         advisor.specialLines.add(adviceOnBadFishTrade)
         advisor.specialLines.add(adviseToGetFish)
@@ -71,7 +71,7 @@ object TutorialGameSetup {
             if(capitals.countOfCaptial(it.terId) == null){
                 val NPC =
                     GameCharacter("Lord " + names.pop(), "assets/portraits/faceman.png", true, it.location, game)
-                game.addPlayer(NPC)
+                //game.addPlayer(NPC)
                 game.applyTitleToCharacter(it.generateCountTitle(), NPC)
             }
         }

@@ -12,7 +12,7 @@ class ActiveCropsReport: Report {
         val type = "ActiveCropsReport"
     }
 
-    override val type: String = FoodStocksReport.type
+    override val type: String = ActiveCropsReport.type
     val territory: Territory
     val crops: List<Crop>
     
@@ -41,7 +41,7 @@ class ActiveCropsReport: Report {
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "territory" to territory.id,
-            "crops" to crops
+            "crops" to crops.map { it.saveString() }
         )
     }
 

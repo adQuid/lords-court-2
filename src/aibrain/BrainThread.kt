@@ -31,7 +31,7 @@ class BrainThread: Runnable {
 
                     if(shortPlayer != null){
                         if(shortPlayer.nextSceneIWannaBeIn == null){
-                            shortPlayer.decideNextScene(shortThread.shortGame)
+                            //shortPlayer.decideNextScene(shortThread.shortGame)
                         }
                     }
                 }

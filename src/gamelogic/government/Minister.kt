@@ -7,11 +7,10 @@ import game.action.Action
 import gamelogic.territory.ActiveCropsReportFactory
 import gamelogic.territory.FoodStocksReportFactory
 import game.titlemaker.CookieWorldTitleFactory
-import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.territory.PopulationReportFactory
 import shortstate.report.ReportFactory
 
-class Advisor: Title{
+class Minister: Title{
     override val importance = 5
     override val name: String
     val CAPITAL_NAME = "Capital"
@@ -20,7 +19,7 @@ class Advisor: Title{
 
     constructor(capital: Capital){
         this.capital = capital
-        this.name = "Advisor to ${capital.territory!!.name}"
+        this.name = "Minister of ${capital.territory!!.name}"
         reportsEntitled = reportsEntitled()
     }
 
@@ -40,13 +39,13 @@ class Advisor: Title{
         )
     }
 
-    override fun clone(): Advisor {
-        return Advisor(capital)
+    override fun clone(): Minister {
+        return Minister(capital)
     }
 
     override fun saveString(): Map<String, Any> {
         return hashMapOf(
-            CookieWorldTitleFactory.TYPE_NAME to "Advisor",
+            CookieWorldTitleFactory.TYPE_NAME to "Minister",
             NAME_NAME to name,
             REPORTS_NAME to reportsEntitled.map { report -> report.toString() },
             CAPITAL_NAME to capital.terId
@@ -62,7 +61,7 @@ class Advisor: Title{
         if (javaClass != other?.javaClass) return false
         if (!super.equals(other)) return false
 
-        other as Advisor
+        other as Minister
 
         if (name != other.name) return false
         if (reportsEntitled != other.reportsEntitled) return false

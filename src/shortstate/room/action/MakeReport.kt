@@ -22,6 +22,7 @@ class MakeReport: RoomAction{
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
+        println(player.player.name+" generates report: "+factory)
         player.knownReports.add(factory.generateReport(game.game))
     }
 

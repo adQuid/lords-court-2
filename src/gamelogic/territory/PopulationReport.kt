@@ -12,7 +12,7 @@ class PopulationReport: Report {
         val type = "PopulationReport"
     }
 
-    override val type: String = FoodStocksReport.type
+    override val type: String = PopulationReport.type
     val territory: Territory
     val population: Int
     
@@ -40,7 +40,7 @@ class PopulationReport: Report {
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "territory" to territory.id,
-            "crops" to population
+            "pop" to population
         )
     }
 
@@ -64,7 +64,7 @@ class PopulationReport: Report {
 
 class PopulationReportFactory: ReportFactory{
     val territoryId: Int
-    override val type = ActiveCropsReport.type
+    override val type = PopulationReport.type
     override val cost: Int
         get() = 450
 
