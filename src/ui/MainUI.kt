@@ -3,6 +3,7 @@ package ui
 import javafx.application.Application;
 import javafx.application.Platform
 import javafx.event.EventHandler
+import javafx.scene.Node
 import javafx.stage.Stage
 import javafx.scene.Scene
 import javafx.stage.WindowEvent
@@ -29,6 +30,7 @@ class MainUI() : Application() {
 
     var curFocus: Stack<Displayable> = Stack()
     var specialFocus: Stack<Displayable> = Stack()
+    var lastButtonClicked: Node? = null
 
     override fun init(){
         Controller.singleton!!.registerUI(this)

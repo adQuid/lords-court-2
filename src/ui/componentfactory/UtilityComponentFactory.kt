@@ -25,6 +25,7 @@ import ui.BOTTOM_BAR_PORTION
 import ui.Describable
 import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.selectionmodal.Tab
+import java.util.*
 
 object UtilityComponentFactory {
 
@@ -176,7 +177,10 @@ object UtilityComponentFactory {
         retval.children.add(image)
         retval.children.add(text)
         if (action != null) {
-            retval.onMouseClicked = EventHandler { event -> retval.children.set(0, imageView("assets/general/generalButtonSelected.png", height, width)); image.fitWidth = UIGlobals.totalWidth() / width; action.handle(event) }
+            retval.onMouseClicked = EventHandler { event -> if(UIGlobals.GUI().lastButtonClicked != null) {(UIGlobals.GUI().lastButtonClicked as StackPane).children.set(0, imageView("assets/general/generalButton.png", height, width))};
+                UIGlobals.GUI().lastButtonClicked = retval;
+                retval.children.set(0, imageView("assets/general/generalButtonSelected.png", height, width));
+                image.fitWidth = UIGlobals.totalWidth() / width; action.handle(event) }
         }
         return retval
     }
