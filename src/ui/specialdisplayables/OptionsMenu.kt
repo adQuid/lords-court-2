@@ -1,6 +1,7 @@
 package ui.specialdisplayables
 
 import javafx.event.EventHandler
+import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.layout.GridPane
@@ -59,7 +60,7 @@ class OptionsMenu: PerspectiveDisplayable() {
         return Scene(pane)
     }
 
-    private fun setResButton(width: Int, height: Int): Button {
+    private fun setResButton(width: Int, height: Int): Node {
         return UtilityComponentFactory.proportionalButton("${width}x${height}", EventHandler { UIGlobals.GUI().setResolution(width.toDouble(),height.toDouble()) }, 6.0)
     }
 }

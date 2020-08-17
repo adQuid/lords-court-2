@@ -78,15 +78,15 @@ open class DealComponentFactory {
         actions.forEach {
             val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", tapClickAction(it.key), (actions.size+1).toDouble())
             if(it.key == currentPage){
-                topic.font = Font(18.0)
-                topic.onAction = null
+                //topic.font = Font(18.0)
+                //topic.onAction = null
             }
-            topic.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 10)
+            //topic.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 10)
             topPane.add(topic, index++, 0)
         }
         if(deal is UnfinishedDeal){
             val addButton = UtilityComponentFactory.proportionalButton("Add Character", EventHandler { _ -> UIGlobals.focusOn(characterSelector()) }, (actions.size+1).toDouble())
-            addButton.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 10)
+            //addButton.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 10)
             topPane.add(addButton,index++,0)
         }
         return topPane

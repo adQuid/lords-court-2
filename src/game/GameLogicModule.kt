@@ -96,6 +96,4 @@ abstract class GameLogicModule {
     abstract fun planOptions(perspective: GameCharacter, importantPlayers: Collection<GameCharacter>): Collection<Plan>
 
     abstract fun score(perspective: GameCharacter): Score
-
-    abstract fun bottomButtons(perspective: ShortStateCharacter): List<Button>
 }

@@ -54,10 +54,6 @@ class PlayerResourceModule: GameLogicModule {
         return retval
     }
 
-    override fun bottomButtons(perspective: ShortStateCharacter): List<Button> {
-        return listOf()
-    }
-
 }
 
 class EmptyTitleFactory: TitleFactory{

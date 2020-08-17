@@ -78,10 +78,6 @@ class TerritoryLogicModule: GameLogicModule {
         return Score()
     }
 
-    override fun bottomButtons(perspective: ShortStateCharacter): List<Button> {
-        return listOf()
-    }
-
     override fun planOptions(
         perspective: GameCharacter,
         importantPlayers: Collection<GameCharacter>

@@ -1,6 +1,7 @@
 package ui.componentfactory
 
 import javafx.event.EventHandler
+import javafx.scene.Node
 import javafx.scene.control.Button
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
@@ -20,7 +21,7 @@ object BottomPaneComponentFactory {
         }
     }
 
-    fun bottomPane(buttons: List<Button>, perspective: ShortStateCharacter): Pane {
+    fun bottomPane(buttons: List<Node>, perspective: ShortStateCharacter): Pane {
 
         val buttonsPane = GridPane()
         for(index in 0..3){
@@ -37,11 +38,11 @@ object BottomPaneComponentFactory {
         return retval
     }
 
-    fun outOfConvoButtons(scene: ShortGameScene, perspective: ShortStateCharacter): List<Button> {
+    fun outOfConvoButtons(scene: ShortGameScene, perspective: ShortStateCharacter): List<Node> {
         val endTurnButton = UtilityComponentFactory.shortButton("End Turn", EventHandler { _ -> UIGlobals.focusOn(
             EndTurnMenu()
         )})
 
-        return listOf(endTurnButton).plus(UIGlobals.activeGame().gameLogicModules.flatMap { it.bottomButtons(perspective) })
+        return listOf(endTurnButton)
     }
 }

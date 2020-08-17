@@ -108,8 +108,4 @@ class SlowModule: GameLogicModule {
         return Score()
     }
 
-    override fun bottomButtons(perspective: ShortStateCharacter): List<Button> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 }

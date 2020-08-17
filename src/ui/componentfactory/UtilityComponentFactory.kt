@@ -12,9 +12,12 @@ import javafx.scene.image.ImageView
 import javafx.scene.image.PixelFormat
 import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.GridPane
+import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.util.Duration
+import jdk.jshell.execution.Util
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.report.Report
@@ -26,9 +29,13 @@ import ui.specialdisplayables.selectionmodal.Tab
 object UtilityComponentFactory {
 
     fun imageView(url: String, height: Double): ImageView {
+        return imageView(url, height, 1.0)
+    }
+
+    fun imageView(url: String, height: Double, width: Double): ImageView {
         val retval = ImageView(imageFromPath(url))
         retval.fitHeight = (UIGlobals.totalHeight()) * height
-        retval.fitWidth = UIGlobals.totalWidth()
+        retval.fitWidth = UIGlobals.totalWidth() / width
         return retval
     }
 
@@ -65,7 +72,7 @@ object UtilityComponentFactory {
         return view
     }
 
-    fun newSceneButton(perspective: ShortStateCharacter): Button {
+    fun newSceneButton(perspective: ShortStateCharacter): Node {
         return shortButton("Go Somewhere Else",
                 EventHandler { _ -> UIGlobals.focusOn(
                     NewSceneSelector.newSceneSelector(perspective)
@@ -74,11 +81,11 @@ object UtilityComponentFactory {
         )
     }
 
-    fun backButton(): Button{
+    fun backButton(): Node{
         return proportionalBackButton(1.0)
     }
 
-    fun proportionalBackButton(proportion: Double): Button{
+    fun proportionalBackButton(proportion: Double): Node{
         return proportionalButton("Back", EventHandler { UIGlobals.defocus() }, proportion)
     }
 
@@ -103,22 +110,25 @@ object UtilityComponentFactory {
         }
     }
 
-    fun shortButton(text: String, action: EventHandler<MouseEvent>?): Button {
+    fun shortButton(text: String, action: EventHandler<MouseEvent>?): Node {
         return shortButton(text, action, 1)
     }
 
-    fun shortButton(text: String, action: EventHandler<MouseEvent>?, specialWidth: Int): Button {
+    fun shortButton(text: String, action: EventHandler<MouseEvent>?, specialWidth: Int): Node {
         return shortButton(text, action, specialWidth.toDouble())
     }
 
-    fun shortButton(text: String, action: EventHandler<MouseEvent>?, specialWidth: Double): Button {
+    fun shortButton(text: String, action: EventHandler<MouseEvent>?, specialWidth: Double): Node {
         val retval = proportionalButton(text, action, 4.0)
-        retval.setMinSize(retval.minWidth*specialWidth, retval.minHeight)
         return retval
     }
 
-    fun shortWideButton(text: String, action: EventHandler<MouseEvent>?): Button {
+    fun shortWideButton(text: String, action: EventHandler<MouseEvent>?): Node {
         return proportionalButton(text, action, 1.0)
+    }
+
+    fun shortWideClickedButton(text: String, action: EventHandler<MouseEvent>?): Node {
+        return proportionalButton(text, action, 1.0, 0.1, true)
     }
 
     fun shortWideTextField(text: String): TextField{
@@ -152,11 +162,21 @@ object UtilityComponentFactory {
         return retval
     }
 
-    fun proportionalButton(text: String, action: EventHandler<MouseEvent>?, proportion: Double): Button{
-        val retval = Button(text)
-        setSize(retval, proportion)
+    fun proportionalButton(text: String, action: EventHandler<MouseEvent>?, proportion: Double): Node{
+        return proportionalButton(text, action, proportion, 0.1, false)
+    }
+
+    fun proportionalButton(text: String, action: EventHandler<MouseEvent>?, width: Double, height: Double, clicked: Boolean): Node{
+        val image = if(clicked){ imageView("assets/general/generalButtonSelected.png", height, width)} else {imageView("assets/general/generalButton.png", height, width)}
+
+        val text = Text(text)
+        text.font = Font(20.0)
+
+        val retval = StackPane()
+        retval.children.add(image)
+        retval.children.add(text)
         if (action != null) {
-            retval.onMouseClicked = action
+            retval.onMouseClicked = EventHandler { event -> retval.children.set(0, imageView("assets/general/generalButtonSelected.png", height, width)); image.fitWidth = UIGlobals.totalWidth() / width; action.handle(event) }
         }
         return retval
     }

@@ -111,10 +111,6 @@ class GovernmentLogicModule: GameLogicModule {
         return retval
     }
 
-    override fun bottomButtons(perspective: ShortStateCharacter): List<Button> {
-        return listOf()
-    }
-
     override fun planOptions(
         perspective: GameCharacter,
         importantPlayers: Collection<GameCharacter>

@@ -6,6 +6,7 @@ import game.*
 import gamelogic.government.specialdisplayables.TravelView
 import gamelogic.territory.TerritoryLogicModule
 import javafx.event.EventHandler
+import javafx.scene.Node
 import javafx.scene.control.Button
 import main.UIGlobals
 import shortstate.ShortStateCharacter
@@ -44,12 +45,6 @@ class TravelLogicModule: GameLogicModule{
 
     override fun score(perspective: GameCharacter): Score {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun bottomButtons(perspective: ShortStateCharacter): List<Button> {
-        return listOf( UtilityComponentFactory.shortButton("Leave Location", EventHandler { _ -> UIGlobals.focusOn(
-            TravelView(perspective)
-        )}))
     }
 
 }

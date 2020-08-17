@@ -1,10 +1,10 @@
 package ui.componentfactory
 
-import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
+import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import main.UIGlobals
 import shortstate.ShortStateCharacter
@@ -18,24 +18,31 @@ import ui.specialdisplayables.selectionmodal.SelectionModal
 object MiddlePaneComponentFactory {
 
     fun middlePane(perspective: ShortStateCharacter, locked: Boolean): Pane {
-        val retval = GridPane()
+        val background = UtilityComponentFactory.imageView("assets/general/generalInfo.png", 0.1)
+
+        val mainPane = GridPane()
 
         val turnDisplay = Label(UIGlobals.activeGame().turnName())
         turnDisplay.font = Font(20.0)
         turnDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() * BOTTOM_BAR_PORTION)
-        retval.add(turnDisplay, 0,0)
+        mainPane.add(turnDisplay, 0,0)
         val statsDisplay = Label("Energy: " + perspective.energy + "/1000")
         UtilityComponentFactory.applyTooltip(statsDisplay, "Every action will cost energy. Running out of energy with leave you with no option but to end turn.")
         statsDisplay.setMinSize(UIGlobals.totalWidth()/6, UIGlobals.totalHeight() * BOTTOM_BAR_PORTION)
-        retval.add(statsDisplay, 1,0)
+        mainPane.add(statsDisplay, 1,0)
 
-        nonModifyingComponents(perspective).entries.forEach { retval.add(it.value, it.key, 0) }
+        nonModifyingComponents(perspective).entries.forEach { mainPane.add(it.value, it.key, 0) }
 
         if(!locked){
-            modifyingComponents(perspective, locked).entries.forEach { retval.add(it.value, it.key, 0) }
+            modifyingComponents(perspective, locked).entries.forEach { mainPane.add(it.value, it.key, 0) }
         } else {
-            modifyingComponents(perspective, locked).entries.forEach { retval.add(it.value, it.key, 0); retval.children[it.key].isDisable = true }
+            modifyingComponents(perspective, locked).entries.forEach { mainPane.add(it.value, it.key, 0); mainPane.children[it.key].isDisable = true }
         }
+
+        val retval = StackPane()
+
+        retval.children.add(background)
+        retval.children.add(mainPane)
 
         return retval
     }

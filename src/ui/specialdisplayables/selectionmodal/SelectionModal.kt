@@ -1,7 +1,9 @@
 package ui.specialdisplayables.selectionmodal
 
+import javafx.application.Platform
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
+import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.ListView
@@ -23,11 +25,11 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
     val parent = UIGlobals.GUI()
     val title: String
     val options: List<Tab<T>>
-    val closeAction: (T) -> Unit
+    val closeAction: ((T) -> Unit)?
 
     var focusedTab: Tab<T>
 
-    constructor(title: String, options: List<Tab<T>>, action: (T) -> Unit): super(){
+    constructor(title: String, options: List<Tab<T>>, action: ((T) -> Unit)?): super(){
         this.title = title
         this.options = options
         this.focusedTab = options[0]
@@ -72,13 +74,8 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
             val tabsPane = GridPane()
             var index = 0
             options.forEach {
-                val topic = Button(it.title)
-                if(it == focusedTab){
-                    topic.font = Font(18.0)
-                } else {
-                    topic.onAction = EventHandler {_ -> focusedTab = it; parent.display()}
-                }
-                topic.setMinSize(parent.totalWidth / options.size, parent.totalHeight / 20)
+                val topic = UtilityComponentFactory.proportionalButton(it.title, EventHandler{_ -> focusedTab = it; parent.display()}, options.size * 1.0, 0.05, it == focusedTab)
+
                 tabsPane.add(topic, index++, 0)
             }
             retval.add(tabsPane, 0,1)
@@ -88,15 +85,23 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
         return retval
     }
 
-    internal class ActionPickCell<T>(val closeAction: (T) -> Unit) : ListCell<T>() {
+    internal class ActionPickCell<T>(val closeAction: ((T) -> Unit)?) : ListCell<T>() {
         public override fun updateItem(item: T?, empty: Boolean) {
             if(item != null){
                 super.updateItem(item, empty)
                 val displayText = if(item is PrettyPrintable){ item.prettyPrint(UIGlobals.GUI().shortGame(), UIGlobals.playingAs()) } else{ item.toString() }
-                val text = Text(displayText)
-                text.font = Font(20.0)
-                this.graphic = text
-                this.onMouseClicked = EventHandler{_ -> closeAction(item)}
+
+                if(closeAction != null){
+                    this.graphic = UtilityComponentFactory.shortWideButton(displayText, EventHandler { })
+                    this.onMouseClicked = EventHandler { _ -> this.graphic = UtilityComponentFactory.shortWideClickedButton(displayText, EventHandler { });  Platform.runLater { Thread.sleep(100); closeAction!!(item) }}
+                    this.padding = Insets.EMPTY
+                } else {
+                    val node = GridPane()
+
+                    node.add(UtilityComponentFactory.shortWideLabel(displayText),0,0)
+
+                    this.graphic = node
+                }
             }
         }
     }
