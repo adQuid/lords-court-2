@@ -18,7 +18,7 @@ import ui.specialdisplayables.selectionmodal.SelectionModal
 object MiddlePaneComponentFactory {
 
     fun middlePane(perspective: ShortStateCharacter, locked: Boolean): Pane {
-        val background = UtilityComponentFactory.imageView("assets/general/generalInfo.png", 0.1)
+        val background = UtilityComponentFactory.imageView("assets/general/BottomBackground.png", 0.1)
 
         val mainPane = GridPane()
 

@@ -12,7 +12,6 @@ class WaitingSceneComponentFactory {
 
     fun waitingPage(perspective: ShortStateCharacter): Scene {
         val root = GridPane()
-        root.add(BottomPaneComponentFactory.bottomPane(listOf(UtilityComponentFactory.newSceneButton(perspective)), perspective), 0, 1)
         root.add(waitImage(), 0, 0)
         return Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
     }

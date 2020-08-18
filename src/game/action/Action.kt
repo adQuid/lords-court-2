@@ -4,6 +4,7 @@ import game.Game
 import game.GameCharacter
 import javafx.event.EventHandler
 import javafx.scene.Scene
+import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import javafx.scene.text.Font
 import main.UIGlobals
@@ -19,7 +20,7 @@ abstract class Action: Displayable, Describable {
             val root = GridPane()
 
             val title = UtilityComponentFactory.shortWideLabel(action.tooltip(UIGlobals.playingAs()))
-            title.font = Font(20.0)
+            (title.children[1] as Label).font = Font(20.0)
 
             root.add(title,0,0)
             root.add(UtilityComponentFactory.shortWideLabel(action.description()),0,1)

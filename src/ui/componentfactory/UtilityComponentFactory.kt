@@ -1,6 +1,7 @@
 package ui.componentfactory
 
 import game.Writ
+import javafx.application.Platform
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.geometry.Insets
@@ -9,7 +10,6 @@ import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.image.PixelFormat
 import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
@@ -17,15 +17,14 @@ import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
 import javafx.util.Duration
-import jdk.jshell.execution.Util
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import ui.BOTTOM_BAR_PORTION
 import ui.Describable
+import ui.commoncomponents.PrettyPrintable
 import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.selectionmodal.Tab
-import java.util.*
 
 object UtilityComponentFactory {
 
@@ -101,12 +100,23 @@ object UtilityComponentFactory {
         return listView
     }
 
-    internal class ActionPickCell<T: Describable>(val closeAction: (T) -> Unit) : ListCell<T>() {
+    internal class ActionPickCell<T: Describable>(val closeAction: ((T) -> Unit)?) : ListCell<T>() {
         public override fun updateItem(item: T?, empty: Boolean) {
             if(item != null){
                 super.updateItem(item, empty)
-                this.graphic = Text(item.description())
-                this.onMouseClicked = EventHandler{_ -> closeAction(item)}
+                val displayText = item.description()
+
+                if(closeAction != null){
+                    this.graphic = UtilityComponentFactory.shortWideButton(displayText, EventHandler { })
+                    this.onMouseClicked = EventHandler { _ -> this.graphic = UtilityComponentFactory.shortWideClickedButton(displayText, EventHandler { });  Platform.runLater { Thread.sleep(100); closeAction!!(item) }}
+                    this.padding = Insets.EMPTY
+                } else {
+                    val node = GridPane()
+
+                    node.add(UtilityComponentFactory.shortWideLabel(displayText),0,0)
+
+                    this.graphic = node
+                }
             }
         }
     }
@@ -120,7 +130,7 @@ object UtilityComponentFactory {
     }
 
     fun shortButton(text: String, action: EventHandler<MouseEvent>?, specialWidth: Double): Node {
-        val retval = proportionalButton(text, action, 4.0)
+        val retval = proportionalButton(text, action, specialWidth)
         return retval
     }
 
@@ -142,7 +152,7 @@ object UtilityComponentFactory {
         return retval
     }
 
-    fun extraShortWideLabel(text: String): Label {
+    fun extraShortWideLabel(text: String): Node {
         val retval = Label(text)
         setSize(retval, 1.0)
         retval.minHeight = UIGlobals.totalHeight()/20
@@ -150,16 +160,28 @@ object UtilityComponentFactory {
         return retval
     }
 
-    fun shortWideLabel(text: String): Label{
+    fun shortWideLabel(text: String): StackPane{
         return shortProportionalLabel(text, 1.0)
     }
 
-    fun shortProportionalLabel(text: String, proportion: Double): Label{
-        val retval = Label(text)
-        setSize(retval, proportion)
-        retval.alignment = Pos.CENTER
-        retval.padding = Insets(15.0)
-        retval.isWrapText = true
+    fun shortProportionalLabel(text: String, proportion: Double): StackPane{
+        return proportionalLabel(text, proportion, 0.1)
+    }
+
+    fun proportionalLabel(text: String, proportion: Double, height: Double): StackPane{
+        val text = Label(text)
+        setSize(text, proportion)
+        text.alignment = Pos.CENTER
+        text.padding = Insets(15.0)
+        text.isWrapText = true
+
+        val retval = StackPane()
+
+        val background = imageView("assets/general/generalInfo.png", height, proportion)
+
+        retval.children.add(background)
+        retval.children.add(text)
+
         return retval
     }
 
@@ -171,7 +193,11 @@ object UtilityComponentFactory {
         val image = if(clicked){ imageView("assets/general/generalButtonSelected.png", height, width)} else {imageView("assets/general/generalButton.png", height, width)}
 
         val text = Text(text)
-        text.font = Font(20.0)
+        if(clicked){
+            text.font = Font(19.0)
+        } else {
+            text.font = Font(20.0)
+        }
 
         val retval = StackPane()
         retval.children.add(image)
@@ -183,6 +209,13 @@ object UtilityComponentFactory {
                 image.fitWidth = UIGlobals.totalWidth() / width; action.handle(event) }
         }
         return retval
+    }
+
+    fun setButtonDisable(button: Node){
+        val buttonAsStack = button as StackPane
+        val oldImage = buttonAsStack.children[0] as ImageView
+        buttonAsStack.children[0] = imageView("assets/general/generalButtonDisabled.png", oldImage.fitHeight / UIGlobals.totalHeight(), UIGlobals.totalWidth()/oldImage.fitWidth)
+        buttonAsStack.onMouseClicked = EventHandler {  }
     }
 
     private fun setSize(node: Control, proportion: Double){

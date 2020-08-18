@@ -3,6 +3,7 @@ package ui.specialdisplayables
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
+import javafx.scene.layout.Pane
 import main.Controller
 import main.UIGlobals
 import ui.NoPerspectiveDisplayable
@@ -29,7 +30,7 @@ class MainMenu: NoPerspectiveDisplayable() {
         pane.add( UtilityComponentFactory.shortWideButton("Load", EventHandler { UIGlobals.focusOn(SelectionModal("Load Game", listOf(Tab("save files", saveGames())), { name -> Controller.singleton!!.load(name)}))}), 0, 7)
 
         pane.add(UtilityComponentFactory.shortWideButton("MAP EDITOR",  EventHandler { UIGlobals.focusOn(WorldEditorMainMenu) }), 0, 8)
-        pane.children[8].isDisable = true
+        UtilityComponentFactory.setButtonDisable(pane.children[8])
         pane.add(UtilityComponentFactory.shortWideButton("PLAY NEW GAME", EventHandler {
             UIGlobals.focusOn(NewGameMenu())}), 0, 9)
 

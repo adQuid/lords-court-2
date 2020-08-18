@@ -55,12 +55,12 @@ open class DealComponentFactory {
 
         val bottomPane = GridPane()
         if(deal is UnfinishedDeal){
-            bottomPane.add(UtilityComponentFactory.shortButton("Cancel", EventHandler { resetActions(); UIGlobals.defocus()}),0,0)
+            bottomPane.add(UtilityComponentFactory.shortButton("Cancel", EventHandler { resetActions(); UIGlobals.defocus()}, 4),0,0)
             bottomPane.add(UtilityComponentFactory.shortButton("Import from Writ", EventHandler { UIGlobals.focusOn(
                 SelectionModal( "Writs",
                     UtilityComponentFactory.writs(perspective),
                     { writ -> actions = writ.deal.actions.entries.associate{entry -> entry.key to entry.value.toMutableSet()}.toMutableMap(); setupActionLists(); UIGlobals.defocus() })
-            )}),1,0)
+            )}, 4),1,0)
             bottomPane.add(UtilityComponentFactory.shortButton("Complete", EventHandler { deal.actions = actions ; UIGlobals.defocus()}, 2),2,0)
         } else {
             bottomPane.add(UtilityComponentFactory.backButton(), 0,0)
@@ -76,7 +76,7 @@ open class DealComponentFactory {
         val topPane = GridPane()
         var index = 0
         actions.forEach {
-            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", tapClickAction(it.key), (actions.size+1).toDouble())
+            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", tapClickAction(it.key), (actions.size+1).toDouble(), 0.1, currentPage == it.key)
             if(it.key == currentPage){
                 //topic.font = Font(18.0)
                 //topic.onAction = null
@@ -102,6 +102,7 @@ open class DealComponentFactory {
                     currentPage = actionLists.keys.first()
                 }
             } else{
+
                 currentPage = tab
             }
             UIGlobals.refresh()

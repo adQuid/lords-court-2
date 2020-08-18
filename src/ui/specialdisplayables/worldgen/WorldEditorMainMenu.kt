@@ -31,9 +31,9 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
         val middlePane = GridPane()
         middlePane.add(terNameDisplay, 0, 0)
-        middlePane.add(UtilityComponentFactory.shortButton("Place Territory Centers", EventHandler { _ -> println("what does this do?") }), 1, 0)
-        middlePane.add(UtilityComponentFactory.shortButton("Clear Capital", EventHandler { _ -> clearCapital() }), 2, 0)
-        middlePane.add(UtilityComponentFactory.shortButton("Save Territory", EventHandler { _ -> updateTerritory() }), 3, 0)
+        middlePane.add(UtilityComponentFactory.shortButton("Place Territory Centers", EventHandler { _ -> println("what does this do?") }, 3.0), 1, 0)
+        middlePane.add(UtilityComponentFactory.shortButton("Clear Capital", EventHandler { _ -> clearCapital() }, 3), 2, 0)
+        middlePane.add(UtilityComponentFactory.shortButton("Save Territory", EventHandler { _ -> updateTerritory() }, 3), 3, 0)
         pane.add(middlePane, 0,1)
 
         val bottomPane = GridPane()
