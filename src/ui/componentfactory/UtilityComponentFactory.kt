@@ -12,6 +12,7 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.Background
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
@@ -25,6 +26,7 @@ import ui.Describable
 import ui.commoncomponents.PrettyPrintable
 import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.selectionmodal.Tab
+import javax.swing.GroupLayout
 
 object UtilityComponentFactory {
 
@@ -32,10 +34,16 @@ object UtilityComponentFactory {
         return imageView(url, height, 1.0)
     }
 
-    fun imageView(url: String, height: Double, width: Double): ImageView {
+    fun imageView(url: String, height: Double, inputwidth: Double): ImageView {
+        //temporary workaround to handle the old way width was input
+        var width = inputwidth
+        if(inputwidth > 1.0){
+            width = 1/inputwidth
+        }
+
         val retval = ImageView(imageFromPath(url))
         retval.fitHeight = (UIGlobals.totalHeight()) * height
-        retval.fitWidth = UIGlobals.totalWidth() / width
+        retval.fitWidth = UIGlobals.totalWidth() * width
         return retval
     }
 
@@ -147,8 +155,15 @@ object UtilityComponentFactory {
     }
 
     fun shortProportionalTextField(text: String, proportion: Double): TextField{
+        var width = proportion
+        if(proportion > 1.0){
+            width = 1/proportion
+        }
+
         val retval = TextField(text)
         setSize(retval, proportion)
+        retval.style = "-fx-background-image: url(assets/general/generalTextField.png); -fx-background-repeat: stretch; -fx-background-size: ${UIGlobals.totalWidth() * width} ${UIGlobals.totalHeight() * 0.1};"
+        retval.alignment = Pos.CENTER
         return retval
     }
 
@@ -219,7 +234,13 @@ object UtilityComponentFactory {
     }
 
     private fun setSize(node: Control, proportion: Double){
-        node.setMinSize(UIGlobals.totalWidth() / proportion, UIGlobals.totalHeight() / 10)
+        //temporary workaround to handle the old way proportions worked
+        var width = proportion
+        if(proportion > 1.0){
+            width = 1/proportion
+        }
+
+        node.setMinSize(UIGlobals.totalWidth() * width, UIGlobals.totalHeight() / 10)
     }
 
     fun reports(perspective: ShortStateCharacter): List<Tab<Report>>{
