@@ -64,6 +64,7 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
 
     private fun topPane(): Pane {
         val retval = GridPane()
+        retval.style = "-fx-background-color: tan"
 
         if(options.size > 1){
             val titlePane = GridPane()
@@ -102,6 +103,9 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
 
                     this.graphic = node
                 }
+            } else {
+                this.graphic = UtilityComponentFactory.shortWideLabel("")
+                this.padding = Insets.EMPTY
             }
         }
     }

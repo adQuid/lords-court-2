@@ -13,6 +13,7 @@ class AppendableActionList {
 
     fun actionList(collection: MutableSet<Action>, addSelector: PerspectiveDisplayable?): Pane {
         val retval = GridPane()
+        retval.style = "-fx-background-color: tan"
 
         var behavior: (Action) -> Unit
         if(addSelector != null){

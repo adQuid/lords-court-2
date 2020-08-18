@@ -30,6 +30,8 @@ import javax.swing.GroupLayout
 
 object UtilityComponentFactory {
 
+    val paper_background = "url(assets/general/generalInfo.png)"
+
     fun imageView(url: String, height: Double): ImageView {
         return imageView(url, height, 1.0)
     }
@@ -101,6 +103,7 @@ object UtilityComponentFactory {
         val data = FXCollections.observableArrayList<T>()
         data.addAll(items)
         val listView = ListView<T>(data)
+        listView.style = "-fx-background-image: $paper_background"
         listView.items = data
         listView.setPrefSize(width,height)
         listView.setCellFactory({ _: ListView<T> -> ActionPickCell(onClick) })
@@ -115,16 +118,19 @@ object UtilityComponentFactory {
                 val displayText = item.description()
 
                 if(closeAction != null){
-                    this.graphic = UtilityComponentFactory.shortWideButton(displayText, EventHandler { })
+                    this.graphic = shortWideButton(displayText, EventHandler { })
                     this.onMouseClicked = EventHandler { _ -> this.graphic = UtilityComponentFactory.shortWideClickedButton(displayText, EventHandler { });  Platform.runLater { Thread.sleep(100); closeAction!!(item) }}
                     this.padding = Insets.EMPTY
                 } else {
                     val node = GridPane()
 
-                    node.add(UtilityComponentFactory.shortWideLabel(displayText),0,0)
+                    node.add(shortWideLabel(displayText),0,0)
 
                     this.graphic = node
                 }
+            } else {
+                this.graphic = shortWideLabel("")
+                this.padding = Insets.EMPTY
             }
         }
     }

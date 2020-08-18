@@ -26,7 +26,13 @@ class WritConstructorComponentFactory {
         val description = UtilityComponentFactory.shortWideLabel(parent.deal.actions.map { entry -> entry.key.fullName()+" will "+entry.value.map{it.description()}.joinToString() }.joinToString("\n"))
         root.add(description,0,1)
 
-        root.add(UtilityComponentFactory.shortWideButton("Modify Actions", EventHandler { _ -> UIGlobals.focusOn(parent.deal) }), 0,2)
+        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,2)
+        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,3)
+        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,4)
+        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,5)
+        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,6)
+
+        root.add(UtilityComponentFactory.shortWideButton("Modify Actions", EventHandler { _ -> UIGlobals.focusOn(parent.deal) }), 0,7)
         val bottomPane = GridPane()
         bottomPane.add(UtilityComponentFactory.shortButton("Cancel", EventHandler { UIGlobals.defocus()}, 1.5),0,0)
         if(parent.deal.isEmpty()){
@@ -36,13 +42,7 @@ class WritConstructorComponentFactory {
         } else {
             bottomPane.add(UtilityComponentFactory.shortButton("Create Writ", EventHandler {finish(perspective)}, 3),1,0)
         }
-        root.add(bottomPane,0,3)
-
-        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,4)
-        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,5)
-        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,6)
-        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,7)
-        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,8)
+        root.add(bottomPane,0,8)
         root.add(MiddlePaneComponentFactory.middlePane(perspective, true), 0,9)
 
         val scene = Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
