@@ -48,7 +48,7 @@ class PopulationReport: Report {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as FoodStocksReport
+        other as PopulationReport
 
         if (territory != other.territory) return false
 

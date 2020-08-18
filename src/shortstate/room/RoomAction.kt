@@ -18,6 +18,7 @@ abstract class RoomAction {
             doAction(game, player)
         } else if(!player.player.npc){
             UIGlobals.specialFocusOn(Message("You don't have energy to do this"))
+            UIGlobals.refresh()
         }
     }
 
