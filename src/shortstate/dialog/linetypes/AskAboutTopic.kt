@@ -76,7 +76,7 @@ class AskAboutTopic: Line {
         return false
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter, game: Game): List<Line> {
         if(perspective.player.infoOnTopic(topic!!) != null){
             return listOf(ExplainTopic(topic!!))
         }

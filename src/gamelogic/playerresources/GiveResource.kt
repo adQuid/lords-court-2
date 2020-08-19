@@ -36,6 +36,10 @@ class GiveResource: Action {
         return UIGlobals.activeGame().characterById(characterId).name
     }
 
+    override fun isLegal(game: Game, player: GameCharacter): Boolean {
+        return player.resources.get(resource) >= amount
+    }
+
     override fun doAction(game: Game, player: GameCharacter){
         if(player.resources.get(resource) >= amount){
             player.resources.add(resource, -amount)

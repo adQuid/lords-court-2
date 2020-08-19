@@ -54,7 +54,7 @@ class SimpleLine: Line {
         return true
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter, game: Game): List<Line> {
         return listOf()
     }
 

@@ -83,6 +83,10 @@ abstract class DummyAction: Action(){
         return "Dummy Action, only intended for tests"
     }
 
+    override fun isLegal(game: Game, player: GameCharacter): Boolean {
+        return true
+    }
+
     override fun collidesWith(other: Action): Boolean {
         return false
     }

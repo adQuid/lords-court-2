@@ -65,7 +65,7 @@ class ExplainTopic: Line {
         return true
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter, game: Game): List<Line> {
         val otherTopicsMentioned = other.player.topics().filter { isMentioned(other.player, it.name) }.map{it.name}
 
         return otherTopicsMentioned.map { AskAboutTopic(it) }

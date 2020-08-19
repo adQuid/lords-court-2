@@ -20,6 +20,10 @@ class GetMilk: Action {
         this.player = player.id
     }
 
+    override fun isLegal(game: Game, player: GameCharacter): Boolean {
+        return true
+    }
+
     override fun doAction(game: Game, player: GameCharacter){
         if(player.titles.filter { title -> title is Milkman }.isNotEmpty()) {
             val logic = CookieWorld.getCookieWorld(game)

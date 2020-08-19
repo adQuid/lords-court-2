@@ -33,6 +33,11 @@ class GiveTerritory: Action {
         this.target = target
     }
 
+    override fun isLegal(game: Game, player: GameCharacter): Boolean {
+        val titleToTransfer = game.titles.filter { it is Count && it.capital.territory!!.id == terId }.firstOrNull()
+        return titleToTransfer != null
+    }
+
     override fun doAction(game: Game, player: GameCharacter){
         val titleToTransfer = game.titles.filter { it is Count && it.capital.territory!!.id == terId }.firstOrNull()
         if(titleToTransfer != null ){

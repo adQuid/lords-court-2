@@ -1,5 +1,6 @@
 package game
 
+import aibrain.Deal
 import game.action.Action
 import game.action.GlobalActionTypeFactory
 import game.culture.Culture

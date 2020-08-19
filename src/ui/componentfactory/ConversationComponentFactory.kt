@@ -122,8 +122,8 @@ class ConversationComponentFactory {
     private fun lineOptions(perspective: ShortStateCharacter): List<Line>{
         var retval = listOf<Line>()
         if(conversation.lastLine != null
-            && conversation.lastLine!!.possibleReplies(perspective, conversation.otherParticipant(perspective)).isNotEmpty()){
-            retval = conversation.lastLine!!.possibleReplies(perspective, conversation.otherParticipant(perspective))
+            && conversation.lastLine!!.possibleReplies(perspective, conversation.otherParticipant(perspective), UIGlobals.activeGame()).isNotEmpty()){
+            retval = conversation.lastLine!!.possibleReplies(perspective, conversation.otherParticipant(perspective), UIGlobals.activeGame())
         }
         if(conversation.lastLine == null || conversation.lastLine!!.canChangeTopic() || retval.size == 0){
             retval = retval.plus(conversation.defaultConversationLines(perspective))

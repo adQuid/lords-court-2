@@ -34,6 +34,8 @@ abstract class Action: Displayable, Describable {
         }
     }
 
+    abstract fun isLegal(game: Game, player: GameCharacter): Boolean
+
     abstract fun doAction(game: Game, player: GameCharacter)
 
     abstract fun saveString(): Map<String, Any>

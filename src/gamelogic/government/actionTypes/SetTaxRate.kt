@@ -17,6 +17,7 @@ import java.text.DecimalFormat
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+import gamelogic.government.Count
 
 class SetTaxRate: Action {
 
@@ -30,6 +31,10 @@ class SetTaxRate: Action {
     constructor(id: Int, amount: Double){
         this.terId = id
         this.amount = amount
+    }
+
+    override fun isLegal(game: Game, player: GameCharacter): Boolean {
+        return player.titles.flatMap { it.actionsReguarding(listOf(player)) }.filter { it is SetTaxRate && it.terId == terId }.isNotEmpty()
     }
 
     override fun doAction(game: Game, player: GameCharacter){

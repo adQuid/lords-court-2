@@ -76,16 +76,23 @@ class OfferWrit: Line {
         return false
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
-        return listOf(AcceptWrit(writ!!), RejectDeal(writ!!.deal))
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter, game: Game): List<Line> {
+        if(writ!!.deal.actions.filter{entry -> entry.value.filter { !it.isLegal(game, entry.key) }.isNotEmpty()}.isEmpty()){
+            return listOf(AcceptWrit(writ!!), RejectDeal(writ!!.deal))
+        } else {
+            return listOf(RejectDeal(writ!!.deal), SimpleLine("I won't be able to carry that out"))
+        }
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
-        if(brain.shortCharacter.player.brain.dealValueToMe(writ!!.deal) > 0){
-            return AcceptWrit(writ!!)
+        if(writ!!.deal.actions.filter{entry -> entry.value.filter { !it.isLegal(game, entry.key) }.isNotEmpty()}.isEmpty()){
+            if(brain.shortCharacter.player.brain.dealValueToMe(writ!!.deal) > 0){
+                return AcceptWrit(writ!!)
+            } else {
+                return RejectDeal(writ!!.deal)
+            }
         } else {
-            return RejectDeal(writ!!.deal)
+            return SimpleLine("I won't be able to carry that out")
         }
-
     }
 }

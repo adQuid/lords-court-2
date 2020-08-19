@@ -16,6 +16,10 @@ class WasteTime: Action {
 
     }
 
+    override fun isLegal(game: Game, player: GameCharacter): Boolean {
+        return true
+    }
+
     override fun doAction(game: Game, player: GameCharacter) {
         //do nothing
     }

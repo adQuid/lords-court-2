@@ -74,7 +74,7 @@ class RequestAdviceForDeal: Line {
         return false
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter, game: Game): List<Line> {
         val newDeal = deal!!.toFinishedDeal()
         return listOf(Approve(), Disapprove())
     }

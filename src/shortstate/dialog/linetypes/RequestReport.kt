@@ -74,7 +74,7 @@ class RequestReport: Line, HasReportType {
         return false
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter, game: Game): List<Line> {
         return listOf(GiveReport(EmptyReport()), GiveReport(perspective.reportOfType(report!!)))
     }
 

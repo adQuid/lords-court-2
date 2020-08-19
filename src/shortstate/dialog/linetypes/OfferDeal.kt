@@ -74,9 +74,13 @@ class OfferDeal: Line {
         return false
     }
 
-    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter): List<Line> {
-        val newDeal = deal!!.toFinishedDeal()
-        return listOf(AcceptDeal(newDeal), RejectDeal(newDeal), OfferDeal(newDeal.toUnfinishedDeal()), QuestionOffer(this))
+    override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter, game: Game): List<Line> {
+        if(deal!!.theActions().filter{entry -> entry.value.filter { !it.isLegal(game, entry.key) }.isNotEmpty()}.isEmpty()){
+            val newDeal = deal!!.toFinishedDeal()
+            return listOf(AcceptDeal(newDeal), RejectDeal(newDeal), OfferDeal(newDeal.toUnfinishedDeal()), QuestionOffer(this))
+        } else {
+            return listOf(RejectDeal(deal!!.toFinishedDeal()), SimpleLine("I won't be able to carry that out"))
+        }
     }
 
     override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
@@ -84,13 +88,17 @@ class OfferDeal: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
-        val value = brain.shortCharacter.player.brain.dealValueToMe(deal)
-        if(value > 0){
-            return AcceptDeal(deal.toFinishedDeal())
-        } else if(value < 0){
-            return RejectDeal(deal.toFinishedDeal())
+        if(deal!!.theActions().filter{entry -> entry.value.filter { !it.isLegal(game, entry.key) }.isNotEmpty()}.isEmpty()){
+            val value = brain.shortCharacter.player.brain.dealValueToMe(deal)
+            if(value > 0){
+                return AcceptDeal(deal.toFinishedDeal())
+            } else if(value < 0){
+                return RejectDeal(deal.toFinishedDeal())
+            } else {
+                return SimpleLine("Whatever you want, my lord")
+            }
         } else {
-            return SimpleLine("Whatever you want, my lord")
+            return SimpleLine("I won't be able to carry that out")
         }
     }
 }
