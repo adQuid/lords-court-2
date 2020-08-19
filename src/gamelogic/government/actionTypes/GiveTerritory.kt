@@ -35,8 +35,8 @@ class GiveTerritory: Action {
 
     override fun doAction(game: Game, player: GameCharacter){
         val titleToTransfer = game.titles.filter { it is Count && it.capital.territory!!.id == terId }.firstOrNull()
-        if(titleToTransfer != null && player.titles.contains(titleToTransfer)){
-            game.applyTitleToCharacter(titleToTransfer, game.characterById(target))
+        if(titleToTransfer != null ){
+            game.transferTitle(player, game.characterById(target), titleToTransfer)
         }
     }
 

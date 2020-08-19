@@ -199,9 +199,9 @@ object UtilityComponentFactory {
 
         val text = Label(text)
         setSize(text, proportion)
-        text.font = Font(14.0)
+        text.font = Font(13.0)
         text.alignment = Pos.CENTER
-        text.padding = Insets(15.0)
+        text.padding = Insets(15.0, 0.0, 15.0, 0.0)
         text.isWrapText = true
         text.textAlignment = TextAlignment.JUSTIFY
         text.maxWidth = UIGlobals.totalWidth() * width

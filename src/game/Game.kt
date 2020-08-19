@@ -275,8 +275,21 @@ class Game {
     }
 
     fun applyTitleToCharacter(title: Title, character: GameCharacter){
-        titles.add(title)
+        if(!titles.contains(title)){
+            titles.add(title)
+        }
         character.titles.add(title)
+    }
+
+    fun transferTitle(giver: GameCharacter, recipient: GameCharacter, title: Title){
+        if(!titles.contains(title)){
+            titles.add(title)
+        }
+        if(giver.titles.contains(title)){
+            applyTitleToCharacter(title, recipient)
+            giver.titles.remove(title)
+        }
+
     }
 
     fun applyCultureToCharacter(name: String, character: GameCharacter){
