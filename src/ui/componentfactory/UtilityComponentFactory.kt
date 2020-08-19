@@ -17,6 +17,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
+import javafx.scene.text.TextAlignment
 import javafx.util.Duration
 import main.UIGlobals
 import shortstate.ShortStateCharacter
@@ -190,11 +191,20 @@ object UtilityComponentFactory {
     }
 
     fun proportionalLabel(text: String, proportion: Double, height: Double): StackPane{
+        //temporary workaround to handle the old way proportions worked
+        var width = proportion
+        if(proportion > 1.0){
+            width = 1/proportion
+        }
+
         val text = Label(text)
         setSize(text, proportion)
+        text.font = Font(14.0)
         text.alignment = Pos.CENTER
         text.padding = Insets(15.0)
         text.isWrapText = true
+        text.textAlignment = TextAlignment.JUSTIFY
+        text.maxWidth = UIGlobals.totalWidth() * width
 
         val retval = StackPane()
 

@@ -16,6 +16,7 @@ class TerritoryLogicModule: GameLogicModule {
         val TERRITORIES_NAME = "territories"
         val WEEK_NAME = "weekofyear"
         val WEEKS_IN_YEAR = 52
+        val WEEKS_PER_TURN = 2
 
         fun getTerritoryLogicModule(game: Game): TerritoryLogicModule {
             return game.moduleOfType(type) as TerritoryLogicModule
@@ -71,7 +72,7 @@ class TerritoryLogicModule: GameLogicModule {
             growCrops(it, game)
         }
 
-        weekOfYear = (weekOfYear + 2) % WEEKS_IN_YEAR
+        weekOfYear = (weekOfYear + WEEKS_PER_TURN) % WEEKS_IN_YEAR
     }
 
     override fun score(perspective: GameCharacter): Score {
@@ -113,7 +114,7 @@ class TerritoryLogicModule: GameLogicModule {
         //people harvest crops
         val thisHarvest = mutableListOf<Crop>()
         territory.crops.forEach {
-            crop -> if(game.turn - crop.plantingTime > crop.harvestAge()){
+            crop -> if(crop.readyToHarvest(game)){
                 val toHarvest = min(farmersLeft, crop.quantity)
                 if(toHarvest > 0){
                     thisHarvest.add(Crop(toHarvest, crop.plantingTime))
@@ -170,7 +171,7 @@ class TerritoryLogicModule: GameLogicModule {
     }
 
     private fun goodIdeaToPlant(crop: Crop): Boolean{
-        return isGrowingSeason() && willBeGrowingSeason(weekOfYear + (crop.harvestAge()*2))
+        return isGrowingSeason() && willBeGrowingSeason(weekOfYear + crop.harvestAge() * WEEKS_PER_TURN)
     }
 
     private fun isGrowingSeason(): Boolean{

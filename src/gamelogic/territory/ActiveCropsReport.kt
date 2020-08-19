@@ -1,6 +1,7 @@
 package gamelogic.territory
 
 import game.Game
+import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.report.Report
@@ -35,7 +36,20 @@ class ActiveCropsReport: Report {
     }
 
     override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
-        return "As of ${context.game.turnName()}, ${territory.name} has ${crops.sumBy { it.quantity }} crops planted"
+        if(crops.isEmpty()){
+            return "As of ${context.game.turnName()}, ${territory.name} has not planted any crops"
+        } else {
+            return "As of ${context.game.turnName()}, ${territory.name} has ${crops.sumBy { it.quantity }} crops planted. "
+        }
+    }
+
+    override fun detailedDescription(): String {
+
+        val mostMatureCrop = crops.sortedByDescending { it.plantingTime }.first()
+
+        return "The most mature will be ready to harvest in ${mostMatureCrop.plantingTime + mostMatureCrop.harvestAge() - UIGlobals.activeGame().turn} turns. " +
+                "When all of these crops are harvested, we can expect to reap ${crops.sumBy { it.quantity * it.yield() }} seeds. They will still need to be ground into flower, " +
+                "and some will spoil in this time. In addition, some seeds will need to be preserved to plant new crops."
     }
 
     override fun specialSaveString(): Map<String, Any> {

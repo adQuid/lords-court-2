@@ -37,6 +37,10 @@ class PopulationReport: Report {
         return "As of ${context.game.turnName()}, ${territory.name} has ${population} population"
     }
 
+    override fun detailedDescription(): String {
+        return "TEST"
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "territory" to territory.id,

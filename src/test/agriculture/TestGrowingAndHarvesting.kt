@@ -18,7 +18,7 @@ class TestGrowingAndHarvesting {
     }
 
     @Test
-    fun test_grow_and_harvest(){
+    fun testGrowAndHarvest(){
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
@@ -43,7 +43,7 @@ class TestGrowingAndHarvesting {
     }
 
     @Test
-    fun test_milling_flour(){
+    fun testMillingFlour(){
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
@@ -59,7 +59,7 @@ class TestGrowingAndHarvesting {
     }
 
     @Test
-    fun test_population_stability(){
+    fun testPopulationStabilityWith200Seeds(){
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
@@ -70,14 +70,31 @@ class TestGrowingAndHarvesting {
 
         for(i in 1..100){
             game.endTurn()
-            println("${ter.resources.get(Territory.SEEDS_NAME)}, ${ter.resources.get(Territory.FLOUR_NAME)}")
+            println("seeds: ${ter.resources.get(Territory.SEEDS_NAME)}, flour: ${ter.resources.get(Territory.FLOUR_NAME)}")
             assert(ter.resources.get(Territory.FLOUR_NAME) > 0)
-            assert(ter.resources.get(Territory.POPULATION_NAME) > 0)
+            assert(ter.resources.get(Territory.POPULATION_NAME) >= 100)
         }
     }
 
     @Test
-    fun test_starvation(){
+    fun testPopulationInstabilityWith150Seeds(){
+        val game = agroTestGame()
+
+        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
+        ter.resources.set(Territory.ARABLE_LAND_NAME, 200) //200 land should be enough to support 100 population
+        ter.resources.set(Territory.SEEDS_NAME, 150)
+        ter.resources.set(Territory.POPULATION_NAME, 100)
+        ter.resources.set(Territory.FLOUR_NAME, 1000)
+
+        for(i in 1..100){
+            game.endTurn()
+            println("seeds: ${ter.resources.get(Territory.SEEDS_NAME)}, flour: ${ter.resources.get(Territory.FLOUR_NAME)}")
+        }
+        assert(ter.resources.get(Territory.POPULATION_NAME) < 100)
+    }
+
+    @Test
+    fun testStarvation(){
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()

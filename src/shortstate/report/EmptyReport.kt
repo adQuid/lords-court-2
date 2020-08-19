@@ -20,6 +20,10 @@ class EmptyReport: Report() {
         return "I haven't had a chance to check that"
     }
 
+    override fun detailedDescription(): String {
+        return "This is a placeholder report. How did you get this?"
+    }
+
     override fun equals(other: Any?): Boolean {
         return javaClass != other?.javaClass
     }

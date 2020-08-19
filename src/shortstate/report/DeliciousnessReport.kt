@@ -32,6 +32,10 @@ class DeliciousnessReport: Report{
         return "Game has $value Deliciousness"
     }
 
+    override fun detailedDescription(): String {
+        return "TEST"
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "value" to value

@@ -42,6 +42,10 @@ class CapitalStocksReport: Report {
         return "As of ${context.game.turnName()}, The larders at ${capital.territory!!.name} has $flour flour and $bread bread"
     }
 
+    override fun detailedDescription(): String {
+        return "These resources are in your treasury, and will be available in the event of siege."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "id" to capital.terId,

@@ -53,7 +53,7 @@ object MiddlePaneComponentFactory {
                 UIGlobals.focusOn(
                     SelectionModal( "Reports",
                         UtilityComponentFactory.reports(perspective),
-                        { report -> println(report) })
+                        { report -> UIGlobals.focusOn(report) })
                 )
             }),
             3 to UtilityComponentFactory.iconButton("assets/general/writsIcon.png", "View Writs in your Possession", {

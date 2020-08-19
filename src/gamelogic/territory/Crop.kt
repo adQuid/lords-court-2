@@ -1,5 +1,7 @@
 package gamelogic.territory
 
+import game.Game
+
 class Crop {
 
     val QUANTITY_NAME = "q"
@@ -35,6 +37,10 @@ class Crop {
 
     fun harvestAge(): Int{
         return 10
+    }
+
+    fun readyToHarvest(game: Game): Boolean{
+        return game.turn - plantingTime > harvestAge()
     }
 
     fun yield(): Int {

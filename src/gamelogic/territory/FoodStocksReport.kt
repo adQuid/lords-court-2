@@ -45,6 +45,10 @@ class FoodStocksReport: Report {
         return "As of ${context.game.turnName()}, ${territory.name} has $flour flour and $bread bread"
     }
 
+    override fun detailedDescription(): String {
+        return "These resources belong to the population, and will need to be taxed or seized before they can be used by the government. Each unit of flour can be baked into 2 units of bread, which the peasants will do as needed to feed themselves. One bread per turn is enough to keep one population healthy."
+    }
+
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "territory" to territory.id,
