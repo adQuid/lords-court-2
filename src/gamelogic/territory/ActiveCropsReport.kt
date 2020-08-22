@@ -81,7 +81,7 @@ class ActiveCropsReportFactory: ReportFactory{
     val territoryId: Int
     override val type = ActiveCropsReport.type
     override val cost: Int
-        get() = 150
+        get() = 450
 
     constructor(territory: Int){
         this.territoryId = territory

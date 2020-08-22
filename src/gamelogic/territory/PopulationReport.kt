@@ -38,7 +38,7 @@ class PopulationReport: Report {
     }
 
     override fun detailedDescription(): String {
-        return "TEST"
+        return "Each population will require one food of every type to stay healthy."
     }
 
     override fun specialSaveString(): Map<String, Any> {
@@ -70,7 +70,7 @@ class PopulationReportFactory: ReportFactory{
     val territoryId: Int
     override val type = PopulationReport.type
     override val cost: Int
-        get() = 450
+        get() = 150
 
     constructor(territory: Int){
         this.territoryId = territory
