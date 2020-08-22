@@ -31,6 +31,6 @@ class MakeReport: RoomAction{
     }
 
     override fun toString(): String {
-        return "Look up ${factory.tooltip()} (Cost: ${factory.cost})"
+        return "Look up ${factory.tooltip()}"
     }
 }

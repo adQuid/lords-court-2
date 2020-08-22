@@ -28,4 +28,8 @@ class DefaultRoomActionMaker: RoomActionMaker{
         return action.toString()
     }
 
+    override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
+        return action.prettyPrint(context, perspective)
+    }
+
 }

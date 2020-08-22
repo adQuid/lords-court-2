@@ -17,7 +17,7 @@ class DraftWritRoomActionMaker: RoomActionMaker {
         UIGlobals.focusOn(WritConstructor(UnfinishedDeal(listOf(UIGlobals.playingAs().player))))
     }
 
-    override fun toString(): String {
+    override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
         return "Draft new Writ"
     }
 }

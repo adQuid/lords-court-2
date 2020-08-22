@@ -4,9 +4,10 @@ import main.UIGlobals
 import shortstate.ShortStateGame
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
+import ui.commoncomponents.PrettyPrintable
 import ui.specialdisplayables.Message
 
-abstract class RoomAction {
+abstract class RoomAction: PrettyPrintable {
 
     abstract fun clickOn(game: ShortStateGame, player: ShortStateCharacter)
 
@@ -26,4 +27,15 @@ abstract class RoomAction {
 
     abstract fun defocusAfter(): Boolean
 
+    abstract override fun toString(): String
+
+    override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
+        if(cost() == 0){
+            return toString()
+        }else if(perspective.energy >= cost()){
+            return toString() + " (Cost: ${cost()})"
+        } else {
+            return toString() + " (NOT ENOUGH ENERGY)"
+        }
+    }
 }
