@@ -92,11 +92,10 @@ class EstatesView: PerspectiveDisplayable {
     }
 
     private fun actionsOnMyTerritory(perspective: ShortStateCharacter, countTitle: Count): Node {
-        val logic = UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
         val buttonsPane = GridPane()
         buttonsPane.add(UtilityComponentFactory.proportionalButton("Reports", EventHandler { UIGlobals.focusOn(
             SelectionModal("Select Action",
-                listOf(Tab("Reports", countTitle!!.reportActions())),
+                listOf(Tab("Reports", countTitle!!.reportsIDontAlreadyHave(perspective))),
                 { maker ->
                     maker.onClick(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,perspective)
                 })

@@ -1,6 +1,7 @@
 package game
 
 import game.action.Action
+import shortstate.ShortStateCharacter
 import shortstate.report.ReportFactory
 import shortstate.report.ReportType
 import shortstate.room.RoomActionMaker
@@ -37,5 +38,10 @@ abstract class Title {
 
     fun reportActions(): List<RoomActionMaker>{
         return reportsEntitled.map { type -> DefaultRoomActionMaker(MakeReport(type)) }
+    }
+
+    //works on the assumption that an individual title only grants one title of each type
+    fun reportsIDontAlreadyHave(perspective: ShortStateCharacter): List<RoomActionMaker>{
+        return reportsEntitled.filter { report -> perspective.knownReports.filter { known -> known.type == report.type }.isEmpty()}.map { type -> DefaultRoomActionMaker(MakeReport(type)) }
     }
 }
