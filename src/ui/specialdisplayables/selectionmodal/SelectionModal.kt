@@ -46,7 +46,8 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
         val data = FXCollections.observableArrayList<T>()
         data.addAll(focusedTab.items)
         val listView = ListView<T>(data)
-        listView.items = data
+        listView.style = "-fx-focus-color:rgba(0,0,0,0.0);  -fx-padding: 0;"
+        println(listView.style)
         listView.setPrefSize(parent.totalWidth,parent.totalHeight * 0.8)
         listView.setCellFactory({ _: ListView<T> ->
             ActionPickCell(
@@ -83,6 +84,7 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
         } else {
             retval.add(UtilityComponentFactory.shortWideLabel(title), 0,0)
         }
+        retval.requestFocus()
         return retval
     }
 
