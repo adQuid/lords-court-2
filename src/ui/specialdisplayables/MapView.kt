@@ -53,10 +53,15 @@ class MapView {
         this.focusX -= (displayWidth() - baseWidth*widthSize/zoom)/2
         this.widthSize = widthSize
         this.heightSize = heightSize
-        background =  MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/background.png", heightSize), true)
-        territories = MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/territories.png", heightSize), true)
-        secondaryAnnotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)
-        annotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)
+
+        background.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
+        background.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
+        territories.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
+        territories.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
+        secondaryAnnotations.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
+        secondaryAnnotations.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
+        annotations.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
+        annotations.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
     }
 
     fun display(): Node {
@@ -141,7 +146,6 @@ class MapView {
     }
 
     fun selectTerritoryAt(x: Double, y: Double, highlight: Boolean, makeNew: Boolean): Territory?{
-        refresh()
         val area = adjacentPixels(x,y)
         if(map.territories.filter { Pair(it.x,it.y) in area }.isNotEmpty()){
             if(highlight){
