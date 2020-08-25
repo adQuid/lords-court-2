@@ -107,7 +107,7 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
 
                 if(closeAction != null){
                     this.graphic = UtilityComponentFactory.shortWideButton(displayText, EventHandler { })
-                    this.onMouseClicked = EventHandler { _ -> this.graphic = UtilityComponentFactory.shortWideClickedButton(displayText, EventHandler { });  Platform.runLater { Thread.sleep(100); closeAction!!(item) }}
+                    this.onMouseClicked = EventHandler { _ -> this.graphic = UtilityComponentFactory.shortWideClickedButton(displayText, EventHandler { });  Platform.runLater { closeAction!!(item) }}
                     this.padding = Insets.EMPTY
                 } else {
                     val node = GridPane()
