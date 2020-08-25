@@ -8,6 +8,7 @@ import javafx.scene.control.Label
 import javafx.scene.layout.Pane
 import main.UIGlobals
 import ui.NoPerspectiveDisplayable
+import ui.componentfactory.UtilityComponentFactory
 
 class Message: NoPerspectiveDisplayable {
 
@@ -20,14 +21,10 @@ class Message: NoPerspectiveDisplayable {
     override fun display(): Scene {
         val pane = Pane()
 
-        val label = Label(text)
-        label.setPrefSize(UIGlobals.totalWidth(), UIGlobals.totalHeight())
-        label.onMouseClicked = EventHandler { UIGlobals.defocus() }
-        label.alignment = Pos.CENTER
-        label.padding = Insets(15.0)
-        label.isWrapText = true
-        pane.children.add(label)
+        val label = UtilityComponentFactory.proportionalLabel(text, 1.0, 1.0)
 
+        label.onMouseClicked = EventHandler { UIGlobals.defocus() }
+        pane.children.add(label)
         return Scene(pane)
     }
 }

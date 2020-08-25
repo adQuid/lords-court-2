@@ -18,7 +18,7 @@ class WaitingSceneComponentFactory {
 
     private fun waitImage(): Pane {
         val imagePane = StackPane()
-        val backgroundView = UtilityComponentFactory.imageView("assets/general/wait.png", 0.8)
+        val backgroundView = UtilityComponentFactory.imageView("assets/general/wait.png", 1.0)
         imagePane.children.addAll(backgroundView)
         return imagePane
     }
