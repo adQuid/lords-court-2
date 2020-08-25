@@ -67,6 +67,8 @@ class GiveResource: Action {
     override fun actionPane(action: Action, parent: MutableSet<Action>?): GridPane{
         val retval = baseActionPane(this, null)
 
+        retval.add(UtilityComponentFactory.proportionalLabel(action.description(), 1.0, 0.6),0,1)
+
         val targetPane = GridPane()
         targetPane.add(UtilityComponentFactory.shortWideButton("Give to: ${characterName()}", EventHandler { UIGlobals.focusOn(SelectionModal("Recipient", listOf(
             Tab("Recipient",UIGlobals.activeGame().players)), {character -> characterId = character.id; UIGlobals.defocus()}

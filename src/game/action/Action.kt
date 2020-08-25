@@ -16,6 +16,12 @@ import ui.componentfactory.UtilityComponentFactory
 abstract class Action: Displayable, Describable {
 
     companion object{
+        fun defaultActionPane(action: Action, parent: MutableSet<Action>?): GridPane {
+            val retval = baseActionPane(action, parent)
+            retval.add(UtilityComponentFactory.proportionalLabel(action.description(), 1.0, 0.7),0,1)
+            return retval
+        }
+
         fun baseActionPane(action: Action, parent: MutableSet<Action>?): GridPane {
             val root = GridPane()
 
@@ -23,7 +29,6 @@ abstract class Action: Displayable, Describable {
             (title.children[1] as Label).font = Font(20.0)
 
             root.add(title,0,0)
-            root.add(UtilityComponentFactory.shortWideLabel(action.description()),0,1)
             if(parent != null){
                 root.add(UtilityComponentFactory.shortWideButton("Remove", EventHandler { parent.remove(action); UIGlobals.defocus() }), 0, 9)
             }
@@ -41,7 +46,7 @@ abstract class Action: Displayable, Describable {
     abstract fun saveString(): Map<String, Any>
 
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
-        return Scene(baseActionPane(this, null))
+        return Scene(defaultActionPane(this, null))
     }
 
     override fun hashCode(): Int {
@@ -51,7 +56,7 @@ abstract class Action: Displayable, Describable {
     abstract fun collidesWith(other: Action): Boolean
 
     open fun actionPane(action: Action, parent: MutableSet<Action>?): GridPane{
-        return baseActionPane(action, parent)
+        return defaultActionPane(action, parent)
     }
 }
 

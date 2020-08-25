@@ -21,7 +21,7 @@ class ActionChooserComponentFactory {
     fun scenePage(perspective: ShortStateCharacter, action: (Action) -> Unit): Scene {
         val root = GridPane()
 
-        root.add(UtilityComponentFactory.basicList(player.actionsReguarding(context), action, UIGlobals.totalWidth(), (5* UIGlobals.totalHeight())/6), 0,0)
+        root.add(UtilityComponentFactory.basicList(player.actionsReguarding(context), action, UIGlobals.totalWidth(), UIGlobals.totalHeight() * 0.9), 0,0)
         root.add(UtilityComponentFactory.backButton(), 0,1)
 
         return Scene(root, UIGlobals.totalWidth(), UIGlobals.totalHeight())
