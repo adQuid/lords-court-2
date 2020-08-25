@@ -45,20 +45,31 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
 
         val data = FXCollections.observableArrayList<T>()
         data.addAll(focusedTab.items)
-        val listView = ListView<T>(data)
-        listView.style = "-fx-focus-color:rgba(0,0,0,0.0);  -fx-padding: 0;"
-        println(listView.style)
-        listView.setPrefSize(parent.totalWidth,parent.totalHeight * 0.8)
-        listView.setCellFactory({ _: ListView<T> ->
-            ActionPickCell(
-                closeAction
-            )
-        })
 
         val btn8 = UtilityComponentFactory.shortWideButton("Cancel", EventHandler { parent.defocus()})
         pane.add(topPane(),0,0)
-        pane.add(listView,0,1)
-        pane.add(btn8, 0, 2)
+        if(data.isEmpty()){
+            pane.add(UtilityComponentFactory.shortWideLabel(""),0,1)
+            pane.add(UtilityComponentFactory.shortWideLabel(""),0,2)
+            pane.add(UtilityComponentFactory.shortWideLabel(""),0,3)
+            pane.add(UtilityComponentFactory.shortWideLabel(""),0,4)
+            pane.add(UtilityComponentFactory.shortWideLabel(""),0,5)
+            pane.add(UtilityComponentFactory.shortWideLabel(""),0,6)
+            pane.add(UtilityComponentFactory.shortWideLabel(""),0,7)
+            pane.add(UtilityComponentFactory.shortWideLabel(""),0,8)
+        } else {
+            val listView = ListView<T>(data)
+            listView.style = "-fx-focus-color:rgba(0,0,0,0.0);  -fx-padding: 0;"
+            listView.setPrefSize(parent.totalWidth,parent.totalHeight * 0.8)
+            listView.setCellFactory({ _: ListView<T> ->
+                ActionPickCell(
+                    closeAction
+                )
+            })
+
+            pane.add(listView,0,1)
+        }
+        pane.add(btn8, 0, 9)
 
         return Scene(pane, parent.totalWidth, parent.totalHeight)
     }
