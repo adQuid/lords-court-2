@@ -23,10 +23,10 @@ class OptionsMenu: PerspectiveDisplayable() {
 
         val sizeUpDownPane = GridPane()
         val sizeButton1 =
-            UtilityComponentFactory.proportionalButton("Size-", EventHandler { UIGlobals.GUI().rotateSize(-1) }, 2.0)
+            UtilityComponentFactory.proportionalButton("Size-", EventHandler { UIGlobals.GUI().rotateSize(-1) }, 0.5)
         sizeUpDownPane.add(sizeButton1, 0,0)
         val sizeButton2 =
-            UtilityComponentFactory.proportionalButton("Size+", EventHandler { UIGlobals.GUI().rotateSize(1) }, 2.0)
+            UtilityComponentFactory.proportionalButton("Size+", EventHandler { UIGlobals.GUI().rotateSize(1) }, 0.5)
         sizeUpDownPane.add(sizeButton2, 1,0)
         topPane.add(sizeUpDownPane, 0,0)
 
@@ -42,9 +42,9 @@ class OptionsMenu: PerspectiveDisplayable() {
         val saveLoadPane = GridPane()
         val saveButton = UtilityComponentFactory.proportionalButton("Save", EventHandler { UIGlobals.focusOn(
             SelectionModal("Save Game", listOf(Tab("save files", saveGames().plus("New"))), { name -> if(name == "New") { UIGlobals.focusOn(NewSaveGameMenu()) } else {Controller.singleton!!.save(name); UIGlobals.resetFocus()}})
-        ) }, 2.0)
+        ) }, 0.5)
         saveLoadPane.add(saveButton, 0,2)
-        val loadButton = UtilityComponentFactory.proportionalButton("Quit and Return to Main Menu", EventHandler { Controller.singleton!!.stopPlaying(); UIGlobals.focusOn(MainMenu()) }, 2.0)
+        val loadButton = UtilityComponentFactory.proportionalButton("Quit and Return to Main Menu", EventHandler { Controller.singleton!!.stopPlaying(); UIGlobals.focusOn(MainMenu()) }, 0.5)
         saveLoadPane.add(loadButton, 1,2)
         topPane.add(saveLoadPane,0,2)
 
@@ -61,6 +61,6 @@ class OptionsMenu: PerspectiveDisplayable() {
     }
 
     private fun setResButton(width: Int, height: Int): Node {
-        return UtilityComponentFactory.proportionalButton("${width}x${height}", EventHandler { UIGlobals.GUI().setResolution(width.toDouble(),height.toDouble()) }, 6.0)
+        return UtilityComponentFactory.proportionalButton("${width}x${height}", EventHandler { UIGlobals.GUI().setResolution(width.toDouble(),height.toDouble()) }, 1.0/6.0)
     }
 }

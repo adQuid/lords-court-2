@@ -29,7 +29,7 @@ class LawsView: Displayable {
 
         val taxesPane = GridPane()
         taxesPane.add(UtilityComponentFactory.shortProportionalLabel("Income Tax (Flour): "+capital.taxes[Territory.FLOUR_NAME], 2.0), 0, 0)
-        taxesPane.add(UtilityComponentFactory.proportionalButton("Change", EventHandler { makeWritFromAction(perspective!!) },4.0),1,0)
+        taxesPane.add(UtilityComponentFactory.proportionalButton("Change", EventHandler { makeWritFromAction(perspective!!) },0.25),1,0)
         pane.add(taxesPane,0,0)
 
         pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 1)

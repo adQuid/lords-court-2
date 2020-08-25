@@ -31,7 +31,7 @@ class WritConstructorComponentFactory {
         bottomPane.add(UtilityComponentFactory.shortButton("Cancel", EventHandler { UIGlobals.defocus()}, 1.5),0,0)
         if(parent.deal.isEmpty()){
             val emptyButton = UtilityComponentFactory.shortButton("(Writ is Empty)", EventHandler {}, 3)
-            UtilityComponentFactory.setButtonDisable(emptyButton)
+            UtilityComponentFactory.setButtonDisable(emptyButton, true)
             bottomPane.add(emptyButton,1,0)
         } else {
             bottomPane.add(UtilityComponentFactory.shortButton("Create Writ", EventHandler {finish(perspective)}, 3),1,0)

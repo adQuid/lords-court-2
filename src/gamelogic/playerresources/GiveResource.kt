@@ -75,11 +75,11 @@ class GiveResource: Action {
         )) }), 0, 0)
 
         val amountPane = GridPane()
-        amountPane.add(UtilityComponentFactory.proportionalButton("50 Less", EventHandler { amount = max(amount-50,0); UIGlobals.refresh() }, 6.0),0,0)
-        amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-1,0); UIGlobals.refresh() }, 6.0),1,0)
-        amountPane.add(UtilityComponentFactory.shortProportionalLabel(DecimalFormat("#.##").format(amount), 3.0),2,0)
-        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = amount+1; UIGlobals.refresh() }, 6.0),3,0)
-        amountPane.add(UtilityComponentFactory.proportionalButton("50 More", EventHandler { amount = amount+50; UIGlobals.refresh() }, 6.0),4,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("50 Less", EventHandler { amount = max(amount-50,0); UIGlobals.refresh() }, 1.0/6.0),0,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-1,0); UIGlobals.refresh() }, 1.0/6.0),1,0)
+        amountPane.add(UtilityComponentFactory.shortProportionalLabel(DecimalFormat("#.##").format(amount), 1.0/3.0),2,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = amount+1; UIGlobals.refresh() }, 1.0/6.0),3,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("50 More", EventHandler { amount = amount+50; UIGlobals.refresh() }, 1.0/6.0),4,0)
 
         retval.add(targetPane, 0,2)
         retval.add(amountPane,0,3)

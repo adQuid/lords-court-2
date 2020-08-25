@@ -99,10 +99,10 @@ class EstatesView: PerspectiveDisplayable {
                 { maker ->
                     maker.onClick(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,perspective)
                 })
-        ) }, 2.0),0,0)
+        ) }, 0.5),0,0)
         buttonsPane.add(UtilityComponentFactory.proportionalButton("Laws", EventHandler {UIGlobals.focusOn(
             LawsView(countTitle.capital.terId)
-        ) }, 2.0),1,0)
+        ) }, 0.5),1,0)
         return buttonsPane
     }
 }

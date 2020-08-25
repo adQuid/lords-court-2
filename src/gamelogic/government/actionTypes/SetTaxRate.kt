@@ -70,9 +70,9 @@ class SetTaxRate: Action {
         retval.add(UtilityComponentFactory.proportionalLabel(action.description(), 1.0, 0.7),0,1)
 
         val amountPane = GridPane()
-        amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-0.05,0.0); UIGlobals.refresh() }, 3.0),0,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("Less", EventHandler { amount = max(amount-0.05,0.0); UIGlobals.refresh() }, 1.0/3.0),0,0)
         amountPane.add(UtilityComponentFactory.shortProportionalLabel(DecimalFormat("#.##").format(amount), 3.0),1,0)
-        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = min(amount+0.05,1.0); UIGlobals.refresh() }, 3.0),2,0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("More", EventHandler { amount = min(amount+0.05,1.0); UIGlobals.refresh() }, 1.0/3.0),2,0)
 
         retval.add(amountPane,0,8)
 

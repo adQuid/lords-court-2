@@ -26,8 +26,8 @@ class EndTurnMenu: PerspectiveDisplayable() {
         pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 10)
 
         val bottomPane = GridPane()
-        bottomPane.add(UtilityComponentFactory.proportionalBackButton(2.0), 0, 0)
-        bottomPane.add(UtilityComponentFactory.proportionalButton("End Turn", EventHandler { _ -> GoToBed().doActionIfCanAfford(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame, perspective)},2.0), 1, 0)
+        bottomPane.add(UtilityComponentFactory.proportionalBackButton(1.0/2.0), 0, 0)
+        bottomPane.add(UtilityComponentFactory.proportionalButton("End Turn", EventHandler { _ -> GoToBed().doActionIfCanAfford(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame, perspective)},0.5), 1, 0)
 
         pane.add(bottomPane, 0, 11)
 

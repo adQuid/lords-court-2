@@ -38,8 +38,8 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
         val bottomPane = GridPane()
         bottomPane.add(UtilityComponentFactory.proportionalBackButton(2.0), 0, 0)
-        bottomPane.add(UtilityComponentFactory.proportionalButton("Load Map", EventHandler { _ -> this.mapView = loadMap(); UIGlobals.refresh()},4.0), 1, 0)
-        bottomPane.add(UtilityComponentFactory.proportionalButton("Save Map", EventHandler { _ -> saveMap()},4.0), 2, 0)
+        bottomPane.add(UtilityComponentFactory.proportionalButton("Load Map", EventHandler { _ -> this.mapView = loadMap(); UIGlobals.refresh()},0.25), 1, 0)
+        bottomPane.add(UtilityComponentFactory.proportionalButton("Save Map", EventHandler { _ -> saveMap()},0.25), 2, 0)
         pane.add(bottomPane, 0, 2)
 
         return Scene(pane)

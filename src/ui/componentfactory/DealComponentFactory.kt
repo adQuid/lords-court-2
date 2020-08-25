@@ -85,7 +85,7 @@ open class DealComponentFactory {
             topPane.add(topic, index++, 0)
         }
         if(deal is UnfinishedDeal){
-            val addButton = UtilityComponentFactory.proportionalButton("Add Character", EventHandler { _ -> UIGlobals.focusOn(characterSelector()) }, (actions.size+1).toDouble())
+            val addButton = UtilityComponentFactory.proportionalButton("Add Character", EventHandler { _ -> UIGlobals.focusOn(characterSelector()) }, 1.0/(actions.size+1).toDouble())
             //addButton.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 10)
             topPane.add(addButton,index++,0)
         }

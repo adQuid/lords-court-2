@@ -220,6 +220,8 @@ object UtilityComponentFactory {
         return proportionalButton(text, action, proportion, 0.1, false)
     }
 
+    val behaviorByButton = mutableMapOf<Node, EventHandler<MouseEvent>?>()
+
     fun proportionalButton(text: String, action: EventHandler<MouseEvent>?, width: Double, height: Double, clicked: Boolean): Node{
         val image = if(clicked){ imageView("assets/general/generalButtonSelected.png", height, width)} else {imageView("assets/general/generalButton.png", height, width)}
 
@@ -233,20 +235,37 @@ object UtilityComponentFactory {
         val retval = StackPane()
         retval.children.add(image)
         retval.children.add(text)
-        if (action != null) {
-            retval.onMouseClicked = EventHandler { event -> if(UIGlobals.GUI().lastButtonClicked != null) {(UIGlobals.GUI().lastButtonClicked as StackPane).children.set(0, imageView("assets/general/generalButton.png", height, width))};
-                UIGlobals.GUI().lastButtonClicked = retval;
-                retval.children.set(0, imageView("assets/general/generalButtonSelected.png", height, width));
-                image.fitWidth = UIGlobals.totalWidth() / width; action.handle(event) }
+        if(action != null){
+            behaviorByButton[retval] = EventHandler { event ->
+                if(UIGlobals.GUI().lastButtonClicked != null) {
+                    val buttonAsStack = UIGlobals.GUI().lastButtonClicked!!  as StackPane
+                    val image = buttonAsStack.children[0] as ImageView
+                    (UIGlobals.GUI().lastButtonClicked as StackPane).children.set(0, imageView("assets/general/generalButton.png", image.fitHeight/ UIGlobals.totalHeight(), image.fitWidth/UIGlobals.totalWidth()))
+                }
+                UIGlobals.GUI().lastButtonClicked = retval
+                retval.children.set(0, imageView("assets/general/generalButtonSelected.png", height, width))
+                image.fitWidth = UIGlobals.totalWidth() / width
+                Platform.runLater {
+                    action.handle(event)
+                }
+            }
         }
-        return retval
+        retval.onMouseClicked = behaviorByButton.getOrDefault(retval, null)
+            return retval
     }
 
-    fun setButtonDisable(button: Node){
-        val buttonAsStack = button as StackPane
+    fun setButtonDisable(button: Node, disabled: Boolean){
+        val buttonAsStack = button  as StackPane
         val oldImage = buttonAsStack.children[0] as ImageView
-        buttonAsStack.children[0] = imageView("assets/general/generalButtonDisabled.png", oldImage.fitHeight / UIGlobals.totalHeight(), UIGlobals.totalWidth()/oldImage.fitWidth)
-        buttonAsStack.onMouseClicked = EventHandler {  }
+
+        if(disabled){
+            buttonAsStack.children[0] = imageView("assets/general/generalButtonDisabled.png", oldImage.fitHeight / UIGlobals.totalHeight(), oldImage.fitWidth/UIGlobals.totalWidth())
+            buttonAsStack.onMouseClicked = EventHandler {  }
+        } else {
+            buttonAsStack.children[0] = imageView("assets/general/generalButton.png", oldImage.fitHeight / UIGlobals.totalHeight(), oldImage.fitWidth/UIGlobals.totalWidth())
+            buttonAsStack.onMouseClicked = behaviorByButton[button]
+        }
+
     }
 
     private fun setSize(node: Control, proportion: Double){
