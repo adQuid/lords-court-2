@@ -11,7 +11,7 @@ import shortstate.scenemaker.SceneMaker
 class GoToBedroomAdvocate: SceneCreationAdvocate {
 
     override val me: ShortStateCharacter
-    override val reactionAdvocates: List<SceneReactionAdvocate>
+    private val reactionAdvocates: List<SceneReactionAdvocate>
 
     constructor(character: ShortStateCharacter) : super() {
         me = character
@@ -20,5 +20,9 @@ class GoToBedroomAdvocate: SceneCreationAdvocate {
 
     override fun createScene(game: ShortStateGame, player: shortstate.ShortStateCharacter): SceneMaker{
         return GoToRoomSoloMaker(player, game.location.startRoom())
+    }
+
+    override fun reactionAdvocates(game: ShortStateGame): List<SceneReactionAdvocate> {
+        return reactionAdvocates
     }
 }

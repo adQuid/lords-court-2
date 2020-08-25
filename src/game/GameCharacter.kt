@@ -37,7 +37,7 @@ class GameCharacter {
 
     var npc: Boolean
     //This brain is still sometimes used by non-NPC characters to determine effects to deals
-    var brain = ForecastBrain(this)
+    var brain: ForecastBrain
 
     val name: String
     val pictureString: String
@@ -62,6 +62,7 @@ class GameCharacter {
     constructor(name: String, picture: String, npc: Boolean, location: Location, game: Game) {
         this.id = game.nextID++
         this.name = name
+        this.brain = ForecastBrain(this)
         this.pictureString = picture
         this.npc = npc
         this.location = location
@@ -78,6 +79,7 @@ class GameCharacter {
     constructor(other: GameCharacter, game: Game){
         this.id = other.id
         this.name = other.name
+        this.brain = ForecastBrain(other.brain, this)
         this.pictureString = other.pictureString
         this.titles = other.titles.map{ title -> title}.toMutableSet()
         this.npc = other.npc
@@ -99,6 +101,7 @@ class GameCharacter {
         id = saveString[ID_NAME] as Int
         npc = saveString[NPC_NAME] as Boolean
         name = saveString[NAME_NAME] as String
+        brain = ForecastBrain(this)
         pictureString = saveString[PICTURE_NAME] as String
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> game.titleFromSaveString(map) }.toMutableSet()
         resources = Resources((saveString[RESOURCES_NAME] as Map<String, Any>))

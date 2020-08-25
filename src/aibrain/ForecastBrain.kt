@@ -32,6 +32,11 @@ class ForecastBrain {
         this.player = player
     }
 
+    constructor(other: ForecastBrain, player: GameCharacter){
+        this.player = player
+        this.lastCasesOfConcern = other.lastCasesOfConcern
+    }
+
     fun thinkAboutNextTurn(game: Game){
         if(lastGameIEvaluated == null || game != lastGameIEvaluated){
             thinkAboutNextTurnHelper(game)

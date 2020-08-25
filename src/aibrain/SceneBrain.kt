@@ -14,7 +14,6 @@ class SceneBrain {
     val longBrain: ForecastBrain
     val me: ShortStateCharacter
 
-    private val reactionAdvocates: List<SceneReactionAdvocate>
     private val creationAdvocates: List<SceneCreationAdvocate>
 
     constructor(character: ShortStateCharacter, longBrain: ForecastBrain){
@@ -25,17 +24,16 @@ class SceneBrain {
             GoToWorkroomAdvocate(character),
             GoToThroneroomAdvocate(character),
             TalkToImportantPersonAdvocate(character))
-        reactionAdvocates = creationAdvocates.flatMap { creationAdvocate -> creationAdvocate.reactionAdvocates } + LeaveSceneAdvocate(longBrain.player)
     }
 
     fun reactToScene(shortGameScene: ShortGameScene, game: ShortStateGame){
         val shortMe = game.shortPlayerForLongPlayer(longBrain.player)!!
 
         if(shortGameScene.conversation?.lastLine != null && !shortGameScene.conversation.lastLine!!.canChangeTopic()){
-            return reactionAdvocates.filter { it is TalkMoreAdvocate }.first().doToScene(game, shortGameScene).doActionIfCanAfford(game, shortMe)
+            return reactionAdvocates(game).filter { it is TalkMoreAdvocate }.first().doToScene(game, shortGameScene).doActionIfCanAfford(game, shortMe)
         }
 
-        reactionAdvocates.filter{adv -> adv.weight(game, shortGameScene) > 0}.filter{shortMe.canAffordAction(it.doToScene(game, shortGameScene))}
+        reactionAdvocates(game).filter{adv -> adv.weight(game, shortGameScene) > 0}.filter{shortMe.canAffordAction(it.doToScene(game, shortGameScene))}
             .sortedByDescending { adv -> adv.weight(game, shortGameScene) }[0].doToScene(game, shortGameScene).doActionIfCanAfford(game, shortMe)
     }
 
@@ -46,5 +44,9 @@ class SceneBrain {
 
     fun bestCreationAdvocate(game: ShortStateGame): SceneCreationAdvocate {
         return creationAdvocates.sortedByDescending { adv -> adv.weight(game).weight }[0]
+    }
+
+    private fun reactionAdvocates(game: ShortStateGame): Collection<SceneReactionAdvocate>{
+        return creationAdvocates.flatMap { creationAdvocate -> creationAdvocate.reactionAdvocates(game) } + LeaveSceneAdvocate(longBrain.player)
     }
 }

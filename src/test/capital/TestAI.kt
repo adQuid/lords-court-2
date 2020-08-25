@@ -1,17 +1,13 @@
 package test.capital
 
-import aibrain.ForecastBrain
-import game.GameSetup
 import gamelogic.government.Count
 import gamelogic.government.GovernmentLogicModule
-import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.territory.Territory
 import main.Controller
 import org.junit.Test
 import shortstate.ShortStateController
 import shortstate.ShortStateGame
 import test.controller.TestWithController
-import test.fixtures.*
 
 class TestAI {
 
