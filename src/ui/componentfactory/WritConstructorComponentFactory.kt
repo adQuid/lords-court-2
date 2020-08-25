@@ -23,14 +23,8 @@ class WritConstructorComponentFactory {
 
         root.add(textField, 0,0)
 
-        val description = UtilityComponentFactory.shortWideLabel(parent.deal.actions.map { entry -> entry.key.fullName()+" will "+entry.value.map{it.description()}.joinToString() }.joinToString("\n"))
+        val description = UtilityComponentFactory.proportionalLabel(parent.deal.actions.filter{it.value.isNotEmpty()}.map { entry -> entry.key.fullName()+" will: "+entry.value.map{it.description()}.joinToString() }.joinToString("\n"), 1.0, 0.6)
         root.add(description,0,1)
-
-        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,2)
-        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,3)
-        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,4)
-        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,5)
-        root.add(UtilityComponentFactory.shortWideLabel("filler"),0,6)
 
         root.add(UtilityComponentFactory.shortWideButton("Modify Actions", EventHandler { _ -> UIGlobals.focusOn(parent.deal) }), 0,7)
         val bottomPane = GridPane()

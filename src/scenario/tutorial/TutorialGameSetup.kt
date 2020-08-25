@@ -17,6 +17,8 @@ import gamelogic.government.Minister
 
 object TutorialGameSetup {
 
+    val TUTORIAL_PLAYER_NAME = "Essrader"
+
     fun setupAgricultureGame(): Game {
         val territories = TerritoryMap.fromMap(WorldEditorMainMenu.mapName)
         val territoryLogic = TerritoryLogicModule(territories)
@@ -40,7 +42,7 @@ object TutorialGameSetup {
         game.cultures.add(tutorialCulture)
 
         val pcCapital = capitals.capitals.first()
-        val PC = GameCharacter("Melkar", "assets/general/conversation frame.png", false, pcCapital.location, game)
+        val PC = GameCharacter(TUTORIAL_PLAYER_NAME, "assets/general/conversation frame.png", false, pcCapital.location, game)
         PC.specialLines.add(talkToDadTrigger1)
         PC.specialLines.add(talkToDadTrigger2)
         PC.specialLines.add(talkToDadTrigger3)

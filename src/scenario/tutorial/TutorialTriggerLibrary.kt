@@ -9,6 +9,7 @@ import gamelogic.government.actionTypes.GiveTerritory
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.territory.TerritoryLogicModule
+import scenario.tutorial.TutorialGameSetup.TUTORIAL_PLAYER_NAME
 import shortstate.ShortStateCharacter
 import shortstate.dialog.Line
 import shortstate.dialog.linetypes.*
@@ -139,7 +140,7 @@ val talkToDadTrigger2 = LineTrigger(
                         TreeLine("I understand.", SimpleLine("I knew you would. You'll have your chance someday.")),
                         TreeLine(
                             "How am I supposed to learn command when you won't let me fight!?",
-                            TreeLine("Melkar, you may be my son, but I am still your king. Come back when you have a better attitude.")
+                            TreeLine("${TUTORIAL_PLAYER_NAME}, you may be my son, but I am still your king. Come back when you have a better attitude.")
                         )
                     )
                 )
