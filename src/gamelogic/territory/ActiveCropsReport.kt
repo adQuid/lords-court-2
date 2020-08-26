@@ -49,7 +49,7 @@ class ActiveCropsReport: Report {
 
         return "The most mature will be ready to harvest in ${mostMatureCrop.plantingTime + mostMatureCrop.harvestAge() - UIGlobals.activeGame().turn} turns. " +
                 "When all of these crops are harvested, we can expect to reap ${crops.sumBy { it.quantity * it.yield() }} seeds. They will still need to be ground into flower, " +
-                "and some will spoil in this time. In addition, some seeds will need to be preserved to plant new crops."
+                "and some will spoil in this time. In addition, some seeds will be preserved to plant new crops in the future."
     }
 
     override fun specialSaveString(): Map<String, Any> {

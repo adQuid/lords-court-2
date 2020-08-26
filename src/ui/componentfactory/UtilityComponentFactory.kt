@@ -31,7 +31,7 @@ import javax.swing.GroupLayout
 
 object UtilityComponentFactory {
 
-    val paper_background = "url(assets/general/generalInfo.png)"
+    const val paper_background = "url(assets/general/generalInfo.png)"
 
     fun imageView(url: String, height: Double): ImageView {
         return imageView(url, height, 1.0)
@@ -50,7 +50,12 @@ object UtilityComponentFactory {
         return retval
     }
 
+    val imageBuffer = mutableMapOf<String, Image>()
+
     fun imageFromPath(url: String): Image{
+        if(imageBuffer.containsKey(url)){
+            return imageBuffer[url]!!
+        }
         val path = url.replace("//","\\")
 
         var image: Image
