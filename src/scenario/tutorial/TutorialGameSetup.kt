@@ -73,7 +73,7 @@ object TutorialGameSetup {
             if(capitals.countOfCaptial(it.terId) == null){
                 val NPC =
                     GameCharacter("Lord " + names.pop(), "assets/portraits/faceman.png", true, it.location, game)
-                //game.addPlayer(NPC)
+                game.addPlayer(NPC)
                 game.applyTitleToCharacter(it.generateCountTitle(), NPC)
             }
         }
