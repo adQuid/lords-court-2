@@ -2,6 +2,7 @@ package ui.specialdisplayables
 
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryMap
+import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.geometry.Rectangle2D
 import javafx.scene.Node
@@ -25,10 +26,10 @@ class MapView {
     var heightSize: Double
 
     val map: TerritoryMap
-    var background: MapLayer
-    var territories: MapLayer
-    var secondaryAnnotations: MapLayer
-    var annotations: MapLayer
+    private var background: MapLayer
+    private var territories: MapLayer
+    private var secondaryAnnotations: MapLayer
+    private var annotations: MapLayer
 
     var focusX: Double
     var focusY: Double
@@ -54,7 +55,7 @@ class MapView {
         this.widthSize = widthSize
         this.heightSize = heightSize
 
-        background.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
+        /*background.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
         background.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
         territories.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
         territories.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
@@ -62,10 +63,20 @@ class MapView {
         secondaryAnnotations.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
         annotations.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
         annotations.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
+         */
     }
 
     fun display(): Node {
         val retval = GridPane()
+
+        background =  MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/background.png", heightSize), true)
+        territories = MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/territories.png", heightSize), true)
+
+        annotations.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
+        secondaryAnnotations.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
+        /*secondaryAnnotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)
+        annotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)*/
+
         setViewPort()
         val scrollHandler = EventHandler<ScrollEvent> { event -> changeViewport(event.x -(baseWidth*widthSize)/2.0,event.y - (baseHeight*heightSize)/2.0, 0.005 * event.deltaY) }
         background.imageView.onScroll = scrollHandler
@@ -86,6 +97,7 @@ class MapView {
 
     fun refresh(){
         UtilityComponentFactory.refreshImageView(annotations.imageView)
+        UtilityComponentFactory.refreshImageView(secondaryAnnotations.imageView)
         populateCapitals()
     }
 
@@ -221,7 +233,7 @@ class MapView {
         }
     }
 
-    class MapLayer{
+    private class MapLayer{
         val imageView: ImageView
         val active: Boolean
 

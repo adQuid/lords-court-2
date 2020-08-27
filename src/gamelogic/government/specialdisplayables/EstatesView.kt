@@ -38,8 +38,16 @@ class EstatesView: PerspectiveDisplayable {
         mapView.zoom = 3.0
         mapView.secondaryHighlight(territorysControlledByPlayer)
         mapView.onClick =
-            {x,y ->
-                focusedTerritory = mapView.selectTerritoryAt(x,y, highlight = false, makeNew = false); mapView.resize(1.0, height()); UIGlobals.refresh()}
+            {x,y -> selectTerritory(x,y)}
+    }
+
+    private fun selectTerritory(x:Double, y:Double){
+        val oldHeight = height()
+        focusedTerritory = mapView.selectTerritoryAt(x,y, highlight = false, makeNew = false)
+        if(height() != oldHeight){
+            mapView.resize(1.0, height())
+        }
+        UIGlobals.refresh()
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {
