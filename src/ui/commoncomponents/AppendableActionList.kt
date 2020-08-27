@@ -16,18 +16,22 @@ class AppendableActionList {
         retval.style = "-fx-background-color: tan"
 
         var behavior: (Action) -> Unit
+        var remover: ((Action) -> Unit)?
         if(addSelector != null){
-            behavior = {action -> UIGlobals.focusOn(ActionComponentFactory(action, collection))}
+            behavior = {action -> UIGlobals.focusOn(ActionComponentFactory(action))}
 
             val newActionButton = UtilityComponentFactory.shortWideButton("Add Action",
                 EventHandler {_ -> UIGlobals.focusOn(addSelector)})
             retval.add(newActionButton, 0 , 1)
+
+            remover = {action -> collection.remove(action); UIGlobals.refresh()}
         }else{
-            behavior = {}
+            behavior = {action -> UIGlobals.focusOn(ActionComponentFactory(action))}
+            remover = null
         }
 
 
-        retval.add(UtilityComponentFactory.basicList(collection.toList(), behavior, {action -> collection.remove(action); UIGlobals.refresh()}, UIGlobals.totalWidth(), UIGlobals.totalHeight()), 0, 0)
+        retval.add(UtilityComponentFactory.basicList(collection.toList(), behavior, remover, UIGlobals.totalWidth(), UIGlobals.totalHeight()), 0, 0)
 
         return retval
     }

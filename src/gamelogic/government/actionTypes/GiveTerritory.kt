@@ -8,6 +8,7 @@ import gamelogic.government.Capital
 import gamelogic.government.Count
 import gamelogic.government.GovernmentLogicModule
 import gamelogic.territory.Territory
+import gamelogic.territory.TerritoryLogicModule
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
@@ -46,7 +47,8 @@ class GiveTerritory: Action {
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {
-        return "give control of ${terId} to ${target}"
+        val territoryLogic = UIGlobals.activeGame().moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
+        return "give control of ${territoryLogic.territoryById(terId).name} to ${UIGlobals.activeGame().characterById(target)}"
     }
 
     override fun saveString(): Map<String, Any> {
@@ -71,7 +73,7 @@ class GiveTerritory: Action {
     }
 
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
-        return Scene(actionPane(this, null))
+        return Scene(actionPane(this))
     }
 
     override fun equals(other: Any?): Boolean {

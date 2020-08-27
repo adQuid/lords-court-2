@@ -16,22 +16,19 @@ import ui.componentfactory.UtilityComponentFactory
 abstract class Action: Displayable, Describable {
 
     companion object{
-        fun defaultActionPane(action: Action, parent: MutableSet<Action>?): GridPane {
-            val retval = baseActionPane(action, parent)
-            retval.add(UtilityComponentFactory.proportionalLabel(action.description(), 1.0, 0.7),0,1)
+        fun defaultActionPane(action: Action): GridPane {
+            val retval = baseActionPane(action)
+            retval.add(UtilityComponentFactory.proportionalLabel(action.description(), 1.0, 0.8),0,1)
             return retval
         }
 
-        fun baseActionPane(action: Action, parent: MutableSet<Action>?): GridPane {
+        fun baseActionPane(action: Action): GridPane {
             val root = GridPane()
 
             val title = UtilityComponentFactory.shortWideLabel(action.tooltip(UIGlobals.playingAs()))
             (title.children[1] as Label).font = Font(20.0)
 
             root.add(title,0,0)
-            if(parent != null){
-                root.add(UtilityComponentFactory.shortWideButton("Remove", EventHandler { parent.remove(action); UIGlobals.defocus() }), 0, 9)
-            }
             root.add(UtilityComponentFactory.backButton(),0,10)
 
             root.setPrefSize(UIGlobals.totalWidth(), UIGlobals.totalHeight())
@@ -46,7 +43,7 @@ abstract class Action: Displayable, Describable {
     abstract fun saveString(): Map<String, Any>
 
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
-        return Scene(defaultActionPane(this, null))
+        return Scene(defaultActionPane(this))
     }
 
     override fun hashCode(): Int {
@@ -55,22 +52,20 @@ abstract class Action: Displayable, Describable {
 
     abstract fun collidesWith(other: Action): Boolean
 
-    open fun actionPane(action: Action, parent: MutableSet<Action>?): GridPane{
-        return defaultActionPane(action, parent)
+    open fun actionPane(action: Action): GridPane{
+        return defaultActionPane(action)
     }
 }
 
 class ActionComponentFactory: Displayable{
         val action: Action
-        val parent: MutableSet<Action>
 
-        constructor(action: Action, parent: MutableSet<Action>){
+        constructor(action: Action){
             this.action = action
-            this.parent = parent
         }
 
         override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
-        return Scene(action.actionPane(action, parent))
+        return Scene(action.actionPane(action))
     }
 
 }
