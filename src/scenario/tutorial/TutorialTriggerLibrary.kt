@@ -175,7 +175,7 @@ val talkToDadTrigger3 = LineTrigger(
 
 val talkToDadTrigger4 = LineTrigger(
     "talktodad4",
-    and(notStartingConvo, neverBeenCalled, otherTriggerCalledByPlayer(talkToDadTrigger3)),
+    and(notStartingConvo, neverBeenCalled, safeForNewTopic, otherTriggerCalledByPlayer(talkToDadTrigger3)),
     grantStartingCounty()
 )
 fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Line {

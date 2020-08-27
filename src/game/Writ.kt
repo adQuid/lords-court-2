@@ -57,4 +57,26 @@ class Writ: Displayable {
     fun complete(): Boolean{
         return deal.actions.keys.equals(signatories.toSet())
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Writ
+
+        if (name != other.name) return false
+        if (deal != other.deal) return false
+        if (signatories != other.signatories) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + deal.hashCode()
+        result = 31 * result + signatories.hashCode()
+        return result
+    }
+
+
 }
