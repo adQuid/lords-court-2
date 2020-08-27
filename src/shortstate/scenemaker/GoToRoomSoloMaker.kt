@@ -24,4 +24,8 @@ class GoToRoomSoloMaker: SceneMaker{
     override fun toString(): String {
         return "Go to $room alone"
     }
+
+    override fun cost(): Int {
+        return 0
+    }
 }

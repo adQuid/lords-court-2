@@ -1,6 +1,8 @@
 package ui.specialdisplayables
 
 import main.Controller
+import main.UIGlobals
+import shortstate.GameRules
 import shortstate.ShortStateCharacter
 import shortstate.room.Room
 import shortstate.scenemaker.ConversationMaker
@@ -25,13 +27,18 @@ object NewSceneSelector {
 
         val conversationMakers = Controller.singleton!!.shortThreadForPlayer(perspective).shortGame.players.minusElement(perspective)
             .map { player -> ConversationMaker(perspective, player,perspective.player.location.roomByType(
-                Room.RoomType.ETC)) }
-        val conversationTab = Tab<SceneMaker>("Conversation", conversationMakers)
+                Room.RoomType.ETC)) }.filter{perspective.energy >= it.cost()}
+        val conversationTab = if(conversationMakers.isEmpty()){ Tab<SceneMaker>("Conversation (out of energy)", conversationMakers) } else { Tab<SceneMaker>("Conversation", conversationMakers) }
 
-        return listOf(goToRoomTab, conversationTab)
+
+        return listOfNotNull(goToRoomTab, conversationTab)
     }
 
     private fun goToNewSceneIfApplicable(maker: SceneMaker, perspective: ShortStateCharacter){
+        if(perspective.energy < maker.cost()){
+            UIGlobals.focusOn(Message("You can't afford this"))
+            return
+        }
         val shortGame = Controller.singleton!!.shortThreadForPlayer(perspective).shortGame
         shortGame.shortPlayerForLongPlayer(perspective.player)!!.nextSceneIWannaBeIn = maker
         if(shortGame.shortGameScene != null){
