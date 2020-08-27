@@ -75,18 +75,15 @@ open class DealComponentFactory {
     private fun topBar(): Pane {
         val topPane = GridPane()
         var index = 0
+
+        val topItemCount = if(deal is UnfinishedDeal){ actions.size+1 } else { actions.size }
+
         actions.forEach {
-            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", tapClickAction(it.key), (actions.size+1).toDouble(), 0.1, currentPage == it.key)
-            if(it.key == currentPage){
-                //topic.font = Font(18.0)
-                //topic.onAction = null
-            }
-            //topic.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 10)
+            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", tapClickAction(it.key), topItemCount.toDouble(), 0.1, currentPage == it.key)
             topPane.add(topic, index++, 0)
         }
         if(deal is UnfinishedDeal){
-            val addButton = UtilityComponentFactory.proportionalButton("Add Character", EventHandler { _ -> UIGlobals.focusOn(characterSelector()) }, 1.0/(actions.size+1).toDouble())
-            //addButton.setMinSize(UIGlobals.totalWidth() / (deal.theActions().size+1), UIGlobals.totalHeight() / 10)
+            val addButton = UtilityComponentFactory.proportionalButton("Add Character", EventHandler { _ -> UIGlobals.focusOn(characterSelector()) }, 1.0/topItemCount.toDouble())
             topPane.add(addButton,index++,0)
         }
         return topPane

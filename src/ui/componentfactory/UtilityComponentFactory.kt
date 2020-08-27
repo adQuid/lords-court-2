@@ -109,7 +109,7 @@ object UtilityComponentFactory {
         val data = FXCollections.observableArrayList<T>()
         data.addAll(items)
         val listView = ListView<T>(data)
-        listView.style = "-fx-background-image: $paper_background"
+        listView.style = "-fx-focus-color:rgba(0,0,0,0.0);  -fx-padding: 0; -fx-background-image: $paper_background"
         listView.items = data
         listView.setPrefSize(width,height)
         listView.setCellFactory({ _: ListView<T> -> ActionPickCell(onClick) })

@@ -23,7 +23,7 @@ class WritComponentFactory {
 
         root.add(UtilityComponentFactory.shortWideLabel(writ.name), 0,0)
 
-        val description = UtilityComponentFactory.shortWideLabel(writ.deal.actions.map { entry -> entry.key.fullName()+" will "+entry.value.map{it.description()}.joinToString() }.joinToString())
+        val description = UtilityComponentFactory.proportionalLabel(writ.deal.actions.map { entry -> entry.key.fullName()+" will "+entry.value.map{it.description()}.joinToString() }.joinToString(), 1.0, 0.5)
         root.add(description,0,1)
 
         root.add(UtilityComponentFactory.shortWideLabel("Signed by: ${writ.prettyPrintSignatories()}"),0,2)
