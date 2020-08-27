@@ -37,7 +37,7 @@ private fun dealHasBadOfferForFish(deal: Deal): Boolean{
     val fish = deal.theActions().entries.filter  { it.key.npc }.flatMap{it.value}.filter { it is GiveResource && it.resource == PlayerResourceTypes.FISH_NAME}.firstOrNull()
 
     if(cost != null && fish != null){
-        return (cost as GiveResource).amount * 12 > (fish as GiveResource).amount
+        return (cost as GiveResource).amount * 9 > (fish as GiveResource).amount
     }
     return false
 }
@@ -68,6 +68,9 @@ val adviseToGetFish = LineTrigger(
     replyWithSimpleLine("My lord, I'm concerned about food stocks here. We need to trade with the merchants around here to get additional supplies to last until harvest. I've taken the liberty of inviting a Mr. Laerten to your hall. I suggest you speak to him.")
 )
 private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolean{
+    if(game.turn > 5){
+        return false
+    }
     if(me.energy > 850 || (me.energy > 400 && game.playerCharacter().writs.isNotEmpty())){
         return false
     }
@@ -75,15 +78,14 @@ private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolea
         return false
     }
     game.endTurn()
-    return game.players.filter { it.resources.get(PlayerResourceTypes.FISH_NAME) > 0 }.size < 2
+    return game.players.filter { it.npc == false && it.resources.get(PlayerResourceTypes.FISH_NAME) > 0 }.isEmpty()
 }
 
 val chideForBadDeal = LineTrigger(
     "badfishdeal",
-    { data, game, line, me, other -> data["calls"] == 0 && playerIsPayingTooMuchForFish(
-        game,
-        me.player
-    )
+    { data, game, line, me, other -> data["calls"] == 0
+        && playerIsPayingTooMuchForFish( game, me.player)
+        && (line == null || line.canChangeTopic())
     },
     replyWithSimpleLine("That was a horrible deal!")
 )
