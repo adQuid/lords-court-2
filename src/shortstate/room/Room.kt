@@ -76,7 +76,7 @@ class Room {
             return retval
         } else if(type == RoomType.THRONEROOM){
             return baseActions()
-                .plus(player.player.writs.map { writ -> DefaultRoomActionMaker(EnactWrit(writ)) })
+                .plus(player.player.writs.filter{it.complete()}.map { writ -> DefaultRoomActionMaker(EnactWrit(writ)) })
         } else if(type == RoomType.BEDROOM){
             return baseActions()
         } else {
