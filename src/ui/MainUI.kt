@@ -74,6 +74,7 @@ class MainUI() : Application() {
 
     //focuses on whatever the scene is at this point
     fun resetFocus(){
+        curFocus.clear()
         focusOn(shortGame().sceneForPlayer(playingAs()!!))
     }
 
