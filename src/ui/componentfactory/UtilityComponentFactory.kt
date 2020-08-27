@@ -135,9 +135,10 @@ object UtilityComponentFactory {
                 }
 
                 if(removeAction != null){
-                    val cancelButton = imageView("assets/general/removeItemButton.png", 0.1, 1.0)
+                    val cancelButton = imageView("assets/general/removeItemButton.png", 0.08, 0.07)
                     cancelButton.setOnMouseClicked { _ -> removeAction!!(item) }
                     cancelButton.setOnMouseEntered { event -> if(event.clickCount > 0){ removeAction!!(item) } }
+                    cancelButton.x = UIGlobals.totalWidth() * 0.9
                     node.children.add(cancelButton)
                 }
 
