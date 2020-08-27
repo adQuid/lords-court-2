@@ -14,6 +14,7 @@ import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Background
 import javafx.scene.layout.GridPane
+import javafx.scene.layout.Pane
 import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
 import javafx.scene.text.Text
@@ -105,35 +106,42 @@ object UtilityComponentFactory {
         return proportionalButton("Back", EventHandler { UIGlobals.defocus() }, proportion)
     }
 
-    fun <T: Describable> basicList(items: List<T>, onClick: (T) -> Unit, width: Double, height: Double): ListView<T> {
+    fun <T: Describable> basicList(items: List<T>, onClick: (T) -> Unit, removeAction: ((T) -> Unit)?, width: Double, height: Double): ListView<T> {
         val data = FXCollections.observableArrayList<T>()
         data.addAll(items)
         val listView = ListView<T>(data)
         listView.style = "-fx-focus-color:rgba(0,0,0,0.0);  -fx-padding: 0; -fx-background-image: $paper_background"
         listView.items = data
         listView.setPrefSize(width,height)
-        listView.setCellFactory({ _: ListView<T> -> ActionPickCell(onClick) })
+        listView.setCellFactory({ _: ListView<T> -> ActionPickCell(onClick, removeAction) })
 
         return listView
     }
 
-    internal class ActionPickCell<T: Describable>(val closeAction: ((T) -> Unit)?) : ListCell<T>() {
+    internal class ActionPickCell<T: Describable>(val closeAction: ((T) -> Unit)?, val removeAction: ((T) -> Unit)?) : ListCell<T>() {
         public override fun updateItem(item: T?, empty: Boolean) {
             if(item != null){
                 super.updateItem(item, empty)
-                val displayText = item.description()
+                val displayText = item.tooltip(UIGlobals.playingAs())
 
+                val node = Pane()
                 if(closeAction != null){
-                    this.graphic = shortWideButton(displayText, EventHandler { })
-                    this.onMouseClicked = EventHandler { _ -> this.graphic = UtilityComponentFactory.shortWideClickedButton(displayText, EventHandler { });  Platform.runLater { closeAction!!(item) }}
+                    val primaryButton = shortWideButton(displayText, EventHandler { _ -> this.graphic = shortWideClickedButton(displayText, EventHandler { });  Platform.runLater { closeAction!!(item) }})
+                    primaryButton.setOnMouseEntered { event -> if(event.clickCount > 0){ closeAction!!(item) } }
+                    node.children.add(primaryButton)
                     this.padding = Insets.EMPTY
                 } else {
-                    val node = GridPane()
-
-                    node.add(shortWideLabel(displayText),0,0)
-
-                    this.graphic = node
+                    node.children.add(shortWideLabel(displayText))
                 }
+
+                if(removeAction != null){
+                    val cancelButton = imageView("assets/general/removeItemButton.png", 0.1, 1.0)
+                    cancelButton.setOnMouseClicked { _ -> removeAction!!(item) }
+                    cancelButton.setOnMouseEntered { event -> if(event.clickCount > 0){ removeAction!!(item) } }
+                    node.children.add(cancelButton)
+                }
+
+                this.graphic = node
             } else {
                 this.graphic = shortWideLabel("")
                 this.padding = Insets.EMPTY
