@@ -96,7 +96,9 @@ class MainUI() : Application() {
             setScene(WaitingSceneComponentFactory().waitingPage(playingAs()!!))
         }
 
-        this.stage!!.show()
+        Platform.runLater {
+            this.stage!!.show()
+        }
     }
 
     fun setScene(scene: Scene){

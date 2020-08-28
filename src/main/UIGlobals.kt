@@ -3,6 +3,7 @@ package main
 import game.Game
 import game.GameCharacter
 import game.action.Action
+import javafx.application.Platform
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import ui.Displayable
