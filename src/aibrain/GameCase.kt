@@ -47,9 +47,6 @@ class GameCase {
         deal.theActions().forEach {
             retval.baseGame.appendActionsForPlayer(it.key, it.value.toList())
         }
-        /*deal.theActions().keys.forEach {
-            retval.finalEffects.addAll(retval.baseGame.applyActions(deal.theActions()[it]!!, it))
-        }*/
         retval.currentGame = retval.calculateGame()
         return retval
     }
@@ -63,12 +60,12 @@ class GameCase {
     }
 
     fun valueToCharacter(character: GameCharacter): Double{
-        return gameScore(this.currentGame.matchingPlayer(character)!!).components().sumByDouble { it.value }
+        return gameScore(character).components().sumByDouble { it.value }
     }
 
     fun gameScore(player: GameCharacter): Score {
-        return Score(this.currentGame.gameLogicModules.flatMap {
-            it.score(player).components()
-        }).plus(Score(player.specialScoreGenerators.flatMap { it.score(this.currentGame).components() }))
+        val player = this.currentGame.matchingPlayer(player)!!
+        return Score(this.currentGame.gameLogicModules.flatMap { it.score(player).components() })
+            .plus(Score(player.specialScoreGenerators.flatMap { it.score(this.currentGame).components() }))
     }
 }
