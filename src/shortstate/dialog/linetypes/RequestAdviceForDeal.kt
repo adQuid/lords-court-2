@@ -84,7 +84,16 @@ class RequestAdviceForDeal: Line {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
-        val score = brain.shortCharacter.player.brain.dealScoreToCharacter(deal, speaker.player)
-        return SimpleLine(score.components().map { " ${it.name}:${it.value} " }.joinToString(","))
+        //TODO: Move this division to somewhere lower
+        val score = brain.shortCharacter.player.brain.dealScoreToCharacter(deal, speaker.player).dividedBy(brain.shortCharacter.player.brain.lastCasesOfConcern!!.filter { it.plan.player != speaker.player }.size.toDouble())
+        val details = score.components().map { " ${it.description()} " }.joinToString(",")
+
+        if(score.value() > 0){
+            return SimpleLine("I think this would be a good idea for you, and here's why: ${details}")
+        } else if(score.value() < 0){
+            return SimpleLine("I think this would be a bad idea for you, and here's why: ${details}")
+        } else {
+            return SimpleLine("I don't see how this will make a difference")
+        }
     }
 }

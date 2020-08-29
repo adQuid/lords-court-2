@@ -98,13 +98,13 @@ class GovernmentLogicModule: GameLogicModule {
         capitals.forEach {
             if(countOfCaptial(it.terId) == perspective){
                 val flourGained = it.resources.get(Territory.FLOUR_NAME)
-                retval.add("Flour Gained", "we will add ${flourGained} flour to our stockpile", flourGained.toDouble())
+                retval.add("Flour Gained", {value -> "we will add ${value} flour to our stockpile"}, flourGained.toDouble())
 
                 val population = it.resources.get(Territory.POPULATION_NAME)
-                retval.add("", "pop change", population.toDouble() * 2.0)
+                retval.add("", {value -> "pop change"}, population.toDouble() * 2.0)
 
                 val newCrops = it.territory!!.crops.sumBy { crop -> crop.quantity }
-                retval.add("New Crops", "${newCrops} will be planted", newCrops.toDouble())
+                retval.add("New Crops", {value -> "${value} will be planted"}, newCrops.toDouble())
             }
         }
 

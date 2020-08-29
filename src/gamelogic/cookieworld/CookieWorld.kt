@@ -92,9 +92,9 @@ class CookieWorld: GameLogicModule {
     override fun score(perspective: GameCharacter): Score {
         var retval = Score()
         if(hasMilk.contains(perspective)){
-            retval.add("Deliciousness", "I will eat yummy cookies",deliciousness * 1.0)
+            retval.add("Deliciousness", {value -> "I will eat yummy cookies"},deliciousness * 1.0)
         }
-        retval.add("Dummy", "Dummy score of ${perspective.dummyScore}", perspective.dummyScore)
+        retval.add("Dummy", {value -> "Dummy score of ${value}"}, perspective.dummyScore)
         return retval
     }
 
