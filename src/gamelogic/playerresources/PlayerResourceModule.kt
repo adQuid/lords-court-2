@@ -6,6 +6,7 @@ import game.*
 import game.titlemaker.TitleFactory
 import javafx.scene.control.Button
 import shortstate.ShortStateCharacter
+import shortstate.dialog.DialogFormatter
 
 class PlayerResourceModule: GameLogicModule {
 
@@ -49,8 +50,8 @@ class PlayerResourceModule: GameLogicModule {
         val retval = Score()
 
         val gold = perspective.resources.get(PlayerResourceTypes.GOLD_NAME).toDouble()
-        retval.add("gold", {value -> "${perspective} will have ${value} money"}, gold)
-        retval.add("fish", {value -> "${perspective} will have ${value} fish"}, perspective.resources.get(PlayerResourceTypes.FISH_NAME).toDouble() * 0.1)
+        retval.add("gold", {value -> "${perspective} will ${DialogFormatter.gainOrLose(value)} gold pieces"}, gold)
+        retval.add("fish", {value -> "${perspective} will ${DialogFormatter.gainOrLose(value * 10)} fish"}, perspective.resources.get(PlayerResourceTypes.FISH_NAME).toDouble() * 0.1)
 
         return retval
     }

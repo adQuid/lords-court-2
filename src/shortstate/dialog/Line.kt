@@ -33,7 +33,9 @@ abstract class Line {
         if(specialText != null){
             return specialText!!
         } else {
-            return fullTextForm(context, speaker, target)
+            return DialogFormatter
+                .applyPunctuationAndCapitalization(DialogFormatter
+                    .applyPronouns(fullTextForm(context, speaker, target), speaker, target))
         }
     }
 

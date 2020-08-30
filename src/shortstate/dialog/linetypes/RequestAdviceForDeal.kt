@@ -75,7 +75,6 @@ class RequestAdviceForDeal: Line {
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter, game: Game): List<Line> {
-        val newDeal = deal!!.toFinishedDeal()
         return listOf(Approve(), Disapprove())
     }
 
@@ -86,14 +85,19 @@ class RequestAdviceForDeal: Line {
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
         //TODO: Move this division to somewhere lower
         val score = brain.shortCharacter.player.brain.dealScoreToCharacter(deal, speaker.player).dividedBy(brain.shortCharacter.player.brain.lastCasesOfConcern!!.filter { it.plan.player != speaker.player }.size.toDouble())
-        val details = score.components().map { " ${it.description()} " }.joinToString(",")
+        val badFactors = score.components().filter{it.value < 0}.sortedBy { it.value }.map { it.description() }
+        val goodFactors = score.components().filter{it.value > 0}.sortedByDescending { it.value }.map { it.description() }
 
         if(score.value() > 0){
-            return SimpleLine("I think this would be a good idea for you, and here's why: ${details}")
+            return SimpleLine("I think this would be a good idea for you, and here's why: ${goodFactors.joinToString(", ")}")
         } else if(score.value() < 0){
-            return SimpleLine("I think this would be a bad idea for you, and here's why: ${details}")
+            return SimpleLine("I think this would be a bad idea for you, and here's why: ${badFactors.joinToString(", ")}")
         } else {
-            return SimpleLine("I don't see how this will make a difference")
+            if(badFactors.size > 0 && goodFactors.size > 0){
+                return SimpleLine("I think these factors even out. On the one hand, ${goodFactors.joinToString(", ")}, but on the other hand, ${badFactors.joinToString(", ")}")
+            } else {
+                return SimpleLine("I don't see how this will make a difference")
+            }
         }
     }
 }
