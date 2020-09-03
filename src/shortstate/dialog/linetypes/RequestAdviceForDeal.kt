@@ -89,15 +89,31 @@ class RequestAdviceForDeal: Line {
         val goodFactors = score.components().filter{it.value > 0}.sortedByDescending { it.value }.map { it.description() }
 
         if(score.value() > 0){
-            return SimpleLine("I think this would be a good idea for you, and here's why: ${goodFactors.joinToString(", ")}")
+            return SimpleLine(goodDealTemplate(goodFactors, badFactors))
         } else if(score.value() < 0){
-            return SimpleLine("I think this would be a bad idea for you, and here's why: ${badFactors.joinToString(", ")}")
+            return SimpleLine(badDealTemplate(goodFactors, badFactors))
         } else {
             if(badFactors.size > 0 && goodFactors.size > 0){
-                return SimpleLine("I think these factors even out. On the one hand, ${goodFactors.joinToString(", ")}, but on the other hand, ${badFactors.joinToString(", ")}")
+                return SimpleLine(mixedDealTemplate(goodFactors, badFactors))
             } else {
-                return SimpleLine("I don't see how this will make a difference")
+                return SimpleLine(pointlessDealTemplate(goodFactors, badFactors))
             }
         }
+    }
+
+    private fun goodDealTemplate(goodFactors: List<String>, badFactors: List<String>): String{
+        return "I think this would be a good idea for you, and here's why: ${goodFactors.joinToString(", ")}"
+    }
+
+    private fun badDealTemplate(goodFactors: List<String>, badFactors: List<String>): String{
+        return "I think this would be a bad idea for you, and here's why: ${badFactors.joinToString(", ")}"
+    }
+
+    private fun mixedDealTemplate(goodFactors: List<String>, badFactors: List<String>): String{
+        return "On the one hand I do see that ${goodFactors.joinToString(", and ")}, but keep in mind that, ${badFactors.joinToString(", and")}. These seem about equivalent to me."
+    }
+
+    private fun pointlessDealTemplate(goodFactors: List<String>, badFactors: List<String>): String{
+        return "I don't see how this will make a difference"
     }
 }

@@ -94,6 +94,23 @@ class TestGrowingAndHarvesting {
     }
 
     @Test
+    fun testPopulationStabilityWith150SeedsAnd2000Flour(){
+        val game = agroTestGame()
+
+        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
+        ter.resources.set(Territory.ARABLE_LAND_NAME, 200) //200 land should be enough to support 100 population
+        ter.resources.set(Territory.SEEDS_NAME, 150)
+        ter.resources.set(Territory.POPULATION_NAME, 100)
+        ter.resources.set(Territory.FLOUR_NAME, 2000)
+
+        for(i in 1..100){
+            game.endTurn()
+            println("seeds: ${ter.resources.get(Territory.SEEDS_NAME)}, flour: ${ter.resources.get(Territory.FLOUR_NAME)}")
+        }
+        assert(ter.resources.get(Territory.POPULATION_NAME) >= 100)
+    }
+
+    @Test
     fun testStarvation(){
         val game = agroTestGame()
 

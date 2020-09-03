@@ -12,6 +12,14 @@ object DialogFormatter {
         }
     }
 
+    fun moreOrLess(value: Double): String{
+        if(value > 0){
+            return "${value} more"
+        } else {
+            return "${-value} less"
+        }
+    }
+
     fun applyPronouns(text: String, speaker: ShortStateCharacter, target: ShortStateCharacter): String{
         return text.replace(speaker.player.name, "me").replace(target.player.name, "you")
     }

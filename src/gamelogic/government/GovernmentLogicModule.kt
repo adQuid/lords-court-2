@@ -8,6 +8,7 @@ import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import javafx.scene.control.Button
 import shortstate.ShortStateCharacter
+import shortstate.dialog.DialogFormatter
 import shortstate.report.ReportFactory
 import shortstate.room.RoomActionMaker
 import kotlin.math.roundToInt
@@ -98,13 +99,13 @@ class GovernmentLogicModule: GameLogicModule {
         capitals.forEach {
             if(countOfCaptial(it.terId) == perspective){
                 val flourGained = it.resources.get(Territory.FLOUR_NAME)
-                retval.add("Flour Gained", {value -> "we will add ${value} flour to our stockpile"}, flourGained.toDouble())
+                retval.add("Flour Gained", {value -> "our stockpile will ${DialogFormatter.gainOrLose(value)} flour"}, flourGained.toDouble())
 
-                val population = it.resources.get(Territory.POPULATION_NAME)
-                retval.add("", {value -> "pop change"}, population.toDouble() * 2.0)
+                val population = it.territory!!.resources.get(Territory.POPULATION_NAME)
+                retval.add("", {value -> "pop change"}, population.toDouble() * 4.0)
 
                 val newCrops = it.territory!!.crops.sumBy { crop -> crop.quantity }
-                retval.add("New Crops", {value -> "${value} will be planted"}, newCrops.toDouble())
+                retval.add("New Crops", {value -> "${DialogFormatter.moreOrLess(value)} crops will be planted"}, newCrops.toDouble())
             }
         }
 
