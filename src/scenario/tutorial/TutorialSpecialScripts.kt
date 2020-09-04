@@ -78,7 +78,7 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
     val governments = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
     val pcCapital = governments.capitals.first()
     val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
-    fishmonger.resources.set(PlayerResourceTypes.FISH_NAME, 100)
+    fishmonger.privateResources.set(PlayerResourceTypes.FISH_NAME, 100)
     fishmonger.specialLines.add(adviceOnDraftingWrit)
     fishmonger
     }

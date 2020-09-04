@@ -18,10 +18,19 @@ import shortstate.report.DeliciousnessReport
 import game.titles.Baker
 import scenario.tutorial.approachTestTrigger
 import game.culture.*
+import gamelogic.playerresources.PlayerResourceModule
 
 fun soloTestGame(): Game{
     val cookieLogic = CookieWorld()
     val game = Game(listOf(cookieLogic))
+
+    game.addPlayer(basicMilkman(game, cookieLogic.locations.first()))
+    return game
+}
+
+fun soloTestResourceGame(): Game{
+    val cookieLogic = CookieWorld()
+    val game = Game(listOf(cookieLogic, PlayerResourceModule()))
 
     game.addPlayer(basicMilkman(game, cookieLogic.locations.first()))
     return game

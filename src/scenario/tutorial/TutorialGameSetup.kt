@@ -42,6 +42,8 @@ object TutorialGameSetup {
         game.cultures.add(tutorialCulture)
 
         val pcCapital = capitals.capitals.first()
+        pcCapital.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
+
         val PC = GameCharacter(TUTORIAL_PLAYER_NAME, "assets/general/conversation frame.png", false, pcCapital.location, game)
         PC.specialLines.add(talkToDadTrigger1)
         PC.specialLines.add(talkToDadTrigger2)
@@ -58,7 +60,6 @@ object TutorialGameSetup {
         game.addPlayer(advisor)
 
         val dad = GameCharacter("Mayren", "assets/portraits/King.png", true, pcCapital.location, game)
-        dad.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
         dad.specialScoreGenerators.add(MayronScoreGen())
         dad.specialLines.add(talkToDadTrigger4)
 

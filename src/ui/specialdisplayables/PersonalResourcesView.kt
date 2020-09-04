@@ -12,8 +12,8 @@ class PersonalResourcesView: PerspectiveDisplayable() {
     override fun display(perspective: ShortStateCharacter): Scene {
         val pane = GridPane()
 
-        pane.add(UtilityComponentFactory.shortWideLabel("Gold: ${perspective.player.resources.get(PlayerResourceTypes.GOLD_NAME)}"), 0, 2)
-        pane.add(UtilityComponentFactory.shortWideLabel("Fish: ${perspective.player.resources.get(PlayerResourceTypes.FISH_NAME)}"), 0, 3)
+        pane.add(UtilityComponentFactory.shortWideLabel("Gold: ${perspective.player.privateResources.get(PlayerResourceTypes.GOLD_NAME)}"), 0, 2)
+        pane.add(UtilityComponentFactory.shortWideLabel("Fish: ${perspective.player.privateResources.get(PlayerResourceTypes.FISH_NAME)}"), 0, 3)
         pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 4)
         pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 5)
         pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 6)

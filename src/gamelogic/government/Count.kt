@@ -8,6 +8,8 @@ import gamelogic.territory.ActiveCropsReportFactory
 import gamelogic.territory.FoodStocksReportFactory
 import game.titlemaker.CookieWorldTitleFactory
 import gamelogic.government.actionTypes.SetTaxRate
+import gamelogic.playerresources.GiveResource
+import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.territory.PopulationReportFactory
 import shortstate.report.ReportFactory
 
@@ -55,6 +57,7 @@ class Count: Title{
 
     override fun actionsReguarding(players: List<GameCharacter>): List<Action> {
         return listOf(SetTaxRate(capital.terId, 0.3))
+            .plus(PlayerResourceTypes.allTypes.filter { capital.resources.get(it) > 0 }.map{ GiveResource(players.last().id, it, 1) })
     }
 
     override fun equals(other: Any?): Boolean {

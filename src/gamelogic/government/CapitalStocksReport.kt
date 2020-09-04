@@ -15,42 +15,37 @@ class CapitalStocksReport: Report {
 
     override val type: String = CapitalStocksReport.type
     val capital: Capital
-    val flour: Int
-    val bread: Int
+    val resources: Map<String, Int>
     
     constructor(game: Game, capital: Capital){
         this.capital = capital
-        flour = capital.resources.get(Territory.FLOUR_NAME)
-        bread = capital.resources.get(Territory.BREAD_NAME)
+        resources = capital.resources.resources
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
         val logic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
         capital = logic.capitalById(saveString["id"] as Int)
-        flour = saveString["flour"] as Int
-        bread = saveString["bread"] as Int
+        resources = capital.resources.resources.toMap()
     }
 
     override fun apply(game: Game) {
         val logic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
-        logic.matchingCapital(capital).resources.set(Territory.FLOUR_NAME, flour)
-        logic.matchingCapital(capital).resources.set(Territory.BREAD_NAME, bread)
+        resources.forEach { logic.matchingCapital(capital).resources.set(it.key, it.value) }
     }
 
     override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
-        return "As of ${context.game.turnName()}, The larders at ${capital.territory!!.name} has $flour flour and $bread bread"
+        return "As of ${context.game.turnName()}, The larders at ${capital.territory!!.name} have..."
     }
 
     override fun detailedDescription(): String {
-        return "These resources are in your treasury, and will be available in the event of siege."
+        return "${resources.map { "${it.key}: ${it.value}" }} \n  These resources are in your treasury, and will be available in the event of siege."
     }
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
             "id" to capital.terId,
-            "flour" to flour,
-            "bread" to bread
+            "resources" to resources
         )
     }
 
@@ -60,19 +55,21 @@ class CapitalStocksReport: Report {
 
         other as CapitalStocksReport
 
+        if (type != other.type) return false
         if (capital != other.capital) return false
-        if (flour != other.flour) return false
-        if (bread != other.bread) return false
+        if (resources != other.resources) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = capital.hashCode()
-        result = 31 * result + flour
-        result = 31 * result + bread
+        var result = type.hashCode()
+        result = 31 * result + capital.hashCode()
+        result = 31 * result + resources.hashCode()
         return result
     }
+
+
 }
 
 class CapitalStocksReportFactory: ReportFactory{

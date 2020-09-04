@@ -54,7 +54,7 @@ class GameCharacter {
     val specialLines: MutableList<LineTrigger>
     val specialScoreGenerators: MutableList<SpecialScoreGenerator>
 
-    val resources: Resources
+    val privateResources: Resources
 
     //testing only; starts positive to prevent infinite relative scores
     var dummyScore = 10.0
@@ -73,7 +73,7 @@ class GameCharacter {
         this.cultures = mutableListOf()
         this.specialLines = mutableListOf()
         this.specialScoreGenerators = mutableListOf()
-        this.resources = Resources()
+        this.privateResources = Resources()
     }
 
     constructor(other: GameCharacter, game: Game){
@@ -91,7 +91,7 @@ class GameCharacter {
         this.cultures = other.cultures.map { game.cultureByName(it.name) }.toMutableList()
         this.specialLines = other.specialLines //at the time of writing, special lines are immutable
         this.specialScoreGenerators = other.specialScoreGenerators //at the time of writing, score generators are immutable
-        this.resources = Resources(other.resources)
+        this.privateResources = Resources(other.privateResources)
 
         //testing only
         this.dummyScore = other.dummyScore
@@ -104,7 +104,7 @@ class GameCharacter {
         brain = ForecastBrain(this)
         pictureString = saveString[PICTURE_NAME] as String
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> game.titleFromSaveString(map) }.toMutableSet()
-        resources = Resources((saveString[RESOURCES_NAME] as Map<String, Any>))
+        privateResources = Resources((saveString[RESOURCES_NAME] as Map<String, Any>))
         this.cultures = (saveString[CULTURES_NAME] as List<String>).map { game.cultureByName(it) }.toMutableList()
         this.specialLines = (saveString[SPECIAL_LINES_NAME] as List<Map<String, Any>>).map { LineTrigger.triggerFromSaveString(it) }.toMutableList()
         this.specialScoreGenerators = (saveString[SPECIAL_SCORE_NAME] as List<Map<String, Any>>).map { SpecialScoreGenerator.scoreMap[it["type"]]!!(saveString, game) }.toMutableList()
@@ -138,7 +138,7 @@ class GameCharacter {
         retval[ACCEPTED_DEALS_NAME] = acceptedDeals.map { deal -> deal.saveString() }
         retval[ACCEPTED_TREATIES_NAME] = acceptedTreaties.map { treaty -> treaty.saveString() }
         retval[WRITS_NAME] = writs.map { writ -> writ.saveString() }
-        retval[RESOURCES_NAME] = resources.saveString()
+        retval[RESOURCES_NAME] = privateResources.saveString()
         retval[CULTURES_NAME] = cultures.map{it.name}
         retval[SPECIAL_LINES_NAME] = specialLines.map { it.saveString() }
         retval[SPECIAL_SCORE_NAME] = specialScoreGenerators.map{ it.saveString() }
@@ -189,7 +189,7 @@ class GameCharacter {
     fun actionsReguarding(players: List<GameCharacter>): List<Action>{
         val retval = titles.flatMap { title -> title.actionsReguarding(players) }
         if(players.size > 1){
-            return retval.plus(PlayerResourceTypes.allTypes.filter { resources.get(it) > 0 }.map{ GiveResource(players.filter{it != this}.first().id, it, 1) })
+            return retval.plus(PlayerResourceTypes.allTypes.filter { privateResources.get(it) > 0 }.map{ GiveResource(players.filter{it != this}.first().id, it, 1) })
         } else {
             return retval
         }

@@ -23,7 +23,7 @@ fun soloGovernmentTestGame(): Game {
     val player = GameCharacter("name", "image", true, game.locations().first(), game)
     game.applyTitleToCharacter(govLogic.capitals.first().generateCountTitle(), player)
     game.applyTitleToCharacter(govLogic.kingdoms.first().generateKingTitle(), player)
-    player.resources.set("some resource", 10)
+    player.privateResources.set("some resource", 10)
     game.players.add(player)
 
     game.actionsByPlayer.put(game.players[0], mutableListOf(SetTaxRate(territories.territories[0].id, 0.2)))
@@ -58,7 +58,7 @@ fun twoCapitalTestGame(): Game {
     val player = GameCharacter("name", "image", true, game.locations().first(), game)
     govLogic.capitals.filter{it.territory!!.name == "Port Fog" || it.territory!!.name == "Sarsburg"}.forEach { game.applyTitleToCharacter(it.generateCountTitle(), player) }
     game.applyTitleToCharacter(govLogic.kingdoms.first().generateKingTitle(), player)
-    player.resources.set("some resource", 10)
+    player.privateResources.set("some resource", 10)
     game.players.add(player)
 
     game.actionsByPlayer.put(game.players[0], mutableListOf(SetTaxRate(territories.territories[0].id, 0.2)))
@@ -83,7 +83,7 @@ class TestSaveAndClone {
 
         assert(game == game2)
         assert(game.players[0].npc == game2.players[0].npc)
-        assert(game.players[0].resources.resources == game2.players[0].resources.resources)
+        assert(game.players[0].privateResources.resources == game2.players[0].privateResources.resources)
         game2.endTurn() //just in case this makes something crash
     }
 

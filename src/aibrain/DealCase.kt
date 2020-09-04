@@ -24,7 +24,7 @@ class DealCase {
 
     fun dealScore(cases: List<GameCase>, perspectives: Collection<GameCharacter>): Map<GameCharacter, Score>{
         val casesWithDeal = cases!!.map { it.applyDeal(deal) }
-        
+
         return perspectives.associateWith {entry -> totalCaseScore(casesWithDeal, entry).minus(totalCaseScore(cases!!, entry))}
     }
 

@@ -37,6 +37,10 @@ class Resources {
         resources[name] = resources[name]!! + value
     }
 
+    fun addAll(other: Resources){
+        other.resources.forEach{add(it.key, it.value)}
+    }
+
     fun multiply(name: String, value: Double){
         if(!resources.containsKey(name)){
             resources[name] = 0

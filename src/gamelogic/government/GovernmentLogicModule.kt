@@ -169,7 +169,7 @@ class GovernmentLogicModule: GameLogicModule {
         return parent!!.players.filter { it.titles.contains(kingTitle) }.firstOrNull()
     }
 
-    fun legalActionsReguarding(player: GameCharacter, capital: Capital): List<RoomActionMaker>{
-        return listOf()
+    fun capitalByLocation(location: Location): Capital{
+        return capitals.filter{it.location == location}.first()
     }
 }

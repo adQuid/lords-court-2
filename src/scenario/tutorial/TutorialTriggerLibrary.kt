@@ -5,6 +5,7 @@ import aibrain.FinishedDeal
 import game.Game
 import game.Writ
 import game.GameCharacter
+import gamelogic.government.GovernmentLogicModule
 import gamelogic.government.actionTypes.GiveTerritory
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
@@ -68,17 +69,19 @@ val adviseToGetFish = LineTrigger(
     replyWithSimpleLine("My lord, I'm concerned about food stocks here. We need to trade with the merchants around here to get additional supplies to last until harvest. I've taken the liberty of inviting a Mr. Laerten to your hall. I suggest you speak to him.")
 )
 private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolean{
+    val governmentLogic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
+    val playerCapital = governmentLogic.capitals.filter { governmentLogic.countOfCaptial(it.terId) == game.playerCharacter() }.first()
     if(game.turn > 5){
         return false
     }
     if(me.energy > 850 || (me.energy > 400 && game.playerCharacter().writs.isNotEmpty())){
         return false
     }
-    if(game.playerCharacter().resources.get(PlayerResourceTypes.GOLD_NAME) == 0){
+    if(playerCapital.resources.get(PlayerResourceTypes.GOLD_NAME) == 0){
         return false
     }
     game.endTurn()
-    return game.players.filter { it.npc == false && it.resources.get(PlayerResourceTypes.FISH_NAME) > 0 }.isEmpty()
+    return game.players.filter { it.npc == false && it.privateResources.get(PlayerResourceTypes.FISH_NAME) > 0 }.isEmpty()
 }
 
 val chideForBadDeal = LineTrigger(
@@ -91,7 +94,7 @@ val chideForBadDeal = LineTrigger(
 )
 private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean{
     val player = game.playerCharacter()
-    val merchant = game.players.filter { it.npc && it.resources.get(PlayerResourceTypes.FISH_NAME) > 0 }.firstOrNull()
+    val merchant = game.players.filter { it.npc && it.privateResources.get(PlayerResourceTypes.FISH_NAME) > 0 }.firstOrNull()
     if(merchant == null){
         return false
     }
@@ -187,7 +190,7 @@ fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Lin
         val territoryLogic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
         val territory = territoryLogic.territories().first()
         val deal = FinishedDeal(mapOf(
-            me.player to setOf(GiveTerritory(territory.id,PC.id), GiveResource(PC.id, PlayerResourceTypes.GOLD_NAME, 100)),
+            me.player to setOf(GiveTerritory(territory.id,PC.id)),
             PC to setOf(GiveResource(me.player.id, PlayerResourceTypes.GOLD_NAME, 0))
         ))
         val writ = Writ("Transfer of Title to ${PC.fullName()} for Indefinite Period", deal, listOf(me.player))

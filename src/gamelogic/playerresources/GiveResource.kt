@@ -4,6 +4,7 @@ import game.action.Action
 import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
+import gamelogic.government.GovernmentLogicModule
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
@@ -14,7 +15,6 @@ import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 import java.text.DecimalFormat
 import kotlin.math.max
-import kotlin.math.min
 
 class GiveResource: Action {
 
@@ -37,14 +37,24 @@ class GiveResource: Action {
     }
 
     override fun isLegal(game: Game, player: GameCharacter): Boolean {
-        return player.resources.get(resource) >= amount
+        val playerResources = game.moduleOfType(PlayerResourceModule.type) as PlayerResourceModule
+
+        return playerResources.accessableResourcesForPlayer(game, player).get(resource) >= amount
     }
 
     override fun doAction(game: Game, player: GameCharacter){
-        if(player.resources.get(resource) >= amount){
-            player.resources.add(resource, -amount)
-            game.characterById(characterId).resources.add(resource, amount)
+        if(!isLegal(game, player)){
+            return
         }
+        if(player.privateResources.get(resource) >= amount){
+            player.privateResources.add(resource, -amount)
+        } else {
+            val governmentLogic = game.gameLogicModules.filter { it is GovernmentLogicModule }.map{it as GovernmentLogicModule }.first()
+            val capitalWherePlayerIs = governmentLogic.capitalByLocation(player.location)
+            capitalWherePlayerIs.resources.add(resource, -amount)
+        }
+
+        game.characterById(characterId).privateResources.add(resource, amount)
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {
