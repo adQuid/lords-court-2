@@ -3,6 +3,7 @@ package gamelogic.government
 import game.Game
 import game.Location
 import game.Title
+import gamelogic.government.laws.GlobalLawFactory
 import gamelogic.resources.Resources
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
@@ -13,6 +14,8 @@ class Capital {
     val terId: Int
     var territory: Territory?
     var location: Location
+
+    val laws: MutableSet<Law>
     val taxes: MutableMap<String, Double>
 
     constructor(territory: Territory){
@@ -21,6 +24,7 @@ class Capital {
         terId = territory.id
         location = Location(territory.x, territory.y)
         taxes = mutableMapOf(Territory.FLOUR_NAME to 0.1)
+        laws = mutableSetOf()
     }
 
     constructor(other: Capital){
@@ -29,6 +33,7 @@ class Capital {
         terId = other.territory!!.id
         location = Location(other.location)
         taxes = other.taxes.toMutableMap()
+        laws = other.laws //so far laws are immutable
     }
 
     constructor(saveString: Map<String, Any>){
@@ -37,6 +42,8 @@ class Capital {
         terId = saveString["ter"] as Int
         location = Location(saveString["loc"] as Map<String, Any>)
         taxes = (saveString["tax"] as Map<String, Double>).toMutableMap()
+        laws = (saveString["laws"] as List<Map<String, Any>>).map { GlobalLawFactory.lawFromSaveString(it) }.toMutableSet()
+        laws.forEach { it.capital = this }
     }
 
     fun finishConstruction(game: Game){
@@ -48,7 +55,8 @@ class Capital {
             "res" to resources.saveString(),
             "ter" to territory!!.id,
             "loc" to location.saveString(),
-            "tax" to taxes
+            "tax" to taxes,
+            "laws" to laws.map { it.saveString() }
         )
     }
 

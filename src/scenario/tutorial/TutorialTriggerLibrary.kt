@@ -70,7 +70,9 @@ val adviseToGetFish = LineTrigger(
 )
 private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolean{
     val governmentLogic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
-    val playerCapital = governmentLogic.capitals.filter { governmentLogic.countOfCaptial(it.terId) == game.playerCharacter() }.first()
+    val playerCapital = governmentLogic.capitals.filter { governmentLogic.countOfCaptial(it.terId) == game.playerCharacter() }.firstOrNull()
+        ?: return false
+
     if(game.turn > 5){
         return false
     }

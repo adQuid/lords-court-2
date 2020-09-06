@@ -10,6 +10,7 @@ import gamelogic.territory.TerritoryMap
 import org.junit.Test
 import game.GameCharacter
 import gamelogic.government.Kingdom
+import gamelogic.government.laws.Charity
 
 fun soloGovernmentTestGame(): Game {
     val territories = TerritoryMap("test")
@@ -17,6 +18,9 @@ fun soloGovernmentTestGame(): Game {
 
     val govLogic = GovernmentLogicModule(listOf(Capital(territories.territories[0])),
         listOf(Kingdom("Test Kingdom", territories.territories)))
+
+    govLogic.capitals.first().laws.add(Charity())
+
     val game = Game(listOf(TerritoryLogicModule(territories),
         govLogic
     ))

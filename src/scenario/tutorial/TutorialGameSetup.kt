@@ -32,12 +32,13 @@ object TutorialGameSetup {
         val capitals = GovernmentLogicModule(territoryLogic.map.territories.map { Capital(it) }, listOf(danswada))
         val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals), "tutorial")
 
-        val tutorialCulture = Culture("tutorial", mutableSetOf(
+        val tutorialCulture = Culture("Kairethtutorial", mutableSetOf(
             Topic(
                 "How to Govern",
                 "Writ",
                 "I'm sure that, growing up, you mostly heard about what the kingdom was up to from your father directly, but for most of us the news came from the enactment of a writ. That's where the orders of the ruler are announced in the throne room for all to hear, and displayed for the land's agents to interpret. In a civilized land like ours, even simple transfers to and from the treasury require documentation. We've already set up a workroom for you here, which I suggest you get familiar with."
-            )
+            ),
+            Topic("How to Govern", "Capital Stocks", "\"Capital Stocks\" is a term used to describe anything we have here in our storeroom...I mean treasury. Any writ you make will be backed by these resources.")
         ))
         game.cultures.add(tutorialCulture)
 

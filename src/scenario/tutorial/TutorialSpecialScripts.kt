@@ -91,6 +91,6 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
             { game -> game.actionsByPlayer.values.flatten().filter { it is GiveTerritory }.isEmpty() },
             "    You chose to either not discuss important events with your father on this turn, or you rejected his offer. In either event, you have missed your chance to take an active part in world events. Either restart your game, or resign yourself to sit out this chapter of history."
         ),
-        addCulture(2, "tutorial", "Kaireth")
+        addCulture(2, "Kairethtutorial", "Kaireth")
     )
 }
