@@ -52,13 +52,15 @@ class CharacterDetailComponentFactory {
     private fun sceneImage(): Pane {
         val imagePane = Pane()
         val backgroundView = UtilityComponentFactory.imageView("assets/general/characterStage.png", MAIN_WINDOW_PORTION)
+        val nameplateView = UtilityComponentFactory.imageView("assets/general/characterStageNameplate.png", MAIN_WINDOW_PORTION)
         val characterView = UtilityComponentFactory.imageView(character.player.pictureString, MAIN_WINDOW_PORTION)
         backgroundView.setOnMouseClicked { _ -> UIGlobals.defocus() }
+        nameplateView.setOnMouseClicked { _ -> UIGlobals.defocus() }
         characterView.setOnMouseClicked { _ -> UIGlobals.defocus() }
 
         val nameText = characterNameText(character, true)
 
-        imagePane.children.addAll(backgroundView, characterView, nameText)
+        imagePane.children.addAll(backgroundView, characterView, nameplateView, nameText)
 
         return imagePane
     }
