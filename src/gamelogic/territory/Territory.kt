@@ -1,6 +1,8 @@
 package gamelogic.territory
 
+import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.Resources
+import kotlin.math.min
 
 class Territory {
 
@@ -12,6 +14,21 @@ class Territory {
         val BREAD_NAME = "bread"
         val RESOURCES_NAME = "resources"
         private val resourceNames = listOf(ARABLE_LAND_NAME, POPULATION_NAME, SEEDS_NAME, FLOUR_NAME, BREAD_NAME, RESOURCES_NAME)
+
+        fun extractFood(resources: Resources, amount: Int): Resources{
+            val foodTypesInOrder = listOf(BREAD_NAME, PlayerResourceTypes.FISH_NAME)
+            var foodLeftToExtract = amount
+            val retval = Resources()
+
+            for(type in foodTypesInOrder){
+                if(foodLeftToExtract > 0 && resources.get(type) > 0){
+                    retval.add(type, min(foodLeftToExtract, resources.get(type)))
+                    foodLeftToExtract -= retval.get(type)
+                }
+            }
+
+            return retval
+        }
     }
 
     val ID_NAME = "ID"
@@ -95,5 +112,9 @@ class Territory {
 
     fun totalCropsPlanted(): Int{
         return crops.sumBy { it.quantity }
+    }
+
+    fun foodToEatNextTurn(): Resources {
+        return extractFood(resources, resources.get(POPULATION_NAME))
     }
 }

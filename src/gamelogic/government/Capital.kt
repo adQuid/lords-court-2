@@ -15,7 +15,7 @@ class Capital {
     var territory: Territory?
     var location: Location
 
-    val laws: MutableSet<Law>
+    private val laws: MutableSet<Law>
     val taxes: MutableMap<String, Double>
 
     constructor(territory: Territory){
@@ -64,6 +64,11 @@ class Capital {
         return Count(this)
     }
 
+    fun enactLaw(law: Law){
+        laws.add(law)
+        law.capital = this
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -77,5 +82,9 @@ class Capital {
 
     override fun hashCode(): Int {
         return terId
+    }
+
+    fun endTurn(){
+        laws.forEach { it.apply() }
     }
 }

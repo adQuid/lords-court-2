@@ -72,6 +72,7 @@ class GovernmentLogicModule: GameLogicModule {
 
             val crops = ter.lastHarvest
             val capital = capitalOf(ter)
+            capital.endTurn()
             val taxRate = capital.taxes.getOrDefault(Territory.FLOUR_NAME, 0.0)
 
             val totalExpectedHarvest = crops.sumBy { crop -> crop.quantity * crop.yield() }

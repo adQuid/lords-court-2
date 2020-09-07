@@ -29,6 +29,8 @@ class TerritoryLogicModule: GameLogicModule {
         private fun reportFactories(territories: Collection<Int>): List<ReportFactory>{
             return territories.map{FoodStocksReportFactory(it)} + territories.map{ActiveCropsReportFactory(it)} + territories.map { PopulationReportFactory(it) }
         }
+
+
     }
 
     override val type = Companion.type
@@ -157,14 +159,15 @@ class TerritoryLogicModule: GameLogicModule {
             territory.modifyResource(Territory.FLOUR_NAME, -breadToMake)
         }
 
-        //eat bread
+        //eat food
         //TODO: Will I never need this step?
-        val breadToEat = min(territory.resources.get(Territory.BREAD_NAME), territory.resources.get(Territory.POPULATION_NAME))
-        if(breadToEat >= territory.resources.get(Territory.POPULATION_NAME)){
-            territory.modifyResource(Territory.BREAD_NAME, -breadToEat)
+        val foodToEat = territory.foodToEatNextTurn()
+        val totalFood = foodToEat.resources.entries.sumBy { it.value }
+        if(totalFood >= territory.resources.get(Territory.POPULATION_NAME)){
+            territory.resources.subtractAll(foodToEat)
         } else {
             //println("starvation")
-            territory.resources.multiply(Territory.POPULATION_NAME, (1.0 + (breadToEat / territory.resources.get(Territory.POPULATION_NAME)))/2.0)
+            territory.resources.multiply(Territory.POPULATION_NAME, (1.0 + (totalFood / territory.resources.get(Territory.POPULATION_NAME)))/2.0)
             territory.resources.set(Territory.BREAD_NAME, 0)
         }
 

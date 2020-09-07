@@ -19,7 +19,7 @@ fun soloGovernmentTestGame(): Game {
     val govLogic = GovernmentLogicModule(listOf(Capital(territories.territories[0])),
         listOf(Kingdom("Test Kingdom", territories.territories)))
 
-    govLogic.capitals.first().laws.add(Charity())
+    govLogic.capitals.first().enactLaw(Charity(false))
 
     val game = Game(listOf(TerritoryLogicModule(territories),
         govLogic
