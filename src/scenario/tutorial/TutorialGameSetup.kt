@@ -17,10 +17,11 @@ import gamelogic.government.Minister
 
 object TutorialGameSetup {
 
+    val TUTORIAL_GAME_MAP = "maps/testland"
     val TUTORIAL_PLAYER_NAME = "Essrader"
 
     fun setupAgricultureGame(): Game {
-        val territories = TerritoryMap.fromMap(WorldEditorMainMenu.mapName)
+        val territories = TerritoryMap.fromMap(TUTORIAL_GAME_MAP)
         val territoryLogic = TerritoryLogicModule(territories)
         val danswada = Kingdom("Dansawda", listOf(
             territoryLogic.territories().first { it.name == "Port Fog" },

@@ -38,7 +38,7 @@ class ConversationComponentFactory {
             if(lineBeingConstructed != null){
                 if(lineBeingConstructed!!.validToSend()){
                     val sendButton = UtilityComponentFactory.imageView("assets/general/talkButton.png", MAIN_WINDOW_PORTION)
-                    sendButton.setOnMouseClicked { _ -> conversation.submitLine(lineBeingConstructed!!, Controller.singleton!!.shortThreadForPlayer(perspective).shortGame);
+                    sendButton.setOnMouseClicked { _ -> conversation.submitLine(lineBeingConstructed!!, Controller.singleton!!.shortThreadForShortPlayer(perspective).shortGame);
                         lineBeingConstructed = null; UIGlobals.defocus()}
                     backgroundPane.children.add(sendButton)
                 }

@@ -25,9 +25,8 @@ class TestMultithreading {
         }.start()
 
         TestWithController {
-            Controller.singleton!!.game = testGame.game
             waitForSetup = false
-            Controller.singleton!!.startPlaying()
+            Controller.singleton!!.newGame(testGame.game)
             assert(true)
         }.doit()
     }
@@ -48,9 +47,8 @@ class TestMultithreading {
         }.start()
 
         TestWithController {
-            Controller.singleton!!.game = testGame.game
             waitForSetup = false
-            Controller.singleton!!.startPlaying()
+            Controller.singleton!!.newGame(testGame.game)
             assert(true)
         }.doit()
     }

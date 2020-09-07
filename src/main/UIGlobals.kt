@@ -3,11 +3,9 @@ package main
 import game.Game
 import game.GameCharacter
 import game.action.Action
-import javafx.application.Platform
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import ui.Displayable
-import ui.PerspectiveDisplayable
 import ui.MainUI
 
 object UIGlobals {
@@ -17,10 +15,10 @@ object UIGlobals {
     }
 
     fun activeShortGame(): ShortStateGame {
-        return Controller.singleton!!.shortThreadForPlayer(playingAs()).shortGame
+        return Controller.singleton!!.shortThreadForShortPlayer(playingAs()).shortGame
     }
 
-    private fun guiOrNull(): MainUI? {
+    fun guiOrNull(): MainUI? {
         return Controller.singleton!!.GUI
     }
 
@@ -67,10 +65,16 @@ object UIGlobals {
     }
 
     fun totalHeight(): Double{
-        return GUI().totalHeight
+        if(guiOrNull() != null){
+            return GUI().totalHeight
+        }
+        return 0.0
     }
 
     fun totalWidth(): Double{
-        return GUI().totalWidth
+        if(guiOrNull() != null){
+            return GUI().totalWidth
+        }
+        return 0.0
     }
 }

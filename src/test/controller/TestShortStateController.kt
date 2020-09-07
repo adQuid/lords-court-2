@@ -4,6 +4,7 @@ import gamelogic.cookieworld.CookieWorld
 import main.Controller
 import org.junit.Test
 import shortstate.ShortStateController
+import test.controller.TestWithController
 import test.fixtures.soloTestShortgame
 import test.fixtures.shortGameResultingInDeliciousness
 import test.fixtures.testGameWithTwoLocations
@@ -25,9 +26,10 @@ class TestShortStateController {
     fun testControllerRunsWithMultipleLocations(){
         TestWithController {
             val testGame = testGameWithTwoLocations()
-            Controller.singleton!!.game = testGame
-            Controller.singleton!!.startPlaying() //This will hang if the AI doesn't find a way to finish the round
-            assert(true)
+            Controller.singleton!!.newGame(testGame)
+            while(Controller.singleton!!.game!!.turn == 1){
+                Thread.sleep(20)
+            }
         }.doit()
     }
 
@@ -48,8 +50,7 @@ class TestShortStateController {
     fun testActionsDontCrossLocations(){
         TestWithController {
             val testGame = testGameWithTwoLocations()
-            Controller.singleton!!.game = testGame
-            Controller.singleton!!.startPlaying() //This will hang if the AI doesn't find a way to finish the round
+            Controller.singleton!!.newGame(testGame) //This will hang if the AI doesn't find a way to finish the round
             // there's a baker and a milkman here, but they can't talk to each other so there should be no deliciousness
             assert((Controller.singleton!!.game!!.moduleOfType("Cookieworld") as CookieWorld).deliciousness == 0.0)
         }.doit()

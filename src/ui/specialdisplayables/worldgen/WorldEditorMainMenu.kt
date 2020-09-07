@@ -8,6 +8,7 @@ import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import main.UIGlobals
+import scenario.tutorial.TutorialGameSetup
 import ui.NoPerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
 import ui.specialdisplayables.MapView
@@ -15,9 +16,7 @@ import java.io.File
 
 object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
-    val mapName = "maps/testland"
-
-    var mapView = MapView(TerritoryMap(mapName), 1.0,0.8)
+    var mapView = MapView(TerritoryMap(TutorialGameSetup.TUTORIAL_GAME_MAP), 1.0,0.8)
 
     val terNameDisplay = UtilityComponentFactory.shortProportionalTextField("No Territory Selected", 4.0)
 
@@ -56,13 +55,13 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
 
     private fun saveMap(){
         val gson = Gson()
-        val saveFile = File(mapName+"/map.json")
+        val saveFile = File(TutorialGameSetup.TUTORIAL_GAME_MAP+"/map.json")
         saveFile.writeText(gson.toJson(mapView.map.saveString()))
     }
 
     private fun loadMap(): MapView{
         val klac = Klaxon()
-        val loadMap = klac.parse<Map<String,Any>>(File(mapName+"/map.json").readText())!!
+        val loadMap = klac.parse<Map<String,Any>>(File(TutorialGameSetup.TUTORIAL_GAME_MAP+"/map.json").readText())!!
         return MapView(TerritoryMap(loadMap), 1.0,0.8)
     }
 }

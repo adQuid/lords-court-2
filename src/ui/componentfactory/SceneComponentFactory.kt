@@ -11,7 +11,6 @@ import shortstate.ShortStateCharacter
 import shortstate.room.Room
 import shortstate.room.RoomActionMaker
 import ui.MAIN_WINDOW_PORTION
-import ui.MainUI
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
@@ -55,7 +54,7 @@ class SceneComponentFactory {
                     roomActionButtons(scene.room, perspective),
                     { maker ->
                         maker.onClick(
-                            Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,
+                            Controller.singleton!!.shortThreadForShortPlayer(perspective).shortGame,
                             perspective
                         )
                     })

@@ -32,8 +32,12 @@ class Controller {
         singleton = this
     }
 
-    fun shortThreadForPlayer(player: ShortStateCharacter): ShortStateController{
+    fun shortThreadForShortPlayer(player: ShortStateCharacter): ShortStateController{
         return shortThreads.filter { it.shortGame.players.contains(player) }.first()
+    }
+
+    fun shortThreadForPlayer(player: GameCharacter): ShortStateController{
+        return shortThreads.filter { it.shortGame.shortPlayerForLongPlayer(player) != null }.first()
     }
 
     fun nextShortThread(): ShortStateController?{
@@ -45,7 +49,7 @@ class Controller {
     }
 
     fun sceneForPlayer(player: ShortStateCharacter): ShortGameScene?{
-        return shortThreadForPlayer(player).shortGame!!.sceneForPlayer(player)
+        return shortThreadForShortPlayer(player).shortGame!!.sceneForPlayer(player)
     }
 
     fun registerUI(gui: MainUI){
@@ -127,6 +131,7 @@ class Controller {
 
     fun runAnotherThread(){
         if(shortThreads.any { !it.started && it.shortGame.players.none { !it.player.npc } }){
+            println("ran other thread")
             Thread(shortThreads.first{!it.started && it.shortGame.players.none { !it.player.npc }}).start()
         }
     }
@@ -144,7 +149,7 @@ class Controller {
         }
     }
 
-    fun startPlaying(){
+    private fun startPlaying(){
         runThreads()
         Thread(brainThread1).start()
     }

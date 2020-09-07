@@ -54,6 +54,9 @@ object UtilityComponentFactory {
     val imageBuffer = mutableMapOf<String, Image>()
 
     fun imageFromPath(url: String): Image{
+        if(UIGlobals.guiOrNull() == null){
+            return WritableImage(1,1)
+        }
         if(imageBuffer.containsKey(url)){
             return imageBuffer[url]!!
         }

@@ -128,7 +128,9 @@ class ShortStateController: Runnable {
 
         }
         if(shortGameScene.characters.filter { char -> !char.player.npc }.isNotEmpty()){
-            Platform.runLater { UIGlobals.refresh() }
+            if(UIGlobals.guiOrNull() != null){
+                Platform.runLater { UIGlobals.refresh() }
+            }
         }
     }
 }

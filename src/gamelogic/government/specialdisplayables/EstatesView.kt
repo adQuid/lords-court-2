@@ -107,7 +107,7 @@ class EstatesView: PerspectiveDisplayable {
             SelectionModal("Select Report",
                 listOf(Tab("Reports", countTitle!!.reportsIDontAlreadyHave(perspective))),
                 { maker ->
-                    maker.onClick(Controller.singleton!!.shortThreadForPlayer(perspective).shortGame,perspective)
+                    maker.onClick(Controller.singleton!!.shortThreadForShortPlayer(perspective).shortGame,perspective)
                 })
         ) }, 0.5),0,0)
         buttonsPane.add(UtilityComponentFactory.proportionalButton("Laws", EventHandler {UIGlobals.focusOn(
