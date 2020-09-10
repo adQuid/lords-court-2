@@ -58,7 +58,7 @@ class ShortStateController: Runnable {
                     endScene(shortGame.shortGameScene!!)
                 }else if(shortGame.shortGameScene!!.nextPlayerToDoSomething().player.npc){
                     doAIIfAppropriate()
-                    if(shortGame.shortGameScene != null && shortGame.shortGameScene!!.hasAPC()){
+                    if(shortGame.shortGameScene != null && shortGame.shortGameScene!!.hasAPC() && UIGlobals.guiOrNull() != null){
                         Platform.runLater { UIGlobals.resetFocus() }
                     }
                 }

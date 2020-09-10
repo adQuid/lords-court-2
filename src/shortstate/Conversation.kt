@@ -80,6 +80,20 @@ class Conversation {
         }
     }
 
+    fun lineOptions(perspective: ShortStateCharacter): List<Line>{
+        var retval = listOf<Line>()
+        if(lastLine != null
+            && lastLine!!.possibleReplies(perspective, otherParticipant(perspective), UIGlobals.activeGame()).isNotEmpty()){
+            retval = lastLine!!.possibleReplies(perspective, otherParticipant(perspective), UIGlobals.activeGame())
+        }
+        if(lastLine == null || lastLine!!.canChangeTopic() || retval.size == 0){
+            retval = retval.plus(defaultConversationLines(perspective))
+        }
+        retval = retval.plus(perspective.player.specialLines.filter{it.shouldGenerateLine(UIGlobals.activeGame().imageFor(perspective.player), lastLine, perspective, otherParticipant(perspective))}
+            .map { it.generateLine(UIGlobals.activeGame(), lastLine, perspective, otherParticipant(perspective)) })
+        return retval
+    }
+
     fun defaultConversationLines(perspective: ShortStateCharacter): List<Line>{
         return listOfNotNull(
             //if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) Announcement(null) else null,

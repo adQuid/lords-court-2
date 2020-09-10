@@ -66,7 +66,7 @@ class ConversationComponentFactory {
             val textBlocks = if(line != null){
                 line.symbolicForm( game, conversation.otherParticipant(conversation.lastSpeaker), conversation.lastSpeaker)
             } else if(left){
-                lineOptions(perspective).map { line -> LineBlock(line.tooltipName(), line.tooltipDescription(), {focusOnLine(line); UIGlobals.refresh()}) }
+                conversation.lineOptions(perspective).map { line -> LineBlock(line.tooltipName(), line.tooltipDescription(), {focusOnLine(line); UIGlobals.refresh()}) }
             } else {
                 listOf()
             }
@@ -117,20 +117,6 @@ class ConversationComponentFactory {
         }
 
         return pane
-    }
-
-    private fun lineOptions(perspective: ShortStateCharacter): List<Line>{
-        var retval = listOf<Line>()
-        if(conversation.lastLine != null
-            && conversation.lastLine!!.possibleReplies(perspective, conversation.otherParticipant(perspective), UIGlobals.activeGame()).isNotEmpty()){
-            retval = conversation.lastLine!!.possibleReplies(perspective, conversation.otherParticipant(perspective), UIGlobals.activeGame())
-        }
-        if(conversation.lastLine == null || conversation.lastLine!!.canChangeTopic() || retval.size == 0){
-            retval = retval.plus(conversation.defaultConversationLines(perspective))
-        }
-        retval = retval.plus(perspective.player.specialLines.filter{it.shouldGenerateLine(UIGlobals.activeGame().imageFor(perspective.player), conversation.lastLine, perspective, conversation.otherParticipant(perspective))}
-            .map { it.generateLine(UIGlobals.activeGame(), conversation.lastLine, perspective, conversation.otherParticipant(perspective)) })
-        return retval
     }
 
     fun focusOnLine(line: Line){
