@@ -43,7 +43,6 @@ class Capital {
         location = Location(saveString["loc"] as Map<String, Any>)
         taxes = (saveString["tax"] as Map<String, Double>).toMutableMap()
         laws = (saveString["laws"] as List<Map<String, Any>>).map { GlobalLawFactory.lawFromSaveString(it) }.toMutableSet()
-        laws.forEach { it.capital = this }
     }
 
     fun finishConstruction(game: Game){
@@ -66,7 +65,6 @@ class Capital {
 
     fun enactLaw(law: Law){
         laws.add(law)
-        law.capital = this
     }
 
     override fun equals(other: Any?): Boolean {
@@ -85,6 +83,6 @@ class Capital {
     }
 
     fun endTurn(){
-        laws.forEach { it.apply() }
+        laws.forEach { it.apply(this) }
     }
 }

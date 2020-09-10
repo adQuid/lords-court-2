@@ -83,7 +83,7 @@ private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolea
         return false
     }
     game.endTurn()
-    return game.players.filter { it.npc == false && it.privateResources.get(PlayerResourceTypes.FISH_NAME) > 0 }.isEmpty()
+    return game.players.filter { it.npc == false && playerCapital.resources.get(PlayerResourceTypes.FISH_NAME) > 0 }.isEmpty()
 }
 
 val chideForBadDeal = LineTrigger(

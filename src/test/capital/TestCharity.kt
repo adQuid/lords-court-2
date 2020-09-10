@@ -46,7 +46,7 @@ class TestCharity {
 
     @Test
     fun test_charity_with_insufficient_fish(){
-        assert(test_charity(PlayerResourceTypes.GOLD_NAME) < 100)
+        assert(test_charity(Territory.POPULATION_NAME) < 100)
     }
 
     fun test_charity(type: String): Int{

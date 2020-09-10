@@ -1,5 +1,6 @@
 package gamelogic.government.laws
 
+import gamelogic.government.Capital
 import gamelogic.government.Law
 import gamelogic.territory.Territory
 
@@ -25,7 +26,7 @@ class Charity: Law {
         return mapOf(ON_NEED_NAME to onNeed)
     }
 
-    override fun apply() {
+    override fun apply(capital: Capital) {
 
         if(onNeed){
             val foodToEat = capital!!.territory!!.foodToEatNextTurn()

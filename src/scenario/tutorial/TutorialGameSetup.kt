@@ -14,6 +14,7 @@ import game.GameCharacter
 import java.util.*
 import game.culture.Topic
 import gamelogic.government.Minister
+import gamelogic.government.laws.Charity
 
 object TutorialGameSetup {
 
@@ -47,6 +48,7 @@ object TutorialGameSetup {
 
         val pcCapital = capitals.capitals.first()
         pcCapital.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
+        pcCapital.enactLaw(Charity(true))
 
         val PC = GameCharacter(TUTORIAL_PLAYER_NAME, "assets/general/conversation frame.png", false, pcCapital.location, game)
         PC.specialLines.add(talkToDadTrigger1)

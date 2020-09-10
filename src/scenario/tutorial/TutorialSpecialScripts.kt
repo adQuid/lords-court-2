@@ -34,7 +34,8 @@ class moveCharacter: SpecialScript{
 
     override fun doscript(game: Game) {
         val charToMove = game.players.filter { it.name == character }.first()
-        val location = game.locationById(destination)
+        val capitals = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
+        val location = capitals.capitals.filter { it.territory!!.id == destination}.first().location
         charToMove.location = location
     }
 }
@@ -78,7 +79,7 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
     val governments = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
     val pcCapital = governments.capitals.first()
     val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
-    fishmonger.privateResources.set(PlayerResourceTypes.FISH_NAME, 100)
+    fishmonger.privateResources.set(PlayerResourceTypes.FISH_NAME, 1000)
     fishmonger.specialLines.add(adviceOnDraftingWrit)
     fishmonger
     }

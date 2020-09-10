@@ -103,7 +103,7 @@ class GovernmentLogicModule: GameLogicModule {
                 retval.add("Flour Gained", {value -> "our stockpile will ${DialogFormatter.gainOrLose(value)} flour"}, flourGained.toDouble())
 
                 val population = it.territory!!.resources.get(Territory.POPULATION_NAME)
-                retval.add("", {value -> "pop change"}, population.toDouble() * 4.0)
+                retval.add("", {value -> "Population will change by ${population}"}, population.toDouble() * 4.0)
 
                 val newCrops = it.territory!!.crops.sumBy { crop -> crop.quantity }
                 retval.add("New Crops", {value -> "${DialogFormatter.moreOrLess(value)} crops will be planted"}, newCrops.toDouble())

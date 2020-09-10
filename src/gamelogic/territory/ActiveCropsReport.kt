@@ -45,9 +45,16 @@ class ActiveCropsReport: Report {
 
     override fun detailedDescription(): String {
 
-        val mostMatureCrop = crops.sortedByDescending { it.plantingTime }.first()
+        if(crops.isEmpty()){
+            return "There was either too little labor, too little seeds, or it's too late in the season."
+        }
 
-        return "The most mature will be ready to harvest in ${mostMatureCrop.plantingTime + mostMatureCrop.harvestAge() - UIGlobals.activeGame().turn} turns. " +
+        val mostMatureCrop = crops.sortedByDescending { it.plantingTime }.first()
+        val timeToHarvest = mostMatureCrop.plantingTime + mostMatureCrop.harvestAge() - UIGlobals.activeGame().turn
+
+        val mostMatureCropText = if(timeToHarvest > 0) {"The most mature will be ready to harvest in ${mostMatureCrop} turns. "}else{"Crops are currently ready for harvest, once the peasants have time to reap them. "}
+
+        return mostMatureCropText +
                 "When all of these crops are harvested, we can expect to reap ${crops.sumBy { it.quantity * it.yield() }} seeds. They will still need to be ground into flower, " +
                 "and some will spoil in this time. In addition, some seeds will be preserved to plant new crops in the future."
     }

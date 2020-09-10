@@ -6,13 +6,12 @@ import gamelogic.government.laws.Charity
 abstract class Law {
 
     val type: String
-    var capital: Capital? = null
 
     constructor(type: String){
         this.type = type
     }
 
-    abstract fun apply()
+    abstract fun apply(capital: Capital)
 
     abstract fun specialSaveString(): Map<String, Any>
 
