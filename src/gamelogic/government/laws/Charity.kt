@@ -84,7 +84,7 @@ class Charity: Law {
         val charity: Charity
         val modCharity: Charity
 
-        val draftButton = UtilityComponentFactory.shortWideButton("Draft Law", EventHandler { makeWritFromAction(UIGlobals.playingAs()) })
+        val draftButton = UtilityComponentFactory.shortWideButton("Draft Law", EventHandler { makeCharityFromAction() })
 
         constructor(charity: Charity, capital: Capital){
             this.capital = capital
@@ -99,7 +99,7 @@ class Charity: Law {
 
             val onNeedPane = GridPane()
             onNeedPane.add(UtilityComponentFactory.shortProportionalLabel("On Need:", 0.5),0,0)
-            onNeedPane.add(UtilityComponentFactory.shortButton("${modCharity.onNeed}", EventHandler { modCharity.onNeed = !modCharity.onNeed; update(); UIGlobals.refresh()},0.5),1,0)
+            onNeedPane.add(UtilityComponentFactory.shortButton("${if(modCharity.onNeed){"Yes"}else{"No"}}", EventHandler { modCharity.onNeed = !modCharity.onNeed; update(); UIGlobals.refresh()},0.5),1,0)
 
             pane.add(onNeedPane, 0,0)
             pane.add(UtilityComponentFactory.proportionalLabel("Filler", 1.0, 0.7),0,1)
@@ -115,16 +115,11 @@ class Charity: Law {
             } else {
                 UtilityComponentFactory.setButtonDisable(draftButton, false)
             }
-
-
         }
 
-        private fun makeWritFromAction(perspective: ShortStateCharacter){
-            val newAction = EnactLaw(modCharity, capital.terId)
-            val newDeal = UnfinishedDeal(mapOf(perspective.player to setOf(newAction)))
-
-            UIGlobals.focusOn(WritConstructor(newDeal))
-            UIGlobals.focusOn(newAction)
+        fun makeCharityFromAction(){
+            makeWritFromAction(UIGlobals.playingAs(), modCharity, capital)
         }
+
     }
 }

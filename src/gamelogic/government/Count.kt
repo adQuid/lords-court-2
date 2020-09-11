@@ -7,7 +7,9 @@ import game.action.Action
 import gamelogic.territory.ActiveCropsReportFactory
 import gamelogic.territory.FoodStocksReportFactory
 import game.titlemaker.CookieWorldTitleFactory
+import gamelogic.government.actionTypes.EnactLaw
 import gamelogic.government.actionTypes.SetTaxRate
+import gamelogic.government.laws.Charity
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.territory.PopulationReportFactory
@@ -57,7 +59,11 @@ class Count: Title{
     }
 
     override fun actionsReguarding(players: List<GameCharacter>): List<Tab<Action>> {
-        return listOf(Tab<Action>("Legalistic acts in ${capital.territory!!.name}", listOf(SetTaxRate(capital.terId, 0.3))),
+        return listOf(Tab<Action>("Legalistic acts in ${capital.territory!!.name}",
+        listOf(
+            SetTaxRate(capital.terId, 0.3),
+            EnactLaw(Charity(false), capital.terId))
+        ),
             Tab<Action>("Resource Transfers", PlayerResourceTypes.allTypes.filter { capital.resources.get(it) > 0 }.map{ GiveResource(players.last().id, it, 1) }))
     }
 

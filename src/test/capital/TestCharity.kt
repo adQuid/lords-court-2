@@ -5,6 +5,7 @@ import game.Game
 import game.GameCharacter
 import gamelogic.government.Capital
 import gamelogic.government.GovernmentLogicModule
+import gamelogic.government.actionTypes.EnactLaw
 import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.government.laws.Charity
 import gamelogic.playerresources.PlayerResourceTypes
@@ -65,6 +66,34 @@ class TestCharity {
         }
 
        return capital.territory!!.resources.resources[Territory.POPULATION_NAME]!!
+    }
+
+    @Test
+    fun test_shifting_charity(){
+        val game = capitalTestGame()
+
+        val capitalLogic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
+
+        val testPlayer = GameCharacter("test character", "this should not come up in a test", true, game.locations().first(), game)
+
+        game.players.add(testPlayer)
+        game.applyTitleToCharacter(capitalLogic.capitals.first().generateCountTitle(), testPlayer)
+
+        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
+        ter.resources.set(Territory.POPULATION_NAME, 100)
+        ter.resources.set(Territory.FLOUR_NAME, 100) //enough to last one turn
+
+        val capitals = game.moduleOfType(GovernmentLogicModule.type)!! as GovernmentLogicModule
+        val capital = capitals.capitals.first()
+        capital.resources.add(PlayerResourceTypes.FISH_NAME, 1000)
+
+        game.appendActionsForPlayer(testPlayer, listOf(EnactLaw(Charity(false), capital.terId)))
+
+        for(i in 1..10){
+            game.endTurn()
+        }
+        //because we set the charity to not give on need, the capital should still have all resources
+        assert(capital.resources.get(PlayerResourceTypes.FISH_NAME) == 1000)
     }
 
 }

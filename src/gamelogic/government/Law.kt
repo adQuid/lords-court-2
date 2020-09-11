@@ -1,9 +1,24 @@
 package gamelogic.government
 
+import aibrain.UnfinishedDeal
+import gamelogic.government.actionTypes.EnactLaw
+import main.UIGlobals
+import shortstate.ShortStateCharacter
 import ui.Displayable
 import ui.commoncomponents.PrettyPrintable
+import ui.specialdisplayables.contructorobjects.WritConstructor
 
 abstract class Law: PrettyPrintable {
+
+    companion object{
+        fun makeWritFromAction(perspective: ShortStateCharacter, law: Law, capital: Capital){
+            val newAction = EnactLaw(law, capital.terId)
+            val newDeal = UnfinishedDeal(mapOf(perspective.player to setOf(newAction)))
+
+            UIGlobals.focusOn(WritConstructor(newDeal))
+            UIGlobals.focusOn(newAction)
+        }
+    }
 
     val type: String
 
@@ -20,4 +35,5 @@ abstract class Law: PrettyPrintable {
     }
 
     abstract fun constructorComponentFactory(capital: Capital): Displayable
+
 }
