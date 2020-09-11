@@ -9,6 +9,7 @@ import gamelogic.territory.FoodStocksReportFactory
 import game.titlemaker.CookieWorldTitleFactory
 import gamelogic.territory.PopulationReportFactory
 import shortstate.report.ReportFactory
+import ui.specialdisplayables.selectionmodal.Tab
 
 class Minister: Title{
     override val importance = 5
@@ -52,7 +53,7 @@ class Minister: Title{
         )
     }
 
-    override fun actionsReguarding(players: List<GameCharacter>): List<Action> {
+    override fun actionsReguarding(players: List<GameCharacter>): List<Tab<Action>> {
         return listOf()
     }
 

@@ -6,6 +6,7 @@ import game.Title
 import game.action.Action
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.ReportFactory
+import ui.specialdisplayables.selectionmodal.Tab
 
 class King: Title{
     override val importance = 100
@@ -46,7 +47,7 @@ class King: Title{
         )
     }
 
-    override fun actionsReguarding(players: List<GameCharacter>): List<Action> {
+    override fun actionsReguarding(players: List<GameCharacter>): List<Tab<Action>> {
         return listOf()
     }
 

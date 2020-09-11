@@ -7,6 +7,7 @@ import shortstate.report.ReportType
 import shortstate.room.RoomActionMaker
 import shortstate.room.action.MakeReport
 import shortstate.room.actionmaker.DefaultRoomActionMaker
+import ui.specialdisplayables.selectionmodal.Tab
 
 abstract class Title {
 
@@ -34,7 +35,7 @@ abstract class Title {
 
     abstract fun clone(): Title
 
-    abstract fun actionsReguarding(players: List<GameCharacter>): List<Action>
+    abstract fun actionsReguarding(players: List<GameCharacter>): List<Tab<Action>>
 
     fun reportActions(): List<RoomActionMaker>{
         return reportsEntitled.map { type -> DefaultRoomActionMaker(MakeReport(type)) }

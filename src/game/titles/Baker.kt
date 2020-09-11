@@ -8,6 +8,7 @@ import gamelogic.cookieworld.actionTypes.WasteTime
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.DeliciousnessReportFactory
 import shortstate.report.ReportFactory
+import ui.specialdisplayables.selectionmodal.Tab
 
 class Baker: Title{
     override val importance = 1
@@ -36,8 +37,8 @@ class Baker: Title{
         )
     }
 
-    override fun actionsReguarding(players: List<GameCharacter>): List<Action> {
-        return listOf(BakeCookies(), WasteTime())
+    override fun actionsReguarding(players: List<GameCharacter>): List<Tab<Action>> {
+        return listOf(Tab("", listOf(BakeCookies(), WasteTime())))
     }
 
     override fun equals(other: Any?): Boolean {

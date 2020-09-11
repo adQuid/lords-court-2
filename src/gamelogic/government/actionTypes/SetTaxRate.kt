@@ -34,7 +34,7 @@ class SetTaxRate: Action {
     }
 
     override fun isLegal(game: Game, player: GameCharacter): Boolean {
-        return player.titles.flatMap { it.actionsReguarding(listOf(player)) }.filter { it is SetTaxRate && it.terId == terId }.isNotEmpty()
+        return player.titles.flatMap { it.actionsReguarding(listOf(player)) }.flatMap { it.items }.filter { it is SetTaxRate && it.terId == terId }.isNotEmpty()
     }
 
     override fun doAction(game: Game, player: GameCharacter){

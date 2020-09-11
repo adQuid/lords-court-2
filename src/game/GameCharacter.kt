@@ -192,14 +192,14 @@ class GameCharacter {
     }
 
     fun actionTabsRegarding(players: List<GameCharacter>): List<Tab<Action>>{
-        val retval = titles.map { title -> Tab("Actions as ${title.name}", title.actionsReguarding(players))}
+        var retval = titles.flatMap { title -> title.actionsReguarding(players)}
         if(players.size > 1){
             val temp = PlayerResourceTypes.allTypes.filter { privateResources.get(it) > 0 }.map{ GiveResource(players.filter{it != this}.first().id, it, 1) }
             val tab = Tab<Action>("Resource Transfers", temp)
-            return retval.plus(listOf(tab))
-        } else {
-            return retval
+            retval = retval.plus(listOf(tab))
         }
+
+        return retval.filter { it.items.isNotEmpty() }
     }
 
     fun reportsEntitled(): Collection<ReportFactory>{

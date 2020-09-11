@@ -12,6 +12,7 @@ import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.territory.PopulationReportFactory
 import shortstate.report.ReportFactory
+import ui.specialdisplayables.selectionmodal.Tab
 
 class Count: Title{
     override val importance = 10
@@ -55,9 +56,9 @@ class Count: Title{
         )
     }
 
-    override fun actionsReguarding(players: List<GameCharacter>): List<Action> {
-        return listOf(SetTaxRate(capital.terId, 0.3))
-            .plus(PlayerResourceTypes.allTypes.filter { capital.resources.get(it) > 0 }.map{ GiveResource(players.last().id, it, 1) })
+    override fun actionsReguarding(players: List<GameCharacter>): List<Tab<Action>> {
+        return listOf(Tab<Action>("Legalistic acts in ${capital.territory!!.name}", listOf(SetTaxRate(capital.terId, 0.3))),
+            Tab<Action>("Resource Transfers", PlayerResourceTypes.allTypes.filter { capital.resources.get(it) > 0 }.map{ GiveResource(players.last().id, it, 1) }))
     }
 
     override fun equals(other: Any?): Boolean {

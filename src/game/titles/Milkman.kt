@@ -7,6 +7,7 @@ import gamelogic.cookieworld.actionTypes.GetMilk
 import game.titlemaker.CookieWorldTitleFactory
 import shortstate.report.DeliciousnessReportFactory
 import shortstate.report.ReportFactory
+import ui.specialdisplayables.selectionmodal.Tab
 
 class Milkman: Title{
     override val importance = 1
@@ -35,8 +36,8 @@ class Milkman: Title{
         )
     }
 
-    override fun actionsReguarding(players: List<GameCharacter>): List<Action> {
-        return players.map { player -> GetMilk(player) }
+    override fun actionsReguarding(players: List<GameCharacter>): List<Tab<Action>> {
+        return listOf(Tab<Action>("",players.map { player -> GetMilk(player) }))
     }
 
     override fun equals(other: Any?): Boolean {
