@@ -14,6 +14,7 @@ import javafx.scene.text.Font
 import javafx.scene.text.Text
 import main.UIGlobals
 import shortstate.ShortStateCharacter
+import ui.Describable
 import ui.NoPerspectiveDisplayable
 import ui.PerspectiveDisplayable
 import ui.commoncomponents.PrettyPrintable
@@ -103,7 +104,14 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
         public override fun updateItem(item: T?, empty: Boolean) {
             if(item != null){
                 super.updateItem(item, empty)
-                val displayText = if(item is PrettyPrintable){ item.prettyPrint(UIGlobals.GUI().shortGame(), UIGlobals.playingAs()) } else{ item.toString() }
+                val displayText =
+                if(item is PrettyPrintable){
+                    item.prettyPrint(UIGlobals.GUI().shortGame(), UIGlobals.playingAs())
+                } else if(item is Describable){
+                    item.tooltip(UIGlobals.playingAs())
+                }else {
+                    item.toString()
+                }
 
                 if(closeAction != null){
                     this.graphic = UtilityComponentFactory.shortWideButton(displayText, EventHandler { })

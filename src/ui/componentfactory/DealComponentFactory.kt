@@ -108,7 +108,7 @@ open class DealComponentFactory {
 
     private fun actionList(): Pane {
         if(deal is UnfinishedDeal){
-            return actionLists[currentPage]!!.actionList(actions[currentPage]!!, action())
+            return actionLists[currentPage]!!.actionList(actions[currentPage]!!, SelectionModal("Select Action", UIGlobals.playingAs().player.actionTabsRegarding(actions.keys.toList()), {action -> actions[currentPage]!!.add(action); UIGlobals.GUI().curFocus.pop(); UIGlobals.focusOn(action)}))
         } else {
             return actionLists[currentPage]!!.actionList(actions[currentPage]!!, null)
         }

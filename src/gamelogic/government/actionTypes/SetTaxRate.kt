@@ -44,7 +44,7 @@ class SetTaxRate: Action {
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {
-        return "set taxes to ${DecimalFormat("#.##").format(amount)}"
+        return "set tax rate"
     }
 
     override fun saveString(): Map<String, Any> {

@@ -11,6 +11,7 @@ import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.Resources
 import shortstate.report.ReportFactory
+import ui.specialdisplayables.selectionmodal.Tab
 import kotlin.math.min
 
 class GameCharacter {
@@ -187,9 +188,15 @@ class GameCharacter {
     }
 
     fun actionsReguarding(players: List<GameCharacter>): List<Action>{
-        val retval = titles.flatMap { title -> title.actionsReguarding(players) }
+        return actionTabsRegarding(players).flatMap { it.items }
+    }
+
+    fun actionTabsRegarding(players: List<GameCharacter>): List<Tab<Action>>{
+        val retval = titles.map { title -> Tab("Actions as ${title.name}", title.actionsReguarding(players))}
         if(players.size > 1){
-            return retval.plus(PlayerResourceTypes.allTypes.filter { privateResources.get(it) > 0 }.map{ GiveResource(players.filter{it != this}.first().id, it, 1) })
+            val temp = PlayerResourceTypes.allTypes.filter { privateResources.get(it) > 0 }.map{ GiveResource(players.filter{it != this}.first().id, it, 1) }
+            val tab = Tab<Action>("Resource Transfers", temp)
+            return retval.plus(listOf(tab))
         } else {
             return retval
         }

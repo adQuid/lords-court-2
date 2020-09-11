@@ -8,10 +8,11 @@ import javafx.scene.layout.Pane
 import main.UIGlobals
 import ui.PerspectiveDisplayable
 import ui.componentfactory.UtilityComponentFactory
+import ui.specialdisplayables.selectionmodal.SelectionModal
 
 class AppendableActionList {
 
-    fun actionList(collection: MutableSet<Action>, addSelector: PerspectiveDisplayable?): Pane {
+    fun actionList(collection: MutableSet<Action>, addSelector: SelectionModal<Action>?): Pane {
         val retval = GridPane()
         retval.style = "-fx-background-color: tan"
 
