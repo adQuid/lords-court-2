@@ -36,7 +36,9 @@ object MiddlePaneComponentFactory {
         if(!locked){
             modifyingComponents(perspective, locked).entries.forEach { mainPane.add(it.value, it.key, 0) }
         } else {
-            modifyingComponents(perspective, locked).entries.forEach { mainPane.add(it.value, it.key, 0); mainPane.children[it.key].isDisable = true }
+            val toAdd = modifyingComponents(perspective, locked)
+            toAdd.forEach { it.value.isDisable = true }
+            toAdd.forEach { mainPane.add(it.value, it.key, 0) }
         }
 
         val retval = StackPane()
@@ -63,21 +65,18 @@ object MiddlePaneComponentFactory {
                         { writ -> UIGlobals.focusOn(writ) })
                 )
             }),
-            4 to UtilityComponentFactory.iconButton("assets/general/personalResourcesIcon.png", "View Resources in your Possession", {
-                UIGlobals.focusOn(PersonalResourcesView())
-            }),
-            5 to UtilityComponentFactory.iconButton("assets/general/optionsIcon.png", "Options", { UIGlobals.focusOn(OptionsMenu()) })
+            9 to UtilityComponentFactory.iconButton("assets/general/optionsIcon.png", "Options", { UIGlobals.focusOn(OptionsMenu()) })
         )
     }
 
     private fun modifyingComponents(perspective: ShortStateCharacter, disabled: Boolean): Map<Int, Node>{
         val extra = if(disabled) "Disabled" else ""
         return mapOf(
-            6 to UtilityComponentFactory.iconButton("assets/general/newSceneIcon${extra}.png", "Go somewhere else", { UIGlobals.focusOn(
+            5 to UtilityComponentFactory.iconButton("assets/general/newSceneIcon${extra}.png", "Go somewhere else", { UIGlobals.focusOn(
                 NewSceneSelector.newSceneSelector(perspective)
             )
             }),
-            7 to UtilityComponentFactory.iconButton("assets/general/endTurnIcon${extra}.png", "End turn", { UIGlobals.focusOn(
+            8 to UtilityComponentFactory.iconButton("assets/general/endTurnIcon${extra}.png", "End turn", { UIGlobals.focusOn(
                 EndTurnMenu()
             )})
         )
