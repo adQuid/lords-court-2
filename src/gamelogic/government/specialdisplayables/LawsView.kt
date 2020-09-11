@@ -13,6 +13,8 @@ import shortstate.ShortStateCharacter
 import ui.Displayable
 import ui.componentfactory.UtilityComponentFactory
 import ui.specialdisplayables.contructorobjects.WritConstructor
+import ui.specialdisplayables.selectionmodal.SelectionModal
+import ui.specialdisplayables.selectionmodal.Tab
 
 class LawsView: Displayable {
 
@@ -32,16 +34,13 @@ class LawsView: Displayable {
         taxesPane.add(UtilityComponentFactory.proportionalButton("Change", EventHandler { makeWritFromAction(perspective!!) },0.25),1,0)
         pane.add(taxesPane,0,0)
 
-        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 1)
-        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 2)
+        pane.add(UtilityComponentFactory.shortWideButton("Laws", EventHandler { UIGlobals.focusOn(SelectionModal("Laws",listOf(
+            Tab("Laws", capital.laws().toList())
+        ), { UIGlobals.focusOn(it.constructorComponentFactory(capital))})) }), 0, 1)
+        pane.add(UtilityComponentFactory.proportionalLabel("", 1.0, 0.6), 0, 2)
         pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 3)
-        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 4)
-        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 5)
-        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 6)
-        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 7)
-        pane.add(UtilityComponentFactory.shortWideLabel(""), 0, 8)
 
-        pane.add(UtilityComponentFactory.backButton(), 0, 9)
+        pane.add(UtilityComponentFactory.backButton(), 0, 4)
 
 
         return Scene(pane)
@@ -53,9 +52,5 @@ class LawsView: Displayable {
 
         UIGlobals.focusOn(WritConstructor(newDeal))
         UIGlobals.focusOn(newAction)
-    }
-
-    private fun writFromLawChange(player: GameCharacter): UnfinishedDeal{
-        return UnfinishedDeal(mapOf(player to setOf()))
     }
 }

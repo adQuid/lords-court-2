@@ -1,11 +1,25 @@
 package gamelogic.government.laws
 
+import aibrain.UnfinishedDeal
 import gamelogic.government.Capital
+import gamelogic.government.GovernmentLogicModule
 import gamelogic.government.Law
+import gamelogic.government.actionTypes.EnactLaw
+import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.territory.Territory
+import javafx.event.EventHandler
+import javafx.scene.Node
+import javafx.scene.Scene
+import javafx.scene.layout.GridPane
+import javafx.scene.layout.StackPane
+import main.UIGlobals
+import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
+import ui.Displayable
+import ui.componentfactory.UtilityComponentFactory
+import ui.specialdisplayables.contructorobjects.WritConstructor
 
 class Charity: Law {
-
     companion object{
         val type = "charity"
 
@@ -13,10 +27,14 @@ class Charity: Law {
     }
 
     var onNeed = false
+        get() = field
+        private set
 
     constructor(onNeed: Boolean): super(Charity.type){
         this.onNeed = onNeed
     }
+
+    constructor(other: Charity): this(other.onNeed)
 
     constructor(saveString: Map<String, Any>): super(saveString["type"] as String){
         onNeed = saveString[ON_NEED_NAME] as Boolean
@@ -37,8 +55,76 @@ class Charity: Law {
                 capital!!.territory!!.resources.addAll(foodToGive)
             }
         }
+    }
 
+    override fun constructorComponentFactory(capital: Capital): Displayable {
+        return CharityConstructorFactory(this, capital)
+    }
+
+    override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
+        return "Charity"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        if (this.onNeed != (other as Charity).onNeed) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return javaClass.hashCode()
     }
 
 
+    class CharityConstructorFactory: Displayable{
+
+        val capital: Capital
+
+        val charity: Charity
+        val modCharity: Charity
+
+        val draftButton = UtilityComponentFactory.shortWideButton("Draft Law", EventHandler { makeWritFromAction(UIGlobals.playingAs()) })
+
+        constructor(charity: Charity, capital: Capital){
+            this.capital = capital
+            this.charity = charity
+            this.modCharity = Charity(charity)
+        }
+
+        override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
+            update()
+
+            val pane = GridPane()
+
+            val onNeedPane = GridPane()
+            onNeedPane.add(UtilityComponentFactory.shortProportionalLabel("On Need:", 0.5),0,0)
+            onNeedPane.add(UtilityComponentFactory.shortButton("${modCharity.onNeed}", EventHandler { modCharity.onNeed = !modCharity.onNeed; update(); UIGlobals.refresh()},0.5),1,0)
+
+            pane.add(onNeedPane, 0,0)
+            pane.add(UtilityComponentFactory.proportionalLabel("Filler", 1.0, 0.7),0,1)
+            pane.add( draftButton,0,2)
+            pane.add(UtilityComponentFactory.backButton(),0,3)
+            return Scene(pane)
+        }
+
+        fun update(){
+            UIGlobals.clearLastSelectedButton()
+            if(charity == modCharity){
+                UtilityComponentFactory.setButtonDisable(draftButton, true)
+            } else {
+                UtilityComponentFactory.setButtonDisable(draftButton, false)
+            }
+
+
+        }
+
+        private fun makeWritFromAction(perspective: ShortStateCharacter){
+            val newAction = EnactLaw(modCharity, capital.terId)
+            val newDeal = UnfinishedDeal(mapOf(perspective.player to setOf(newAction)))
+
+            UIGlobals.focusOn(WritConstructor(newDeal))
+            UIGlobals.focusOn(newAction)
+        }
+    }
 }

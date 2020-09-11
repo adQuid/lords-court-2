@@ -3,10 +3,13 @@ package main
 import game.Game
 import game.GameCharacter
 import game.action.Action
+import javafx.scene.image.ImageView
+import javafx.scene.layout.StackPane
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import ui.Displayable
 import ui.MainUI
+import ui.componentfactory.UtilityComponentFactory
 
 object UIGlobals {
 
@@ -62,6 +65,20 @@ object UIGlobals {
 
     fun appendActionsForPlayer(player: GameCharacter, actions: List<Action>){
         Controller.singleton!!.commitActionsForPlayer(player, actions)
+    }
+
+    fun clearLastSelectedButton(){
+        if(GUI().lastButtonClicked != null){
+            val buttonAsStack = GUI().lastButtonClicked!!  as StackPane
+            val image = buttonAsStack.children[0] as ImageView
+            (GUI().lastButtonClicked as StackPane).children.set(0,
+                UtilityComponentFactory.imageView(
+                    "assets/general/generalButton.png",
+                    image.fitHeight / totalHeight(),
+                    image.fitWidth / totalWidth()
+                )
+            )
+        }
     }
 
     fun totalHeight(): Double{

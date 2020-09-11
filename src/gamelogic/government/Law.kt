@@ -1,9 +1,9 @@
 package gamelogic.government
 
-import game.Game
-import gamelogic.government.laws.Charity
+import ui.Displayable
+import ui.commoncomponents.PrettyPrintable
 
-abstract class Law {
+abstract class Law: PrettyPrintable {
 
     val type: String
 
@@ -18,4 +18,6 @@ abstract class Law {
     fun saveString(): Map<String, Any>{
         return specialSaveString().plus(mapOf("type" to type))
     }
+
+    abstract fun constructorComponentFactory(capital: Capital): Displayable
 }

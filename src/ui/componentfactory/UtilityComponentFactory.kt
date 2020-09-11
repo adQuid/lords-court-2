@@ -255,9 +255,7 @@ object UtilityComponentFactory {
         if(action != null){
             behaviorByButton[retval] = EventHandler { event ->
                 if(UIGlobals.GUI().lastButtonClicked != null) {
-                    val buttonAsStack = UIGlobals.GUI().lastButtonClicked!!  as StackPane
-                    val image = buttonAsStack.children[0] as ImageView
-                    (UIGlobals.GUI().lastButtonClicked as StackPane).children.set(0, imageView("assets/general/generalButton.png", image.fitHeight/ UIGlobals.totalHeight(), image.fitWidth/UIGlobals.totalWidth()))
+                    UIGlobals.clearLastSelectedButton()
                 }
                 UIGlobals.GUI().lastButtonClicked = retval
                 retval.children.set(0, imageView("assets/general/generalButtonSelected.png", height, width))

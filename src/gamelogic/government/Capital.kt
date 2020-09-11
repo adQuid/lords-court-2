@@ -63,7 +63,12 @@ class Capital {
         return Count(this)
     }
 
+    fun laws(): Set<Law>{
+        return laws.toSet()
+    }
+
     fun enactLaw(law: Law){
+        laws.removeIf{it.type == law.type}
         laws.add(law)
     }
 
