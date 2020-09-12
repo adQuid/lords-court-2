@@ -22,7 +22,7 @@ class Resources {
         return resources
     }
 
-    fun get(name: String): Int {
+    operator fun get(name: String): Int {
         return resources.getOrDefault(name, 0)
     }
 
