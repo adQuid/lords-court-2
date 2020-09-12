@@ -99,7 +99,7 @@ class Charity: Law {
             val pane = GridPane()
 
             val onNeedPane = GridPane()
-            onNeedPane.add(UtilityComponentFactory.shortProportionalLabel("On Need:", 0.5),0,0)
+            onNeedPane.add(UtilityComponentFactory.shortProportionalLabel("Castle stocks will be used to provide food to the people where supplies are low among the people:", 0.5),0,0)
             onNeedPane.add(UtilityComponentFactory.shortButton("${if(modCharity.onNeed){"Yes"}else{"No"}}", EventHandler { modCharity.onNeed = !modCharity.onNeed; update(); UIGlobals.refresh()},0.5),1,0)
 
             pane.add(onNeedPane, 0,0)

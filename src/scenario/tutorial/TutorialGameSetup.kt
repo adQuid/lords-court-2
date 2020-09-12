@@ -41,9 +41,10 @@ object TutorialGameSetup {
                 "Writ",
                 "I'm sure that, growing up, you mostly heard about what the kingdom was up to from your father directly, but for most of us the news came from the enactment of a writ. That's where the orders of the ruler are announced in the throne room for all to hear, and displayed for the land's agents to interpret. In a civilized land like ours, even simple transfers to and from the treasury require documentation. We've already set up a workroom for you here, which I suggest you get familiar with."
             ),
+            Topic("Economics", "Crops", "The commoners only get one harvest per year, but if God wishes it that harvest will last the whole year. The fields don't wait, so it is absolutely essential that the people are allowed time to be at their farms for both planting and harvest season. During winter, it is essential we have enough food to last, for God will not provide any more until the frosts melt."),
             Topic("Economics", "Capital Stocks", "\"Capital Stocks\" is a term used to describe anything we have here in our storeroom...I mean treasury. Any writ you make will be backed by these resources."),
             Topic("Economics", "Charity", "An important duty of any lord is to provide for the common folk in times of need. Whatever food we have in our capital stocks will be distributed out to those who don't have enough to feed themselves."),
-            Topic("Economics", "Taxes", "The portion of each harvest given over to us. Did your father never teach you what taxes are?")
+            Topic("Economics", "Taxes", "In more savage lands, rulers may be content to simply demand tributes whenever they feel the urge, in our kingdom there are orderly rules for the collection of taxes. The most important of these is the harvest, where we send our men to take a portion of every farm's yield for the common good.")
         ))
         game.cultures.add(tutorialCulture)
 
