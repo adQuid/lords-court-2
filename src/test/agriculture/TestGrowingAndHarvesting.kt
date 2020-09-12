@@ -1,6 +1,7 @@
 package test.agriculture
 
 import game.Game
+import gamelogic.economics.EconomicsLogicModule
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
@@ -12,7 +13,10 @@ class TestGrowingAndHarvesting {
         val territories = TerritoryLogicModule(TerritoryMap("test"))
         territories.weekOfYear = 9
         territories.map.territories.add(Territory(territories.map.nextId, "Placeburg",0,0))
-        val game = Game(listOf(territories))
+
+        val economics = EconomicsLogicModule()
+
+        val game = Game(listOf(territories, economics))
         TerritoryLogicModule.getTerritoryLogicModule(game).weekOfYear = 7
         return game
     }

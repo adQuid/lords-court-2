@@ -10,6 +10,7 @@ import java.lang.Exception
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.government.GovernmentLogicModule
 import game.titlemaker.TitleFactory
+import gamelogic.economics.EconomicsLogicModule
 import gamelogic.playerresources.PlayerResourceModule
 import javafx.scene.control.Button
 import shortstate.ShortStateCharacter
@@ -30,6 +31,9 @@ abstract class GameLogicModule {
             if(saveString[TYPE_NAME] == TerritoryLogicModule.type){
                 return TerritoryLogicModule(saveString, game)
             }
+            if(saveString[TYPE_NAME] == EconomicsLogicModule.type){
+                return EconomicsLogicModule(saveString, game)
+            }
             if(saveString[TYPE_NAME] == GovernmentLogicModule.type){
                 return GovernmentLogicModule(saveString, game)
             }
@@ -45,6 +49,9 @@ abstract class GameLogicModule {
             }
             if(logicModule is TerritoryLogicModule){
                 return TerritoryLogicModule(logicModule)
+            }
+            if(logicModule is EconomicsLogicModule){
+                return EconomicsLogicModule(logicModule)
             }
             if(logicModule is GovernmentLogicModule){
                 return GovernmentLogicModule(logicModule, game)

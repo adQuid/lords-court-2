@@ -9,6 +9,7 @@ import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
 import org.junit.Test
 import game.GameCharacter
+import gamelogic.economics.EconomicsLogicModule
 import gamelogic.government.Kingdom
 import gamelogic.government.laws.Charity
 
@@ -48,6 +49,8 @@ fun twoCapitalTestGame(): Game {
 
     val territoryLogic = TerritoryLogicModule(territories)
 
+    val economics = EconomicsLogicModule()
+
     val govLogic = GovernmentLogicModule(territories.territories.map{Capital(it)},
         listOf(Kingdom("Test Kingdom", listOf(
             territoryLogic.territories().first { it.name == "Port Fog" },
@@ -56,7 +59,7 @@ fun twoCapitalTestGame(): Game {
             territoryLogic.territories().first { it.name == "Mt. Mist" },
             territoryLogic.territories().first { it.name == "Craytoyl" }
         ))))
-    val game = Game(listOf(territoryLogic,
+    val game = Game(listOf(territoryLogic, economics,
         govLogic
     ))
     val player = GameCharacter("name", "image", true, game.locations().first(), game)

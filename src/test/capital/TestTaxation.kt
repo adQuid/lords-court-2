@@ -3,6 +3,7 @@ package test.capital
 import aibrain.GameCase
 import game.Game
 import game.GameCharacter
+import gamelogic.economics.EconomicsLogicModule
 import gamelogic.government.Capital
 import gamelogic.government.GovernmentLogicModule
 import gamelogic.government.actionTypes.SetTaxRate
@@ -29,9 +30,11 @@ class TestTaxation {
         territories.map.territories.add(Territory(territories.map.nextId, "Placeburg",0,0))
         territories.weekOfYear = 7
 
+        val economics = EconomicsLogicModule()
+
         val capitals = GovernmentLogicModule(listOf(Capital(territories.territories().first())), listOf())
 
-        val game = Game(listOf(territories, capitals))
+        val game = Game(listOf(territories, economics, capitals))
         return game
     }
 

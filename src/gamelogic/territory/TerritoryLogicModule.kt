@@ -70,10 +70,6 @@ class TerritoryLogicModule: GameLogicModule {
     }
 
     override fun endTurn(game: Game){
-        map.territories.forEach {
-            growCrops(it, game)
-        }
-
         weekOfYear = (weekOfYear + WEEKS_PER_TURN) % WEEKS_IN_YEAR
     }
 
@@ -107,77 +103,11 @@ class TerritoryLogicModule: GameLogicModule {
         return map.territories.filter { it.id == id }.first()
     }
 
-    private fun growCrops(territory: Territory, game: Game){
-        var farmersLeft = territory.resources.get(Territory.POPULATION_NAME)
-        var landLeft = territory.resources.get(Territory.ARABLE_LAND_NAME) - territory.totalCropsPlanted()
-        if(!isGrowingSeason()){
-            territory.crops.forEach { it.quantity /= 4 }
-        }
-        //people harvest crops
-        val thisHarvest = mutableListOf<Crop>()
-        territory.crops.forEach {
-            crop -> if(crop.readyToHarvest(game)){
-                val toHarvest = min(farmersLeft, crop.quantity)
-                if(toHarvest > 0){
-                    thisHarvest.add(Crop(toHarvest, crop.plantingTime))
-                    territory.modifyResource(Territory.SEEDS_NAME, crop.yield() * toHarvest)
-                    farmersLeft -= toHarvest
-                    crop.quantity -= toHarvest
-                } else if(game.isLive){
-                    println("a crop is ready, but not being harvested")
-                }
-                //TODO: Should crops rot this quickly?
-                crop.quantity /= 2
-            }
-        }
-        territory.lastHarvest = thisHarvest
-        territory.crops.removeIf { it.quantity < 1 }
-
-        //people plant
-        val toPlant = min(min(landLeft, farmersLeft), territory.resources.get(Territory.SEEDS_NAME))
-        if(toPlant > 0){
-            val cropToPlant = Crop(toPlant, game.turn)
-            if(goodIdeaToPlant(cropToPlant)){
-                territory.modifyResource(Territory.SEEDS_NAME, -toPlant)
-                territory.crops.add(cropToPlant)
-                farmersLeft -= toPlant
-            }
-        }
-
-        //milling seeds
-        val seedsToSave = territory.resources.get(Territory.ARABLE_LAND_NAME) * 1.2
-        val toMill = territory.resources.get(Territory.SEEDS_NAME) - seedsToSave
-        if(toMill > 0){
-            territory.modifyResource(Territory.SEEDS_NAME, -toMill.toInt())
-            territory.modifyResource(Territory.FLOUR_NAME, toMill.toInt())
-        }
-
-        //bake just enough bread to eat
-        val breadToMake = min((territory.resources.get(Territory.POPULATION_NAME)-territory.resources.get(Territory.BREAD_NAME))/2, territory.resources.get(Territory.FLOUR_NAME))
-        if(breadToMake > 0){
-            territory.modifyResource(Territory.BREAD_NAME, breadToMake*2)
-            territory.modifyResource(Territory.FLOUR_NAME, -breadToMake)
-        }
-
-        //eat food
-        //TODO: Will I never need this step?
-        val foodToEat = territory.foodToEatNextTurn()
-        val totalFood = foodToEat.resources.entries.sumBy { it.value }
-        if(totalFood >= territory.resources.get(Territory.POPULATION_NAME)){
-            territory.resources.subtractAll(foodToEat)
-        } else {
-            //println("starvation")
-            territory.resources.multiply(Territory.POPULATION_NAME, (1.0 + (totalFood / territory.resources.get(Territory.POPULATION_NAME)))/2.0)
-            territory.resources.set(Territory.BREAD_NAME, 0)
-        }
-
-    }
-
-    private fun goodIdeaToPlant(crop: Crop): Boolean{
+    fun goodIdeaToPlant(crop: Crop): Boolean{
         return isGrowingSeason() && willBeGrowingSeason(weekOfYear + crop.harvestAge() * WEEKS_PER_TURN)
     }
 
-    private fun isGrowingSeason(): Boolean{
+    fun isGrowingSeason(): Boolean{
         return willBeGrowingSeason(weekOfYear)
     }
 
