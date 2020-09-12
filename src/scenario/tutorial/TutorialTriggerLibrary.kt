@@ -9,6 +9,7 @@ import gamelogic.government.GovernmentLogicModule
 import gamelogic.government.actionTypes.GiveTerritory
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.TerritoryLogicModule
 import scenario.tutorial.TutorialGameSetup.TUTORIAL_PLAYER_NAME
 import shortstate.ShortStateCharacter
@@ -34,8 +35,8 @@ val adviceOnBadFishTrade = LineTrigger(
     )
 )
 private fun dealHasBadOfferForFish(deal: Deal): Boolean{
-    val cost = deal.theActions().entries.filter { it.key.npc == false }.flatMap{it.value}.filter { it is GiveResource && it.resource == PlayerResourceTypes.GOLD_NAME}.firstOrNull()
-    val fish = deal.theActions().entries.filter  { it.key.npc }.flatMap{it.value}.filter { it is GiveResource && it.resource == PlayerResourceTypes.FISH_NAME}.firstOrNull()
+    val cost = deal.theActions().entries.filter { it.key.npc == false }.flatMap{it.value}.filter { it is GiveResource && it.resource == ResourceTypes.GOLD_NAME}.firstOrNull()
+    val fish = deal.theActions().entries.filter  { it.key.npc }.flatMap{it.value}.filter { it is GiveResource && it.resource == ResourceTypes.FISH_NAME}.firstOrNull()
 
     if(cost != null && fish != null){
         return (cost as GiveResource).amount * 9 > (fish as GiveResource).amount
@@ -79,11 +80,11 @@ private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolea
     if(me.energy > 850 || (me.energy > 400 && game.playerCharacter().writs.isNotEmpty())){
         return false
     }
-    if(playerCapital.resources.get(PlayerResourceTypes.GOLD_NAME) == 0){
+    if(playerCapital.resources.get(ResourceTypes.GOLD_NAME) == 0){
         return false
     }
     game.endTurn()
-    return game.players.filter { it.npc == false && playerCapital.resources.get(PlayerResourceTypes.FISH_NAME) > 0 }.isEmpty()
+    return game.players.filter { it.npc == false && playerCapital.resources.get(ResourceTypes.FISH_NAME) > 0 }.isEmpty()
 }
 
 val chideForBadDeal = LineTrigger(
@@ -96,7 +97,7 @@ val chideForBadDeal = LineTrigger(
 )
 private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean{
     val player = game.playerCharacter()
-    val merchant = game.players.filter { it.npc && it.privateResources.get(PlayerResourceTypes.FISH_NAME) > 0 }.firstOrNull()
+    val merchant = game.players.filter { it.npc && it.privateResources.get(ResourceTypes.FISH_NAME) > 0 }.firstOrNull()
     if(merchant == null){
         return false
     }
@@ -193,7 +194,7 @@ fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Lin
         val territory = territoryLogic.territories().first()
         val deal = FinishedDeal(mapOf(
             me.player to setOf(GiveTerritory(territory.id,PC.id)),
-            PC to setOf(GiveResource(me.player.id, PlayerResourceTypes.GOLD_NAME, 0))
+            PC to setOf(GiveResource(me.player.id, ResourceTypes.GOLD_NAME, 0))
         ))
         val writ = Writ("Transfer of Title to ${PC.fullName()} for Indefinite Period", deal, listOf(me.player))
 

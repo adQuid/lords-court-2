@@ -1,6 +1,7 @@
 package ui.specialdisplayables
 
 import gamelogic.playerresources.PlayerResourceTypes
+import gamelogic.resources.ResourceTypes
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
@@ -12,8 +13,8 @@ class PersonalResourcesView: PerspectiveDisplayable() {
     override fun display(perspective: ShortStateCharacter): Scene {
         val pane = GridPane()
 
-        pane.add(UtilityComponentFactory.shortWideLabel("Gold: ${perspective.player.privateResources.get(PlayerResourceTypes.GOLD_NAME)}"), 0, 2)
-        pane.add(UtilityComponentFactory.shortWideLabel("Fish: ${perspective.player.privateResources.get(PlayerResourceTypes.FISH_NAME)}"), 0, 3)
+        pane.add(UtilityComponentFactory.shortWideLabel("Gold: ${perspective.player.privateResources.get(ResourceTypes.GOLD_NAME)}"), 0, 2)
+        pane.add(UtilityComponentFactory.shortWideLabel("Fish: ${perspective.player.privateResources.get(ResourceTypes.FISH_NAME)}"), 0, 3)
         pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 4)
         pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 5)
         pane.add(UtilityComponentFactory.shortWideButton("Filler", EventHandler {  }), 0, 6)

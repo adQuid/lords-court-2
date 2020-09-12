@@ -6,6 +6,7 @@ import game.Game
 import game.GameCharacter
 import game.GameLogicModule
 import game.Location
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Crop
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
@@ -14,6 +15,8 @@ import kotlin.math.min
 class EconomicsLogicModule: GameLogicModule {
     companion object {
         val type = "Economics"
+
+
     }
 
     override val type = EconomicsLogicModule.type
@@ -45,8 +48,8 @@ class EconomicsLogicModule: GameLogicModule {
     private fun growCrops(territory: Territory, game: Game){
         val territoryLogic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
 
-        var farmersLeft = territory.resources.get(Territory.POPULATION_NAME)
-        var landLeft = territory.resources.get(Territory.ARABLE_LAND_NAME) - territory.totalCropsPlanted()
+        var farmersLeft = territory.resources.get(ResourceTypes.POPULATION_NAME)
+        var landLeft = territory.resources.get(ResourceTypes.ARABLE_LAND_NAME) - territory.totalCropsPlanted()
         if(!territoryLogic.isGrowingSeason()){
             territory.crops.forEach { it.quantity /= 4 }
         }
@@ -57,7 +60,7 @@ class EconomicsLogicModule: GameLogicModule {
             val toHarvest = min(farmersLeft, crop.quantity)
             if(toHarvest > 0){
                 thisHarvest.add(Crop(toHarvest, crop.plantingTime))
-                territory.modifyResource(Territory.SEEDS_NAME, crop.yield() * toHarvest)
+                territory.modifyResource(ResourceTypes.SEEDS_NAME, crop.yield() * toHarvest)
                 farmersLeft -= toHarvest
                 crop.quantity -= toHarvest
             } else if(game.isLive){
@@ -71,44 +74,44 @@ class EconomicsLogicModule: GameLogicModule {
         territory.crops.removeIf { it.quantity < 1 }
 
         //people plant
-        val toPlant = min(min(landLeft, farmersLeft), territory.resources.get(Territory.SEEDS_NAME))
+        val toPlant = min(min(landLeft, farmersLeft), territory.resources.get(ResourceTypes.SEEDS_NAME))
         if(toPlant > 0){
             val cropToPlant = Crop(toPlant, game.turn)
             if(territoryLogic.goodIdeaToPlant(cropToPlant)){
-                territory.modifyResource(Territory.SEEDS_NAME, -toPlant)
+                territory.modifyResource(ResourceTypes.SEEDS_NAME, -toPlant)
                 territory.crops.add(cropToPlant)
                 farmersLeft -= toPlant
             }
         }
 
         //milling seeds
-        val seedsToSave = territory.resources.get(Territory.ARABLE_LAND_NAME) * 1.2
-        val toMill = territory.resources.get(Territory.SEEDS_NAME) - seedsToSave
+        val seedsToSave = territory.resources.get(ResourceTypes.ARABLE_LAND_NAME) * 1.2
+        val toMill = territory.resources.get(ResourceTypes.SEEDS_NAME) - seedsToSave
         if(toMill > 0){
-            territory.modifyResource(Territory.SEEDS_NAME, -toMill.toInt())
-            territory.modifyResource(Territory.FLOUR_NAME, toMill.toInt())
+            territory.modifyResource(ResourceTypes.SEEDS_NAME, -toMill.toInt())
+            territory.modifyResource(ResourceTypes.FLOUR_NAME, toMill.toInt())
         }
 
         //bake just enough bread to eat
-        val breadToMake = min((territory.resources.get(Territory.POPULATION_NAME)-territory.resources.get(Territory.BREAD_NAME))/2, territory.resources.get(
-            Territory.FLOUR_NAME))
+        val breadToMake = min((territory.resources.get(ResourceTypes.POPULATION_NAME)-territory.resources.get(ResourceTypes.BREAD_NAME))/2, territory.resources.get(
+            ResourceTypes.FLOUR_NAME))
         if(breadToMake > 0){
-            territory.modifyResource(Territory.BREAD_NAME, breadToMake*2)
-            territory.modifyResource(Territory.FLOUR_NAME, -breadToMake)
+            territory.modifyResource(ResourceTypes.BREAD_NAME, breadToMake*2)
+            territory.modifyResource(ResourceTypes.FLOUR_NAME, -breadToMake)
         }
 
         //eat food
         //TODO: Will I never need this step?
         val foodToEat = territory.foodToEatNextTurn()
         val totalFood = foodToEat.resources.entries.sumBy { it.value }
-        if(totalFood >= territory.resources.get(Territory.POPULATION_NAME)){
+        if(totalFood >= territory.resources.get(ResourceTypes.POPULATION_NAME)){
             territory.resources.subtractAll(foodToEat)
         } else {
             //println("starvation")
             territory.resources.multiply(
-                Territory.POPULATION_NAME, (1.0 + (totalFood / territory.resources.get(
-                    Territory.POPULATION_NAME)))/2.0)
-            territory.resources.set(Territory.BREAD_NAME, 0)
+                ResourceTypes.POPULATION_NAME, (1.0 + (totalFood / territory.resources.get(
+                    ResourceTypes.POPULATION_NAME)))/2.0)
+            territory.resources.set(ResourceTypes.BREAD_NAME, 0)
         }
 
     }

@@ -7,6 +7,7 @@ import gamelogic.economics.EconomicsLogicModule
 import gamelogic.government.Capital
 import gamelogic.government.GovernmentLogicModule
 import gamelogic.government.actionTypes.SetTaxRate
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
@@ -47,7 +48,7 @@ class TestTaxation {
 
         game.appendActionsForPlayer(game.players.first(), listOf(SetTaxRate(capitals.capitals.first().terId, 1.0)))
         game.endTurn()
-        assert(capitals.capitals.first().taxes[Territory.FLOUR_NAME] == 1.0)
+        assert(capitals.capitals.first().taxes[ResourceTypes.FLOUR_NAME] == 1.0)
     }
 
     @Test
@@ -67,21 +68,21 @@ class TestTaxation {
         val game = capitalTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
-        ter.resources.set(Territory.SEEDS_NAME, 300)
-        ter.resources.set(Territory.POPULATION_NAME, 100)
-        ter.resources.set(Territory.FLOUR_NAME, 1000)
-        ter.resources.set(Territory.BREAD_NAME, 100)
-        ter.resources.set(Territory.ARABLE_LAND_NAME, 300)
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 300)
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
+        ter.resources.set(ResourceTypes.FLOUR_NAME, 1000)
+        ter.resources.set(ResourceTypes.BREAD_NAME, 100)
+        ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 300)
 
         val capitals = game.moduleOfType(GovernmentLogicModule.type)!! as GovernmentLogicModule
         val capital = capitals.capitals.first()
-        capital.taxes[Territory.FLOUR_NAME] = rate
+        capital.taxes[ResourceTypes.FLOUR_NAME] = rate
 
         for(i in 1..GameCase.LOOKAHEAD){
             game.endTurn()
         }
 
-       return capital.resources.resources[Territory.FLOUR_NAME]!!
+       return capital.resources.resources[ResourceTypes.FLOUR_NAME]!!
     }
 
 }

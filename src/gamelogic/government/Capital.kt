@@ -4,6 +4,7 @@ import game.Game
 import game.Location
 import game.Title
 import gamelogic.government.laws.GlobalLawFactory
+import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
@@ -23,7 +24,7 @@ class Capital {
         this.territory = territory
         terId = territory.id
         location = Location(territory.x, territory.y)
-        taxes = mutableMapOf(Territory.FLOUR_NAME to 0.1)
+        taxes = mutableMapOf(ResourceTypes.FLOUR_NAME to 0.1)
         laws = mutableSetOf()
     }
 

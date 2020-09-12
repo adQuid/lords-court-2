@@ -1,22 +1,17 @@
 package gamelogic.territory
 
 import gamelogic.playerresources.PlayerResourceTypes
+import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
 import kotlin.math.min
 
 class Territory {
 
     companion object{
-        val ARABLE_LAND_NAME = "arable_land"
-        val POPULATION_NAME = "pop"
-        val SEEDS_NAME = "seeds"
-        val FLOUR_NAME = "flour"
-        val BREAD_NAME = "bread"
         val RESOURCES_NAME = "resources"
-        private val resourceNames = listOf(ARABLE_LAND_NAME, POPULATION_NAME, SEEDS_NAME, FLOUR_NAME, BREAD_NAME, RESOURCES_NAME)
 
         fun extractFood(resources: Resources, amount: Int): Resources{
-            val foodTypesInOrder = listOf(BREAD_NAME, PlayerResourceTypes.FISH_NAME)
+            val foodTypesInOrder = listOf(ResourceTypes.BREAD_NAME, ResourceTypes.FISH_NAME)
             var foodLeftToExtract = amount
             val retval = Resources()
 
@@ -50,11 +45,11 @@ class Territory {
         this.x = x
         this.y = y
         resources = Resources()
-        resources.set(ARABLE_LAND_NAME, 200)
-        resources.set(POPULATION_NAME, 100)
-        resources.set(SEEDS_NAME, 100)
-        resources.set(FLOUR_NAME, 1000)
-        resources.set(BREAD_NAME, 100)
+        resources.set(ResourceTypes.ARABLE_LAND_NAME, 200)
+        resources.set(ResourceTypes.POPULATION_NAME, 100)
+        resources.set(ResourceTypes.SEEDS_NAME, 100)
+        resources.set(ResourceTypes.FLOUR_NAME, 1000)
+        resources.set(ResourceTypes.BREAD_NAME, 100)
         crops = mutableListOf()
         lastHarvest = listOf()
     }
@@ -115,6 +110,6 @@ class Territory {
     }
 
     fun foodToEatNextTurn(): Resources {
-        return extractFood(resources, resources.get(POPULATION_NAME))
+        return extractFood(resources, resources.get(ResourceTypes.POPULATION_NAME))
     }
 }

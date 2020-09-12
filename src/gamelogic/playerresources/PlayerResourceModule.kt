@@ -5,6 +5,7 @@ import aibrain.Score
 import game.*
 import game.titlemaker.TitleFactory
 import gamelogic.government.GovernmentLogicModule
+import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
 import gamelogic.territory.TerritoryLogicModule
 import shortstate.dialog.DialogFormatter
@@ -62,9 +63,9 @@ class PlayerResourceModule: GameLogicModule {
     override fun score(perspective: GameCharacter): Score {
         val retval = Score()
 
-        val gold = perspective.privateResources.get(PlayerResourceTypes.GOLD_NAME).toDouble()
+        val gold = perspective.privateResources.get(ResourceTypes.GOLD_NAME).toDouble()
         retval.add("gold", {value -> "${perspective} will ${DialogFormatter.gainOrLose(value)} gold pieces"}, gold)
-        retval.add("fish", {value -> "${perspective} will ${DialogFormatter.gainOrLose(value * 10)} fish"}, perspective.privateResources.get(PlayerResourceTypes.FISH_NAME).toDouble() * 0.1)
+        retval.add("fish", {value -> "${perspective} will ${DialogFormatter.gainOrLose(value * 10)} fish"}, perspective.privateResources.get(ResourceTypes.FISH_NAME).toDouble() * 0.1)
 
         return retval
     }

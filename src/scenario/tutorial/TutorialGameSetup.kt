@@ -15,6 +15,7 @@ import java.util.*
 import game.culture.Topic
 import gamelogic.government.Minister
 import gamelogic.government.laws.Charity
+import gamelogic.resources.ResourceTypes
 
 object TutorialGameSetup {
 
@@ -47,7 +48,7 @@ object TutorialGameSetup {
         game.cultures.add(tutorialCulture)
 
         val pcCapital = capitals.capitals.first()
-        pcCapital.resources.set(PlayerResourceTypes.GOLD_NAME, 100)
+        pcCapital.resources.set(ResourceTypes.GOLD_NAME, 100)
         pcCapital.enactLaw(Charity(true))
 
         val PC = GameCharacter(TUTORIAL_PLAYER_NAME, "assets/general/conversation frame.png", false, pcCapital.location, game)

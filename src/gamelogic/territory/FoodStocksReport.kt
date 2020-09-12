@@ -1,6 +1,7 @@
 package gamelogic.territory
 
 import game.Game
+import gamelogic.resources.ResourceTypes
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.report.Report
@@ -20,8 +21,8 @@ class FoodStocksReport: Report {
     constructor(game: Game, territory: Territory){
         this.territory = territory
         println(territory.name)
-        flour = territory.resources.get(Territory.FLOUR_NAME)
-        bread = territory.resources.get(Territory.BREAD_NAME)
+        flour = territory.resources.get(ResourceTypes.FLOUR_NAME)
+        bread = territory.resources.get(ResourceTypes.BREAD_NAME)
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
@@ -37,8 +38,8 @@ class FoodStocksReport: Report {
 
     override fun apply(game: Game) {
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
-        logic.matchingTerritory(territory).resources.set(Territory.FLOUR_NAME, flour)
-        logic.matchingTerritory(territory).resources.set(Territory.BREAD_NAME, bread)
+        logic.matchingTerritory(territory).resources.set(ResourceTypes.FLOUR_NAME, flour)
+        logic.matchingTerritory(territory).resources.set(ResourceTypes.BREAD_NAME, bread)
     }
 
     override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {

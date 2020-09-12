@@ -6,6 +6,7 @@ import game.SpecialScript
 import gamelogic.government.GovernmentLogicModule
 import gamelogic.government.actionTypes.GiveTerritory
 import gamelogic.playerresources.PlayerResourceTypes
+import gamelogic.resources.ResourceTypes
 import main.UIGlobals
 import ui.specialdisplayables.Message
 
@@ -79,7 +80,7 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
     val governments = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
     val pcCapital = governments.capitals.first()
     val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
-    fishmonger.privateResources.set(PlayerResourceTypes.FISH_NAME, 1000)
+    fishmonger.privateResources.set(ResourceTypes.FISH_NAME, 1000)
     fishmonger.specialLines.add(adviceOnDraftingWrit)
     fishmonger
     }

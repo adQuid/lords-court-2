@@ -6,6 +6,7 @@ import gamelogic.government.GovernmentLogicModule
 import gamelogic.government.Law
 import gamelogic.government.actionTypes.EnactLaw
 import gamelogic.government.actionTypes.SetTaxRate
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Territory
 import javafx.event.EventHandler
 import javafx.scene.Node
@@ -49,8 +50,8 @@ class Charity: Law {
         if(onNeed){
             val foodToEat = capital!!.territory!!.foodToEatNextTurn()
             val totalFood = foodToEat.resources.entries.sumBy { it.value }
-            if(totalFood < capital!!.territory!!.resources.get(Territory.POPULATION_NAME)){
-                val foodToGive = Territory.extractFood(capital!!.resources, capital!!.territory!!.resources.get(Territory.POPULATION_NAME) - totalFood)
+            if(totalFood < capital!!.territory!!.resources.get(ResourceTypes.POPULATION_NAME)){
+                val foodToGive = Territory.extractFood(capital!!.resources, capital!!.territory!!.resources.get(ResourceTypes.POPULATION_NAME) - totalFood)
                 capital!!.resources.subtractAll(foodToGive)
                 capital!!.territory!!.resources.addAll(foodToGive)
             }

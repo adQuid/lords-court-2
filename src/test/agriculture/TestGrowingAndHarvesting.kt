@@ -2,6 +2,7 @@ package test.agriculture
 
 import game.Game
 import gamelogic.economics.EconomicsLogicModule
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
@@ -26,12 +27,12 @@ class TestGrowingAndHarvesting {
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
-        ter.resources.set(Territory.SEEDS_NAME, 200)
-        ter.resources.set(Territory.ARABLE_LAND_NAME, 100)
-        ter.resources.set(Territory.POPULATION_NAME, 100)
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 200)
+        ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 100)
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
         //give them enough food to not have to worry about dieing
-        ter.resources.set(Territory.FLOUR_NAME, 10000)
-        ter.resources.set(Territory.BREAD_NAME, 100)
+        ter.resources.set(ResourceTypes.FLOUR_NAME, 10000)
+        ter.resources.set(ResourceTypes.BREAD_NAME, 100)
 
         game.endTurn()
         assert(ter.crops.size == 1)
@@ -43,7 +44,7 @@ class TestGrowingAndHarvesting {
         for(i in 1..15){
             game.endTurn()
         }
-        assert(ter.resources.get(Territory.SEEDS_NAME) > 0)
+        assert(ter.resources.get(ResourceTypes.SEEDS_NAME) > 0)
     }
 
     @Test
@@ -51,15 +52,15 @@ class TestGrowingAndHarvesting {
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
-        ter.resources.set(Territory.ARABLE_LAND_NAME, 0)
-        ter.resources.set(Territory.SEEDS_NAME, 200)
-        ter.resources.set(Territory.POPULATION_NAME, 100)
+        ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 0)
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 200)
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
         //give them enough food to not have to worry about dieing
-        ter.resources.set(Territory.BREAD_NAME, 100)
+        ter.resources.set(ResourceTypes.BREAD_NAME, 100)
 
         game.endTurn()
 
-        assert(ter.resources.get(Territory.FLOUR_NAME) > 0)
+        assert(ter.resources.get(ResourceTypes.FLOUR_NAME) > 0)
     }
 
     @Test
@@ -67,16 +68,16 @@ class TestGrowingAndHarvesting {
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
-        ter.resources.set(Territory.ARABLE_LAND_NAME, 200) //200 land should be enough to support 100 population
-        ter.resources.set(Territory.SEEDS_NAME, 200)
-        ter.resources.set(Territory.POPULATION_NAME, 100)
-        ter.resources.set(Territory.FLOUR_NAME, 1000)
+        ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 200) //200 land should be enough to support 100 population
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 200)
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
+        ter.resources.set(ResourceTypes.FLOUR_NAME, 1000)
 
         for(i in 1..100){
             game.endTurn()
-            println("seeds: ${ter.resources.get(Territory.SEEDS_NAME)}, flour: ${ter.resources.get(Territory.FLOUR_NAME)}")
-            assert(ter.resources.get(Territory.FLOUR_NAME) > 0)
-            assert(ter.resources.get(Territory.POPULATION_NAME) >= 100)
+            println("seeds: ${ter.resources.get(ResourceTypes.SEEDS_NAME)}, flour: ${ter.resources.get(ResourceTypes.FLOUR_NAME)}")
+            assert(ter.resources.get(ResourceTypes.FLOUR_NAME) > 0)
+            assert(ter.resources.get(ResourceTypes.POPULATION_NAME) >= 100)
         }
     }
 
@@ -85,16 +86,16 @@ class TestGrowingAndHarvesting {
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
-        ter.resources.set(Territory.ARABLE_LAND_NAME, 200) //200 land should be enough to support 100 population
-        ter.resources.set(Territory.SEEDS_NAME, 150)
-        ter.resources.set(Territory.POPULATION_NAME, 100)
-        ter.resources.set(Territory.FLOUR_NAME, 1000)
+        ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 200) //200 land should be enough to support 100 population
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 150)
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
+        ter.resources.set(ResourceTypes.FLOUR_NAME, 1000)
 
         for(i in 1..100){
             game.endTurn()
-            println("seeds: ${ter.resources.get(Territory.SEEDS_NAME)}, flour: ${ter.resources.get(Territory.FLOUR_NAME)}")
+            println("seeds: ${ter.resources.get(ResourceTypes.SEEDS_NAME)}, flour: ${ter.resources.get(ResourceTypes.FLOUR_NAME)}")
         }
-        assert(ter.resources.get(Territory.POPULATION_NAME) < 100)
+        assert(ter.resources.get(ResourceTypes.POPULATION_NAME) < 100)
     }
 
     @Test
@@ -102,16 +103,16 @@ class TestGrowingAndHarvesting {
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
-        ter.resources.set(Territory.ARABLE_LAND_NAME, 200) //200 land should be enough to support 100 population
-        ter.resources.set(Territory.SEEDS_NAME, 150)
-        ter.resources.set(Territory.POPULATION_NAME, 100)
-        ter.resources.set(Territory.FLOUR_NAME, 2000)
+        ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 200) //200 land should be enough to support 100 population
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 150)
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
+        ter.resources.set(ResourceTypes.FLOUR_NAME, 2000)
 
         for(i in 1..100){
             game.endTurn()
-            println("seeds: ${ter.resources.get(Territory.SEEDS_NAME)}, flour: ${ter.resources.get(Territory.FLOUR_NAME)}")
+            println("seeds: ${ter.resources.get(ResourceTypes.SEEDS_NAME)}, flour: ${ter.resources.get(ResourceTypes.FLOUR_NAME)}")
         }
-        assert(ter.resources.get(Territory.POPULATION_NAME) >= 100)
+        assert(ter.resources.get(ResourceTypes.POPULATION_NAME) >= 100)
     }
 
     @Test
@@ -119,17 +120,17 @@ class TestGrowingAndHarvesting {
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
-        ter.resources.set(Territory.SEEDS_NAME, 0)
-        ter.resources.set(Territory.POPULATION_NAME, 100)
-        ter.resources.set(Territory.FLOUR_NAME, 0)
-        ter.resources.set(Territory.BREAD_NAME, 0)
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 0)
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
+        ter.resources.set(ResourceTypes.FLOUR_NAME, 0)
+        ter.resources.set(ResourceTypes.BREAD_NAME, 0)
 
         game.endTurn()
-        assert(ter.resources.get(Territory.POPULATION_NAME) < 100)
+        assert(ter.resources.get(ResourceTypes.POPULATION_NAME) < 100)
         for(i in 1..9){
             game.endTurn()
         }
-        assert(ter.resources.get(Territory.POPULATION_NAME) < 50)
+        assert(ter.resources.get(ResourceTypes.POPULATION_NAME) < 50)
     }
 
 }

@@ -4,6 +4,7 @@ import aibrain.Plan
 import aibrain.Score
 import game.*
 import gamelogic.government.actionTypes.SetTaxRate
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import javafx.scene.control.Button
@@ -73,13 +74,13 @@ class GovernmentLogicModule: GameLogicModule {
             val crops = ter.lastHarvest
             val capital = capitalOf(ter)
             capital.endTurn()
-            val taxRate = capital.taxes.getOrDefault(Territory.FLOUR_NAME, 0.0)
+            val taxRate = capital.taxes.getOrDefault(ResourceTypes.FLOUR_NAME, 0.0)
 
             val totalExpectedHarvest = crops.sumBy { crop -> crop.quantity * crop.yield() }
 
-            if(taxRate * totalExpectedHarvest <= ter.resources.get(Territory.FLOUR_NAME)){
-                capital.resources.add(Territory.FLOUR_NAME, (taxRate * totalExpectedHarvest).roundToInt())
-                ter.resources.add(Territory.FLOUR_NAME, -(taxRate * totalExpectedHarvest).roundToInt())
+            if(taxRate * totalExpectedHarvest <= ter.resources.get(ResourceTypes.FLOUR_NAME)){
+                capital.resources.add(ResourceTypes.FLOUR_NAME, (taxRate * totalExpectedHarvest).roundToInt())
+                ter.resources.add(ResourceTypes.FLOUR_NAME, -(taxRate * totalExpectedHarvest).roundToInt())
             } else if (game.isLive) {
                 println("They didn't have the taxes. What should we do here...")
             }
@@ -99,10 +100,10 @@ class GovernmentLogicModule: GameLogicModule {
 
         capitals.forEach {
             if(countOfCaptial(it.terId) == perspective){
-                val flourGained = it.resources.get(Territory.FLOUR_NAME)
+                val flourGained = it.resources.get(ResourceTypes.FLOUR_NAME)
                 retval.add("Flour Gained", {value -> "our stockpile will ${DialogFormatter.gainOrLose(value)} flour"}, flourGained.toDouble())
 
-                val population = it.territory!!.resources.get(Territory.POPULATION_NAME)
+                val population = it.territory!!.resources.get(ResourceTypes.POPULATION_NAME)
                 retval.add("", {value -> "Population will change by ${population}"}, population.toDouble() * 4.0)
 
                 val newCrops = it.territory!!.crops.sumBy { crop -> crop.quantity }

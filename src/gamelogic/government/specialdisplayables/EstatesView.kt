@@ -2,6 +2,7 @@ package gamelogic.government.specialdisplayables
 
 import gamelogic.government.GovernmentLogicModule
 import gamelogic.government.Count
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import javafx.event.EventHandler
@@ -72,7 +73,8 @@ class EstatesView: PerspectiveDisplayable {
             val kingdom = govLogic.kingdomOf(focusedTerritory!!)
             val kingdomText = if(kingdom != null){ "Part of ${kingdom.name}, ruled by ${govLogic.kingOfKingdom(kingdom.name)}" } else { "Independent" }
 
-            pane.add(UtilityComponentFactory.shortWideLabel(focusedTerritory!!.name + "   (Arable land: ${focusedTerritory!!.resources.get(Territory.ARABLE_LAND_NAME)})"), 0, 1)
+            pane.add(UtilityComponentFactory.shortWideLabel(focusedTerritory!!.name + "   (Arable land: ${focusedTerritory!!.resources.get(
+                ResourceTypes.ARABLE_LAND_NAME)})"), 0, 1)
 
             if(countOfTerr == perspective.player){
                 pane.add(actionsOnMyTerritory(perspective, countTitleOfTerr as Count), 0,2)

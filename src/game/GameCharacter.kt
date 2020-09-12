@@ -9,6 +9,7 @@ import game.culture.*
 import shortstate.linetriggers.LineTrigger
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
+import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
 import shortstate.report.ReportFactory
 import ui.specialdisplayables.selectionmodal.Tab
@@ -194,7 +195,7 @@ class GameCharacter {
     fun actionTabsRegarding(players: List<GameCharacter>): List<Tab<Action>>{
         var retval = titles.flatMap { title -> title.actionsReguarding(players)}
         if(players.size > 1){
-            val temp = PlayerResourceTypes.allTypes.filter { privateResources.get(it) > 0 }.map{ GiveResource(players.filter{it != this}.first().id, it, 1) }
+            val temp = ResourceTypes.tradableTypes.filter { privateResources.get(it) > 0 }.map{ GiveResource(players.filter{it != this}.first().id, it, 1) }
             val tab = Tab<Action>("Resource Transfers", temp)
             retval = retval.plus(listOf(tab))
         }

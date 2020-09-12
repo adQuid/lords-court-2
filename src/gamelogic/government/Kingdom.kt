@@ -1,6 +1,7 @@
 package gamelogic.government
 
 import game.Game
+import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
@@ -16,7 +17,7 @@ class Kingdom {
         this.name = name
         this.territories = territories.toSet()
         terIds = territories.map{it.id}.toSet()
-        taxes = mutableMapOf(Territory.FLOUR_NAME to 0.1)
+        taxes = mutableMapOf(ResourceTypes.FLOUR_NAME to 0.1)
     }
 
     constructor(other: Kingdom){

@@ -18,6 +18,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import gamelogic.government.Count
+import gamelogic.resources.ResourceTypes
 
 class SetTaxRate: Action {
 
@@ -40,7 +41,7 @@ class SetTaxRate: Action {
     override fun doAction(game: Game, player: GameCharacter){
         val logic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
-        logic.capitalById(terId).taxes[Territory.FLOUR_NAME] = amount
+        logic.capitalById(terId).taxes[ResourceTypes.FLOUR_NAME] = amount
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {

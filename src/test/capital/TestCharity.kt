@@ -10,6 +10,7 @@ import gamelogic.government.actionTypes.EnactLaw
 import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.government.laws.Charity
 import gamelogic.playerresources.PlayerResourceTypes
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
@@ -45,20 +46,20 @@ class TestCharity {
 
     @Test
     fun test_charity_with_fish(){
-        assert(test_charity(PlayerResourceTypes.FISH_NAME) >= 100)
+        assert(test_charity(ResourceTypes.FISH_NAME) >= 100)
     }
 
     @Test
     fun test_charity_with_insufficient_fish(){
-        assert(test_charity(Territory.POPULATION_NAME) < 100)
+        assert(test_charity(ResourceTypes.POPULATION_NAME) < 100)
     }
 
     fun test_charity(type: String): Int{
         val game = capitalTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
-        ter.resources.set(Territory.POPULATION_NAME, 100)
-        ter.resources.set(Territory.FLOUR_NAME, 100) //enough to last one turn
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
+        ter.resources.set(ResourceTypes.FLOUR_NAME, 100) //enough to last one turn
 
         val capitals = game.moduleOfType(GovernmentLogicModule.type)!! as GovernmentLogicModule
         val capital = capitals.capitals.first()
@@ -68,7 +69,7 @@ class TestCharity {
             game.endTurn()
         }
 
-       return capital.territory!!.resources.resources[Territory.POPULATION_NAME]!!
+       return capital.territory!!.resources.resources[ResourceTypes.POPULATION_NAME]!!
     }
 
     @Test
@@ -83,12 +84,12 @@ class TestCharity {
         game.applyTitleToCharacter(capitalLogic.capitals.first().generateCountTitle(), testPlayer)
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
-        ter.resources.set(Territory.POPULATION_NAME, 100)
-        ter.resources.set(Territory.FLOUR_NAME, 100) //enough to last one turn
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
+        ter.resources.set(ResourceTypes.FLOUR_NAME, 100) //enough to last one turn
 
         val capitals = game.moduleOfType(GovernmentLogicModule.type)!! as GovernmentLogicModule
         val capital = capitals.capitals.first()
-        capital.resources.add(PlayerResourceTypes.FISH_NAME, 1000)
+        capital.resources.add(ResourceTypes.FISH_NAME, 1000)
 
         game.appendActionsForPlayer(testPlayer, listOf(EnactLaw(Charity(false), capital.terId)))
 
@@ -96,7 +97,7 @@ class TestCharity {
             game.endTurn()
         }
         //because we set the charity to not give on need, the capital should still have all resources
-        assert(capital.resources.get(PlayerResourceTypes.FISH_NAME) == 1000)
+        assert(capital.resources.get(ResourceTypes.FISH_NAME) == 1000)
     }
 
 }

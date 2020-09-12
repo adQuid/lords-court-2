@@ -2,6 +2,7 @@ package test.capital
 
 import gamelogic.government.Count
 import gamelogic.government.GovernmentLogicModule
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Territory
 import main.Controller
 import org.junit.Test
@@ -21,7 +22,7 @@ class TestAI {
 
             val govModule = testGame.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
-            assert(govModule.capitals.first().taxes.get(Territory.FLOUR_NAME)!! > 0.1)
+            assert(govModule.capitals.first().taxes.get(ResourceTypes.FLOUR_NAME)!! > 0.1)
         }.doit()
     }
 
@@ -37,7 +38,7 @@ class TestAI {
 
             govModule.capitals.forEach {
                 if(testGame.players[0].titles.filter { title -> title is Count && title.capital == it}.isNotEmpty()){
-                    assert(it.taxes.get(Territory.FLOUR_NAME)!! > 0.2)
+                    assert(it.taxes.get(ResourceTypes.FLOUR_NAME)!! > 0.2)
                 }
             }
         }.doit()

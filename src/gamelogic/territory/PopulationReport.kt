@@ -1,6 +1,7 @@
 package gamelogic.territory
 
 import game.Game
+import gamelogic.resources.ResourceTypes
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.report.Report
@@ -18,7 +19,7 @@ class PopulationReport: Report {
     
     constructor(game: Game, territory: Territory){
         this.territory = territory
-        population = territory.resources.get(Territory.POPULATION_NAME)
+        population = territory.resources.get(ResourceTypes.POPULATION_NAME)
     }
 
     constructor(saveString: Map<String, Any>, game: Game){
@@ -30,7 +31,7 @@ class PopulationReport: Report {
 
     override fun apply(game: Game) {
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
-        logic.matchingTerritory(territory).resources.set(Territory.POPULATION_NAME, population)
+        logic.matchingTerritory(territory).resources.set(ResourceTypes.POPULATION_NAME, population)
     }
 
     override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {

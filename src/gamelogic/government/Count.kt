@@ -12,6 +12,7 @@ import gamelogic.government.actionTypes.SetTaxRate
 import gamelogic.government.laws.Charity
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.PopulationReportFactory
 import shortstate.report.ReportFactory
 import ui.specialdisplayables.selectionmodal.Tab
@@ -64,7 +65,7 @@ class Count: Title{
             SetTaxRate(capital.terId, 0.3),
             EnactLaw(Charity(false), capital.terId))
         ),
-            Tab<Action>("Resource Transfers", PlayerResourceTypes.allTypes.filter { capital.resources.get(it) > 0 }.map{ GiveResource(players.last().id, it, 1) }))
+            Tab<Action>("Resource Transfers", ResourceTypes.tradableTypes.filter { capital.resources.get(it) > 0 }.map{ GiveResource(players.last().id, it, 1) }))
     }
 
     override fun equals(other: Any?): Boolean {
