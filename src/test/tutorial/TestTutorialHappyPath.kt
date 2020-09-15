@@ -4,8 +4,7 @@ import gamelogic.government.Count
 import main.Controller
 import org.junit.Test
 import scenario.tutorial.TutorialGameSetup
-import shortstate.dialog.linetypes.AbandonConversation
-import shortstate.dialog.linetypes.Farewell
+import shortstate.dialog.linetypes.*
 import shortstate.room.Room
 import shortstate.room.action.GoToBed
 import shortstate.scenemaker.ConversationMaker
@@ -36,7 +35,13 @@ class TestTutorialHappyPath {
 
             while(convoWithDad.lineOptions(shortPlayer).filter { !(it is Farewell) }.isNotEmpty()){
                 //assumes that signing the writ will be earlier on the list than not signing the writ
-                convoWithDad.submitLine(convoWithDad.lineOptions(shortPlayer).filter { !(it is AbandonConversation || it is Farewell) }.first(), shortGame)
+                println("options: ${convoWithDad.lineOptions(shortPlayer)}")
+                val lineToSay = convoWithDad.lineOptions(shortPlayer).filter { (it is SimpleLine || it is TreeLine || it is AcceptWrit) }.firstOrNull()
+                if(lineToSay != null){
+                    convoWithDad.submitLine(lineToSay, shortGame)
+                } else {
+                    convoWithDad.submitLine(convoWithDad.lineOptions(shortPlayer).filter { (it is Farewell) }.first(), shortGame)
+                }
                 while(convoWithDad.lastSpeaker == shortPlayer){
                     Thread.sleep(20)
                 }

@@ -15,61 +15,46 @@ import shortstate.dialog.GlobalLineTypeFactory
 import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 import game.action.GlobalActionTypeFactory
+import gamelogic.playerresources.PlayerResourceModule
+import gamelogic.resources.ResourceTypes
 import shortstate.ShortStateGame
 import shortstate.room.Room
 
-class AskAboutTopic: Line {
+class AskAboutTradableGoods: Line {
 
     override val type: String
-        get() = GlobalLineTypeFactory.ASK_TOPIC_NAME
+        get() = GlobalLineTypeFactory.ASK_GOODS_NAME
 
-    var topic: String? = null
+    constructor(){
 
-    constructor(topic: String?){
-        this.topic = topic
     }
 
     constructor(saveString: Map<String, Any?>, game: Game){
-        if(saveString["TOPIC"] != null){
-            topic = saveString["TOPIC"] as String
-        }
+
     }
 
     override fun tooltipName(): String {
-        if(topic == null){
-            return "Ask About Topic"
-        } else {
-            return "Ask About ${topic}"
-        }
+        return "Ask About Goods to Trade"
     }
 
     override fun symbolicForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): List<LineBlock> {
-        return listOf(LineBlock("ASK ABOUT:"), LineBlock(if(topic == null) "SELECT TOPIC" else "Topic: "+topic,
-            null, {perspective -> UIGlobals.focusOn(
-                SelectionModal( "Ask About...",
-                    target.player.topics().groupBy { it.group }.map { Tab(it.key, it.value) },
-                    { topic ->
-                        this.topic = topic.name; UIGlobals.defocus()
-                    })
-            )}))
+        return listOf(LineBlock("INQUIRE STOCKS"))
     }
 
     override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {
-        return "Can you tell me more about ${topic}?"
+        return "What do you have available to trade with me today?"
     }
 
     override fun tooltipDescription(): String {
-        return "Request more information on something the character knows about."
+        return "Check what resources the character has and would be willing to trade."
     }
 
     override fun specialSaveString(): Map<String, Any> {
-        return hashMapOf(
-            "TOPIC" to topic!!
-        )
+        return hashMapOf()
     }
 
     override fun validToSend(): Boolean {
-        return topic != null
+        return true
     }
 
     override fun canChangeTopic(): Boolean {
@@ -77,17 +62,16 @@ class AskAboutTopic: Line {
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter, game: Game): List<Line> {
-        if(perspective.player.infoOnTopic(topic!!) != null){
-            return listOf(ExplainTopic(topic!!))
-        }
-        return listOf(SimpleLine("Sorry, I don't know about that."))
+        return listOf(SimpleLine("I have ${fullList(perspective.player, game)}"))
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
-        if(brain.shortCharacter.player.infoOnTopic(topic!!) != null){
-            return ExplainTopic(topic)
-        } else {
-            return SimpleLine("I don't know anything about that.")
-        }
+        return SimpleLine("I have ${fullList(brain.shortCharacter.player, game)}")
+    }
+
+    private fun fullList(me: GameCharacter, game: Game): String{
+        val resourceModule = game.moduleOfType(PlayerResourceModule.type) as PlayerResourceModule
+
+        return resourceModule.accessableResourcesForPlayer(game, me).resources.filter { it.key in ResourceTypes.tradableTypes }.map { "${it.value} ${it.key}" }.joinToString(", ")
     }
 }
