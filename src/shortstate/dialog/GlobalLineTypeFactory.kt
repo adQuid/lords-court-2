@@ -7,7 +7,6 @@ object GlobalLineTypeFactory {
 
     val ACCEPT_DEAL_TYPE_NAME = "AcptDeal"
     val ACCEPT_WRIT_TYPE_NAME = "AcptWrt"
-    val ANNOUNCEMENT_TYPE_NAME = "Ancmnt"
     val APPROVE_TYPE_NAME = "Aprve"
     val ASK_TOPIC_NAME = "Asktpc"
     val ASK_GOODS_NAME = "Askgds"
@@ -29,7 +28,6 @@ object GlobalLineTypeFactory {
     val typeMap: HashMap<String, (map: Map<String, Any>, game: Game) -> Line> = hashMapOf(
         ACCEPT_DEAL_TYPE_NAME to {map, game -> AcceptDeal(map, game)},
         ACCEPT_WRIT_TYPE_NAME to {map, game -> AcceptWrit(map, game)},
-        ANNOUNCEMENT_TYPE_NAME to {map, game -> Announcement(map, game)},
         APPROVE_TYPE_NAME to {map, game -> Approve() },
         ASK_TOPIC_NAME to {map, game -> AskAboutTopic(map, game)},
         ASK_GOODS_NAME to {map, game -> AskAboutTradableGoods(map, game)},

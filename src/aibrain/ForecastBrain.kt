@@ -8,8 +8,6 @@ import gamelogic.cookieworld.actionTypes.GetMilk
 import gamelogic.cookieworld.actionTypes.WasteTime
 import gamelogic.cookieworld.CookieWorld
 import main.Controller
-import shortstate.dialog.LineMemory
-import shortstate.dialog.linetypes.Announcement
 import util.safeSublist
 
 class ForecastBrain {
@@ -144,13 +142,6 @@ class ForecastBrain {
 
     private fun actionPossibilitiesForPlayer(game: Game, target: GameCharacter): List<Plan>{
         return game.gameLogicModules.flatMap { it.planOptions(player, listOf(target)) }
-    }
-
-    private fun oddsModifierGivenLine(character: GameCharacter, action: Action, lineMemory: LineMemory): Double{
-        if(lineMemory.line is Announcement && lineMemory.line.action!!.equals(action)){
-            return 1.0
-        }
-        return 0.0
     }
 
 }

@@ -84,7 +84,11 @@ class OfferDeal: Line {
     }
 
     override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
-        shortGame.shortGameScene!!.conversation!!.participants().forEach { it.convoBrain.putOrAddDealToMemory(shortGame.shortGameScene!!.conversation!!.otherParticipant(it).player, deal) }
+        shortGame.shortGameScene!!
+            .conversation!!
+            .participants().forEach { it.convoBrain.putOrAddDealToMemory(shortGame.shortGameScene!!
+                .conversation!!
+                .otherParticipant(it).player, deal) }
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {

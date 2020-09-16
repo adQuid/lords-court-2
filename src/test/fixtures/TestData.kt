@@ -130,7 +130,6 @@ private fun fullMemory(dealDummy: GameCharacter): List<LineMemory>{
     return listOf(
     LineMemory(AcceptDeal(savableDeal(dealDummy))),
     LineMemory(AcceptWrit(Writ("test writ", savableDeal(dealDummy), listOf(dealDummy)))),
-    LineMemory(Announcement(WasteTime())),
     LineMemory(Approve()),
     LineMemory(Disapprove()),
     LineMemory(GiveReport(DeliciousnessReport(Game(listOf(CookieWorld()))))),
