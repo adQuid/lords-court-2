@@ -2,6 +2,7 @@ package shortstate
 
 import aibrain.UnfinishedDeal
 import game.action.Action
+import gamelogic.playerresources.GiveResource
 import main.UIGlobals
 import shortstate.dialog.Line
 import shortstate.dialog.LineMemory
@@ -96,7 +97,7 @@ class Conversation {
 
     fun defaultConversationLines(perspective: ShortStateCharacter): List<Line>{
         return listOfNotNull(
-            if(true) AskAboutTradableGoods() else null,
+            if(perspective.player.actionsReguarding(otherParticipant(perspective).player).filter{it is GiveResource}.isNotEmpty()) AskAboutTradableGoods() else null,
             if(otherParticipant(perspective).player.titles.flatMap { title -> title.reportsEntitled }.isNotEmpty() && perspective.player.titles.flatMap { title -> title.reportsEntitled }.isNotEmpty()) RequestReport(null) else null,
             if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) OfferDeal(UnfinishedDeal(participants().map { it.player })) else null,
             if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) RequestAdviceForDeal(UnfinishedDeal(participants().map { it.player })) else null,
