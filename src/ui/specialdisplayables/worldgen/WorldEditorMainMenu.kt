@@ -25,20 +25,20 @@ object WorldEditorMainMenu: NoPerspectiveDisplayable() {
     override fun display(): Scene {
         val pane = GridPane()
         terNameDisplay.isEditable = false
-        mapView.onClick = {x,y -> selectedTerritory = mapView.selectTerritoryAt(x,y, true, true); terNameDisplay.isEditable = true;  terNameDisplay.text = selectedTerritory!!.name}
+        mapView.onClick = {x,y -> selectedTerritory = mapView.selectTerritoryAt(x,y, true, true); UIGlobals.refresh(); terNameDisplay.isEditable = true;  terNameDisplay.text = selectedTerritory!!.name;}
         pane.add(mapView.display(), 0, 0)
 
         val middlePane = GridPane()
         middlePane.add(terNameDisplay, 0, 0)
-        middlePane.add(UtilityComponentFactory.shortButton("Place Territory Centers", EventHandler { _ -> println("what does this do?") }, 3.0), 1, 0)
-        middlePane.add(UtilityComponentFactory.shortButton("Clear Capital", EventHandler { _ -> clearCapital() }, 3), 2, 0)
-        middlePane.add(UtilityComponentFactory.shortButton("Save Territory", EventHandler { _ -> updateTerritory() }, 3), 3, 0)
+        middlePane.add(UtilityComponentFactory.shortButton("Place Territory Centers", EventHandler { _ -> println("what does this do?") }, 0.25), 1, 0)
+        middlePane.add(UtilityComponentFactory.shortButton("Clear Capital", EventHandler { _ -> clearCapital() }, 0.25), 2, 0)
+        middlePane.add(UtilityComponentFactory.shortButton("Save Territory", EventHandler { _ -> updateTerritory() }, 0.25), 3, 0)
         pane.add(middlePane, 0,1)
 
         val bottomPane = GridPane()
         bottomPane.add(UtilityComponentFactory.proportionalBackButton(2.0), 0, 0)
         bottomPane.add(UtilityComponentFactory.proportionalButton("Load Map", EventHandler { _ -> this.mapView = loadMap(); UIGlobals.refresh()},0.25), 1, 0)
-        bottomPane.add(UtilityComponentFactory.proportionalButton("Save Map", EventHandler { _ -> saveMap()},0.25), 2, 0)
+        bottomPane.add(UtilityComponentFactory.proportionalButton("Save Map", EventHandler { _ -> saveMap(); UIGlobals.defocus()},0.25), 2, 0)
         pane.add(bottomPane, 0, 2)
 
         return Scene(pane)

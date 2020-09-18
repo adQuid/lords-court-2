@@ -30,7 +30,7 @@ class MainMenu: NoPerspectiveDisplayable() {
         pane.add( UtilityComponentFactory.shortWideButton("Load", EventHandler { UIGlobals.focusOn(SelectionModal("Load Game", listOf(Tab("save files", saveGames())), { name -> Controller.singleton!!.load(name)}))}), 0, 7)
 
         pane.add(UtilityComponentFactory.shortWideButton("MAP EDITOR",  EventHandler { UIGlobals.focusOn(WorldEditorMainMenu) }), 0, 8)
-        UtilityComponentFactory.setButtonDisable(pane.children[8], true)
+        UtilityComponentFactory.setButtonDisable(pane.children[8], false)
         pane.add(UtilityComponentFactory.shortWideButton("PLAY NEW GAME", EventHandler {
             UIGlobals.focusOn(NewGameMenu())}), 0, 9)
 

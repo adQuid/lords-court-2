@@ -3,12 +3,15 @@ package gamelogic.territory
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
+import gamelogic.territory.mapobjects.Structure
 import kotlin.math.min
 
 class Territory {
 
     companion object{
         val RESOURCES_NAME = "resources"
+        val STRUCTURES_NAME = "structures"
+        val UNITS_NAME = "units"
 
         fun extractFood(resources: Resources, amount: Int): Resources{
             val foodTypesInOrder = listOf(ResourceTypes.BREAD_NAME, ResourceTypes.FISH_NAME)
@@ -38,7 +41,10 @@ class Territory {
     val crops: MutableList<Crop>
     val LAST_HARVEST_NAME = "lastharvest"
     var lastHarvest: List<Crop>
+
     val resources: Resources
+    val structures: MutableList<Structure>
+
     constructor(id: Int, name: String, x: Int, y: Int){
         this.id = id
         this.name = name
@@ -52,6 +58,7 @@ class Territory {
         resources.set(ResourceTypes.BREAD_NAME, 100)
         crops = mutableListOf()
         lastHarvest = listOf()
+        structures = mutableListOf()
     }
 
     constructor(other: Territory){
@@ -62,6 +69,7 @@ class Territory {
         resources = Resources(other.resources)
         crops = other.crops.map { Crop(it) }.toMutableList()
         lastHarvest = other.lastHarvest //don't need to deep copy since it's not mutable
+        structures = other.structures.map{Structure(it)}.toMutableList()
     }
 
     constructor(saveString: Map<String, Any>){
@@ -72,6 +80,7 @@ class Territory {
         resources = Resources(saveString[RESOURCES_NAME] as MutableMap<String, Any>)
         crops = (saveString[CROPS_NAME] as List<Map<String, Any>>).map{map -> Crop(map)}.toMutableList()
         lastHarvest = (saveString[LAST_HARVEST_NAME] as List<Map<String,Any>>).map{map -> Crop(map)}
+        structures = (saveString[STRUCTURES_NAME] as List<Map<String, Any>>).map { map -> Structure(map) }.toMutableList()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -97,7 +106,8 @@ class Territory {
             "y" to y,
             RESOURCES_NAME to resources.saveString(),
             CROPS_NAME to crops.map { it.saveString() },
-            LAST_HARVEST_NAME to lastHarvest.map{ it.saveString() }
+            LAST_HARVEST_NAME to lastHarvest.map{ it.saveString() },
+            STRUCTURES_NAME to structures.map { it.saveString() }
         )
     }
 
