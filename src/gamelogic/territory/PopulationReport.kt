@@ -39,7 +39,7 @@ class PopulationReport: Report {
     }
 
     override fun detailedDescription(): String {
-        return "Each population will require one food of every type to stay healthy."
+        return "Each population will require one food of any type to stay healthy."
     }
 
     override fun specialSaveString(): Map<String, Any> {

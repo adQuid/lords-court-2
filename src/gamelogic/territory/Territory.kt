@@ -119,6 +119,10 @@ class Territory {
         return crops.sumBy { it.quantity }
     }
 
+    fun foodNeededNextTurn(): Int{
+        return resources.get(ResourceTypes.POPULATION_NAME)
+    }
+
     fun foodToEatNextTurn(): Resources {
         return extractFood(resources, resources.get(ResourceTypes.POPULATION_NAME))
     }

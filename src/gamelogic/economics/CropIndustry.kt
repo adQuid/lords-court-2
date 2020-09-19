@@ -68,7 +68,7 @@ object CropIndustry: Industry {
         //TODO: Will I never need this step?
         val foodToEat = territory.foodToEatNextTurn()
         val totalFood = foodToEat.resources.entries.sumBy { it.value }
-        if(totalFood >= territory.resources.get(ResourceTypes.POPULATION_NAME)){
+        if(totalFood >= territory.foodNeededNextTurn()){
             territory.resources.subtractAll(foodToEat)
         } else {
             //println("starvation")

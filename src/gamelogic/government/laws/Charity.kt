@@ -19,6 +19,7 @@ import shortstate.ShortStateGame
 import ui.Displayable
 import ui.componentfactory.UtilityComponentFactory
 import ui.specialdisplayables.contructorobjects.WritConstructor
+import kotlin.math.min
 
 class Charity: Law {
     companion object{
@@ -50,10 +51,17 @@ class Charity: Law {
         if(onNeed){
             val foodToEat = capital!!.territory!!.foodToEatNextTurn()
             val totalFood = foodToEat.resources.entries.sumBy { it.value }
-            if(totalFood < capital!!.territory!!.resources.get(ResourceTypes.POPULATION_NAME)){
+            if(totalFood < capital!!.territory!!.foodNeededNextTurn()){
                 val foodToGive = Territory.extractFood(capital!!.resources, capital!!.territory!!.resources.get(ResourceTypes.POPULATION_NAME) - totalFood)
                 capital!!.resources.subtractAll(foodToGive)
                 capital!!.territory!!.resources.addAll(foodToGive)
+
+                //if enough direct foodstuffs cannot be found, give flour instead
+                if((totalFood + foodToGive.resources.values.sum()) < capital!!.territory!!.foodNeededNextTurn()){
+                    val flourToGive = min(capital!!.resources.get(ResourceTypes.FLOUR_NAME), capital!!.territory!!.foodNeededNextTurn() - (totalFood + foodToGive.resources.values.sum()))
+                    capital!!.resources.add(ResourceTypes.FLOUR_NAME, -flourToGive)
+                    capital!!.territory!!.resources.add(ResourceTypes.FLOUR_NAME, flourToGive)
+                }
             }
         }
     }

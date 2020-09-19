@@ -1,6 +1,7 @@
 package aibrain
 
 import game.GameCharacter
+import gamelogic.government.GovernmentLogicModule
 import gamelogic.resources.Resources
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
@@ -24,6 +25,9 @@ class DealCase {
 
     fun dealScore(cases: List<GameCase>, perspectives: Collection<GameCharacter>): Map<GameCharacter, Score>{
         val casesWithDeal = cases!!.map { it.applyDeal(deal) }
+
+        val debug1 = cases[0].currentGame.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
+        val debug2 = casesWithDeal[0].currentGame.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
         return perspectives.associateWith {entry -> totalCaseScore(casesWithDeal, entry).minus(totalCaseScore(cases!!, entry))}
     }

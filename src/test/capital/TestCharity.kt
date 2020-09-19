@@ -45,16 +45,21 @@ class TestCharity {
     }
 
     @Test
+    fun test_charity_with_flour(){
+        assert(test_charity(ResourceTypes.FLOUR_NAME) >= 100)
+    }
+
+    @Test
     fun test_charity_with_fish(){
         assert(test_charity(ResourceTypes.FISH_NAME) >= 100)
     }
 
     @Test
     fun test_charity_with_insufficient_fish(){
-        assert(test_charity(ResourceTypes.POPULATION_NAME) < 100)
+        assert(test_charity(null) < 100)
     }
 
-    fun test_charity(type: String): Int{
+    fun test_charity(type: String?): Int{
         val game = capitalTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
@@ -63,7 +68,9 @@ class TestCharity {
 
         val capitals = game.moduleOfType(GovernmentLogicModule.type)!! as GovernmentLogicModule
         val capital = capitals.capitals.first()
-        capital.resources.add(type, 1000)
+        if(type != null){
+            capital.resources.add(type, 1000)
+        }
 
         for(i in 1..10){
             game.endTurn()

@@ -21,8 +21,9 @@ class TestTutorialHappyPath {
             val playerShortController = Controller.singleton!!.shortThreadForPlayer(testGame.playerCharacter())
             val shortGame = playerShortController.shortGame
             val shortPlayer = shortGame.shortPlayerForLongPlayer(testGame.playerCharacter())
-
             val king = testGame.players.filter { it.name == "Mayren" }.first()
+
+            //go talk to dad
             shortPlayer!!.nextSceneIWannaBeIn = ConversationMaker(shortPlayer, playerShortController.shortGame.shortPlayerForLongPlayer(king)!!, playerShortController.shortGame.location.roomByType(Room.RoomType.ETC))
             playerShortController.shortGame.shortGameScene!!.terminated = true
 
@@ -32,7 +33,6 @@ class TestTutorialHappyPath {
             assert(playerShortController.shortGame.shortGameScene!!.hasAPC())
 
             val convoWithDad = playerShortController.shortGame.shortGameScene!!.conversation!!
-
             while(convoWithDad.lineOptions(shortPlayer).filter { !(it is Farewell) }.isNotEmpty()){
                 //assumes that signing the writ will be earlier on the list than not signing the writ
                 println("options: ${convoWithDad.lineOptions(shortPlayer)}")

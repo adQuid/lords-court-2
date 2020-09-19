@@ -45,7 +45,7 @@ class RequestAdviceForDeal: Line {
         } else {
             LineBlock("Deal: [CLICK FOR DETAILS]", { UIGlobals.focusOn(deal)})
         }
-        return listOf(LineBlock("OFFER:"), dealBlock)
+        return listOf(LineBlock("SUGGEST:"), dealBlock)
     }
 
     override fun fullTextForm(context: ShortStateGame, speaker: ShortStateCharacter, target: ShortStateCharacter): String {

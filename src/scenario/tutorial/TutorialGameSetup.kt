@@ -13,6 +13,7 @@ import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 import game.GameCharacter
 import java.util.*
 import game.culture.Topic
+import gamelogic.economics.EconomicsLogicModule
 import gamelogic.government.Minister
 import gamelogic.government.laws.Charity
 import gamelogic.resources.ResourceTypes
@@ -33,7 +34,10 @@ object TutorialGameSetup {
             territoryLogic.territories().first { it.name == "Craytoyl" }
         ))
         val capitals = GovernmentLogicModule(territoryLogic.map.territories.map { Capital(it) }, listOf(danswada))
-        val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals), "tutorial")
+
+        val economics = EconomicsLogicModule()
+
+        val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals, economics), "tutorial")
 
         val tutorialCulture = Culture("Kairethtutorial", mutableSetOf(
             Topic(
