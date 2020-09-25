@@ -3,6 +3,7 @@ package gamelogic.territory
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
+import gamelogic.territory.mapobjects.GameUnit
 import gamelogic.territory.mapobjects.Structure
 import kotlin.math.min
 
@@ -44,6 +45,7 @@ class Territory {
 
     val resources: Resources
     val structures: MutableList<Structure>
+    val units: MutableList<GameUnit>
 
     constructor(id: Int, name: String, x: Int, y: Int){
         this.id = id
@@ -59,6 +61,7 @@ class Territory {
         crops = mutableListOf()
         lastHarvest = listOf()
         structures = mutableListOf()
+        units = mutableListOf()
     }
 
     constructor(other: Territory){
@@ -70,6 +73,7 @@ class Territory {
         crops = other.crops.map { Crop(it) }.toMutableList()
         lastHarvest = other.lastHarvest //don't need to deep copy since it's not mutable
         structures = other.structures.map{Structure(it)}.toMutableList()
+        units = other.units.map{GameUnit(it)}.toMutableList()
     }
 
     constructor(saveString: Map<String, Any>){
@@ -81,6 +85,7 @@ class Territory {
         crops = (saveString[CROPS_NAME] as List<Map<String, Any>>).map{map -> Crop(map)}.toMutableList()
         lastHarvest = (saveString[LAST_HARVEST_NAME] as List<Map<String,Any>>).map{map -> Crop(map)}
         structures = (saveString[STRUCTURES_NAME] as List<Map<String, Any>>).map { map -> Structure(map) }.toMutableList()
+        units = (saveString[UNITS_NAME] as List<Map<String, Any>>).map{map -> GameUnit(map)}.toMutableList()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -107,7 +112,8 @@ class Territory {
             RESOURCES_NAME to resources.saveString(),
             CROPS_NAME to crops.map { it.saveString() },
             LAST_HARVEST_NAME to lastHarvest.map{ it.saveString() },
-            STRUCTURES_NAME to structures.map { it.saveString() }
+            STRUCTURES_NAME to structures.map { it.saveString() },
+            UNITS_NAME to units.map { it.saveString() }
         )
     }
 

@@ -26,9 +26,6 @@ class DealCase {
     fun dealScore(cases: List<GameCase>, perspectives: Collection<GameCharacter>): Map<GameCharacter, Score>{
         val casesWithDeal = cases!!.map { it.applyDeal(deal) }
 
-        val debug1 = cases[0].currentGame.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
-        val debug2 = casesWithDeal[0].currentGame.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
-
         return perspectives.associateWith {entry -> totalCaseScore(casesWithDeal, entry).minus(totalCaseScore(cases!!, entry))}
     }
 
