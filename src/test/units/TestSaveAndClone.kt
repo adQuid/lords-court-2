@@ -1,10 +1,8 @@
 package test.units
 
 import game.Game
-import game.GameCharacter
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.mapobjects.*
-import main.Controller
 import org.junit.Test
 import test.capital.soloGovernmentTestGame
 
