@@ -16,8 +16,11 @@ class ShipType {
 
     val name: String
 
+    val resourceExtractions: Map<String, Int>
+
     constructor(saveString: Map<String, Any>){
         name = saveString["name"] as String
+        resourceExtractions = saveString["resource extractions"] as Map<String, Int>
     }
 
 }

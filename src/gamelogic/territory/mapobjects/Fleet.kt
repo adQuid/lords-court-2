@@ -1,5 +1,7 @@
 package gamelogic.territory.mapobjects
 
+import game.Game
+
 class Fleet {
 
     val owner: Int
@@ -31,5 +33,4 @@ class Fleet {
             "ships" to ships.map { it.saveString() }
         )
     }
-
 }

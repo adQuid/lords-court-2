@@ -41,6 +41,16 @@ class EconomicsLogicModule: GameLogicModule {
 
         val territoryLogic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
 
+        territoryLogic.territories().forEach {
+            it.fleets.forEach { fleet ->
+                fleet.ships.forEach{ship ->
+                    ship.type.resourceExtractions.forEach {
+                        game.characterById(fleet.owner).privateResources.add(it.key, it.value)
+                    }
+                }
+            }
+        }
+
         val industries = listOf(CropIndustry)
         val laborByTerritory = territoryLogic.territories().associate { ter -> ter to ter.resources[ResourceTypes.POPULATION_NAME]!! }.toMutableMap()
         laborByTerritory.forEach {territory ->
