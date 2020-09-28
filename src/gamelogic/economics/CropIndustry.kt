@@ -53,6 +53,7 @@ object CropIndustry: Industry {
         if(toMill > 0){
             territory.modifyResource(ResourceTypes.SEEDS_NAME, -toMill.toInt())
             territory.modifyResource(ResourceTypes.FLOUR_NAME, toMill.toInt())
+            laborLeft -= toMill.toInt()
         }
 
         //bake just enough bread to eat

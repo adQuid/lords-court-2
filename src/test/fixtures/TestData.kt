@@ -19,6 +19,9 @@ import game.titles.Baker
 import scenario.tutorial.approachTestTrigger
 import game.culture.*
 import gamelogic.playerresources.PlayerResourceModule
+import gamelogic.territory.Territory
+import gamelogic.territory.TerritoryLogicModule
+import gamelogic.territory.TerritoryMap
 
 fun soloTestGame(): Game{
     val cookieLogic = CookieWorld()
@@ -104,6 +107,13 @@ fun twoPlayerShortGame(): ShortStateGame{
 fun shortGameResultingInDeliciousness(): ShortStateGame{
     val game = twoPlayerTestGameResultingInDeliciousness()
     return ShortStateGame(game, game.locations().first())
+}
+
+fun territoryTestGame(): Game {
+    val territories = TerritoryLogicModule(TerritoryMap("test"))
+    territories.map.territories.add(Territory(territories.map.nextId,"Placeburg",0,0))
+    val game = Game(listOf(territories))
+    return game
 }
 
 private fun basicMilkman(game: Game, location: Location): GameCharacter{

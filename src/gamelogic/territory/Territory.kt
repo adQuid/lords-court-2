@@ -1,9 +1,8 @@
 package gamelogic.territory
 
-import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
-import gamelogic.territory.mapobjects.GameUnit
+import gamelogic.territory.mapobjects.Fleet
 import gamelogic.territory.mapobjects.Structure
 import kotlin.math.min
 
@@ -12,7 +11,7 @@ class Territory {
     companion object{
         val RESOURCES_NAME = "resources"
         val STRUCTURES_NAME = "structures"
-        val UNITS_NAME = "units"
+        val FLEETS_NAME = "fleets"
 
         fun extractFood(resources: Resources, amount: Int): Resources{
             val foodTypesInOrder = listOf(ResourceTypes.BREAD_NAME, ResourceTypes.FISH_NAME)
@@ -45,7 +44,7 @@ class Territory {
 
     val resources: Resources
     val structures: MutableList<Structure>
-    val units: MutableList<GameUnit>
+    val fleets: MutableList<Fleet>
 
     constructor(id: Int, name: String, x: Int, y: Int){
         this.id = id
@@ -61,7 +60,7 @@ class Territory {
         crops = mutableListOf()
         lastHarvest = listOf()
         structures = mutableListOf()
-        units = mutableListOf()
+        fleets = mutableListOf()
     }
 
     constructor(other: Territory){
@@ -73,7 +72,7 @@ class Territory {
         crops = other.crops.map { Crop(it) }.toMutableList()
         lastHarvest = other.lastHarvest //don't need to deep copy since it's not mutable
         structures = other.structures.map{Structure(it)}.toMutableList()
-        units = other.units.map{GameUnit(it)}.toMutableList()
+        fleets = other.fleets.map{Fleet(it)}.toMutableList()
     }
 
     constructor(saveString: Map<String, Any>){
@@ -85,7 +84,7 @@ class Territory {
         crops = (saveString[CROPS_NAME] as List<Map<String, Any>>).map{map -> Crop(map)}.toMutableList()
         lastHarvest = (saveString[LAST_HARVEST_NAME] as List<Map<String,Any>>).map{map -> Crop(map)}
         structures = (saveString[STRUCTURES_NAME] as List<Map<String, Any>>).map { map -> Structure(map) }.toMutableList()
-        units = (saveString[UNITS_NAME] as List<Map<String, Any>>).map{map -> GameUnit(map)}.toMutableList()
+        fleets = (saveString[FLEETS_NAME] as List<Map<String, Any>>).map{ map -> Fleet(map)}.toMutableList()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -113,7 +112,7 @@ class Territory {
             CROPS_NAME to crops.map { it.saveString() },
             LAST_HARVEST_NAME to lastHarvest.map{ it.saveString() },
             STRUCTURES_NAME to structures.map { it.saveString() },
-            UNITS_NAME to units.map { it.saveString() }
+            FLEETS_NAME to fleets.map { it.saveString() }
         )
     }
 
