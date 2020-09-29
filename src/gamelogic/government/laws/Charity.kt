@@ -50,7 +50,7 @@ class Charity: Law {
 
         if(onNeed){
             val foodToEat = capital!!.territory!!.foodToEatNextTurn()
-            val totalFood = foodToEat.resources.entries.sumBy { it.value }
+            val totalFood = foodToEat.resources.entries.sumBy { it.value } + capital!!.territory!!.resources.get(ResourceTypes.FLOUR_NAME)
             if(totalFood < capital!!.territory!!.foodNeededNextTurn()){
                 val foodToGive = Territory.extractFood(capital!!.resources, capital!!.territory!!.resources.get(ResourceTypes.POPULATION_NAME) - totalFood)
                 capital!!.resources.subtractAll(foodToGive)

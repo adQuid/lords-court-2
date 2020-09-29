@@ -7,6 +7,10 @@ import gamelogic.government.GovernmentLogicModule
 import gamelogic.government.actionTypes.GiveTerritory
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.ResourceTypes
+import gamelogic.territory.TerritoryLogicModule
+import gamelogic.territory.mapobjects.Fleet
+import gamelogic.territory.mapobjects.Ship
+import gamelogic.territory.mapobjects.ShipType
 import main.UIGlobals
 import ui.specialdisplayables.Message
 
@@ -38,6 +42,25 @@ class moveCharacter: SpecialScript{
         val capitals = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
         val location = capitals.capitals.filter { it.territory!!.id == destination}.first().location
         charToMove.location = location
+    }
+}
+
+class giveShipToCharacter: SpecialScript{
+    val character: String
+    val territory: String
+    val ship: String
+
+    constructor(turn: Int, character: String, territory: String, ship: String): super(turn){
+        this.character = character
+        this.territory = territory
+        this.ship = ship
+    }
+
+    override fun doscript(game: Game) {
+        val characterToGiveTo = game.players.filter { it.name == character }.first()
+        val territoryToPutIn = (game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).territories().first { it.name == territory }
+
+        territoryToPutIn.fleets.add(Fleet(characterToGiveTo.id, listOf(Ship(ShipType.typeByName(ship)))))
     }
 }
 
@@ -80,13 +103,14 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
     val governments = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
     val pcCapital = governments.capitals.first()
     val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
-    fishmonger.privateResources.set(ResourceTypes.FISH_NAME, 1000)
+    fishmonger.privateResources.set(ResourceTypes.FISH_NAME, 100)
     fishmonger.specialLines.add(adviceOnDraftingWrit)
     fishmonger
     }
 
     return listOf(
         addCharacter(2, makeFishMonger),
+        giveShipToCharacter(2, "Laerten", "Port Fog", "Fishing Ship"),
         moveCharacter(2, "Mayren", 7),
         FailIf(
             2,

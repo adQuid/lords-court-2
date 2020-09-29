@@ -9,7 +9,7 @@ class Ship {
     }
 
     constructor(saveString: Map<String, Any>){
-        type = ShipType.allTypes.first { it.name == (saveString["type"] as String) }
+        type = ShipType.typeByName(saveString["type"] as String)
     }
 
     fun saveString(): Map<String, Any>{

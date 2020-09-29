@@ -1,8 +1,5 @@
 package gamelogic.territory.mapobjects
 
-import game.Game
-import game.GameCharacter
-
 class Structure {
 
     val owner: Int
@@ -20,7 +17,7 @@ class Structure {
 
     constructor(saveString: Map<String, Any>){
         owner = saveString["owner"] as Int
-        type = StructureType.allTypes.first { it.name == (saveString["type"] as String) }
+        type = StructureType.typeByName(saveString["type"] as String)
     }
 
     fun saveString(): Map<String, Any>{

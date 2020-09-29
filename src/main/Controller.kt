@@ -6,6 +6,7 @@ import com.beust.klaxon.Klaxon
 import com.google.gson.Gson
 import game.Game
 import game.GameCharacter
+import gamelogic.territory.mapobjects.ShipType
 import gamelogic.territory.mapobjects.StructureType
 import javafx.application.Application
 import shortstate.ShortGameScene
@@ -165,6 +166,7 @@ class Controller {
 
     private fun setupRefData(){
         StructureType.loadStructureTypes()
+        ShipType.loadShipTypes()
     }
 }
 

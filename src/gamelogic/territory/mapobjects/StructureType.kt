@@ -13,6 +13,13 @@ class StructureType {
             val loadMap = klac.parseArray<Map<String,Any>>(File("data/structure_types.txt").readText())!!
             allTypes = loadMap.map { StructureType(it) }
         }
+
+        fun typeByName(name: String): StructureType{
+            if(allTypes.isEmpty()){
+                loadStructureTypes()
+            }
+            return allTypes.first { it.name == name }
+        }
     }
 
     class ManufactorOption{

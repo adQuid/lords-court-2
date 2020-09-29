@@ -12,6 +12,13 @@ class ShipType {
             val loadMap = klac.parseArray<Map<String,Any>>(File("data/ship_types.txt").readText())!!
             allTypes = loadMap.map { ShipType(it) }
         }
+
+        fun typeByName(name: String): ShipType{
+            if(allTypes.isEmpty()){
+                loadShipTypes()
+            }
+            return allTypes.first { it.name == name }
+        }
     }
 
     val name: String
