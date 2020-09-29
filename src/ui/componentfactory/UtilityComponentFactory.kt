@@ -12,8 +12,6 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.Background
-import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.layout.StackPane
 import javafx.scene.text.Font
@@ -25,14 +23,16 @@ import shortstate.ShortStateCharacter
 import shortstate.report.Report
 import ui.BOTTOM_BAR_PORTION
 import ui.Describable
-import ui.commoncomponents.PrettyPrintable
 import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.selectionmodal.Tab
-import javax.swing.GroupLayout
+import javafx.scene.media.Media
+import javafx.scene.media.MediaPlayer
+import java.io.File
 
 object UtilityComponentFactory {
 
     const val paper_background = "url(assets/general/generalInfo.png)"
+    val CLICK_NOISE = MediaPlayer(Media(File("sound/click.wav").toURI().toString()))
 
     fun imageView(url: String, height: Double): ImageView {
         return imageView(url, height, 1.0)
@@ -254,6 +254,7 @@ object UtilityComponentFactory {
         retval.children.add(text)
         if(action != null){
             behaviorByButton[retval] = EventHandler { event ->
+                playTheClick()
                 if(UIGlobals.GUI().lastButtonClicked != null) {
                     UIGlobals.clearLastSelectedButton()
                 }
@@ -327,8 +328,13 @@ object UtilityComponentFactory {
         retval.fitHeight = UIGlobals.totalHeight() * BOTTOM_BAR_PORTION
         retval.fitWidth = UIGlobals.totalWidth()/12
         applyTooltip(retval, tooltip)
-        retval.onMouseClicked =  EventHandler { _ -> action()}
+        retval.onMouseClicked =  EventHandler { _ -> playTheClick(); action()}
         return retval
+    }
+
+    private fun playTheClick(){
+        CLICK_NOISE.seek(CLICK_NOISE.startTime)
+        CLICK_NOISE.play()
     }
 
 }
