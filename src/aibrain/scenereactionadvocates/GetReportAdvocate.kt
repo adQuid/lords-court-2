@@ -24,12 +24,12 @@ class GetReportAdvocate: SceneReactionAdvocate {
         if(scene.shortPlayerForLongPlayer(me)!!.energy < 200 || doToScene(game, scene) is Wait || reportFactories().isEmpty() || scene.room.type != Room.RoomType.WORKROOM){
             return 0.0
         }
-        return 15.0 * ( me.reportsEntitled().size - scene.shortPlayerForLongPlayer(me)!!.knownReports.size)
+        return 15.0 * ( me.reportsEntitled().size -me.knownReports.size)
     }
 
     override fun doToScene(game: ShortStateGame, shortGameScene: ShortGameScene): RoomAction {
         //TODO: Make this better
-        val reportToGet = reportFactories().filter { shortGameScene.shortPlayerForLongPlayer(me)!!.knownReports.filter{report -> report.type == it.type}.isEmpty() }.firstOrNull()
+        val reportToGet = reportFactories().filter { me.knownReports.filter{report -> report.type == it.type}.isEmpty() }.firstOrNull()
 
         if(reportToGet != null){
             return MakeReport(reportToGet!!)

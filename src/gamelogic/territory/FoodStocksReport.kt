@@ -18,14 +18,14 @@ class FoodStocksReport: Report {
     val flour: Int
     val bread: Int
     
-    constructor(game: Game, territory: Territory){
+    constructor(game: Game, territory: Territory): super(game){
         this.territory = territory
         println(territory.name)
         flour = territory.resources.get(ResourceTypes.FLOUR_NAME)
         bread = territory.resources.get(ResourceTypes.BREAD_NAME)
     }
 
-    constructor(saveString: Map<String, Any>, game: Game){
+    constructor(saveString: Map<String, Any>, game: Game): super(saveString){
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
 
         territory = logic.territoryById(saveString["territory"] as Int)

@@ -294,10 +294,10 @@ object UtilityComponentFactory {
     }
 
     fun reports(perspective: ShortStateCharacter): List<Tab<Report>>{
-        val reportOptions = perspective.knownReports
-        val reportTab = Tab("Reports", reportOptions)
+        val recentReportTab = Tab("Reports from this Turn", perspective.player.recentReports(UIGlobals.activeGame().turn))
+        val oldReportsTab = Tab("All Reports", perspective.player.knownReports.sortedByDescending { it.turn })
 
-        return listOf(reportTab)
+        return listOf(recentReportTab, oldReportsTab)
     }
 
     fun writs(perspective: ShortStateCharacter): List<Tab<Writ>>{

@@ -17,12 +17,12 @@ class PopulationReport: Report {
     val territory: Territory
     val population: Int
     
-    constructor(game: Game, territory: Territory){
+    constructor(game: Game, territory: Territory): super(game){
         this.territory = territory
         population = territory.resources.get(ResourceTypes.POPULATION_NAME)
     }
 
-    constructor(saveString: Map<String, Any>, game: Game){
+    constructor(saveString: Map<String, Any>, game: Game): super(saveString){
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
 
         territory = logic.territoryById(saveString["territory"] as Int)

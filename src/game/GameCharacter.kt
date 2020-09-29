@@ -11,6 +11,7 @@ import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
+import shortstate.report.Report
 import shortstate.report.ReportFactory
 import ui.specialdisplayables.selectionmodal.Tab
 import kotlin.math.min
@@ -28,6 +29,7 @@ class GameCharacter {
         val ACCEPTED_DEALS_NAME = "ACCEPTEDDEALS"
         val ACCEPTED_TREATIES_NAME = "ACCEPTEDTREATIES"
         val WRITS_NAME = "WRITS"
+        val REPORTS_NAME = "REPORTS"
         val CULTURES_NAME = "CULTURES"
         val SPECIAL_LINES_NAME = "SPECIALLINES"
         val SPECIAL_SCORE_NAME = "SPECIALSCORE"
@@ -48,6 +50,7 @@ class GameCharacter {
     var location: Location
 
     var memory: Memory
+    var knownReports = mutableListOf<Report>()
     val acceptedDeals: MutableList<FinishedDeal>
     val acceptedTreaties: MutableList<Treaty>
     val writs: MutableList<Writ>
@@ -116,6 +119,7 @@ class GameCharacter {
         memory = Memory()
         acceptedDeals = mutableListOf()
         acceptedTreaties = mutableListOf()
+        knownReports = mutableListOf()
         writs = mutableListOf()
     }
 
@@ -123,6 +127,7 @@ class GameCharacter {
         memory = Memory(saveString[MEMORY_NAME] as Map<String, Any>, game)
         acceptedDeals.addAll((saveString[ACCEPTED_DEALS_NAME] as List<Map<String, Any>>).map { map -> FinishedDeal(map, game)}.toMutableList())
         acceptedTreaties.addAll((saveString[ACCEPTED_TREATIES_NAME] as List<Map<String, Any>>).map { map -> Treaty(map, game)}.toMutableList())
+        knownReports.addAll((saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> game.reportFromMap(map) }.toMutableList())
         writs.addAll((saveString[WRITS_NAME] as List<Map<String, Any>>).map{map -> Writ(map, game)})
         location = game.locationById(saveString[LOCATION_NAME] as Int)
     }
@@ -140,6 +145,7 @@ class GameCharacter {
         retval[ACCEPTED_DEALS_NAME] = acceptedDeals.map { deal -> deal.saveString() }
         retval[ACCEPTED_TREATIES_NAME] = acceptedTreaties.map { treaty -> treaty.saveString() }
         retval[WRITS_NAME] = writs.map { writ -> writ.saveString() }
+        retval[REPORTS_NAME] = knownReports.map{ report -> report.saveString()}
         retval[RESOURCES_NAME] = privateResources.saveString()
         retval[CULTURES_NAME] = cultures.map{it.name}
         retval[SPECIAL_LINES_NAME] = specialLines.map { it.saveString() }
@@ -174,6 +180,14 @@ class GameCharacter {
     fun infoOnTopic(topic: String): String?{
         val topics = topics()
         return topics.filter { it.name == topic }.firstOrNull()?.description
+    }
+
+    fun reportOfType(type: String): Report? {
+        return knownReports.filter { report -> report.type == type }.sortedByDescending { it.turn }.getOrNull(0)
+    }
+
+    fun recentReports(turn: Int): List<Report> {
+        return knownReports.filter { it.turn == turn }
     }
 
     fun fullName(): String{

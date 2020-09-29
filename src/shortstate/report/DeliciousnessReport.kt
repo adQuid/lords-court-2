@@ -14,12 +14,12 @@ class DeliciousnessReport: Report{
     override val type: String = DeliciousnessReport.type
     val value: Double
     
-    constructor(game: Game){
+    constructor(game: Game): super(game){
         val logic = CookieWorld.getCookieWorld(game)
         value = logic.deliciousness
     }
 
-    constructor(saveString: Map<String, Any>){
+    constructor(saveString: Map<String, Any>): super(){
         value = saveString["value"] as Double
     }
 

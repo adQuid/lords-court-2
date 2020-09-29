@@ -45,7 +45,7 @@ class GiveReport: Line {
                 listOf(
                 Tab(
                     "Reports",
-                    perspective.knownReports)
+                    perspective.player.knownReports)
             ), { selectedReport -> this.report = selectedReport; UIGlobals.defocus() }
             )
         )}))
@@ -85,7 +85,7 @@ class GiveReport: Line {
 
     override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
         if(!(report is EmptyReport)){
-            shortGame.shortGameScene!!.conversation!!.lastSpeaker.knownReports.add(report!!)
+            shortGame.shortGameScene!!.conversation!!.lastSpeaker.player.knownReports.add(report!!)
         }
     }
 

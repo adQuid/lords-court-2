@@ -42,7 +42,7 @@ abstract class Title {
     }
 
     //works on the assumption that an individual title only grants one title of each type
-    fun reportsIDontAlreadyHave(perspective: ShortStateCharacter): List<RoomActionMaker>{
-        return reportsEntitled.filter { report -> perspective.knownReports.filter { known -> known.type == report.type }.isEmpty()}.map { type -> DefaultRoomActionMaker(MakeReport(type)) }
+    fun reportsIDontAlreadyHave(perspective: ShortStateCharacter, game: Game): List<RoomActionMaker>{
+        return reportsEntitled.filter { report -> perspective.player.recentReports(game.turn).filter { known -> known.type == report.type }.isEmpty()}.map { type -> DefaultRoomActionMaker(MakeReport(type)) }
     }
 }

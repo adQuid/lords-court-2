@@ -17,12 +17,12 @@ class ActiveCropsReport: Report {
     val territory: Territory
     val crops: List<Crop>
     
-    constructor(game: Game, territory: Territory){
+    constructor(game: Game, territory: Territory): super(game){
         this.territory = territory
         crops = territory.crops.map{Crop(it)}
     }
 
-    constructor(saveString: Map<String, Any>, game: Game){
+    constructor(saveString: Map<String, Any>, game: Game): super(saveString){
         val logic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
 
         territory = logic.territoryById(saveString["territory"] as Int)

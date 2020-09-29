@@ -107,7 +107,7 @@ class EstatesView: PerspectiveDisplayable {
         val buttonsPane = GridPane()
         buttonsPane.add(UtilityComponentFactory.proportionalButton("Reports", EventHandler { UIGlobals.focusOn(
             SelectionModal("Select Report",
-                listOf(Tab("Reports", countTitle!!.reportsIDontAlreadyHave(perspective))),
+                listOf(Tab("Reports", countTitle!!.reportsIDontAlreadyHave(perspective, UIGlobals.activeGame()))),
                 { maker ->
                     maker.onClick(Controller.singleton!!.shortThreadForShortPlayer(perspective).shortGame,perspective)
                 })

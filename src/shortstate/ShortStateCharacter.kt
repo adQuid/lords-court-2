@@ -22,8 +22,6 @@ class ShortStateCharacter: PerspectiveDisplayable {
     var energy: Int
     val DONE_NAME = "done"
     var done = false
-    val REPORTS_NAME = "REPORTS"
-    var knownReports = mutableListOf<Report>()
 
     var nextSceneIWannaBeIn: SceneMaker? = null
 
@@ -40,15 +38,14 @@ class ShortStateCharacter: PerspectiveDisplayable {
         done = saveString[DONE_NAME] as Boolean
         sceneBrain = SceneBrain(this, player.brain)
         convoBrain = ConversationBrain(this)
-        knownReports = (saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> parent.reportFromMap(map) }.toMutableList()
+
     }
 
     fun saveString(): Map<String, Any>{
         return hashMapOf(
             PLAYER_NAME to player.id,
             ENERGY_NAME to energy,
-            DONE_NAME to done,
-            REPORTS_NAME to knownReports.map{ report -> report.saveString()}
+            DONE_NAME to done
         )
     }
 
@@ -77,10 +74,6 @@ class ShortStateCharacter: PerspectiveDisplayable {
             player.brain.thinkAboutNextTurn(game.game)
         }
         nextSceneIWannaBeIn = sceneBrain.nextSceneIWantToBeIn(this, game)
-    }
-
-    fun reportOfType(type: String): Report? {
-        return knownReports.filter { report -> report.type == type }.getOrNull(0)
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {

@@ -17,12 +17,12 @@ class CapitalStocksReport: Report {
     val capital: Capital
     val resources: Map<String, Int>
     
-    constructor(game: Game, capital: Capital){
+    constructor(game: Game, capital: Capital): super(game){
         this.capital = capital
         resources = capital.resources.resources
     }
 
-    constructor(saveString: Map<String, Any>, game: Game){
+    constructor(saveString: Map<String, Any>, game: Game): super(saveString){
         val logic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
         capital = logic.capitalById(saveString["id"] as Int)

@@ -75,7 +75,7 @@ class RequestReport: Line, HasReportType {
     }
 
     override fun possibleReplies(perspective: ShortStateCharacter, other: ShortStateCharacter, game: Game): List<Line> {
-        return listOf(GiveReport(EmptyReport()), GiveReport(perspective.reportOfType(report!!)))
+        return listOf(GiveReport(EmptyReport()), GiveReport(perspective.player.reportOfType(report!!)))
     }
 
     override fun mySetReportType(type: String) {
@@ -87,7 +87,7 @@ class RequestReport: Line, HasReportType {
     }
 
     override fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line {
-        val relatedReport = brain.shortCharacter.reportOfType(report!!)
+        val relatedReport = brain.shortCharacter.player.reportOfType(report!!)
         if(relatedReport != null){
             return GiveReport(relatedReport)
         } else if(brain.shortCharacter.player.reportsEntitled().any{it.type == report!!}){

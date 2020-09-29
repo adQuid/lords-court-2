@@ -25,6 +25,19 @@ abstract class Report: PrettyPrintable, Displayable {
     }
 
     abstract val type: String
+    val turn: Int
+
+    constructor(){
+        turn = -1
+    }
+
+    constructor(game: Game){
+        turn = game.turn
+    }
+
+    constructor(saveString: Map<String, Any>){
+        turn = saveString["turn"] as Int
+    }
 
     abstract fun apply(game: Game)
 
@@ -40,8 +53,9 @@ abstract class Report: PrettyPrintable, Displayable {
         val retval = specialSaveString().toMutableMap()
 
         retval.putAll(
-            mapOf<String, Any>(
-                GlobalReportTypeFactory.TYPE_NAME to type
+            mapOf(
+                GlobalReportTypeFactory.TYPE_NAME to type,
+                "turn" to turn
             )
         )
 
