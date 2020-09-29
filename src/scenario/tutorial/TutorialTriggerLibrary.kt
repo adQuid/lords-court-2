@@ -17,13 +17,16 @@ import shortstate.dialog.Line
 import shortstate.dialog.linetypes.*
 import shortstate.linetriggers.*
 
-val approachTestTrigger = LineTrigger(
-    "approach",
-    neverBeenCalled,
-    replyWithSimpleLine("Yo, I'z talking to ya.")
-)
+fun approachTestTrigger():LineTrigger {
+    return LineTrigger(
+        "approach",
+        neverBeenCalled,
+        replyWithSimpleLine("Yo, I'z talking to ya.")
+    )
+}
 
-val adviceOnBadFishTrade = LineTrigger(
+fun adviceOnBadFishTrade(): LineTrigger {
+    return LineTrigger(
     "badfish", { data, game, line, me, other ->
         line is RequestAdviceForDeal && dealHasBadOfferForFish(line.deal)
     },
@@ -34,6 +37,8 @@ val adviceOnBadFishTrade = LineTrigger(
         )
     )
 )
+}
+
 private fun dealHasBadOfferForFish(deal: Deal): Boolean{
     val cost = deal.theActions().entries.filter { it.key.npc == false }.flatMap{it.value}.filter { it is GiveResource && it.resource == ResourceTypes.GOLD_NAME}.firstOrNull()
     val fish = deal.theActions().entries.filter  { it.key.npc }.flatMap{it.value}.filter { it is GiveResource && it.resource == ResourceTypes.FISH_NAME}.firstOrNull()
@@ -44,7 +49,8 @@ private fun dealHasBadOfferForFish(deal: Deal): Boolean{
     return false
 }
 
-val adviceOnDraftingWrit = LineTrigger(
+fun adviceOnDraftingWrit(): LineTrigger {
+    return LineTrigger(
     "fishnowrit", { data, game, line, me, other ->
         line is OfferDeal && other != null && line.AIResponseFunction(me.convoBrain, other!!, game) is AcceptDeal
     },
@@ -63,12 +69,15 @@ val adviceOnDraftingWrit = LineTrigger(
         )
     )
 )
+}
 
-val adviseToGetFish = LineTrigger(
-    "gogetfish",
-    { data, game, line, me, other -> (line == null || line.canChangeTopic()) && data["calls"] == 0 && gameWouldEndWithoutFish(game, me) },
-    replyWithSimpleLine("My lord, I'm concerned about food stocks here. We need to trade with the merchants around here to get additional supplies to last until harvest. I've taken the liberty of inviting a Mr. Laerten to your hall. I suggest you speak to him.")
-)
+fun adviseToGetFish(): LineTrigger {
+    return LineTrigger(
+        "gogetfish",
+        { data, game, line, me, other -> (line == null || line.canChangeTopic()) && data["calls"] == 0 && gameWouldEndWithoutFish(game, me) },
+        replyWithSimpleLine("My lord, I'm concerned about food stocks here. We need to trade with the merchants around here to get additional supplies to last until harvest. I've taken the liberty of inviting a Mr. Laerten to your hall. I suggest you speak to him.")
+    )
+}
 private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolean{
     val governmentLogic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
     val playerCapital = governmentLogic.capitals.filter { governmentLogic.countOfCaptial(it.terId) == game.playerCharacter() }.firstOrNull()
@@ -87,7 +96,8 @@ private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolea
     return game.players.filter { it.npc == false && playerCapital.resources.get(ResourceTypes.FISH_NAME) > 0 }.isEmpty()
 }
 
-val chideForBadDeal = LineTrigger(
+fun chideForBadDeal(): LineTrigger {
+    return LineTrigger(
     "badfishdeal",
     { data, game, line, me, other -> data["calls"] == 0
         && playerIsPayingTooMuchForFish( game, me.player)
@@ -95,6 +105,7 @@ val chideForBadDeal = LineTrigger(
     },
     replyWithSimpleLine("That was a horrible deal!")
 )
+}
 private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean{
     val player = game.playerCharacter()
     val merchant = game.players.filter { it.npc && it.privateResources.get(ResourceTypes.FISH_NAME) > 0 }.firstOrNull()
@@ -113,7 +124,8 @@ private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean
     return false
 }
 
-val talkToDadTrigger1 = LineTrigger(
+fun talkToDadTrigger1(): LineTrigger {
+    return LineTrigger(
     "talktodad1",
     and(
         neverBeenCalled,
@@ -126,8 +138,10 @@ val talkToDadTrigger1 = LineTrigger(
         )
     )
 )
+}
 
-val talkToDadTrigger2 = LineTrigger(
+fun talkToDadTrigger2(): LineTrigger {
+    return LineTrigger(
     "talktodad2",
     and(
         neverBeenCalled,
@@ -156,12 +170,14 @@ val talkToDadTrigger2 = LineTrigger(
         )
     )
 )
+}
 
-val talkToDadTrigger3 = LineTrigger(
+fun talkToDadTrigger3(): LineTrigger {
+    return LineTrigger(
     "talktodad3",
     and(
         neverBeenCalled,
-        otherTriggerCalledByPlayer(talkToDadTrigger2),
+        otherTriggerCalledByPlayer(talkToDadTrigger2()),
         safeForNewTopic,
         talkingToSpecific("Mayren")
     ), replyWithTreeLine(
@@ -180,12 +196,15 @@ val talkToDadTrigger3 = LineTrigger(
         )
     )
 )
+}
 
-val talkToDadTrigger4 = LineTrigger(
+fun talkToDadTrigger4(): LineTrigger {
+    return LineTrigger(
     "talktodad4",
-    and(notStartingConvo, neverBeenCalled, safeForNewTopic, otherTriggerCalledByPlayer(talkToDadTrigger3)),
+    and(notStartingConvo, neverBeenCalled, safeForNewTopic, otherTriggerCalledByPlayer(talkToDadTrigger3())),
     grantStartingCounty()
 )
+}
 fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Line {
     return {data, game, line, me, other ->
 
@@ -202,23 +221,25 @@ fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Lin
     }
 }
 
-val adviseToTalkToDad = LineTrigger(
+fun adviseToTalkToDad(): LineTrigger {
+    return LineTrigger(
     "talktodad",
-    and(neverBeenCalled, belowEnergy(800), otherTriggerNotCalledByPlayer(talkToDadTrigger1), otherTriggerNotCalledByPlayer(
-        talkToDadTrigger2
+    and(neverBeenCalled, belowEnergy(800), otherTriggerNotCalledByPlayer(talkToDadTrigger1()), otherTriggerNotCalledByPlayer(
+        talkToDadTrigger2()
     )),
     replyWithSimpleLine("Your father is back in town, and you don't know for how long. You should spend more time with him.")
 )
+}
 
 val TRIGGER_MAP = listOf(
-    approachTestTrigger,
-    adviseToTalkToDad,
-    adviceOnBadFishTrade,
-    adviceOnDraftingWrit,
-    adviseToGetFish,
-    chideForBadDeal,
-    talkToDadTrigger1,
-    talkToDadTrigger2,
-    talkToDadTrigger3,
-    talkToDadTrigger4
+    approachTestTrigger(),
+    adviseToTalkToDad(),
+    adviceOnBadFishTrade(),
+    adviceOnDraftingWrit(),
+    adviseToGetFish(),
+    chideForBadDeal(),
+    talkToDadTrigger1(),
+    talkToDadTrigger2(),
+    talkToDadTrigger3(),
+    talkToDadTrigger4()
 ).map { it.id to it }.toMap().toMutableMap()

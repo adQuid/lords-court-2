@@ -57,23 +57,23 @@ object TutorialGameSetup {
         pcCapital.enactLaw(Charity(true))
 
         val PC = GameCharacter(TUTORIAL_PLAYER_NAME, "assets/general/conversation frame.png", false, pcCapital.location, game)
-        PC.specialLines.add(talkToDadTrigger1)
-        PC.specialLines.add(talkToDadTrigger2)
-        PC.specialLines.add(talkToDadTrigger3)
+        PC.specialLines.add(talkToDadTrigger1())
+        PC.specialLines.add(talkToDadTrigger2())
+        PC.specialLines.add(talkToDadTrigger3())
         game.addPlayer(PC)
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)
         game.applyTitleToCharacter(Minister(pcCapital), advisor)
-        advisor.specialLines.add(adviseToTalkToDad)
-        advisor.specialLines.add(adviceOnBadFishTrade)
-        advisor.specialLines.add(adviseToGetFish)
-        advisor.specialLines.add(chideForBadDeal)
+        advisor.specialLines.add(adviseToTalkToDad())
+        advisor.specialLines.add(adviceOnBadFishTrade())
+        advisor.specialLines.add(adviseToGetFish())
+        advisor.specialLines.add(chideForBadDeal())
 
         game.addPlayer(advisor)
 
         val dad = GameCharacter("Mayren", "assets/portraits/King.png", true, pcCapital.location, game)
         dad.specialScoreGenerators.add(MayronScoreGen())
-        dad.specialLines.add(talkToDadTrigger4)
+        dad.specialLines.add(talkToDadTrigger4())
 
         game.applyTitleToCharacter(capitals.capitalOf(territoryLogic.territories().first { it.name == "Worthford" }).generateCountTitle(), dad)
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), dad)

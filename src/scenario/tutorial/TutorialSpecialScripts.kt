@@ -104,7 +104,7 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
     val pcCapital = governments.capitals.first()
     val fishmonger = GameCharacter("Laerten", "assets/portraits/Merchant.png", true, pcCapital.location, game)
     fishmonger.privateResources.set(ResourceTypes.FISH_NAME, 100)
-    fishmonger.specialLines.add(adviceOnDraftingWrit)
+    fishmonger.specialLines.add(adviceOnDraftingWrit())
     fishmonger
     }
 

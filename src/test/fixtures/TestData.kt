@@ -46,7 +46,7 @@ fun soloTestGameWithEverythingOnIt(): Game{
     game.cultures.add(testCulture)
 
     game.players[0].memory.lines.addAll(fullMemory(game.players[0]))
-    game.players[0].specialLines.add(approachTestTrigger)
+    game.players[0].specialLines.add(approachTestTrigger())
     game.applyCultureToCharacter(testCulture.name, game.players[0])
 
 
