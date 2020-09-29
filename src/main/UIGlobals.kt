@@ -5,13 +5,18 @@ import game.GameCharacter
 import game.action.Action
 import javafx.scene.image.ImageView
 import javafx.scene.layout.StackPane
+import javafx.scene.media.Media
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import ui.Displayable
 import ui.MainUI
 import ui.componentfactory.UtilityComponentFactory
+import javafx.scene.media.MediaPlayer
+import java.io.File
 
 object UIGlobals {
+
+    val mediaPlayers = mutableMapOf<String, MediaPlayer>()
 
     fun activeGame(): Game {
         return Controller.singleton!!.game!!
@@ -60,6 +65,16 @@ object UIGlobals {
     fun specialFocusOn(focus: Displayable?){
         if(guiOrNull() != null){
             GUI().specialFocusOn(focus)
+        }
+    }
+
+    fun playSound(filename: String){
+        if(guiOrNull() != null){
+            if(!mediaPlayers.containsKey(filename)){
+                mediaPlayers[filename] = MediaPlayer(Media(File("sound/${filename}").toURI().toString()))
+            }
+            mediaPlayers[filename]!!.seek(mediaPlayers[filename]!!.startTime)
+            mediaPlayers[filename]!!.play()
         }
     }
 

@@ -75,6 +75,7 @@ class Controller {
         if(game!!.concludedPlayers.size == game!!.players.size){
             println("ENDING TURN ${game!!.turn}")
             game!!.endTurn()
+            UIGlobals.playSound("end_turn.wav")
             shortThreads.clear()
 
             populateShortThreads()
@@ -168,6 +169,7 @@ class Controller {
         StructureType.loadStructureTypes()
         ShipType.loadShipTypes()
     }
+
 }
 
 fun main() {

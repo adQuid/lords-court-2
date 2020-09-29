@@ -32,7 +32,6 @@ import java.io.File
 object UtilityComponentFactory {
 
     const val paper_background = "url(assets/general/generalInfo.png)"
-    val CLICK_NOISE = MediaPlayer(Media(File("sound/click.wav").toURI().toString()))
 
     fun imageView(url: String, height: Double): ImageView {
         return imageView(url, height, 1.0)
@@ -254,7 +253,7 @@ object UtilityComponentFactory {
         retval.children.add(text)
         if(action != null){
             behaviorByButton[retval] = EventHandler { event ->
-                playTheClick()
+                UIGlobals.playSound("click.wav")
                 if(UIGlobals.GUI().lastButtonClicked != null) {
                     UIGlobals.clearLastSelectedButton()
                 }
@@ -328,13 +327,8 @@ object UtilityComponentFactory {
         retval.fitHeight = UIGlobals.totalHeight() * BOTTOM_BAR_PORTION
         retval.fitWidth = UIGlobals.totalWidth()/12
         applyTooltip(retval, tooltip)
-        retval.onMouseClicked =  EventHandler { _ -> playTheClick(); action()}
+        retval.onMouseClicked =  EventHandler { _ -> UIGlobals.playSound("click.wav"); action()}
         return retval
-    }
-
-    private fun playTheClick(){
-        CLICK_NOISE.seek(CLICK_NOISE.startTime)
-        CLICK_NOISE.play()
     }
 
 }

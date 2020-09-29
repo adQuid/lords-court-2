@@ -118,7 +118,7 @@ open class DealComponentFactory {
         val tabs = listOf(
             Tab(
                 "Characters",
-                UIGlobals.activeGame().players.toList()
+                UIGlobals.activeGame().players.toList().filter{ it.location == UIGlobals.playingAs().player.location}
             )
         )
         val selectModal = SelectionModal("Select Character",
