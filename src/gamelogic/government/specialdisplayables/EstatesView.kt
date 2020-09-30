@@ -105,16 +105,18 @@ class EstatesView: PerspectiveDisplayable {
 
     private fun actionsOnMyTerritory(perspective: ShortStateCharacter, countTitle: Count): Node {
         val buttonsPane = GridPane()
+        buttonsPane.add(UtilityComponentFactory.proportionalButton("Units (0)", null, 0.25), 0,0)
+        buttonsPane.add(UtilityComponentFactory.proportionalButton("Structures (${focusedTerritory!!.structures.size})", EventHandler { UIGlobals.focusOn(StructuresView(focusedTerritory!!.id))}, 0.25), 1,0)
         buttonsPane.add(UtilityComponentFactory.proportionalButton("Reports", EventHandler { UIGlobals.focusOn(
             SelectionModal("Select Report",
                 listOf(Tab("Reports", countTitle!!.reportsIDontAlreadyHave(perspective, UIGlobals.activeGame()))),
                 { maker ->
                     maker.onClick(Controller.singleton!!.shortThreadForShortPlayer(perspective).shortGame,perspective)
                 })
-        ) }, 0.5),0,0)
+        ) }, 0.25),2,0)
         buttonsPane.add(UtilityComponentFactory.proportionalButton("Laws", EventHandler {UIGlobals.focusOn(
             LawsView(countTitle.capital.terId)
-        ) }, 0.5),1,0)
+        ) }, 0.25),3,0)
         return buttonsPane
     }
 }

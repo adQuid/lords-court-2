@@ -6,10 +6,8 @@ import gamelogic.government.Capital
 import gamelogic.government.GovernmentLogicModule
 import gamelogic.government.Kingdom
 import gamelogic.playerresources.PlayerResourceModule
-import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
-import ui.specialdisplayables.worldgen.WorldEditorMainMenu
 import game.GameCharacter
 import java.util.*
 import game.culture.Topic
@@ -17,6 +15,8 @@ import gamelogic.economics.EconomicsLogicModule
 import gamelogic.government.Minister
 import gamelogic.government.laws.Charity
 import gamelogic.resources.ResourceTypes
+import gamelogic.territory.mapobjects.Structure
+import gamelogic.territory.mapobjects.StructureType
 
 object TutorialGameSetup {
 
@@ -79,6 +79,9 @@ object TutorialGameSetup {
         game.applyTitleToCharacter(pcCapital.generateCountTitle(), dad)
         game.applyTitleToCharacter(danswada.generateKingTitle(), dad)
         game.addPlayer(dad)
+
+        pcCapital.territory!!.structures.add(Structure(PC.id, StructureType.typeByName("Water Mill")))
+        pcCapital.territory!!.structures.add(Structure(PC.id, StructureType.typeByName("Water Mill")))
 
         val names = Stack<String>()
         names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim", "Starwin", "Artyom", "Elsvin", "Krolm", "Ashta"))
