@@ -57,16 +57,6 @@ class MapView {
         this.focusX -= (displayWidth() - baseWidth*widthSize/zoom)/2
         this.widthSize = widthSize
         this.heightSize = heightSize
-
-        /*background.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
-        background.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
-        territories.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
-        territories.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
-        secondaryAnnotations.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
-        secondaryAnnotations.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
-        annotations.imageView.fitWidth = UIGlobals.totalWidth() * widthSize
-        annotations.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
-         */
     }
 
     fun display(): Node {
@@ -77,8 +67,6 @@ class MapView {
 
         annotations.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
         secondaryAnnotations.imageView.fitHeight = UIGlobals.totalHeight() * heightSize
-        /*secondaryAnnotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)
-        annotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)*/
 
         setViewPort()
         val scrollHandler = EventHandler<ScrollEvent> { event -> changeViewport(event.x -(baseWidth*widthSize)/2.0,event.y - (baseHeight*heightSize)/2.0, 0.005 * event.deltaY) }
