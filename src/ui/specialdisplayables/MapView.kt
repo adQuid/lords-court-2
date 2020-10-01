@@ -26,6 +26,7 @@ class MapView {
     var heightSize: Double
 
     val map: TerritoryMap
+    val adjacenies: MutableMap<Territory, List<Pair<Int,Int>>>
     private var background: MapLayer
     private var territories: MapLayer
     private var secondaryAnnotations: MapLayer
@@ -47,6 +48,8 @@ class MapView {
         territories = MapLayer(UtilityComponentFactory.imageView(map.imageUrl+"/territories.png", heightSize), true)
         secondaryAnnotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)
         annotations = MapLayer(UtilityComponentFactory.writableImageView(heightSize), true)
+
+        adjacenies = map.territories.associate { territory -> Pair(territory, adjacentPixels(territory.x.toDouble(), territory.y.toDouble())) }.toMutableMap()
     }
 
     fun resize(widthSize: Double, heightSize: Double){
@@ -180,11 +183,11 @@ class MapView {
     }
 
     fun secondaryHighlight(territories: Collection<Territory>){
-        highlightArea(secondaryAnnotations, territories.map { adjacentPixels(it.x.toDouble(), it.y.toDouble())}.flatten(), Color(0.2607843, 0.9607843, 0.2627451, 0.7))
+        highlightArea(secondaryAnnotations, territories.map { adjacenies[it]!! }.flatten(), Color(0.2607843, 0.9607843, 0.2627451, 0.7))
     }
 
     fun tertiaryHighlight(territories: Collection<Territory>){
-        highlightArea(secondaryAnnotations, territories.map { adjacentPixels(it.x.toDouble(), it.y.toDouble())}.flatten(), Color(0.1607843, 0.9607843, 0.7627451, 0.5))
+        highlightArea(secondaryAnnotations, territories.map { adjacenies[it]!! }.flatten(), Color(0.1607843, 0.9607843, 0.7627451, 0.5))
     }
 
     private fun highlightArea(layer: MapLayer, coords: List<Pair<Int,Int>>, color: Color){
@@ -198,7 +201,7 @@ class MapView {
     private fun adjacentPixels(x: Double, y: Double): List<Pair<Int,Int>> {
         val retval = mutableListOf<Pair<Int,Int>>()
         val toCheck = mutableSetOf(Pair(x.roundToInt(),y.roundToInt()))
-        val alreadyChecked = mutableListOf<Pair<Int,Int>>()
+        val alreadyChecked = mutableSetOf<Pair<Int,Int>>()
 
         while(toCheck.isNotEmpty()){
             val next = toCheck.first()
@@ -214,7 +217,7 @@ class MapView {
                 alreadyChecked.add(next)
             }
 
-            if(alreadyChecked.size > 5000){
+            if(alreadyChecked.size > 100000){
                 println("too big!")
                 return retval
             }

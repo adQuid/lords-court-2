@@ -111,7 +111,7 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
     return listOf(
         addCharacter(2, makeFishMonger),
         giveShipToCharacter(2, "Laerten", "Port Fog", "Fishing Ship"),
-        moveCharacter(2, "Mayren", 7),
+        moveCharacter(2, "Mayren", 3),
         FailIf(
             2,
             { game -> game.actionsByPlayer.values.flatten().filter { it is GiveTerritory }.isEmpty() },
