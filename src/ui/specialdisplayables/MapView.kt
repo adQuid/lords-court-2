@@ -115,14 +115,14 @@ class MapView {
     }
 
     private fun setViewPort(){
-        if(zoom < 0 || (baseWidth / zoom > background.imageView.image.width || baseHeight / zoom > background.imageView.image.height)){
-            zoom = min(baseWidth / background.imageView.image.width, baseHeight / background.imageView.image.height)
+        if(zoom < 0.5 || (baseWidth / zoom > background.imageView.image.width || baseHeight / zoom > background.imageView.image.height)){
+            zoom = 0.5
         }
         if(zoom > 10.0){
             zoom = 10.0
         }
 
-        if(focusX - (displayWidth()/2) < 0){
+        if(focusX - (displayWidth() / 2) < 0){
             focusX = displayWidth() / 2
         }
         if(focusX + (displayWidth()/2) > background.imageView.image.width){
