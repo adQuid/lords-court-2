@@ -8,6 +8,7 @@ import gamelogic.territory.TerritoryLogicModule
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.Scene
+import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import main.Controller
 import main.UIGlobals
@@ -20,14 +21,25 @@ import ui.specialdisplayables.selectionmodal.SelectionModal
 import ui.specialdisplayables.selectionmodal.Tab
 
 class EstatesView: PerspectiveDisplayable {
-    var focusedTerritory: Territory? = null
+    var focusedTerritory: Territory
 
     val mapView: MapView
+
+    var cachedScene: Scene? = null
+    var cachedFocusedTerritory: Territory? = null
+
+    val pane = GridPane()
+    val territoryNameLabel = UtilityComponentFactory.shortWideLabel("")
+    val rulerLabel = UtilityComponentFactory.shortProportionalLabel("", 0.5)
+    val kingdomLabel = UtilityComponentFactory.shortProportionalLabel("", 0.5)
+
+    val actionsHerePane = GridPane()
 
     constructor(perspective: ShortStateCharacter): super(){
         val gameCharacterSees = UIGlobals.activeGame().imageFor(perspective.player)
         val territorysControlledByPlayer = territoriesControlledByPlayer(perspective)
         val primaryTerritory = territorysControlledByPlayer.first()
+        focusedTerritory = primaryTerritory
 
         mapView = MapView(
             (gameCharacterSees.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).map,
@@ -37,14 +49,16 @@ class EstatesView: PerspectiveDisplayable {
         mapView.focusX = primaryTerritory!!.x.toDouble()
         mapView.focusY = primaryTerritory!!.y.toDouble()
         mapView.zoom = 3.0
-        mapView.secondaryHighlight(territorysControlledByPlayer)
         mapView.onClick =
             {x,y -> selectTerritory(x,y)}
     }
 
     private fun selectTerritory(x:Double, y:Double){
         val oldHeight = height()
-        focusedTerritory = mapView.selectTerritoryAt(x,y, highlight = false, makeNew = false)
+        val selectedTerritory = mapView.selectTerritoryAt(x,y, highlight = false, makeNew = false)
+        if(selectedTerritory != null){
+            focusedTerritory = selectedTerritory
+        }
         if(height() != oldHeight){
             mapView.resize(1.0, height())
         }
@@ -52,43 +66,88 @@ class EstatesView: PerspectiveDisplayable {
     }
 
     override fun display(perspective: ShortStateCharacter): Scene {
-        val pane = GridPane()
+        if(cachedScene == null){
+            setupScene(perspective)
+        } else {
+            updateScene(perspective)
+        }
+        cachedFocusedTerritory = focusedTerritory
+        return cachedScene!!
+    }
+
+    private fun setupScene(perspective: ShortStateCharacter){
 
         pane.add(mapView.display(), 0,0)
+
+        highlightAreas(perspective)
+
+        val govLogic = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule)
+
+        val kingdom = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule).kingdomOf(territoriesControlledByPlayer(perspective).first())
+        val countTitleOfTerr = UIGlobals.activeGame().titles.filter { it is Count && it.capital.territory == focusedTerritory }.firstOrNull()
+        val countOfTerr = govLogic.countOfCaptial((focusedTerritory!!.id))
+        val countText = if(countOfTerr == null){"no ruler"} else{ "Ruler: "+countOfTerr.fullName()}
+        val kingdomText = if(kingdom != null){ "Part of ${kingdom.name}, ruled by ${govLogic.kingOfKingdom(kingdom.name)}" } else { "Independent" }
+
+        (territoryNameLabel.children[1] as Label).text = focusedTerritory!!.name + "   (Arable land: ${focusedTerritory!!.resources.get(
+            ResourceTypes.ARABLE_LAND_NAME)})"
+        (rulerLabel.children[1] as Label).text = countText
+        (kingdomLabel.children[1] as Label).text = kingdomText
+        pane.add(territoryNameLabel, 0, 1)
+
+        if(countOfTerr == perspective.player){
+            pane.add(actionsOnMyTerritory(perspective, countTitleOfTerr as Count), 0,2)
+        } else {
+            val ownerPanel = GridPane()
+            ownerPanel.add(rulerLabel, 0, 0)
+            ownerPanel.add(kingdomLabel, 1, 0)
+            pane.add(ownerPanel, 0, 2)
+        }
+
+        pane.add(UtilityComponentFactory.backButton(), 0, 3)
+        pane.add(MiddlePaneComponentFactory.middlePane(perspective, true),0,4)
+
+        cachedScene = Scene(pane)
+    }
+
+    private fun updateScene(perspective: ShortStateCharacter){
+        mapView.refresh()
+        highlightAreas(perspective)
+        (territoryNameLabel.children[1] as Label).text = focusedTerritory!!.name + "   (Arable land: ${focusedTerritory!!.resources.get(
+            ResourceTypes.ARABLE_LAND_NAME)})"
+
+        val govLogic = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule)
+        val countOfTerr = govLogic.countOfCaptial((focusedTerritory!!.id))
+        val countTitleOfTerr = UIGlobals.activeGame().titles.filter { it is Count && it.capital.territory == focusedTerritory }.firstOrNull()
+        if(countOfTerr == perspective.player){
+            pane.add(actionsOnMyTerritory(perspective, countTitleOfTerr as Count), 0,2)
+        } else {
+            val govLogic = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule)
+
+            val kingdom = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule).kingdomOf(focusedTerritory)
+            val countOfTerr = govLogic.countOfCaptial((focusedTerritory!!.id))
+            val countText = if(countOfTerr == null){"no ruler"} else{ "Ruler: "+countOfTerr.fullName()}
+            val kingdomText = if(kingdom != null){ "Part of ${kingdom.name}, ruled by ${govLogic.kingOfKingdom(kingdom.name)}" } else { "Independent" }
+
+            (rulerLabel.children[1] as Label).text = countText
+            (kingdomLabel.children[1] as Label).text = kingdomText
+
+            val ownerPanel = GridPane()
+            ownerPanel.add(rulerLabel, 0, 0)
+            ownerPanel.add(kingdomLabel, 1, 0)
+            pane.add(ownerPanel, 0, 2)
+        }
+    }
+
+    private fun highlightAreas(perspective: ShortStateCharacter){
+        mapView.selectTerritoryAt(focusedTerritory!!.x.toDouble(), focusedTerritory!!.y.toDouble(), true, false)
+
         mapView.secondaryHighlight(territoriesControlledByPlayer(perspective))
 
         val kingdom = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule).kingdomOf(territoriesControlledByPlayer(perspective).first())
         if(kingdom != null){
             mapView.tertiaryHighlight(kingdom.territories!!)
         }
-
-        if(focusedTerritory != null){
-            mapView.selectTerritoryAt(focusedTerritory!!.x.toDouble(), focusedTerritory!!.y.toDouble(), true, false)
-
-            val govLogic = (UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule)
-
-            val countTitleOfTerr = UIGlobals.activeGame().titles.filter { it is Count && it.capital.territory == focusedTerritory }.firstOrNull()
-            val countOfTerr = govLogic.countOfCaptial((focusedTerritory!!.id))
-            val countText = if(countOfTerr == null){"no ruler"} else{ "Ruler: "+countOfTerr.fullName()}
-            val kingdom = govLogic.kingdomOf(focusedTerritory!!)
-            val kingdomText = if(kingdom != null){ "Part of ${kingdom.name}, ruled by ${govLogic.kingOfKingdom(kingdom.name)}" } else { "Independent" }
-
-            pane.add(UtilityComponentFactory.shortWideLabel(focusedTerritory!!.name + "   (Arable land: ${focusedTerritory!!.resources.get(
-                ResourceTypes.ARABLE_LAND_NAME)})"), 0, 1)
-
-            if(countOfTerr == perspective.player){
-                pane.add(actionsOnMyTerritory(perspective, countTitleOfTerr as Count), 0,2)
-            } else {
-                val ownerPanel = GridPane()
-                ownerPanel.add(UtilityComponentFactory.shortProportionalLabel(countText, 2.0), 0, 0)
-                ownerPanel.add(UtilityComponentFactory.shortProportionalLabel(kingdomText, 2.0), 1, 0)
-                pane.add(ownerPanel, 0, 2)
-            }
-        }
-        pane.add(UtilityComponentFactory.backButton(), 0, 3)
-        pane.add(MiddlePaneComponentFactory.middlePane(perspective, true),0,4)
-
-        return Scene(pane)
     }
 
     private fun height(): Double{

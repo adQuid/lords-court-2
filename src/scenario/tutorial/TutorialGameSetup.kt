@@ -29,9 +29,11 @@ object TutorialGameSetup {
         val danswada = Kingdom("Dansawda", listOf(
             territoryLogic.territories().first { it.name == "Port Fog" },
             territoryLogic.territories().first { it.name == "Worthford" },
-            territoryLogic.territories().first { it.name == "Sarsburg" },
-            territoryLogic.territories().first { it.name == "Mt. Mist" },
-            territoryLogic.territories().first { it.name == "Craytoyl" }
+            territoryLogic.territories().first { it.name == "Sarseth" },
+            territoryLogic.territories().first { it.name == "Seyseth" },
+            territoryLogic.territories().first { it.name == "Craytoyl" },
+            territoryLogic.territories().first { it.name == "Sorroford" },
+            territoryLogic.territories().first { it.name == "Herdford" }
         ))
         val capitals = GovernmentLogicModule(territoryLogic.map.territories.map { Capital(it) }, listOf(danswada))
 

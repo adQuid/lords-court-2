@@ -195,7 +195,7 @@ class MapView {
             val next = toCheck.first()
 
             if(!alreadyChecked.contains(next)){
-                if(next.first > 0 && next.second > 0 && territories.imageView.image.pixelReader.getArgb(next.first, next.second) == 0){
+                if(next.first > 0 && next.second > 0 && next.first < territories.imageView.image.width && next.second < territories.imageView.image.height && territories.imageView.image.pixelReader.getArgb(next.first, next.second) == 0){
                     retval.add(next)
                     toCheck.add(Pair(next.first-1, next.second))
                     toCheck.add(Pair(next.first+1, next.second))
@@ -218,9 +218,13 @@ class MapView {
         map.territories.forEach {
             (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x, it.y, Color.BLACK)
             (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x-1, it.y, Color.BLACK)
+            (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x-2, it.y, Color.BLACK)
             (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x+1, it.y, Color.BLACK)
+            (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x+2, it.y, Color.BLACK)
             (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x, it.y-1, Color.BLACK)
+            (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x, it.y-2, Color.BLACK)
             (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x, it.y+1, Color.BLACK)
+            (annotations.imageView.image as WritableImage).pixelWriter.setColor(it.x, it.y+2, Color.BLACK)
         }
     }
 
