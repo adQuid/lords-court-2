@@ -11,6 +11,7 @@ import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
 import game.GameCharacter
 import gamelogic.economics.EconomicsLogicModule
+import gamelogic.territory.mapobjects.StructureType
 
 object Fixtures {
     fun soloEconomicsTestGame(): Game{
@@ -19,8 +20,6 @@ object Fixtures {
 
         val govLogic = GovernmentLogicModule(listOf(Capital(territories.territories[0])),
             listOf(Kingdom("Test Kingdom", territories.territories)))
-
-        govLogic.capitals.first().enactLaw(Charity(false))
 
         val economics = EconomicsLogicModule()
 
@@ -37,6 +36,25 @@ object Fixtures {
 
         game.actionsByPlayer.put(game.players[0], mutableListOf(SetTaxRate(territories.territories[0].id, 0.2)))
         return game
+    }
+
+    fun setupStructureTypes(){
+        StructureType.allTypes = listOf(
+            StructureType(mapOf(
+                "name" to "building that does nothing",
+                "manufactoring" to listOf<Map<String, Any>>()
+            )),
+            StructureType(mapOf(
+                "name" to "building that makes flour from just labor, but only once",
+                "manufactoring" to listOf<Map<String, Any>>(
+                    mapOf(
+                        "thruput" to 1,
+                        "input" to mapOf("labor" to 1),
+                        "output" to mapOf("flour" to 1)
+                    )
+                )
+            ))
+        )
     }
 
 }

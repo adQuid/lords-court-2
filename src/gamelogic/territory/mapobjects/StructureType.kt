@@ -22,6 +22,16 @@ class StructureType {
         }
     }
 
+    val name: String
+
+    val manufactoring: Collection<ManufactorOption>
+
+    constructor(saveString: Map<String, Any>){
+        name = saveString["name"] as String
+
+        manufactoring = (saveString["manufactoring"] as List<Map<String, Any>>).map { ManufactorOption(it) }
+    }
+
     class ManufactorOption{
         val thruput: Int
         val inputs: Map<String, Int>
@@ -32,15 +42,5 @@ class StructureType {
             this.inputs = saveString["input"] as Map<String, Int>
             this.outputs = saveString["output"] as Map<String, Int>
         }
-    }
-
-    val name: String
-
-    val manufactoring: Collection<ManufactorOption>
-
-    constructor(saveString: Map<String, Any>){
-        name = saveString["name"] as String
-
-        manufactoring = (saveString["manufactoring"] as List<Map<String, Any>>).map { ManufactorOption(it) }
     }
 }

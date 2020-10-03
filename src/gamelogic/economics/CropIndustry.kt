@@ -10,6 +10,7 @@ import kotlin.math.min
 object CropIndustry: Industry {
     override fun run(territory: Territory, game: Game, labor: Int): Int {
         val territoryLogic = game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
+        val economicsLogic = game.moduleOfType(EconomicsLogicModule.type) as EconomicsLogicModule
 
         var laborLeft = labor
         var landLeft = territory.resources.get(ResourceTypes.ARABLE_LAND_NAME) - territory.totalCropsPlanted()

@@ -10,12 +10,14 @@ import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Crop
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
+import gamelogic.territory.mapobjects.Structure
 import kotlin.math.min
 
 class EconomicsLogicModule: GameLogicModule {
     companion object {
         val type = "Economics"
 
+        val LABOR_NAME = "labor"
 
     }
 
@@ -49,6 +51,10 @@ class EconomicsLogicModule: GameLogicModule {
                     }
                 }
             }
+            it.structures.forEach { structure ->
+                structure.manufatureTypeSelected = null
+                structure.usesExpended = 0
+            }
         }
 
         val industries = listOf(CropIndustry)
@@ -59,6 +65,16 @@ class EconomicsLogicModule: GameLogicModule {
             }
         }
 
+    }
+
+    fun bestConversion(territory: Territory, inputTypes: Collection<String>, outputType: String): Structure?{
+        val retval = territory.structures.sortedByDescending { it.bestConversion(inputTypes, outputType)[outputType] }.firstOrNull()
+
+        if(retval != null && retval!!.bestConversion(inputTypes, outputType).getOrDefault(outputType, 0) > 0){
+            return retval
+        } else {
+            return null
+        }
     }
 
     override fun locations(): Collection<Location> {
