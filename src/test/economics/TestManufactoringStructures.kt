@@ -34,4 +34,19 @@ class TestManufactoringStructures {
         assert(economics.bestConversion(territory, listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME) == territory.structures.first())
         assert(economics.bestConversion(territory, listOf(LABOR_NAME), ResourceTypes.ARABLE_LAND_NAME) == null)
     }
+
+    @Test
+    fun testExpendedProductionBuilding(){
+        setupStructureTypes()
+        val testGame = soloEconomicsTestGame()
+        val territory = (testGame.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).territories().first()
+        val economics = testGame.moduleOfType(EconomicsLogicModule.type) as EconomicsLogicModule
+
+        val structure = Structure(testGame.players.first().id, StructureType.typeByName("building that makes flour from just labor, but only once"))
+        territory.structures.add(structure)
+        structure.manufatureTypeSelected = structure.type.manufactoring.first()
+        structure.usesExpended = 1
+
+        assert(economics.bestConversion(territory, listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME) == null)
+    }
 }
