@@ -1,6 +1,5 @@
 package gamelogic.territory.mapobjects
 
-import game.Game
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 
@@ -39,6 +38,10 @@ class Fleet: GameUnit {
     override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
         val ownerAsCharacter = context.game.characterById(owner)
 
-        return "${ownerAsCharacter.name}'s fleet"
+        if(perspective.player == ownerAsCharacter){
+            return "your fleet"
+        } else {
+            return "${ownerAsCharacter.name}'s fleet"
+        }
     }
 }
