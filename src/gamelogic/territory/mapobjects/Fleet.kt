@@ -1,8 +1,10 @@
 package gamelogic.territory.mapobjects
 
 import game.Game
+import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 
-class Fleet {
+class Fleet: GameUnit {
 
     val owner: Int
     val ships: MutableCollection<Ship>
@@ -32,5 +34,11 @@ class Fleet {
             "owner" to owner,
             "ships" to ships.map { it.saveString() }
         )
+    }
+
+    override fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String {
+        val ownerAsCharacter = context.game.characterById(owner)
+
+        return "${ownerAsCharacter.name}'s fleet"
     }
 }

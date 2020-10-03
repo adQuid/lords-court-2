@@ -5,6 +5,7 @@ import gamelogic.government.Count
 import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
+import gamelogic.territory.mapobjects.Fleet
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.Scene
@@ -164,7 +165,10 @@ class EstatesView: PerspectiveDisplayable {
 
     private fun actionsOnMyTerritory(perspective: ShortStateCharacter, countTitle: Count): Node {
         val buttonsPane = GridPane()
-        buttonsPane.add(UtilityComponentFactory.proportionalButton("Units (0)", null, 0.25), 0,0)
+
+        val fleetsTab = Tab("Fleets Spotted", focusedTerritory.fleets)
+
+        buttonsPane.add(UtilityComponentFactory.proportionalButton("Units (${focusedTerritory!!.fleets.size})", EventHandler{UIGlobals.focusOn(SelectionModal("Units here", listOf(fleetsTab), {}))}, 0.25), 0,0)
         buttonsPane.add(UtilityComponentFactory.proportionalButton("Structures (${focusedTerritory!!.structures.size})", EventHandler { UIGlobals.focusOn(StructuresView(focusedTerritory!!.id))}, 0.25), 1,0)
         buttonsPane.add(UtilityComponentFactory.proportionalButton("Reports", EventHandler { UIGlobals.focusOn(
             SelectionModal("Select Report",
