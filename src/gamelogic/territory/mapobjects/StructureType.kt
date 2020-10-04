@@ -42,5 +42,27 @@ class StructureType {
             this.inputs = saveString["input"] as Map<String, Int>
             this.outputs = saveString["output"] as Map<String, Int>
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as ManufactorOption
+
+            if (thruput != other.thruput) return false
+            if (inputs != other.inputs) return false
+            if (outputs != other.outputs) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = thruput
+            result = 31 * result + inputs.hashCode()
+            result = 31 * result + outputs.hashCode()
+            return result
+        }
+
+
     }
 }

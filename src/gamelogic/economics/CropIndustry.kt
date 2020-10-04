@@ -1,6 +1,7 @@
 package gamelogic.economics
 
 import game.Game
+import gamelogic.economics.EconomicsLogicModule.Companion.LABOR_NAME
 import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Crop
 import gamelogic.territory.Territory
@@ -52,6 +53,18 @@ object CropIndustry: Industry {
         val seedsToSave = territory.resources.get(ResourceTypes.ARABLE_LAND_NAME) * 1.2
         val toMill = territory.resources.get(ResourceTypes.SEEDS_NAME) - seedsToSave
         if(toMill > 0){
+            var structureToUse = economicsLogic.bestConversion(territory, listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME)
+            while(structureToUse != null){
+                val manufacture = structureToUse.bestManufactureOption(listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME)!!
+                val quantToMill = min(toMill.toInt()/4, min(laborLeft, manufacture.thruput - structureToUse.usesExpended))
+                territory.resources.addAll(structureToUse!!.runManufacture(manufacture, quantToMill))
+
+                if(toMill > 0){
+                    structureToUse = economicsLogic.bestConversion(territory, listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME)
+                } else {
+                    structureToUse = null
+                }
+            }
             territory.modifyResource(ResourceTypes.SEEDS_NAME, -toMill.toInt())
             territory.modifyResource(ResourceTypes.FLOUR_NAME, toMill.toInt())
             laborLeft -= toMill.toInt()

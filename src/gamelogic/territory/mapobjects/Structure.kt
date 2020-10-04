@@ -1,5 +1,6 @@
 package gamelogic.territory.mapobjects
 
+import gamelogic.resources.Resources
 import kotlin.math.exp
 
 class Structure {
@@ -34,10 +35,20 @@ class Structure {
     }
 
     fun bestConversion(inputTypes: Collection<String>, outputType: String): Map<String, Int>{
+        val manufactureOption = bestManufactureOption(inputTypes, outputType)
+
+        if(manufactureOption == null){
+            return mapOf()
+        } else {
+            return manufactureOption!!.outputs
+        }
+    }
+
+    fun bestManufactureOption(inputTypes: Collection<String>, outputType: String): StructureType.ManufactorOption? {
 
         val retval = if(manufatureTypeSelected != null) {
             if(expended()){
-                 return mapOf()
+                 return null
             } else{
                 manufatureTypeSelected
             }
@@ -45,11 +56,30 @@ class Structure {
             type.manufactoring.filter { inputTypes.containsAll(it.inputs.keys) }.sortedByDescending { it.outputs[outputType] }.firstOrNull()
         }
 
-        if(retval != null){
-            return retval!!.outputs
-        } else {
-            return mapOf()
+        return retval
+    }
+
+    fun runManufacture(manufacture: StructureType.ManufactorOption, quantity: Int): Resources {
+        if(!type.manufactoring.contains(manufacture)){
+            throw Exception("Attempted to manufacture illegal type from building of type ${type.name}!")
         }
+
+        if(manufatureTypeSelected != null && manufatureTypeSelected != manufacture){
+            throw Exception("Attempted to change manufacture type after starting!")
+        }
+
+        manufatureTypeSelected = manufacture
+
+        if(usesExpended + quantity > manufatureTypeSelected!!.thruput){
+            throw Exception("Overused manufacturing type!")
+        }
+
+        usesExpended += quantity
+
+        val retval = Resources(manufatureTypeSelected!!.outputs)
+        retval.subtractAll(Resources(manufatureTypeSelected!!.inputs))
+
+        return retval
     }
 
     fun expended(): Boolean{

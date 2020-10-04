@@ -6,7 +6,10 @@ import gamelogic.resources.ResourceTypes
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
+import gamelogic.territory.mapobjects.Structure
+import gamelogic.territory.mapobjects.StructureType
 import org.junit.Test
+import test.economics.Fixtures.setupStructureTypes
 
 class TestGrowingAndHarvesting {
 
@@ -61,6 +64,28 @@ class TestGrowingAndHarvesting {
         game.endTurn()
 
         assert(ter.resources.get(ResourceTypes.FLOUR_NAME) > 0)
+    }
+
+    @Test
+    fun testMillingFlourWithMills(){
+        val game = agroTestGame()
+        setupStructureTypes()
+
+        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
+        ter.structures.add(Structure(0, StructureType.typeByName("building that makes flour from just labor, but only once")))
+        ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 0)
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 200)
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
+        //give them enough food to not have to worry about dieing
+        ter.resources.set(ResourceTypes.BREAD_NAME, 100)
+
+
+        assert(ter.structures[0].usesExpended == 0)
+
+        game.endTurn()
+
+        assert(ter.resources.get(ResourceTypes.FLOUR_NAME) > 0)
+        assert(ter.structures[0].usesExpended > 0)
     }
 
     @Test
