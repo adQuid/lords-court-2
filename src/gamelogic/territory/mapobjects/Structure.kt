@@ -53,7 +53,7 @@ class Structure {
                 manufatureTypeSelected
             }
         } else {
-            type.manufactoring.filter { inputTypes.containsAll(it.inputs.keys) }.sortedByDescending { it.outputs[outputType] }.firstOrNull()
+            type.manufactoring.filter { it.inputs.keys.containsAll(inputTypes) }.sortedByDescending { it.outputs[outputType] }.firstOrNull()
         }
 
         return retval

@@ -67,7 +67,7 @@ class TestGrowingAndHarvesting {
     }
 
     @Test
-    fun testMillingFlourWithMills(){
+    fun testMillingFlourUsesMills(){
         val game = agroTestGame()
         setupStructureTypes()
 
@@ -85,6 +85,29 @@ class TestGrowingAndHarvesting {
         game.endTurn()
 
         assert(ter.resources.get(ResourceTypes.FLOUR_NAME) > 0)
+        assert(ter.structures[0].usesExpended > 0)
+    }
+
+    @Test
+    fun testWaterMillProcessesExtraFlour(){
+        val game = agroTestGame()
+        setupStructureTypes()
+
+        val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
+        ter.structures.add(Structure(0, StructureType.typeByName("watermill")))
+        ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 0)
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 800)
+        ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
+        //give them enough food to not have to worry about dieing
+        ter.resources.set(ResourceTypes.BREAD_NAME, 100)
+
+
+        assert(ter.structures[0].usesExpended == 0)
+
+        game.endTurn()
+
+        assert(ter.resources.get(ResourceTypes.FLOUR_NAME) > 100)
+        assert(ter.resources.get(ResourceTypes.SEEDS_NAME) >= 0)
         assert(ter.structures[0].usesExpended > 0)
     }
 

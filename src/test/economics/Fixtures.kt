@@ -11,6 +11,7 @@ import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
 import game.GameCharacter
 import gamelogic.economics.EconomicsLogicModule
+import gamelogic.resources.ResourceTypes
 import gamelogic.territory.mapobjects.StructureType
 
 object Fixtures {
@@ -46,11 +47,21 @@ object Fixtures {
             )),
             StructureType(mapOf(
                 "name" to "building that makes flour from just labor, but only once",
-                "manufactoring" to listOf<Map<String, Any>>(
+                "manufactoring" to listOf(
                     mapOf(
                         "thruput" to 1,
                         "input" to mapOf("labor" to 1),
                         "output" to mapOf("flour" to 1)
+                    )
+                )
+            )),
+            StructureType(mapOf(
+                "name" to "watermill",
+                "manufactoring" to listOf(
+                    mapOf(
+                        "thruput" to 1,
+                        "input" to mapOf("labor" to 1, ResourceTypes.SEEDS_NAME to 4),
+                        "output" to mapOf("flour" to 4)
                     )
                 )
             ))

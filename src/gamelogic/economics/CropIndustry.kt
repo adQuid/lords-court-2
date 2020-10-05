@@ -51,20 +51,22 @@ object CropIndustry: Industry {
 
         //milling seeds
         val seedsToSave = territory.resources.get(ResourceTypes.ARABLE_LAND_NAME) * 1.2
-        val toMill = territory.resources.get(ResourceTypes.SEEDS_NAME) - seedsToSave
+        var toMill = territory.resources.get(ResourceTypes.SEEDS_NAME) - seedsToSave
         if(toMill > 0){
             var structureToUse = economicsLogic.bestConversion(territory, listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME)
             while(structureToUse != null){
+                println("running while loop")
                 val manufacture = structureToUse.bestManufactureOption(listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME)!!
                 val quantToMill = min(toMill.toInt()/4, min(laborLeft, manufacture.thruput - structureToUse.usesExpended))
                 territory.resources.addAll(structureToUse!!.runManufacture(manufacture, quantToMill))
 
-                if(toMill > 0){
+                if(quantToMill > 0 && toMill > 0){
                     structureToUse = economicsLogic.bestConversion(territory, listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME)
                 } else {
                     structureToUse = null
                 }
             }
+            toMill = territory.resources.get(ResourceTypes.SEEDS_NAME) - seedsToSave
             territory.modifyResource(ResourceTypes.SEEDS_NAME, -toMill.toInt())
             territory.modifyResource(ResourceTypes.FLOUR_NAME, toMill.toInt())
             laborLeft -= toMill.toInt()
