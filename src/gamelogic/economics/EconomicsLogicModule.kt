@@ -19,7 +19,7 @@ class EconomicsLogicModule: GameLogicModule {
 
         val LABOR_NAME = "labor"
 
-        val industries = listOf(CropIndustry)
+        val industries = listOf(CropIndustry, ConstructionIndustry)
     }
 
     override val type = EconomicsLogicModule.type

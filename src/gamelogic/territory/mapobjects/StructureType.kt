@@ -26,12 +26,14 @@ class StructureType {
     val name: String
 
     val cost: Resources
+    val constructionThroughput: Int
 
     val manufactoring: Collection<ManufactorOption>
 
     constructor(saveString: Map<String, Any>){
         name = saveString["name"] as String
         cost = Resources(saveString["cost"] as Map<String, Any>)
+        constructionThroughput = saveString["construction throughput"] as Int
         manufactoring = (saveString["manufactoring"] as List<Map<String, Any>>).map { ManufactorOption(it) }
     }
 

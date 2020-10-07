@@ -15,6 +15,12 @@ class Construction {
         this.spentResources = Resources()
     }
 
+    constructor(structure: Structure, budget: Resources){
+        this.structure = structure
+        this.budget = budget
+        this.spentResources = Resources()
+    }
+
     constructor(other: Construction){
         this.structure = Structure(other.structure) //Structures are immutable, right?
         this.budget = Resources(other.budget)
@@ -35,4 +41,11 @@ class Construction {
         )
     }
 
+    fun resourceNeeded(name: String): Int{
+        return structure.type.cost.get(name) - spentResources.get(name)
+    }
+
+    fun complete(): Boolean{
+        return structure.type.cost == spentResources
+    }
 }
