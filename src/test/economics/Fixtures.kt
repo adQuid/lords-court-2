@@ -43,10 +43,12 @@ object Fixtures {
         StructureType.allTypes = listOf(
             StructureType(mapOf(
                 "name" to "building that does nothing",
+                "cost" to mapOf<String, Any>(),
                 "manufactoring" to listOf<Map<String, Any>>()
             )),
             StructureType(mapOf(
                 "name" to "building that makes flour from just labor, but only once",
+                "cost" to mapOf<String, Any>(),
                 "manufactoring" to listOf(
                     mapOf(
                         "thruput" to 1,
@@ -57,6 +59,7 @@ object Fixtures {
             )),
             StructureType(mapOf(
                 "name" to "watermill",
+                "cost" to mapOf<String, Any>(),
                 "manufactoring" to listOf(
                     mapOf(
                         "thruput" to 1,

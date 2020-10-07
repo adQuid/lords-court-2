@@ -2,6 +2,7 @@ package gamelogic.territory.mapobjects
 
 import com.beust.klaxon.Klaxon
 import game.Game
+import gamelogic.resources.Resources
 import java.io.File
 
 class StructureType {
@@ -24,11 +25,13 @@ class StructureType {
 
     val name: String
 
+    val cost: Resources
+
     val manufactoring: Collection<ManufactorOption>
 
     constructor(saveString: Map<String, Any>){
         name = saveString["name"] as String
-
+        cost = Resources(saveString["cost"] as Map<String, Any>)
         manufactoring = (saveString["manufactoring"] as List<Map<String, Any>>).map { ManufactorOption(it) }
     }
 

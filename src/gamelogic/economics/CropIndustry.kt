@@ -55,7 +55,6 @@ object CropIndustry: Industry {
         if(toMill > 0){
             var structureToUse = economicsLogic.bestConversion(territory, listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME)
             while(structureToUse != null){
-                println("running while loop")
                 val manufacture = structureToUse.bestManufactureOption(listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME)!!
                 val quantToMill = min(toMill.toInt()/4, min(laborLeft, manufacture.thruput - structureToUse.usesExpended))
                 territory.resources.addAll(structureToUse!!.runManufacture(manufacture, quantToMill))

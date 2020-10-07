@@ -1,5 +1,6 @@
 package gamelogic.territory
 
+import gamelogic.economics.Construction
 import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
 import gamelogic.territory.mapobjects.Fleet
@@ -12,6 +13,7 @@ class Territory {
         val RESOURCES_NAME = "resources"
         val STRUCTURES_NAME = "structures"
         val FLEETS_NAME = "fleets"
+        val CONSTRUCTIONS_NAME = "constructions"
 
         fun extractFood(resources: Resources, amount: Int): Resources{
             val foodTypesInOrder = listOf(ResourceTypes.BREAD_NAME, ResourceTypes.FISH_NAME)
@@ -45,6 +47,7 @@ class Territory {
     val resources: Resources
     val structures: MutableList<Structure>
     val fleets: MutableList<Fleet>
+    val constructions: MutableList<Construction>
 
     constructor(id: Int, name: String, x: Int, y: Int){
         this.id = id
@@ -61,6 +64,7 @@ class Territory {
         lastHarvest = listOf()
         structures = mutableListOf()
         fleets = mutableListOf()
+        constructions = mutableListOf()
     }
 
     constructor(other: Territory){
@@ -73,6 +77,7 @@ class Territory {
         lastHarvest = other.lastHarvest //don't need to deep copy since it's not mutable
         structures = other.structures.map{Structure(it)}.toMutableList()
         fleets = other.fleets.map{Fleet(it)}.toMutableList()
+        constructions = other.constructions.map{Construction(it)}.toMutableList()
     }
 
     constructor(saveString: Map<String, Any>){
@@ -85,6 +90,7 @@ class Territory {
         lastHarvest = (saveString[LAST_HARVEST_NAME] as List<Map<String,Any>>).map{map -> Crop(map)}
         structures = (saveString[STRUCTURES_NAME] as List<Map<String, Any>>).map { map -> Structure(map) }.toMutableList()
         fleets = (saveString[FLEETS_NAME] as List<Map<String, Any>>).map{ map -> Fleet(map)}.toMutableList()
+        constructions = (saveString[CONSTRUCTIONS_NAME] as List<Map<String, Any>>).map{ map -> Construction(map)}.toMutableList()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -112,7 +118,8 @@ class Territory {
             CROPS_NAME to crops.map { it.saveString() },
             LAST_HARVEST_NAME to lastHarvest.map{ it.saveString() },
             STRUCTURES_NAME to structures.map { it.saveString() },
-            FLEETS_NAME to fleets.map { it.saveString() }
+            FLEETS_NAME to fleets.map { it.saveString() },
+            CONSTRUCTIONS_NAME to constructions.map{it.saveString()}
         )
     }
 

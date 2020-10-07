@@ -19,6 +19,7 @@ class EconomicsLogicModule: GameLogicModule {
 
         val LABOR_NAME = "labor"
 
+        val industries = listOf(CropIndustry)
     }
 
     override val type = EconomicsLogicModule.type
@@ -57,7 +58,6 @@ class EconomicsLogicModule: GameLogicModule {
             }
         }
 
-        val industries = listOf(CropIndustry)
         val laborByTerritory = territoryLogic.territories().associate { ter -> ter to ter.resources[ResourceTypes.POPULATION_NAME]!! }.toMutableMap()
         laborByTerritory.forEach {territory ->
             industries.forEach {
