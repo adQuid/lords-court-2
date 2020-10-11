@@ -3,9 +3,11 @@ package gamelogic.territory.mapobjects
 import com.beust.klaxon.Klaxon
 import game.Game
 import gamelogic.resources.Resources
+import shortstate.ShortStateCharacter
+import ui.Describable
 import java.io.File
 
-class StructureType {
+class StructureType: Describable {
     companion object{
         var allTypes = listOf<StructureType>()
 
@@ -35,6 +37,14 @@ class StructureType {
         cost = Resources(saveString["cost"] as Map<String, Any>)
         constructionThroughput = saveString["construction throughput"] as Int
         manufactoring = (saveString["manufactoring"] as List<Map<String, Any>>).map { ManufactorOption(it) }
+    }
+
+    override fun description(): String {
+        return "NOT IMPLEMENTED"
+    }
+
+    override fun tooltip(perspective: ShortStateCharacter): String {
+        return name
     }
 
     class ManufactorOption{
