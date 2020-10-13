@@ -4,6 +4,8 @@ import aibrain.Deal
 import game.action.Action
 import game.action.GlobalActionTypeFactory
 import game.culture.Culture
+import gamelogic.government.GovernmentLogicModule
+import gamelogic.resources.Resources
 import gamelogic.territory.TerritoryLogicModule
 import shortstate.report.Report
 import shortstate.report.ReportFactory
@@ -311,6 +313,33 @@ class Game {
 
     fun cultureByName(name: String): Culture {
         return cultures.filter { it.name == name }.first()
+    }
+
+    fun resourcesByCharacter(gameCharacter: GameCharacter): Resources {
+        val governmentLogic = gameLogicModules.filter { it is GovernmentLogicModule }.map{it as GovernmentLogicModule }.firstOrNull()
+
+        var retval = Resources(gameCharacter.privateResources)
+        if(governmentLogic != null){
+            val capitalWherePlayerIs = governmentLogic.capitalByLocation(gameCharacter.location)
+            if(governmentLogic.countOfCaptial(capitalWherePlayerIs.terId) == gameCharacter){
+                retval = retval.plus(capitalWherePlayerIs.resources)
+            }
+        }
+        return retval
+    }
+
+    fun addResourceForCharacter(gameCharacter: GameCharacter, resources: Resources){
+        val governmentLogic = gameLogicModules.filter { it is GovernmentLogicModule }.map{it as GovernmentLogicModule }.firstOrNull()
+
+        if(governmentLogic != null){
+            val capitalWherePlayerIs = governmentLogic.capitalByLocation(gameCharacter.location)
+            if(governmentLogic.countOfCaptial(capitalWherePlayerIs.terId) == gameCharacter){
+                capitalWherePlayerIs.resources.addAll(resources)
+                return
+            }
+        }
+
+        gameCharacter.privateResources.addAll(resources)
     }
 
     fun turnName(): String {

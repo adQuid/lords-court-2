@@ -52,6 +52,26 @@ class Resources {
         resources[name] = (resources[name]!! * value).roundToInt()
     }
 
+    fun plus(other: Resources): Resources{
+        val retval = Resources(this)
+        retval.addAll(other)
+        return retval
+    }
+
+    fun minus(other:Resources): Resources{
+        val retval = Resources(this)
+        retval.subtractAll(other)
+        return retval
+    }
+
+    fun greaterThanOrEqualTo(other: Resources): Boolean{
+        return this.minus(other).resources.filter { it.value < 0 }.isEmpty()
+    }
+
+    fun negative(): Resources{
+        return Resources(resources.mapValues{ it.value * -1 })
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

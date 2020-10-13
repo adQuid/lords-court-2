@@ -5,6 +5,7 @@ import game.Game
 import game.GameCharacter
 import game.action.GlobalActionTypeFactory
 import gamelogic.government.GovernmentLogicModule
+import gamelogic.resources.Resources
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
@@ -46,15 +47,8 @@ class GiveResource: Action {
         if(!isLegal(game, player)){
             return
         }
-        if(player.privateResources.get(resource) >= amount){
-            player.privateResources.add(resource, -amount)
-        } else {
-            val governmentLogic = game.gameLogicModules.filter { it is GovernmentLogicModule }.map{it as GovernmentLogicModule }.first()
-            val capitalWherePlayerIs = governmentLogic.capitalByLocation(player.location)
-            capitalWherePlayerIs.resources.add(resource, -amount)
-        }
-
-        game.characterById(characterId).privateResources.add(resource, amount)
+        game.addResourceForCharacter(game.characterById(characterId), Resources(mapOf(resource to amount)))
+        game.addResourceForCharacter(player, Resources(mapOf(resource to amount)).negative())
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {

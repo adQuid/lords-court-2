@@ -16,7 +16,7 @@ class ConversationMaker: SceneMaker {
     }
 
     override fun makeScene(game: ShortStateGame): ShortGameScene? {
-        val convo = Conversation(room, initiator, target)
+        val convo = Conversation(game, room, initiator, target)
         val sceneToMake = ShortGameScene(listOf(initiator, target), room, convo)
         return sceneToMake
     }

@@ -12,7 +12,6 @@ import ui.BOTTOM_BAR_PORTION
 import ui.specialdisplayables.EndTurnMenu
 import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.OptionsMenu
-import ui.specialdisplayables.PersonalResourcesView
 import ui.specialdisplayables.selectionmodal.SelectionModal
 
 object MiddlePaneComponentFactory {

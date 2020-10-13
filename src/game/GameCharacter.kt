@@ -198,18 +198,18 @@ class GameCharacter {
         }
     }
 
-    fun actionsReguarding(player: GameCharacter): List<Action>{
-        return actionsReguarding(listOf(player))
+    fun actionsReguarding(game: Game, player: GameCharacter): List<Action>{
+        return actionsReguarding(game, listOf(player))
     }
 
-    fun actionsReguarding(players: List<GameCharacter>): List<Action>{
-        return actionTabsRegarding(players).flatMap { it.items }
+    fun actionsReguarding(game: Game, players: List<GameCharacter>): List<Action>{
+        return actionTabsRegarding(game, players).flatMap { it.items }
     }
 
-    fun actionTabsRegarding(players: List<GameCharacter>): List<Tab<Action>>{
+    fun actionTabsRegarding(game: Game, players: List<GameCharacter>): List<Tab<Action>>{
         var retval = titles.flatMap { title -> title.actionsReguarding(players)}
         if(players.size > 1){
-            val temp = ResourceTypes.tradableTypes.filter { privateResources.get(it) > 0 }.map{ GiveResource(players.filter{it != this}.first().id, it, 1) }
+            val temp = ResourceTypes.tradableTypes.filter { game.resourcesByCharacter(this).get(it) > 0 }.map{ GiveResource(players.filter{it != this}.first().id, it, 1) }
             val tab = Tab<Action>("Resource Transfers", temp)
             retval = retval.plus(listOf(tab))
         }

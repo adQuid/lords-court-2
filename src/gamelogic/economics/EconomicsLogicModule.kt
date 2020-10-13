@@ -7,6 +7,7 @@ import game.GameCharacter
 import game.GameLogicModule
 import game.Location
 import gamelogic.resources.ResourceTypes
+import gamelogic.resources.Resources
 import gamelogic.territory.Crop
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
@@ -47,9 +48,7 @@ class EconomicsLogicModule: GameLogicModule {
         territoryLogic.territories().forEach {
             it.fleets.forEach { fleet ->
                 fleet.ships.forEach{ship ->
-                    ship.type.resourceExtractions.forEach {
-                        game.characterById(fleet.owner).privateResources.add(it.key, it.value)
-                    }
+                    game.addResourceForCharacter(game.characterById(fleet.owner), Resources(ship.type.resourceExtractions))
                 }
             }
             it.structures.forEach { structure ->

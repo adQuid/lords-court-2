@@ -12,7 +12,7 @@ class TestFishingShips {
 
         testGame.endTurn()
 
-        assert(testGame.players.first().privateResources.get(ResourceTypes.FISH_NAME) > 0)
+        assert(testGame.resourcesByCharacter(testGame.players.first()).get(ResourceTypes.FISH_NAME) > 0)
     }
 
 }

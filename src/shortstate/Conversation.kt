@@ -1,6 +1,7 @@
 package shortstate
 
 import aibrain.UnfinishedDeal
+import game.Game
 import game.action.Action
 import gamelogic.playerresources.GiveResource
 import main.UIGlobals
@@ -25,12 +26,15 @@ class Conversation {
     val LAST_LINE_NAME = "LINE"
     var lastLine: Line? = null
 
+    val game: Game
+
     var age = 0
 
     //TODO: Loosen coupling
     val display = ConversationComponentFactory(this)
 
-    constructor(room: Room, initiator: ShortStateCharacter, target: ShortStateCharacter){
+    constructor(parent: ShortStateGame, room: Room, initiator: ShortStateCharacter, target: ShortStateCharacter){
+        game = parent.game
         this.room = room
         this.initiator = initiator
         this.target = target
@@ -38,6 +42,7 @@ class Conversation {
     }
 
     constructor(parent: ShortStateGame, saveString: Map<String, Any?>){
+        game = parent.game
         room = Room(parent, saveString[ROOM_NAME] as Map<String, Any>)
         initiator = parent.shortPlayerForLongPlayer(parent.game.characterById(saveString[INITIATOR_NAME] as Int)!!)!!
         target = parent.shortPlayerForLongPlayer(parent.game.characterById(saveString[TARGET_NAME] as Int)!!)!!
@@ -97,10 +102,10 @@ class Conversation {
 
     fun defaultConversationLines(perspective: ShortStateCharacter): List<Line>{
         return listOfNotNull(
-            if(perspective.player.actionsReguarding(otherParticipant(perspective).player).filter{it is GiveResource}.isNotEmpty()) AskAboutTradableGoods() else null,
+            if(perspective.player.actionsReguarding(game, otherParticipant(perspective).player).filter{it is GiveResource}.isNotEmpty()) AskAboutTradableGoods() else null,
             if(otherParticipant(perspective).player.titles.flatMap { title -> title.reportsEntitled }.isNotEmpty() && perspective.player.titles.flatMap { title -> title.reportsEntitled }.isNotEmpty()) RequestReport(null) else null,
-            if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) OfferDeal(UnfinishedDeal(participants().map { it.player })) else null,
-            if(perspective.player.actionsReguarding(otherParticipant(perspective).player).isNotEmpty()) RequestAdviceForDeal(UnfinishedDeal(participants().map { it.player })) else null,
+            if(perspective.player.actionsReguarding(game, otherParticipant(perspective).player).isNotEmpty()) OfferDeal(UnfinishedDeal(participants().map { it.player })) else null,
+            if(perspective.player.actionsReguarding(game, otherParticipant(perspective).player).isNotEmpty()) RequestAdviceForDeal(UnfinishedDeal(participants().map { it.player })) else null,
             if(perspective.player.writs.filter{it.deal.actions.getOrDefault(this.otherParticipant(perspective).player, setOf()).isNotEmpty()}.isNotEmpty()) OfferWrit(null) else null,
             if(otherParticipant(perspective).player.topics().isNotEmpty()) AskAboutTopic(null) else null,
             bestLineToLeaveConversation(perspective)

@@ -177,4 +177,5 @@ class GovernmentLogicModule: GameLogicModule {
     fun capitalByLocation(location: Location): Capital{
         return capitals.filter{it.location == location}.first()
     }
+
 }
