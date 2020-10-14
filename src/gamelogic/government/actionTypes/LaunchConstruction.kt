@@ -44,7 +44,7 @@ class LaunchConstruction: Action {
     }
 
     override fun collidesWith(other: Action): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {
