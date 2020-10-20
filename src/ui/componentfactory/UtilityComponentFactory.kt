@@ -25,9 +25,6 @@ import ui.BOTTOM_BAR_PORTION
 import ui.Describable
 import ui.specialdisplayables.NewSceneSelector
 import ui.specialdisplayables.selectionmodal.Tab
-import javafx.scene.media.Media
-import javafx.scene.media.MediaPlayer
-import java.io.File
 
 object UtilityComponentFactory {
 
@@ -114,13 +111,15 @@ object UtilityComponentFactory {
         val listView = ListView<T>(data)
         listView.style = "-fx-focus-color:rgba(0,0,0,0.0);  -fx-padding: 0; -fx-background-image: $paper_background"
         listView.items = data
-        listView.setPrefSize(width,height)
-        listView.setCellFactory({ _: ListView<T> -> ActionPickCell(onClick, removeAction) })
+        listView.maxWidth = UIGlobals.totalWidth()*width
+        listView.maxHeight = UIGlobals.totalHeight()*height
+        listView.minHeight = UIGlobals.totalHeight()*height
+        listView.setCellFactory({ _: ListView<T> -> ActionPickCell(onClick, removeAction, width) })
 
         return listView
     }
 
-    internal class ActionPickCell<T: Describable>(val closeAction: ((T) -> Unit)?, val removeAction: ((T) -> Unit)?) : ListCell<T>() {
+    internal class ActionPickCell<T: Describable>(val closeAction: ((T) -> Unit)?, val removeAction: ((T) -> Unit)?, val widthScale: Double) : ListCell<T>() {
         public override fun updateItem(item: T?, empty: Boolean) {
             if(item != null){
                 super.updateItem(item, empty)
@@ -128,25 +127,26 @@ object UtilityComponentFactory {
 
                 val node = Pane()
                 if(closeAction != null){
-                    val primaryButton = shortWideButton(displayText, EventHandler { _ -> this.graphic = shortWideClickedButton(displayText, EventHandler { });  Platform.runLater { closeAction!!(item) }})
+                    val primaryButton = shortButton(displayText, EventHandler { _ -> this.graphic = shortWideClickedButton(displayText, EventHandler { });  Platform.runLater { closeAction!!(item) }}, widthScale)
                     primaryButton.setOnMouseEntered { event -> if(event.clickCount > 0){ closeAction!!(item) } }
                     node.children.add(primaryButton)
                     this.padding = Insets.EMPTY
                 } else {
-                    node.children.add(shortWideLabel(displayText))
+                    node.children.add(shortProportionalLabel(displayText, width))
                 }
 
                 if(removeAction != null){
-                    val cancelButton = imageView("assets/general/removeItemButton.png", 0.08, 0.07)
-                    cancelButton.setOnMouseClicked { _ -> removeAction!!(item) }
-                    cancelButton.setOnMouseEntered { event -> if(event.clickCount > 0){ removeAction!!(item) } }
-                    cancelButton.x = UIGlobals.totalWidth() * 0.9
-                    node.children.add(cancelButton)
+                    val removeButton = imageView("assets/general/removeItemButton.png", 0.08, 0.07)
+                    removeButton.setOnMouseClicked { _ -> removeAction!!(item) }
+                    removeButton.setOnMouseEntered { event -> if(event.clickCount > 0){ removeAction!!(item) } }
+                    removeButton.x = UIGlobals.totalWidth() * 0.9
+                    node.children.add(removeButton)
                 }
 
                 this.graphic = node
             } else {
-                this.graphic = shortWideLabel("")
+                println("got here")
+                this.graphic = shortProportionalLabel("", widthScale)
                 this.padding = Insets.EMPTY
             }
         }
