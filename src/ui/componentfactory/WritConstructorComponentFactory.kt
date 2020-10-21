@@ -34,7 +34,7 @@ class WritConstructorComponentFactory {
             UtilityComponentFactory.setButtonDisable(emptyButton, true)
             bottomPane.add(emptyButton,1,0)
         } else {
-            bottomPane.add(UtilityComponentFactory.shortButton("Create Writ", EventHandler {finish(perspective)}, 3),1,0)
+            bottomPane.add(UtilityComponentFactory.proportionalButton(text = "Create Writ", action = EventHandler {finish(perspective)}, width = 3.0, sound = "writing.mp3"),1,0)
         }
         root.add(bottomPane,0,8)
         root.add(MiddlePaneComponentFactory.middlePane(perspective, true), 0,9)

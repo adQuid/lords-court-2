@@ -238,7 +238,7 @@ object UtilityComponentFactory {
 
     val behaviorByButton = mutableMapOf<Node, EventHandler<MouseEvent>?>()
 
-    fun proportionalButton(text: String, action: EventHandler<MouseEvent>?, width: Double, height: Double, clicked: Boolean): Node{
+    fun proportionalButton(text: String, action: EventHandler<MouseEvent>?, width: Double, height: Double = 0.1, clicked: Boolean = false, sound: String = "click.wav"): Node{
         val image = if(clicked){ imageView("assets/general/generalButtonSelected.png", height, width)} else {imageView("assets/general/generalButton.png", height, width)}
 
         val text = Text(text)
@@ -253,7 +253,7 @@ object UtilityComponentFactory {
         retval.children.add(text)
         if(action != null){
             behaviorByButton[retval] = EventHandler { event ->
-                UIGlobals.playSound("click.wav")
+                UIGlobals.playSound(sound)
                 if(UIGlobals.GUI().lastButtonClicked != null) {
                     UIGlobals.clearLastSelectedButton()
                 }

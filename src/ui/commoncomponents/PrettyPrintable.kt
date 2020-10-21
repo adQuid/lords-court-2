@@ -5,5 +5,5 @@ import shortstate.ShortStateGame
 
 interface PrettyPrintable {
 
-    abstract fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String
+    fun prettyPrint(context: ShortStateGame, perspective: ShortStateCharacter): String
 }

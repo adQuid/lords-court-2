@@ -21,6 +21,9 @@ class Room {
             RoomType.ETC to "",
             RoomType.THRONEROOM to "announce your writs to enact them into law"
         )
+        val sounds = mapOf(
+            RoomType.WORKROOM to "paper.mp3"
+        )
     }
 
 

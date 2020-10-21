@@ -53,6 +53,9 @@ class SceneComponentFactory {
                 SelectionModal("Select Action",
                     roomActionButtons(scene.room, perspective),
                     { maker ->
+                        if(Room.sounds.containsKey(scene.room.type)){
+                            UIGlobals.playSound(Room.sounds[scene.room.type]!!)
+                        }
                         maker.onClick(
                             Controller.singleton!!.shortThreadForShortPlayer(perspective).shortGame,
                             perspective
