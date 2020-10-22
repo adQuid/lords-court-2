@@ -6,7 +6,7 @@ import gamelogic.territory.mapobjects.Structure
 class Construction {
     
     val structure: Structure
-    val budget: Resources
+    var budget: Resources
     val spentResources: Resources
 
     constructor(structure: Structure){

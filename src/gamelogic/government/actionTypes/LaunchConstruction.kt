@@ -3,12 +3,17 @@ package gamelogic.government.actionTypes
 import game.Game
 import game.GameCharacter
 import game.action.Action
+import game.action.GlobalActionTypeFactory
 import gamelogic.economics.Construction
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import shortstate.ShortStateCharacter
 
 class LaunchConstruction: Action {
+
+    companion object{
+        val typeName = "lanchConstruction"
+    }
 
     val construction: Construction
     val terID: Int
@@ -38,6 +43,7 @@ class LaunchConstruction: Action {
 
     override fun saveString(): Map<String, Any> {
         return mapOf(
+            GlobalActionTypeFactory.TYPE_NAME to typeName,
             "construction" to construction.saveString(),
             "territory" to terID
         )
@@ -48,10 +54,10 @@ class LaunchConstruction: Action {
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {
-        return "Build ${construction.structure.type}"
+        return "Build ${construction.structure.type.name}"
     }
 
     override fun description(): String {
-        return "Build ${construction.structure.type} using ${construction.budget}"
+        return "Build a new ${construction.structure.type.name} using ${construction.budget}"
     }
 }

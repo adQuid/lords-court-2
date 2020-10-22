@@ -1,6 +1,7 @@
 package ui.commoncomponents
 
 import gamelogic.resources.Resources
+import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.layout.GridPane
 import main.UIGlobals
@@ -13,10 +14,12 @@ class ResourceTransferWindow: Displayable {
 
     val res1: Resources
     val res2: Resources
+    val callback: (res1: Resources, res2: Resources) -> Unit
 
-    constructor(res1: Resources, res2: Resources){
+    constructor(res1: Resources, res2: Resources, callback: (res1: Resources, res2: Resources) -> Unit){
         this.res1 = res1
         this.res2 = res2
+        this.callback = callback
     }
 
     override fun universalDisplay(perspective: ShortStateCharacter?): Scene {
@@ -30,7 +33,7 @@ class ResourceTransferWindow: Displayable {
         listPane.add(UtilityComponentFactory.basicList(res2.resources.map{resource -> ResourceAmountDisplay(resource.key, resource.value)}, { display -> res1.add(display.type, display.amount); res2.add(display.type, -display.amount); UIGlobals.refresh() },null,0.5, 0.7),1,1)
 
         pane.add(listPane, 0,0)
-        pane.add(UtilityComponentFactory.shortButton("Save Changes", null), 0 ,1)
+        pane.add(UtilityComponentFactory.shortButton("Save Changes", EventHandler { callback(res1, res2); UIGlobals.defocus()}), 0 ,1)
         pane.add(UtilityComponentFactory.backButton(), 0, 2)
 
         return Scene(pane)

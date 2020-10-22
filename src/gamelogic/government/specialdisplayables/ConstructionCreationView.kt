@@ -1,6 +1,8 @@
 package gamelogic.government.specialdisplayables
 
+import aibrain.UnfinishedDeal
 import gamelogic.economics.Construction
+import gamelogic.government.actionTypes.LaunchConstruction
 import gamelogic.territory.Territory
 import javafx.event.EventHandler
 import javafx.scene.Scene
@@ -10,6 +12,7 @@ import shortstate.ShortStateCharacter
 import ui.Displayable
 import ui.commoncomponents.ResourceTransferWindow
 import ui.componentfactory.UtilityComponentFactory
+import ui.specialdisplayables.contructorobjects.WritConstructor
 
 class ConstructionCreationView: Displayable {
     val construction: Construction
@@ -30,11 +33,14 @@ class ConstructionCreationView: Displayable {
         pane.add(UtilityComponentFactory.proportionalLabel("Funded by: \n$fundingText", 1.0, 0.3), 0,1)
         pane.add(UtilityComponentFactory.proportionalLabel("Completion: \n$completionText", 1.0, 0.3), 0,2)
         pane.add(UtilityComponentFactory.shortButton("Modify budget",
-            EventHandler{UIGlobals.focusOn(ResourceTransferWindow(UIGlobals.activeGame().resourcesByCharacter(perspective!!.player), construction.budget))}),0, 3)
+            EventHandler{UIGlobals.focusOn(ResourceTransferWindow(UIGlobals.activeGame().resourcesByCharacter(perspective!!.player).minus(construction.budget), construction.budget,
+                {res1, res2 -> construction.budget = res2}))}),0, 3)
         if(hostTerritory.constructions.contains(construction)){
             pane.add(UtilityComponentFactory.shortButton("Abandon Construction", null),0,4)
         } else {
-            pane.add(UtilityComponentFactory.shortButton("Start Construction", null),0,4)
+            pane.add(UtilityComponentFactory.shortButton("Start Construction", EventHandler{UIGlobals.focusOn(WritConstructor(
+                UnfinishedDeal(mapOf(UIGlobals.playingAs().player to setOf(LaunchConstruction(this.construction, this.hostTerritory.id))))
+            ))}),0,4)
         }
         pane.add(UtilityComponentFactory.backButton(), 0, 5)
 
