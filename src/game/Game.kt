@@ -164,9 +164,10 @@ class Game {
         if(!actionsByPlayer.containsKey(player)){
             actionsByPlayer[player] = actions.toMutableList()
 
+        } else {
+            actionsByPlayer[player] = actionsByPlayer[player]!!.filter { actions.none { action -> action.collidesWith(it) } }.toMutableList()
+            actionsByPlayer[player]!!.addAll(actions)
         }
-        actionsByPlayer[player] = actionsByPlayer[player]!!.filter { actions.none { action -> action.collidesWith(it) } }.toMutableList()
-        actionsByPlayer[player]!!.addAll(actions)
         if(isLive){
             println("$player is comitting to $actions")
             reevaluateForcastForPlayers(players.filter{it.npc})
