@@ -5,6 +5,7 @@ import gamelogic.economics.EconomicsLogicModule
 import gamelogic.government.actionTypes.LaunchConstruction
 import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
+import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.mapobjects.Structure
 import gamelogic.territory.mapobjects.StructureType
@@ -40,15 +41,21 @@ class TestConstruction {
 
     @Test
     fun testLaunchConstruction(){
-        assert(launchConstructionTestGivenBudget(Resources()).isNotEmpty())
+        assert(launchConstructionTestGivenBudget(Resources(), Resources()).constructions.isNotEmpty())
     }
 
     @Test
     fun testLaunchingConstructionPlayerCantAfford(){
-        assert(launchConstructionTestGivenBudget(Resources(mapOf(ResourceTypes.GOLD_NAME to 99999))).isEmpty())
+        assert(launchConstructionTestGivenBudget(Resources(mapOf(ResourceTypes.GOLD_NAME to 99999)), Resources()).constructions.isEmpty())
     }
 
-    fun launchConstructionTestGivenBudget(budget: Resources): Collection<Construction>{
+    @Test
+    fun testConstructionRequiringResourceConversion(){
+        val totalBudget = Resources(mapOf(ResourceTypes.GOLD_NAME to 10))
+        assert(launchConstructionTestGivenBudget(totalBudget, totalBudget, 2).structures.isNotEmpty())
+    }
+
+    fun launchConstructionTestGivenBudget(budget: Resources, playerResources: Resources, turns: Int = 1): Territory{
         setupStructureTypes()
 
         val testGame = soloEconomicsTestGame()
@@ -58,11 +65,14 @@ class TestConstruction {
         val territories = testGame.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule
         val territory = territories.territories().first()
 
+        testGame.addResourceForCharacter(testGame.players.first(), playerResources)
         testGame.appendActionsForPlayer(testGame.players.first(), listOf(LaunchConstruction(construction, territory.id)))
 
-        testGame.endTurn()
+        for(i in 1..turns){
+            testGame.endTurn()
+        }
 
-        return territory.constructions
+        return territory
     }
 
 }

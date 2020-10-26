@@ -38,6 +38,8 @@ class LaunchConstruction: Action {
         if(game.resourcesByCharacter(player).greaterThanOrEqualTo(construction.budget)){
             game.addResourceForCharacter(player, construction.budget)
             territory.constructions.add(construction)
+        } else {
+            println("Attempting to create construction player cannot afford!")
         }
     }
 

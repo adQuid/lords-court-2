@@ -78,7 +78,11 @@ class Resources {
 
         other as Resources
 
-        if (resources != other.resources) return false
+        resources.forEach {
+            if(get(it.key) != other.get(it.key)){
+                return false
+            }
+        }
 
         return true
     }

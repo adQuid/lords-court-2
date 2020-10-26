@@ -1,6 +1,7 @@
 package gamelogic.territory
 
 import gamelogic.economics.Construction
+import gamelogic.economics.EconomicsLogicModule
 import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
 import gamelogic.territory.mapobjects.Fleet
@@ -137,5 +138,12 @@ class Territory {
 
     fun foodToEatNextTurn(): Resources {
         return extractFood(resources, resources.get(ResourceTypes.POPULATION_NAME))
+    }
+    
+    fun resourceConversions(): Map<String, Map<String, Int>>{
+        return mapOf(
+            //TODO: weird cyclical dependency here...
+            ResourceTypes.GOLD_NAME to mapOf(EconomicsLogicModule.LABOR_NAME to 1)
+        )
     }
 }
