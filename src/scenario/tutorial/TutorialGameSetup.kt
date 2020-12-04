@@ -82,9 +82,6 @@ object TutorialGameSetup {
         game.applyTitleToCharacter(danswada.generateKingTitle(), dad)
         game.addPlayer(dad)
 
-        pcCapital.territory!!.structures.add(Structure(PC.id, StructureType.typeByName("Water Mill")))
-        pcCapital.territory!!.structures.add(Structure(PC.id, StructureType.typeByName("Water Mill")))
-
         val names = Stack<String>()
         names.addAll(listOf("Faceperson", "De Puce", "Countington", "Fred", "Fredmark", "Billybob", "Tim", "Starwin", "Artyom", "Elsvin", "Krolm", "Ashta"))
         capitals.capitals.forEach {

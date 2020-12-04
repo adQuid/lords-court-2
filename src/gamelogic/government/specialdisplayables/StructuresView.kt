@@ -29,7 +29,7 @@ class StructuresView: Displayable {
 
         pane.add(UtilityComponentFactory.proportionalLabel(structures.map{"${it.type.name}, owned by ${nameOrYou(perspective, it.owner)}"}.joinToString("\n"), 1.0, 0.7), 0, 0)
         pane.add(UtilityComponentFactory.shortButton("Construction sites", EventHandler { UIGlobals.focusOn(SelectionModal("Construction", listOf(
-            Tab("constructions", territory.constructions)), null
+            Tab("constructions", territory.constructions)), { UIGlobals.focusOn(it) }
         ) )}), 0, 7)
         pane.add(UtilityComponentFactory.shortButton("Start new Construction", EventHandler {UIGlobals.focusOn(SelectionModal("Building Type", listOf(
             Tab("Building Types", StructureType.allTypes)), { type -> UIGlobals.focusOn(ConstructionCreationView(

@@ -1,8 +1,12 @@
 package gamelogic.resources
 
+import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
+import ui.Describable
+import ui.commoncomponents.PrettyPrintable
 import kotlin.math.roundToInt
 
-class Resources {
+class Resources: Describable {
 
     val resources: MutableMap<String, Int>
 
@@ -70,6 +74,14 @@ class Resources {
 
     fun negative(): Resources{
         return Resources(resources.mapValues{ it.value * -1 })
+    }
+
+    override fun tooltip(perspective: ShortStateCharacter): String {
+        return resources.map { "${it.value} ${it.key}" }.joinToString (",")
+    }
+
+    override fun description(): String {
+        return resources.map { "${it.value} ${it.key}" }.joinToString (",")
     }
 
     override fun equals(other: Any?): Boolean {

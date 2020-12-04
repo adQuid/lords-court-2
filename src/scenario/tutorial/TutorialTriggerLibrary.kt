@@ -117,7 +117,6 @@ private fun playerIsPayingTooMuchForFish(game: Game, me: GameCharacter): Boolean
         if(me.brain.dealValueToCharacter(writ.deal, merchant!!) > 0.2){
             return true
         }else{
-            println(me.brain.dealValueToCharacter(writ.deal, merchant))
             return false
         }
     }

@@ -37,7 +37,7 @@ class LaunchConstruction: Action {
 
         if(game.resourcesByCharacter(player).greaterThanOrEqualTo(construction.budget)){
             game.addResourceForCharacter(player, construction.budget)
-            territory.constructions.add(construction)
+            territory.constructions.add(Construction(construction))
         } else {
             println("Attempting to create construction player cannot afford!")
         }
@@ -60,6 +60,6 @@ class LaunchConstruction: Action {
     }
 
     override fun description(): String {
-        return "Build a new ${construction.structure.type.name} using ${construction.budget}"
+        return "Build a new ${construction.structure.type.name} using ${construction.budget.description()}"
     }
 }

@@ -16,6 +16,8 @@ class ResourceTransferWindow: Displayable {
     val res2: Resources
     val callback: (res1: Resources, res2: Resources) -> Unit
 
+    var transferAmount = 1
+
     constructor(res1: Resources, res2: Resources, callback: (res1: Resources, res2: Resources) -> Unit){
         this.res1 = res1
         this.res2 = res2
@@ -29,14 +31,33 @@ class ResourceTransferWindow: Displayable {
         listPane.add(UtilityComponentFactory.shortProportionalLabel("Resources 1", 0.5), 0, 0)
         listPane.add(UtilityComponentFactory.shortProportionalLabel("Resources 2", 0.5), 1, 0)
 
-        listPane.add(UtilityComponentFactory.basicList(res1.resources.map{resource -> ResourceAmountDisplay(resource.key, resource.value)}, { display -> res1.add(display.type, -display.amount); res2.add(display.type, display.amount); UIGlobals.refresh() },null,0.5, 0.7),0,1)
-        listPane.add(UtilityComponentFactory.basicList(res2.resources.map{resource -> ResourceAmountDisplay(resource.key, resource.value)}, { display -> res1.add(display.type, display.amount); res2.add(display.type, -display.amount); UIGlobals.refresh() },null,0.5, 0.7),1,1)
+        listPane.add(UtilityComponentFactory.basicList(res1.resources.map{resource -> ResourceAmountDisplay(resource.key, resource.value)}, { display ->  transferResources(display, res1, res2)},null,0.5, 0.7),0,1)
+        listPane.add(UtilityComponentFactory.basicList(res2.resources.map{resource -> ResourceAmountDisplay(resource.key, resource.value)}, { display -> transferResources(display, res2, res1) },null,0.5, 0.7),1,1)
 
         pane.add(listPane, 0,0)
-        pane.add(UtilityComponentFactory.shortButton("Save Changes", EventHandler { callback(res1, res2); UIGlobals.defocus()}), 0 ,1)
-        pane.add(UtilityComponentFactory.backButton(), 0, 2)
+
+        val amountPane = GridPane()
+        amountPane.add(UtilityComponentFactory.proportionalButton("1", EventHandler{transferAmount = 1}, 0.2), 0, 0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("5", EventHandler{transferAmount = 5}, 0.2), 1, 0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("10", EventHandler{transferAmount = 10}, 0.2), 2, 0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("50", EventHandler{transferAmount = 50}, 0.2), 3, 0)
+        amountPane.add(UtilityComponentFactory.proportionalButton("100", EventHandler{transferAmount = 100}, 0.2), 4, 0)
+        pane.add(amountPane, 0 , 1)
+
+        val resolutionPane = GridPane()
+        resolutionPane.add(UtilityComponentFactory.shortButton("Save Changes", EventHandler { callback(res1, res2); UIGlobals.defocus()}), 0 ,1)
+        resolutionPane.add(UtilityComponentFactory.backButton(), 0, 2)
+        pane.add(resolutionPane, 0 , 2)
 
         return Scene(pane)
+    }
+
+    fun transferResources(display: ResourceAmountDisplay, from: Resources, to: Resources){
+        if(from.get(display.type) >= transferAmount){
+            from.add(display.type, -transferAmount)
+            to.add(display.type, transferAmount)
+        }
+        UIGlobals.refresh()
     }
 
     class ResourceAmountDisplay: Describable {

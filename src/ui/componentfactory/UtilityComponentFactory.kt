@@ -145,7 +145,6 @@ object UtilityComponentFactory {
 
                 this.graphic = node
             } else {
-                println("got here")
                 this.graphic = shortProportionalLabel("", widthScale)
                 this.padding = Insets.EMPTY
             }
