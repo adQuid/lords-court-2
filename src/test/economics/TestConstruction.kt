@@ -50,8 +50,21 @@ class TestConstruction {
     }
 
     @Test
+    fun testConstructionStartingWithLabor(){
+        val result = launchConstructionTestGivenBudget(Resources(mapOf(EconomicsLogicModule.LABOR_NAME to 10)), Resources(mapOf(EconomicsLogicModule.LABOR_NAME to 10)), 2)
+        assert(result.constructions.isEmpty())
+        assert(result.structures.isNotEmpty())
+    }
+
+    @Test
     fun testConstructionRequiringResourceConversion(){
         val totalBudget = Resources(mapOf(ResourceTypes.GOLD_NAME to 10))
+        assert(launchConstructionTestGivenBudget(totalBudget, totalBudget, 2).structures.isNotEmpty())
+    }
+
+    @Test
+    fun testConstructionRequiringResourceConversionWithOverbudget(){
+        val totalBudget = Resources(mapOf(ResourceTypes.GOLD_NAME to 20))
         assert(launchConstructionTestGivenBudget(totalBudget, totalBudget, 2).structures.isNotEmpty())
     }
 
