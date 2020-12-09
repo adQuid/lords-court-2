@@ -44,7 +44,7 @@ object ConstructionIndustry: Industry {
 
                 if(conversionOptions.isNotEmpty()){
                     val bestOption = conversionOptions[0]
-                    val amountToConvert = min((constructionCost[bestOption.key] - resourcesExpended[bestOption.key]) / bestOption.value, construction.budget[spendingResource.key])
+                    val amountToConvert = min( construction.structure.type.constructionThroughput ,min((constructionCost[bestOption.key] - resourcesExpended[bestOption.key]) / bestOption.value, construction.budget[spendingResource.key]))
 
                     construction.budget.add(bestOption.key, amountToConvert * bestOption.value)
                     construction.budget.add(spendingResource.key, -amountToConvert)

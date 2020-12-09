@@ -27,7 +27,7 @@ object UIGlobals {
     }
 
     fun guiOrNull(): MainUI? {
-        return Controller.singleton!!.GUI
+        return Controller.singleton?.GUI
     }
 
     fun GUI(): MainUI {

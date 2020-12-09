@@ -135,7 +135,11 @@ class Controller {
     fun runAnotherThread(){
         if(shortThreads.any { !it.started && it.shortGame.players.none { !it.player.npc } }){
             println("ran other thread")
-            Thread(shortThreads.first{!it.started && it.shortGame.players.none { !it.player.npc }}).start()
+            try{
+                Thread(shortThreads.first{!it.started && it.shortGame.players.none { !it.player.npc }}).start()
+            } catch (e: Exception){
+                println("failed to run another thread. Perhaps they are all already running?")
+            }
         }
     }
 

@@ -1,0 +1,16 @@
+[
+{
+  "name":"Water Mill",
+  "cost": {
+    "labor": 100
+  },
+"construction throughput": 10,
+  "manufactoring": [
+    {
+      "thruput": 100,
+      "input": {"labor": 1, "seeds": 4},
+      "output": {"flour":4}
+    }
+  ]
+}
+]

@@ -7,6 +7,7 @@ import game.culture.Culture
 import gamelogic.government.GovernmentLogicModule
 import gamelogic.resources.Resources
 import gamelogic.territory.TerritoryLogicModule
+import main.UIGlobals
 import shortstate.report.Report
 import shortstate.report.ReportFactory
 
@@ -170,7 +171,8 @@ class Game {
         }
         if(isLive){
             println("$player is comitting to $actions")
-            reevaluateForcastForPlayers(players.filter{it.npc})
+            UIGlobals.playSound("fanfare.mp3")
+            players.filter{it.npc && it.location == player.location}.forEach{it.brain.lastCasesOfConcern = null}
         }
     }
 

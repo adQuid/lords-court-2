@@ -53,6 +53,7 @@ class TestAI {
         assert(brain.dealValueToMe(oneTimeGoodDeal(game.players)) > 0)
 
         game.appendActionsForPlayer(character, listOf(DummyOneTimeGoodThing()))
+        character.brain.thinkAboutNextTurn(game)
 
         assert(brain.dealValueToMe(oneTimeGoodDeal(game.players)) == 0.0)
     }

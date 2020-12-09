@@ -1,0 +1,6 @@
+[
+{
+  "name":"Fishing Ship",
+  "resource extractions": {"fish": 15}
+}
+]

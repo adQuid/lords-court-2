@@ -38,9 +38,12 @@ class ConstructionCreationView: Displayable {
         if(hostTerritory.constructions.contains(construction)){
             pane.add(UtilityComponentFactory.shortButton("Abandon Construction", null),0,4)
         } else {
-            pane.add(UtilityComponentFactory.shortButton("Start Construction", EventHandler{UIGlobals.focusOn(WritConstructor(
-                UnfinishedDeal(mapOf(UIGlobals.playingAs().player to setOf(LaunchConstruction(this.construction, this.hostTerritory.id))))
-            ))}),0,4)
+            pane.add(UtilityComponentFactory.shortButton("Start Construction", EventHandler
+            {
+                UIGlobals.GUI().curFocus.pop()
+                UIGlobals.GUI().curFocus.pop()
+                UIGlobals.focusOn(WritConstructor(UnfinishedDeal(mapOf(UIGlobals.playingAs().player to setOf(LaunchConstruction(this.construction, this.hostTerritory.id))))))
+            }),0,4)
         }
         pane.add(UtilityComponentFactory.backButton(), 0, 5)
 
