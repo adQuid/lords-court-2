@@ -1,5 +1,6 @@
 package shortstate.room
 
+import gamelogic.government.GovernmentLogicModule
 import gamelogic.territory.TerritoryLogicModule
 import main.UIGlobals
 import shortstate.GameRules
@@ -65,9 +66,8 @@ class Room {
     }
 
     fun getActions(player: ShortStateCharacter): List<RoomActionMaker>{
+        var retval = baseActions()
         if(type == RoomType.WORKROOM){
-            var retval = baseActions()
-
             if(player.energy >= GameRules.COST_TO_MAKE_WRIT){
                 retval = retval.plus(listOf(DraftWritRoomActionMaker()))
             }
@@ -78,12 +78,20 @@ class Room {
             }
             return retval
         } else if(type == RoomType.THRONEROOM){
-            return baseActions()
-                .plus(player.player.writs.filter{it.complete()}.map { writ -> DefaultRoomActionMaker(EnactWrit(writ)) })
+            retval = retval.plus(player.player.writs.filter{it.complete()}.map { writ -> DefaultRoomActionMaker(EnactWrit(writ)) })
+
+            val capitalLogic = UIGlobals.activeGame().moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
+
+            if(capitalLogic.countOfCaptial(player.player.location.id) == player.player){
+
+                retval = retval.plus(DefaultRoomActionMaker(HoldAudience()))
+            }
+
+            return retval
         } else if(type == RoomType.BEDROOM){
-            return baseActions()
+            return retval
         } else {
-            return baseActions()
+            return retval
         }
     }
 

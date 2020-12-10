@@ -12,6 +12,7 @@ import ui.Displayable
 import ui.MainUI
 import ui.componentfactory.UtilityComponentFactory
 import javafx.scene.media.MediaPlayer
+import ui.specialdisplayables.Message
 import java.io.File
 
 object UIGlobals {
@@ -66,6 +67,11 @@ object UIGlobals {
         if(guiOrNull() != null){
             GUI().specialFocusOn(focus)
         }
+    }
+
+    fun displayMessage(message: String){
+        specialFocusOn(Message(message))
+        refresh()
     }
 
     fun playSound(filename: String){

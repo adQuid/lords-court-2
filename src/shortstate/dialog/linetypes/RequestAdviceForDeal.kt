@@ -33,7 +33,7 @@ class RequestAdviceForDeal: Line {
 
     override fun tooltipName(): String {
         if(!validToSend()){
-            return "Request Advice on Deal"
+            return "Request Advice"
         } else {
             return "Offer Alternative"
         }
