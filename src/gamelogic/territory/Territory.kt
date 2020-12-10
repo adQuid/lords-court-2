@@ -143,7 +143,8 @@ class Territory {
     fun resourceConversions(): Map<String, Map<String, Int>>{
         return mapOf(
             //TODO: weird cyclical dependency here...
-            ResourceTypes.GOLD_NAME to mapOf(EconomicsLogicModule.LABOR_NAME to 1)
+            ResourceTypes.GOLD_NAME to mapOf(EconomicsLogicModule.LABOR_NAME to 10),
+            ResourceTypes.FISH_NAME to mapOf(EconomicsLogicModule.LABOR_NAME to 1)
         )
     }
 }

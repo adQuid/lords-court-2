@@ -11,6 +11,7 @@ import gamelogic.territory.TerritoryLogicModule
 import gamelogic.government.GovernmentLogicModule
 import game.titlemaker.TitleFactory
 import gamelogic.economics.EconomicsLogicModule
+import gamelogic.petitioners.PetitionersLogicModule
 import gamelogic.playerresources.PlayerResourceModule
 import javafx.scene.control.Button
 import shortstate.ShortStateCharacter
@@ -37,6 +38,9 @@ abstract class GameLogicModule {
             if(saveString[TYPE_NAME] == GovernmentLogicModule.type){
                 return GovernmentLogicModule(saveString, game)
             }
+            if(saveString[TYPE_NAME] == PetitionersLogicModule.type){
+                return PetitionersLogicModule(saveString, game)
+            }
             throw Exception("Logic module name: ${saveString.getOrDefault(TYPE_NAME, null)} not found!")
         }
 
@@ -55,6 +59,9 @@ abstract class GameLogicModule {
             }
             if(logicModule is GovernmentLogicModule){
                 return GovernmentLogicModule(logicModule, game)
+            }
+            if(logicModule is PetitionersLogicModule){
+                return PetitionersLogicModule(logicModule, game)
             }
             throw Exception("Can't figure out type: ${logicModule.javaClass}!")
         }
