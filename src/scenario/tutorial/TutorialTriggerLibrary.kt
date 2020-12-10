@@ -75,7 +75,24 @@ fun adviseToGetFish(): LineTrigger {
     return LineTrigger(
         "gogetfish",
         { data, game, line, me, other -> (line == null || line.canChangeTopic()) && data["calls"] == 0 && gameWouldEndWithoutFish(game, me) },
-        replyWithSimpleLine("My lord, I'm concerned about food stocks here. We need to trade with the merchants around here to get additional supplies to last until harvest. I've taken the liberty of inviting a Mr. Laerten to your hall. I suggest you speak to him.")
+        replyWithTreeLine(TreeLine("My lord, I'm concerned about food stocks here. We need to trade with the merchants around here to get additional supplies to last until harvest. I've taken the liberty of inviting a Mr. Laerten to your hall. I suggest you speak to him.",
+            TreeLine("Very wise.",
+                    SimpleLine("Good day, my prince")
+            ),
+            TreeLine("I already have such a writ.",
+                TreeLine("Excellent. Has it been signed by the gentleman?",
+                    TreeLine("Yes",
+                        SimpleLine("I underestimated your energy, my prince. Be sure to announce the document at the throne room.")
+                    ),
+                    TreeLine("No",
+                        SimpleLine("I see. I shall not delay you further from getting such.")
+                    )
+                )
+            ),
+            TreeLine("Why don't you take care of it?",
+                SimpleLine("Because, my prince, you are the one who presumes to rule. You are not here to sit about, you are here because the king wants you to learn.")
+            )
+        ))
     )
 }
 private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolean{
