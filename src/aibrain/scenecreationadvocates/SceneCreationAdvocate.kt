@@ -13,9 +13,10 @@ abstract class SceneCreationAdvocate {
     abstract val me: ShortStateCharacter
 
     fun weight(game: ShortStateGame): SceneCreationWeight{
-        val prospectiveScene = createScene(game, me).makeScene(game)
+        val sceneMaker = createScene(game, me)
+        val prospectiveScene = sceneMaker.makeScene(game)
         if(prospectiveScene != null){
-            return reactionAdvocates(game).filter{it.doToScene(game, prospectiveScene).cost() <= me.energy}.map { adv -> if(adv is LeaveSceneAdvocate){SceneCreationWeight(0.0,adv)} else { SceneCreationWeight(adv.weight(game, prospectiveScene),adv) }}
+            return reactionAdvocates(game).filter{it.doToScene(game, prospectiveScene).cost() + sceneMaker.cost() <= me.energy}.map { adv -> if(adv is LeaveSceneAdvocate){SceneCreationWeight(0.0,adv)} else { SceneCreationWeight(adv.weight(game, prospectiveScene),adv) }}
                 .sortedByDescending { it.weight }.getOrElse(0, { _ -> SceneCreationWeight(0.0, GoToBedAdvocate(me.player))})
         }
         return SceneCreationWeight(0.0, LeaveSceneAdvocate(me.player))

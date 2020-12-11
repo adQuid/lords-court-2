@@ -21,8 +21,7 @@ class Wait: RoomAction() {
         if(game.sceneForPlayer(player)!!.conversation != null){
             throw Exception("Character tried to wait in conversation!")
         }
-        player.nextSceneIWannaBeIn = GoToRoomSoloMaker(player, game.shortGameScene!!.room)
-        game.shortGameScene!!.terminated = true//kinda defeats the point, huh?
+        game.pass(player)
     }
 
     override fun defocusAfter(): Boolean {

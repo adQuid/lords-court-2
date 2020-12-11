@@ -6,8 +6,10 @@ import game.Game
 import game.GameCharacter
 import game.GameLogicModule
 import game.Location
-import gamelogic.government.Capital
 import gamelogic.government.GovernmentLogicModule
+import shortstate.dialog.linetypes.SimpleLine
+import shortstate.linetriggers.LineTrigger
+import shortstate.linetriggers.replyWithSimpleLine
 
 class PetitionersLogicModule: GameLogicModule {
 
@@ -16,7 +18,9 @@ class PetitionersLogicModule: GameLogicModule {
     }
     override val type = PetitionersLogicModule.type
 
-    var petitionersByCapital: MutableMap<Int, Set<GameCharacter>>
+    //used only for construction
+    var tempPet: Map<String, Any>? = null
+    var petitionersByCapital: MutableMap<Int, MutableSet<GameCharacter>>
 
     //A standby location to store minor petitioners who need not be simulated
     val bench: Location
@@ -28,24 +32,38 @@ class PetitionersLogicModule: GameLogicModule {
 
     constructor(other: PetitionersLogicModule, game: Game): super(listOf(), PetitionersTitleFactory, listOf(GovernmentLogicModule.type)){
         petitionersByCapital = other.petitionersByCapital.entries
-            .map { it.key to it.value.map { game.characterById(it.id) }.toSet() }.toMap().toMutableMap()
+            .map { it.key to it.value.map { game.characterById(it.id) }.toMutableSet() }.toMap().toMutableMap()
 
         bench = Location(other.bench)
     }
 
     constructor(saveString: Map<String, Any>, game: Game): super(listOf(), PetitionersTitleFactory, listOf(GovernmentLogicModule.type)){
         bench = Location(saveString["bench"] as Map<String, Any>)
-        //TODO: make this less bad
-        petitionersByCapital = (saveString["petitioners"] as Map<String, List<Any>>)
-            .map{ entry -> entry.key.toInt() to entry.value.map { game.characterById(it as Int) }.toSet()}.toMap().toMutableMap()
+        petitionersByCapital = mutableMapOf()
+        tempPet = saveString["petitioners"] as Map<String, Any>
     }
 
     override fun finishConstruction(game: Game) {
-
+        if(tempPet != null){
+            petitionersByCapital = (tempPet as Map<String, List<Any>>)
+                .map{ entry -> entry.key.toInt() to entry.value.map { game.characterById(it as Int) }.toMutableSet()}.toMap().toMutableMap()
+        }
     }
 
     override fun endTurn(game: Game) {
+        val capitalLogic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
+        capitalLogic.capitals.forEach { capital ->
+            if(!petitionersByCapital.containsKey(capital.terId)){
+                petitionersByCapital[capital.terId] = mutableSetOf()
+            }
+            if(petitionersByCapital[capital.terId]!!.isEmpty()){
+                val toAdd = GameCharacter("Frip", "assets/portraits/faceman.png", true, capital.location, game)
+                toAdd.petitions.add(SimpleLine("Hello, noble lord!"))
+                petitionersByCapital[capital.terId]!!.add(toAdd)
+                game.addPlayer(toAdd)
+            }
+        }
     }
 
     override fun locations(): Collection<Location> {
@@ -67,11 +85,11 @@ class PetitionersLogicModule: GameLogicModule {
         perspective: GameCharacter,
         importantPlayers: Collection<GameCharacter>
     ): Collection<Plan> {
-        TODO("Not yet implemented")
+        return listOf()
     }
 
     override fun score(perspective: GameCharacter): Score {
-        TODO("Not yet implemented")
+        return Score()
     }
 
 }

@@ -25,6 +25,9 @@ class EnactWrit: RoomAction {
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
+        if(!player.player.npc){
+            UIGlobals.playSound("fanfare.mp3")
+        }
         if(!writ.complete()){
             throw Exception("Trying to enact an imcomplete writ!")
         }

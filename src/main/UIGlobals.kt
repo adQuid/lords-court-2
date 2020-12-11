@@ -74,6 +74,11 @@ object UIGlobals {
         refresh()
     }
 
+    fun displayMessage(message: String, onClose: (game: ShortStateGame, player: ShortStateCharacter) -> Unit){
+        specialFocusOn(Message(message, onClose))
+        refresh()
+    }
+
     fun playSound(filename: String){
         if(guiOrNull() != null){
             if(!mediaPlayers.containsKey(filename)){

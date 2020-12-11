@@ -11,6 +11,8 @@ import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
+import shortstate.dialog.GlobalLineTypeFactory
+import shortstate.dialog.Line
 import shortstate.report.Report
 import shortstate.report.ReportFactory
 import ui.specialdisplayables.selectionmodal.Tab
@@ -29,6 +31,7 @@ class GameCharacter {
         val ACCEPTED_DEALS_NAME = "ACCEPTEDDEALS"
         val ACCEPTED_TREATIES_NAME = "ACCEPTEDTREATIES"
         val WRITS_NAME = "WRITS"
+        val PETITIONS_NAME = "PETITIONS"
         val REPORTS_NAME = "REPORTS"
         val CULTURES_NAME = "CULTURES"
         val SPECIAL_LINES_NAME = "SPECIALLINES"
@@ -54,6 +57,7 @@ class GameCharacter {
     val acceptedDeals: MutableList<FinishedDeal>
     val acceptedTreaties: MutableList<Treaty>
     val writs: MutableList<Writ>
+    val petitions: MutableList<Line>
 
     private val cultures: MutableList<Culture>
     val specialLines: MutableList<LineTrigger>
@@ -75,6 +79,7 @@ class GameCharacter {
         this.acceptedDeals = mutableListOf()
         this.acceptedTreaties = mutableListOf()
         this.writs = mutableListOf()
+        this.petitions = mutableListOf()
         this.cultures = mutableListOf()
         this.specialLines = mutableListOf()
         this.specialScoreGenerators = mutableListOf()
@@ -93,6 +98,7 @@ class GameCharacter {
         this.acceptedDeals = mutableListOf() //TODO: Fix this
         this.acceptedTreaties = mutableListOf() //TODO: Fix this
         this.writs = other.writs.map { writ -> Writ(writ) }.toMutableList()
+        this.petitions = other.petitions.toMutableList()
         this.cultures = other.cultures.map { game.cultureByName(it.name) }.toMutableList()
         this.specialLines = other.specialLines //at the time of writing, special lines are immutable
         this.specialScoreGenerators = other.specialScoreGenerators //at the time of writing, score generators are immutable
@@ -121,6 +127,7 @@ class GameCharacter {
         acceptedTreaties = mutableListOf()
         knownReports = mutableListOf()
         writs = mutableListOf()
+        petitions = mutableListOf()
     }
 
     fun finishConstruction(saveString: Map<String, Any>, game: Game){
@@ -129,6 +136,7 @@ class GameCharacter {
         acceptedTreaties.addAll((saveString[ACCEPTED_TREATIES_NAME] as List<Map<String, Any>>).map { map -> Treaty(map, game)}.toMutableList())
         knownReports.addAll((saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> game.reportFromMap(map) }.toMutableList())
         writs.addAll((saveString[WRITS_NAME] as List<Map<String, Any>>).map{map -> Writ(map, game)})
+        petitions.addAll((saveString[PETITIONS_NAME] as List<Map<String, Any>>).map { GlobalLineTypeFactory.fromMap(it, game) })
         location = game.locationById(saveString[LOCATION_NAME] as Int)
     }
 
@@ -145,6 +153,7 @@ class GameCharacter {
         retval[ACCEPTED_DEALS_NAME] = acceptedDeals.map { deal -> deal.saveString() }
         retval[ACCEPTED_TREATIES_NAME] = acceptedTreaties.map { treaty -> treaty.saveString() }
         retval[WRITS_NAME] = writs.map { writ -> writ.saveString() }
+        retval[PETITIONS_NAME] = petitions.map { it.saveString() }
         retval[REPORTS_NAME] = knownReports.map{ report -> report.saveString()}
         retval[RESOURCES_NAME] = privateResources.saveString()
         retval[CULTURES_NAME] = cultures.map{it.name}

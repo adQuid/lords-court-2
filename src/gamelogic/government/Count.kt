@@ -39,9 +39,9 @@ class Count: Title{
 
     private fun reportsEntitled(): List<ReportFactory>{
         return listOf(
-            FoodStocksReportFactory(capital.territory!!.id),
-            ActiveCropsReportFactory(capital.territory!!.id),
-            PopulationReportFactory(capital.territory!!.id),
+            FoodStocksReportFactory(capital.terId),
+            ActiveCropsReportFactory(capital.terId),
+            PopulationReportFactory(capital.terId),
             CapitalStocksReportFactory(capital)
         )
     }

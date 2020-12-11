@@ -14,6 +14,7 @@ import game.culture.Topic
 import gamelogic.economics.EconomicsLogicModule
 import gamelogic.government.Minister
 import gamelogic.government.laws.Charity
+import gamelogic.petitioners.PetitionersLogicModule
 import gamelogic.resources.ResourceTypes
 import gamelogic.territory.mapobjects.Structure
 import gamelogic.territory.mapobjects.StructureType
@@ -39,7 +40,9 @@ object TutorialGameSetup {
 
         val economics = EconomicsLogicModule()
 
-        val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals, economics), "tutorial")
+        val petitions = PetitionersLogicModule()
+
+        val game = Game(listOf(PlayerResourceModule(), territoryLogic, capitals, economics, petitions), "tutorial")
 
         val tutorialCulture = Culture("Kairethtutorial", mutableSetOf(
             Topic(

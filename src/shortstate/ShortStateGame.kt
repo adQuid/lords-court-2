@@ -3,6 +3,7 @@ package shortstate
 import game.Game
 import game.Location
 import game.GameCharacter
+import shortstate.scenemaker.GoToRoomSoloMaker
 
 class ShortStateGame {
 
@@ -56,6 +57,13 @@ class ShortStateGame {
             }
         }
         return null
+    }
+
+    fun pass(player: ShortStateCharacter){
+        if(shortGameScene!!.characters.contains(player)){
+            player.nextSceneIWannaBeIn = GoToRoomSoloMaker(player, shortGameScene!!.room)
+            shortGameScene!!.terminated = true
+        }
     }
 
     //returns short state player actually being played by a human

@@ -62,7 +62,7 @@ class Game {
         actionsByPlayer = other.actionsByPlayer.mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
         concludedPlayers = other.concludedPlayers.toMutableSet()
         titles = other.titles.map { title -> title.clone()}.toMutableSet()
-        gameLogicModules = other.gameLogicModules.map { GameLogicModule.cloneModule(it, this) }
+        gameLogicModules = other.logicModulesInDependencyOrder().map { GameLogicModule.cloneModule(it, this) }
         gameLogicModules.forEach { it.finishConstruction(this) }
         specialScriptClass = other.specialScriptClass
         specialScripts = other.specialScripts //these are not mutable
@@ -71,7 +71,6 @@ class Game {
 
     constructor(saveString: Map<String,Any>){
         gameLogicModules = (saveString[MODULES_NAME] as List<Map<String, Any>>).map { map -> GameLogicModule.moduleFromSaveString(map, this) }
-        logicModulesInDependencyOrder().forEach { it.finishConstruction(this) }
         cultures = (saveString[CULTURES_NAME] as List<Map<String, Any>>).map{Culture(it)}.toMutableSet()
         specialScriptClass = saveString[SPECIAL_SCRIPTS_NAME] as String
         specialScripts = specialScriptsFromId(specialScriptClass)
@@ -88,6 +87,7 @@ class Game {
 
         titles = (saveString[TITLES_NAME] as List<Map<String, Any>>).map { map -> titleFromSaveString(map) }.toMutableSet()
 
+        logicModulesInDependencyOrder().forEach { it.finishConstruction(this) }
         (saveString[PLAYERS_NAME] as List<Map<String, Any>>).forEach { map -> characterById(map["ID"] as Int).finishConstruction(map, this) }
         setModuleParents()
     }
@@ -171,7 +171,6 @@ class Game {
         }
         if(isLive){
             println("$player is comitting to $actions")
-            UIGlobals.playSound("fanfare.mp3")
             players.filter{it.npc && it.location == player.location}.forEach{it.brain.lastCasesOfConcern = null}
         }
     }
@@ -200,7 +199,7 @@ class Game {
         val retval = mutableListOf<GameLogicModule>()
         val modulesAlreadyRun = mutableListOf<GameLogicModule>()
 
-        var nextModule = gameLogicModules.first()
+        var nextModule = gameLogicModules.filter { it.dependencies.isEmpty() }.first()
         while(modulesAlreadyRun.size < gameLogicModules.size){
             if(nextModule.dependencies.filter { !modulesAlreadyRun.contains(this.moduleOfType(it)) }.isEmpty()){
                 retval.add(nextModule)

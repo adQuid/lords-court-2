@@ -13,6 +13,7 @@ import gamelogic.resources.ResourceTypes
 import gamelogic.territory.TerritoryLogicModule
 import scenario.tutorial.TutorialGameSetup.TUTORIAL_PLAYER_NAME
 import shortstate.ShortStateCharacter
+import shortstate.ShortStateGame
 import shortstate.dialog.Line
 import shortstate.dialog.linetypes.*
 import shortstate.linetriggers.*
@@ -103,7 +104,7 @@ private fun gameWouldEndWithoutFish(game: Game, me: ShortStateCharacter): Boolea
     if(game.turn > 5){
         return false
     }
-    if(me.energy > 850 || (me.energy > 400 && game.playerCharacter().writs.isNotEmpty())){
+    if(me.energy > 950 || (me.energy > 400 && game.playerCharacter().writs.isNotEmpty())){
         return false
     }
     if(playerCapital.resources.get(ResourceTypes.GOLD_NAME) == 0){
