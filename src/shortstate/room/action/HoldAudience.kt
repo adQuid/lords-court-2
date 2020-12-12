@@ -3,6 +3,7 @@ package shortstate.room.action
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
+import shortstate.dialog.linetypes.PresentPetition
 import shortstate.room.Room
 import shortstate.room.RoomAction
 import shortstate.scenemaker.ConversationMaker
@@ -19,7 +20,7 @@ class HoldAudience: RoomAction {
     }
 
     override fun cost(): Int {
-        return 300
+        return 100
     }
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
@@ -41,6 +42,9 @@ class HoldAudience: RoomAction {
             //TODO: Put this into the controller
             game.shortGameScene = ConversationMaker(charToTalkTo, player, game.location.roomByType(Room.RoomType.THRONEROOM)).makeScene(game)
             charToTalkTo.nextSceneIWannaBeIn = null
+            if(charToTalkTo.player.petitions.isNotEmpty()){
+                game.shortGameScene!!.conversation!!.submitLine(PresentPetition(charToTalkTo.player.petitions.first()), game)
+            }
             if(!player.player.npc){
                 UIGlobals.resetFocus()
             }

@@ -18,6 +18,7 @@ object GlobalLineTypeFactory {
     val QUESTION_OFFER_TYPE_NAME = "QstnOfr"
     val REJECT_DEAL_TYPE_NAME = "RjctDeal"
     val REQUEST_REPORT_TYPE_NAME = "RqstRprt"
+    val PRESENT_PETITION_NAME = "PrsntPet"
     val SIMPLE_TYPE_NAME = "Smpl"
     val TREE_TYPE_NAME = "Tree"
     val OFFER_WRIT_TYPE_NAME = "OfrWrt"

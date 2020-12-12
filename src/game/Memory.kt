@@ -2,6 +2,7 @@ package game
 
 import game.action.Action
 import game.action.ActionMemory
+import shortstate.dialog.Line
 import shortstate.dialog.LineMemory
 
 class Memory {
@@ -31,6 +32,10 @@ class Memory {
             LINES_NAME to lines.map { memory -> memory.saveString() },
             ACTIONS_NAME to comittedActions.map{ memory -> memory.saveString() }
         )
+    }
+
+    fun canRememberSaying(line: Line): Boolean{
+        return lines.filter { it.line == line }.isNotEmpty()
     }
 
 }

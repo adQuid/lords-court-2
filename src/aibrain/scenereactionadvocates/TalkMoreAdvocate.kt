@@ -48,11 +48,6 @@ class TalkMoreAdvocate: SceneReactionAdvocate {
             return specialLine.generateLine(game.game.imageFor(me), convo.lastLine, game.shortPlayerForLongPlayer(me)!!, convo.lastSpeaker)
         }
 
-        val petitionLine = me.petitions.firstOrNull()
-        if(petitionLine != null){
-            return petitionLine!!
-        }
-
         if(convo.lastLine != null){
             return convo.lastLine!!.AIResponseFunction(convo.otherParticipant(convo.lastSpeaker).convoBrain, convo.lastSpeaker, game.game)
         } else {

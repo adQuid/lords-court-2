@@ -59,7 +59,7 @@ class PetitionersLogicModule: GameLogicModule {
             }
             if(petitionersByCapital[capital.terId]!!.isEmpty()){
                 val toAdd = GameCharacter("Frip", "assets/portraits/faceman.png", true, capital.location, game)
-                toAdd.petitions.add(SimpleLine("Hello, noble lord!"))
+                toAdd.petitions.add(Petition("Hello, noble lord!", null))
                 petitionersByCapital[capital.terId]!!.add(toAdd)
                 game.addPlayer(toAdd)
             }

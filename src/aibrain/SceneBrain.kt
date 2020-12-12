@@ -34,7 +34,7 @@ class SceneBrain {
         }
 
         reactionAdvocates(game).filter{adv -> adv.weight(game, shortGameScene) > 0}.filter{shortMe.canAffordAction(it.doToScene(game, shortGameScene))}
-            .sortedByDescending { adv -> adv.weight(game, shortGameScene) }[0].doToScene(game, shortGameScene).doActionIfCanAfford(game, shortMe)
+            .sortedByDescending { adv -> adv.weight(game, shortGameScene) }.getOrElse(0, {LeaveSceneAdvocate(me.player)}).doToScene(game, shortGameScene).doActionIfCanAfford(game, shortMe)
     }
 
     fun nextSceneIWantToBeIn(player: ShortStateCharacter, game: ShortStateGame): SceneMaker?{

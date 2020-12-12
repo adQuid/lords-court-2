@@ -32,8 +32,14 @@ class SelectionModal<T>: NoPerspectiveDisplayable {
 
     constructor(title: String, options: List<Tab<T>>, action: ((T) -> Unit)?): super(){
         this.title = title
-        this.options = options
-        this.focusedTab = options[0]
+
+        if(options.isEmpty()){
+            this.options = listOf(Tab("No Options", listOf<T>()))
+        } else {
+            this.options = options
+        }
+
+        this.focusedTab = this.options[0]
         this.closeAction = action
     }
 

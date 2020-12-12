@@ -6,6 +6,7 @@ import aibrain.SpecialScoreGenerator
 import aibrain.Treaty
 import game.action.Action
 import game.culture.*
+import gamelogic.petitioners.Petition
 import shortstate.linetriggers.LineTrigger
 import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
@@ -57,7 +58,7 @@ class GameCharacter {
     val acceptedDeals: MutableList<FinishedDeal>
     val acceptedTreaties: MutableList<Treaty>
     val writs: MutableList<Writ>
-    val petitions: MutableList<Line>
+    val petitions: MutableList<Petition>
 
     private val cultures: MutableList<Culture>
     val specialLines: MutableList<LineTrigger>
@@ -98,7 +99,7 @@ class GameCharacter {
         this.acceptedDeals = mutableListOf() //TODO: Fix this
         this.acceptedTreaties = mutableListOf() //TODO: Fix this
         this.writs = other.writs.map { writ -> Writ(writ) }.toMutableList()
-        this.petitions = other.petitions.toMutableList()
+        this.petitions = other.petitions.map{ Petition(it)}.toMutableList()
         this.cultures = other.cultures.map { game.cultureByName(it.name) }.toMutableList()
         this.specialLines = other.specialLines //at the time of writing, special lines are immutable
         this.specialScoreGenerators = other.specialScoreGenerators //at the time of writing, score generators are immutable
@@ -136,7 +137,7 @@ class GameCharacter {
         acceptedTreaties.addAll((saveString[ACCEPTED_TREATIES_NAME] as List<Map<String, Any>>).map { map -> Treaty(map, game)}.toMutableList())
         knownReports.addAll((saveString[REPORTS_NAME] as List<Map<String, Any>>).map { map -> game.reportFromMap(map) }.toMutableList())
         writs.addAll((saveString[WRITS_NAME] as List<Map<String, Any>>).map{map -> Writ(map, game)})
-        petitions.addAll((saveString[PETITIONS_NAME] as List<Map<String, Any>>).map { GlobalLineTypeFactory.fromMap(it, game) })
+        petitions.addAll((saveString[PETITIONS_NAME] as List<Map<String, Any>>).map { Petition(it, game) })
         location = game.locationById(saveString[LOCATION_NAME] as Int)
     }
 
