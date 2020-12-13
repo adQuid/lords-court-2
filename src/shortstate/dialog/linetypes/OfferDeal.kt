@@ -102,7 +102,12 @@ class OfferDeal: Line {
                 return SimpleLine("Whatever you want, my lord")
             }
         } else {
-            return SimpleLine("I won't be able to carry that out")
+            val playersWhoCantCarryOutDeal = deal!!.theActions().filter{entry -> entry.value.filter { !it.isLegal(game, entry.key) }.isNotEmpty()}
+            if(playersWhoCantCarryOutDeal[brain.shortCharacter.player] != null){
+                return SimpleLine("I won't be able to carry that out.")
+            } else {
+                return SimpleLine("I don't belive that ${playersWhoCantCarryOutDeal.keys.first().name} will be able to carry this out.")
+            }
         }
     }
 }

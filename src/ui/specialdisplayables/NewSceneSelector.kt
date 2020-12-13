@@ -23,13 +23,20 @@ object NewSceneSelector {
         val goToRoomMakers = perspective.player.location.rooms.filter{it.type in listOf(Room.RoomType.BEDROOM, Room.RoomType.ETC) || perspective.player.titles.isNotEmpty()}.map { room -> GoToRoomSoloMaker(perspective, room) }
         val goToRoomTab = Tab<SceneMaker>("Go to Room", goToRoomMakers)
 
-        val conversationMakers = Controller.singleton!!.shortThreadForShortPlayer(perspective).shortGame.players.minusElement(perspective)
+        val conversationMakers = Controller.singleton!!.shortThreadForShortPlayer(perspective).shortGame.players
+            .minusElement(perspective).filter { it.player.titles.isNotEmpty() }
             .map { player -> ConversationMaker(perspective, player,perspective.player.location.roomByType(
                 Room.RoomType.ETC)) }.filter{perspective.energy >= it.cost()}
-        val conversationTab = if(conversationMakers.isEmpty()){ Tab<SceneMaker>("Conversation (out of energy)", conversationMakers) } else { Tab<SceneMaker>("Conversation", conversationMakers) }
+        val conversationTab = if(conversationMakers.isEmpty()){ Tab<SceneMaker>("Speak to Councillors (out of energy)", conversationMakers) } else { Tab<SceneMaker>("Speak to Councillors", conversationMakers) }
+
+        val commonerConversationMakers = Controller.singleton!!.shortThreadForShortPlayer(perspective).shortGame.players
+            .minusElement(perspective).filter { it.player.titles.isEmpty() }
+            .map { player -> ConversationMaker(perspective, player,perspective.player.location.roomByType(
+                Room.RoomType.THRONEROOM)) }.filter{perspective.energy >= it.cost()}
+        val commonerConversationTab = if(commonerConversationMakers.isEmpty()){ Tab<SceneMaker>("Speak to Commoners (out of energy)", commonerConversationMakers) } else { Tab<SceneMaker>("Speak to Commoners", commonerConversationMakers) }
 
 
-        return listOfNotNull(goToRoomTab, conversationTab)
+        return listOfNotNull(goToRoomTab, conversationTab, commonerConversationTab)
     }
 
     private fun goToNewSceneIfApplicable(maker: SceneMaker, perspective: ShortStateCharacter){

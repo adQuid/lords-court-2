@@ -4,13 +4,11 @@ import aibrain.Deal
 import aibrain.FinishedDeal
 import game.Game
 import game.GameCharacter
-import game.Location
 import game.Writ
 import gamelogic.government.Capital
 import gamelogic.government.GovernmentLogicModule
 import gamelogic.playerresources.GiveResource
 import gamelogic.resources.ResourceTypes
-import gamelogic.resources.Resources
 
 object CommonPetitionersLibrary {
 
