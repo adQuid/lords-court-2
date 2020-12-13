@@ -42,11 +42,6 @@ open class DealComponentFactory {
         currentPage = actions.keys.first()
     }
 
-    private fun action(): ActionChooser{
-        return ActionChooser(currentPage, actions.keys.toList(),
-            {action -> actions[currentPage]!!.add(action); UIGlobals.GUI().curFocus.pop(); UIGlobals.focusOn(action)})
-    }
-
     fun scenePage(perspective: ShortStateCharacter): Scene {
         val root = GridPane()
 
@@ -63,7 +58,8 @@ open class DealComponentFactory {
             )}, 4),1,0)
             bottomPane.add(UtilityComponentFactory.shortButton("Complete", EventHandler { deal.actions = actions ; UIGlobals.defocus()}, 2),2,0)
         } else {
-            bottomPane.add(UtilityComponentFactory.backButton(), 0,0)
+            bottomPane.add(UtilityComponentFactory.shortWideLabel("Filler"), 0,0)
+            bottomPane.add(UtilityComponentFactory.backButton(), 0,1)
         }
 
         root.add(bottomPane, 0,2)
@@ -79,7 +75,7 @@ open class DealComponentFactory {
         val topItemCount = if(deal is UnfinishedDeal){ actions.size+1 } else { actions.size }
 
         actions.forEach {
-            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", tapClickAction(it.key), topItemCount.toDouble(), 0.1, currentPage == it.key)
+            val topic = UtilityComponentFactory.proportionalButton("${it.key.name} will...", tapClickAction(it.key), 1.0/topItemCount.toDouble(), 0.1, currentPage == it.key)
             topPane.add(topic, index++, 0)
         }
         if(deal is UnfinishedDeal){
@@ -108,7 +104,9 @@ open class DealComponentFactory {
 
     private fun actionList(): Pane {
         if(deal is UnfinishedDeal){
-            return actionLists[currentPage]!!.actionList(actions[currentPage]!!, SelectionModal("Select Action", currentPage.actionTabsRegarding(UIGlobals.activeGame(), actions.keys.toList()), {action -> actions[currentPage]!!.add(action); UIGlobals.GUI().curFocus.pop(); UIGlobals.focusOn(action)}))
+            return actionLists[currentPage]!!.actionList(actions[currentPage]!!,
+                SelectionModal("Select Action", currentPage.actionTabsRegarding(UIGlobals.activeGame(), actions.keys.toList()),
+                    {action -> actions[currentPage]!!.add(action); UIGlobals.GUI().curFocus.pop(); UIGlobals.focusOn(action)}))
         } else {
             return actionLists[currentPage]!!.actionList(actions[currentPage]!!, null)
         }

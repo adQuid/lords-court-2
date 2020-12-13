@@ -174,8 +174,8 @@ class GovernmentLogicModule: GameLogicModule {
         return parent!!.players.filter { it.titles.contains(kingTitle) }.firstOrNull()
     }
 
-    fun capitalByLocation(location: Location): Capital{
-        return capitals.filter{it.location == location}.first()
+    fun capitalByLocation(location: Location): Capital?{
+        return capitals.filter{it.location == location}.firstOrNull()
     }
 
 }

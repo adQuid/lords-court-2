@@ -111,9 +111,7 @@ object UtilityComponentFactory {
         val listView = ListView<T>(data)
         listView.style = "-fx-focus-color:rgba(0,0,0,0.0);  -fx-padding: 0; -fx-background-image: $paper_background"
         listView.items = data
-        listView.maxWidth = UIGlobals.totalWidth()*width
-        listView.maxHeight = UIGlobals.totalHeight()*height
-        listView.minHeight = UIGlobals.totalHeight()*height
+        listView.setMinSize(UIGlobals.totalWidth()*width, UIGlobals.totalHeight()*height)
         listView.setCellFactory({ _: ListView<T> -> ActionPickCell(onClick, removeAction, width) })
 
         return listView

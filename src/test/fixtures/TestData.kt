@@ -18,6 +18,7 @@ import shortstate.report.DeliciousnessReport
 import game.titles.Baker
 import scenario.tutorial.approachTestTrigger
 import game.culture.*
+import gamelogic.petitioners.Petition
 import gamelogic.playerresources.PlayerResourceModule
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
@@ -149,6 +150,7 @@ private fun fullMemory(dealDummy: GameCharacter): List<LineMemory>{
     LineMemory(RequestAdviceForDeal(savableDeal(dealDummy))),
     LineMemory(RequestReport(DeliciousnessReport.type)),
     LineMemory(OfferWrit(Writ("test writ", savableDeal(dealDummy), listOf(dealDummy)))),
+    LineMemory(PresentPetition(Petition("petition ", Writ("petition writ", savableDeal(dealDummy), listOf(dealDummy))))),
     LineMemory(AskAboutTopic("ask ")),
     LineMemory(AskAboutTradableGoods()),
     LineMemory(ExplainTopic("explain ")),

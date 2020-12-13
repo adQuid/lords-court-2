@@ -37,9 +37,11 @@ class PlayerResourceModule: GameLogicModule {
         if(governmentLogic != null && territoryLogic != null){
             game.players.forEach {
                 val capitalWherePlayerIs = governmentLogic.capitalByLocation(it.location)
-                if(it == governmentLogic.countOfCaptial(capitalWherePlayerIs.terId)){
-                    it.privateResources.resources.map { capitalWherePlayerIs.resources.add(it.key, it.value) }
-                    it.privateResources.resources.clear()
+                if(capitalWherePlayerIs != null){
+                    if(it == governmentLogic.countOfCaptial(capitalWherePlayerIs.terId)){
+                        it.privateResources.resources.map { capitalWherePlayerIs.resources.add(it.key, it.value) }
+                        it.privateResources.resources.clear()
+                    }
                 }
             }
         }
@@ -78,8 +80,10 @@ class PlayerResourceModule: GameLogicModule {
         val retval = Resources(player.privateResources)
         if(governmentLogic != null && territoryLogic != null){
             val capitalWherePlayerIs = governmentLogic.capitalByLocation(player.location)
-            if( player == governmentLogic.countOfCaptial(capitalWherePlayerIs.terId)){
-                retval.addAll(capitalWherePlayerIs.resources)
+            if(capitalWherePlayerIs != null){
+                if( player == governmentLogic.countOfCaptial(capitalWherePlayerIs.terId)){
+                    retval.addAll(capitalWherePlayerIs.resources)
+                }
             }
         }
         return retval

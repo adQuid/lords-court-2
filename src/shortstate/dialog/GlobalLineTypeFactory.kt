@@ -39,6 +39,7 @@ object GlobalLineTypeFactory {
         QUESTION_OFFER_TYPE_NAME to { map, game -> QuestionOffer(map, game)},
         REJECT_DEAL_TYPE_NAME to {map, game -> RejectDeal(map, game)},
         REQUEST_REPORT_TYPE_NAME to {map, game -> RequestReport(map)},
+        PRESENT_PETITION_NAME to {map, game -> PresentPetition(map, game)},
         REQUEST_DEAL_ADVICE_TYPE_NAME to {map, game -> RequestAdviceForDeal(map,game)},
         SIMPLE_TYPE_NAME to {map, game -> SimpleLine(map, game)},
         TREE_TYPE_NAME to {map, game -> TreeLine(map, game)},

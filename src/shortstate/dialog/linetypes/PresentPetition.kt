@@ -58,7 +58,7 @@ class PresentPetition: Line {
 
     override fun specialSaveString(): Map<String, Any> {
         return hashMapOf(
-            "deal" to petition.saveString()
+            "petition" to petition.saveString()
         )
     }
 

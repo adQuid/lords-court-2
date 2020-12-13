@@ -18,12 +18,12 @@ class Writ: Displayable {
 
     var name: String
     val deal: FinishedDeal
-    val signatories: MutableList<GameCharacter>
+    val signatories: MutableSet<GameCharacter>
 
     constructor(name: String, deal: Deal, signatories: List<GameCharacter>){
         this.name = name
         this.deal = deal.toFinishedDeal()
-        this.signatories = signatories.toMutableList()
+        this.signatories = signatories.toMutableSet()
     }
 
     constructor(other: Writ){
@@ -35,7 +35,7 @@ class Writ: Displayable {
     constructor(saveString: Map<String,Any>, game: Game){
         name = saveString["name"] as String
         deal = FinishedDeal(saveString["deal"] as Map<String, Any>, game)
-        signatories = (saveString["signatories"] as List<Int>).map {id -> game.characterById(id)}.toMutableList()
+        signatories = (saveString["signatories"] as List<Int>).map {id -> game.characterById(id)}.toMutableSet()
     }
 
     fun saveString(): Map<String, Any> {

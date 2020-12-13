@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane
 import main.UIGlobals
 import shortstate.ShortStateCharacter
 import shortstate.room.action.DraftWrit
+import ui.SoundLibrary
 import ui.specialdisplayables.contructorobjects.WritConstructor
 
 class WritComponentFactory {
@@ -34,7 +35,13 @@ class WritComponentFactory {
             UtilityComponentFactory.setButtonDisable(root.children[4], true)
         }
         val bottomPane = GridPane()
-        bottomPane.add(UtilityComponentFactory.backButton(),0,5)
+        if(perspective.player.writs.contains(writ) && !writ.signatories.contains(perspective.player)){
+            bottomPane.add(UtilityComponentFactory.proportionalBackButton(0.5), 0, 0)
+            bottomPane.add(UtilityComponentFactory.proportionalButton("Sign",
+                EventHandler { writ.signatories.add(perspective.player); UIGlobals.playSound(SoundLibrary.write); UIGlobals.refresh() }, 0.5), 1, 0)
+        } else {
+            bottomPane.add(UtilityComponentFactory.backButton(),0,0)
+        }
 
         root.add(bottomPane,0,5)
 

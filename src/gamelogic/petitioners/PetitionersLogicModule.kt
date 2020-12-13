@@ -57,9 +57,12 @@ class PetitionersLogicModule: GameLogicModule {
             if(!petitionersByCapital.containsKey(capital.terId)){
                 petitionersByCapital[capital.terId] = mutableSetOf()
             }
-            if(petitionersByCapital[capital.terId]!!.isEmpty()){
-                val toAdd = GameCharacter("Frip", "assets/portraits/faceman.png", true, capital.location, game)
-                toAdd.petitions.add(Petition("Hello, noble lord!", null))
+
+            //move old petitioners away from the courts
+            petitionersByCapital[capital.terId]!!.forEach { it.location = bench }
+
+            if(game.isLive && petitionersByCapital[capital.terId]!!.filter { it.location == capital.location }.isEmpty()){
+                val toAdd = CommonPetitionersLibrary.charity(capital, game)
                 petitionersByCapital[capital.terId]!!.add(toAdd)
                 game.addPlayer(toAdd)
             }
@@ -67,8 +70,7 @@ class PetitionersLogicModule: GameLogicModule {
     }
 
     override fun locations(): Collection<Location> {
-        //intentionally hides the bench, since it's not a location where anyone should be doing anything
-        return listOf()
+        return listOf(bench)
     }
 
     override fun specialSaveString(): Map<String, Any> {

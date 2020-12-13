@@ -323,8 +323,12 @@ class Game {
         var retval = Resources(gameCharacter.privateResources)
         if(governmentLogic != null){
             val capitalWherePlayerIs = governmentLogic.capitalByLocation(gameCharacter.location)
-            if(governmentLogic.countOfCaptial(capitalWherePlayerIs.terId) == gameCharacter){
-                retval = retval.plus(capitalWherePlayerIs.resources)
+            if(capitalWherePlayerIs != null){
+                if(governmentLogic.countOfCaptial(capitalWherePlayerIs!!.terId) == gameCharacter){
+                    retval = retval.plus(capitalWherePlayerIs!!.resources)
+                }
+            } else {
+                error("Trying to add resources for character not at a capital!")
             }
         }
         return retval
@@ -335,9 +339,13 @@ class Game {
 
         if(governmentLogic != null){
             val capitalWherePlayerIs = governmentLogic.capitalByLocation(gameCharacter.location)
-            if(governmentLogic.countOfCaptial(capitalWherePlayerIs.terId) == gameCharacter){
-                capitalWherePlayerIs.resources.addAll(resources)
-                return
+            if(capitalWherePlayerIs != null){
+                if(governmentLogic.countOfCaptial(capitalWherePlayerIs.terId) == gameCharacter){
+                    capitalWherePlayerIs.resources.addAll(resources)
+                    return
+                }
+            } else {
+                error("Trying to add resources for character not at a capital!")
             }
         }
 
