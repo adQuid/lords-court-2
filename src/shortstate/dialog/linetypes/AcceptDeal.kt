@@ -64,7 +64,7 @@ class AcceptDeal: Line {
         return listOf()
     }
 
-    override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, shortGame: ShortStateGame, conversation: Conversation, speaker: ShortStateCharacter) {
         shortGame.shortGameScene!!.conversation!!.initiator.player.acceptedDeals.add(deal!!)
         shortGame.shortGameScene!!.conversation!!.target.player.acceptedDeals.add(deal!!)
     }

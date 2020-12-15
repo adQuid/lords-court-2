@@ -78,10 +78,9 @@ class PresentPetition: Line {
         }
     }
 
-    override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, shortGame: ShortStateGame, conversation: Conversation, speaker: ShortStateCharacter) {
         if(petition.writ != null){
-            shortGame.shortGameScene!!
-                .conversation!!.otherParticipant(speaker).player.writs.add(petition.writ!!)
+            conversation.otherParticipant(speaker).player.writs.add(petition.writ!!)
         }
         speaker.player.petitions.remove(petition)
     }

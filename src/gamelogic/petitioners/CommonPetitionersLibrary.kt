@@ -22,10 +22,11 @@ object CommonPetitionersLibrary {
     }
 
     fun charity(capital: Capital, game: Game): GameCharacter{
+        val petitionerName = commonerNames.random()
         val governmentLogic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
-        val retval = GameCharacter(commonerNames.random(), "assets/portraits/faceman.png", true, capital.location, game)
-        retval.petitions.add(Petition("Gib me money",
-            Writ("Gib me money",
+        val retval = GameCharacter(petitionerName, "assets/portraits/faceman.png", true, capital.location, game)
+        retval.petitions.add(Petition("My lord, we are but a poor village, and we require gold with which to buy tools and rebuild our homes.",
+            Writ("Charity to ${petitionerName}",
                 giveWrit(ResourceTypes.GOLD_NAME, 1, governmentLogic.countOfCaptial(capital.terId)!!, retval), listOf(retval))))
 
         return retval

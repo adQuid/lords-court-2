@@ -53,7 +53,7 @@ class AbandonConversation: Line {
         return listOf()
     }
 
-    override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, shortGame: ShortStateGame, conversation: Conversation, speaker: ShortStateCharacter) {
         if(shortGame.shortGameScene!!.conversation!!.lastLine is AbandonConversation){
             shortGame.shortGameScene!!.terminated = true
         }

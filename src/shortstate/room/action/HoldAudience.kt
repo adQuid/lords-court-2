@@ -40,11 +40,13 @@ class HoldAudience: RoomAction {
 
         if(charToTalkTo != null){
             //TODO: Put this into the controller
-            game.shortGameScene = ConversationMaker(charToTalkTo, player, game.location.roomByType(Room.RoomType.THRONEROOM)).makeScene(game)
-            charToTalkTo.nextSceneIWannaBeIn = null
             if(charToTalkTo.player.petitions.isNotEmpty()){
-                game.shortGameScene!!.conversation!!.submitLine(PresentPetition(charToTalkTo.player.petitions.first()), game)
+                game.shortGameScene = ConversationMaker(charToTalkTo, player, game.location.roomByType(Room.RoomType.THRONEROOM),
+                    PresentPetition(charToTalkTo.player.petitions.first())).makeScene(game)
+            } else {
+                game.shortGameScene = ConversationMaker(charToTalkTo, player, game.location.roomByType(Room.RoomType.THRONEROOM)).makeScene(game)
             }
+            charToTalkTo.nextSceneIWannaBeIn = null
             if(!player.player.npc){
                 UIGlobals.resetFocus()
             }

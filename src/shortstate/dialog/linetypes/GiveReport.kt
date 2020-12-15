@@ -83,7 +83,7 @@ class GiveReport: Line {
         return listOf()
     }
 
-    override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, shortGame: ShortStateGame, conversation: Conversation, speaker: ShortStateCharacter) {
         if(!(report is EmptyReport)){
             shortGame.shortGameScene!!.conversation!!.lastSpeaker.player.knownReports.add(report!!)
         }

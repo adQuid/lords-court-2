@@ -62,5 +62,5 @@ abstract class Line {
 
     abstract fun AIResponseFunction(brain: ConversationBrain, speaker: ShortStateCharacter, game: Game): Line
 
-    open fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter){}
+    open fun specialEffect(room: Room, shortGame: ShortStateGame, conversation: Conversation, speaker: ShortStateCharacter){}
  }

@@ -83,7 +83,7 @@ class OfferDeal: Line {
         }
     }
 
-    override fun specialEffect(room: Room, shortGame: ShortStateGame, speaker: ShortStateCharacter) {
+    override fun specialEffect(room: Room, shortGame: ShortStateGame, conversation: Conversation, speaker: ShortStateCharacter) {
         shortGame.shortGameScene!!
             .conversation!!
             .participants().forEach { it.convoBrain.putOrAddDealToMemory(shortGame.shortGameScene!!
