@@ -27,13 +27,13 @@ object NewSceneSelector {
             .minusElement(perspective).filter { it.player.titles.isNotEmpty() }
             .map { player -> ConversationMaker(perspective, player,perspective.player.location.roomByType(
                 Room.RoomType.ETC)) }.filter{perspective.energy >= it.cost()}
-        val conversationTab = if(conversationMakers.isEmpty()){ Tab<SceneMaker>("Speak to Councillors (out of energy)", conversationMakers) } else { Tab<SceneMaker>("Speak to Councillors", conversationMakers) }
+        val conversationTab =  Tab<SceneMaker>("Speak to Councillors", conversationMakers)
 
         val commonerConversationMakers = Controller.singleton!!.shortThreadForShortPlayer(perspective).shortGame.players
-            .minusElement(perspective).filter { it.player.titles.isEmpty() }
+            .minusElement(perspective).filter { it.player.titles.isEmpty() && it.player.petitions.isEmpty() }
             .map { player -> ConversationMaker(perspective, player,perspective.player.location.roomByType(
                 Room.RoomType.THRONEROOM)) }.filter{perspective.energy >= it.cost()}
-        val commonerConversationTab = if(commonerConversationMakers.isEmpty()){ Tab<SceneMaker>("Speak to Commoners (out of energy)", commonerConversationMakers) } else { Tab<SceneMaker>("Speak to Commoners", commonerConversationMakers) }
+        val commonerConversationTab = Tab<SceneMaker>("Speak to Commoners", commonerConversationMakers)
 
 
         return listOfNotNull(goToRoomTab, conversationTab, commonerConversationTab)

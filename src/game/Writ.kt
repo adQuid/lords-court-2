@@ -55,7 +55,7 @@ class Writ: Displayable {
     }
 
     fun complete(): Boolean{
-        return deal.actions.keys.equals(signatories.toSet())
+        return signatories.toSet().containsAll(deal.actions.keys)
     }
 
     override fun equals(other: Any?): Boolean {

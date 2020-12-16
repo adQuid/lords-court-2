@@ -61,6 +61,7 @@ class PetitionersLogicModule: GameLogicModule {
             //move old petitioners away from the courts
             petitionersByCapital[capital.terId]!!.forEach { it.location = bench }
 
+            //add new petitioners
             if(game.isLive && petitionersByCapital[capital.terId]!!.filter { it.location == capital.location }.isEmpty()){
                 val toAdd = CommonPetitionersLibrary.charity(capital, game)
                 petitionersByCapital[capital.terId]!!.add(toAdd)

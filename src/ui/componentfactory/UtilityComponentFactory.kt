@@ -102,7 +102,7 @@ object UtilityComponentFactory {
     }
 
     fun proportionalBackButton(proportion: Double): Node{
-        return proportionalButton("Back", EventHandler { UIGlobals.defocus() }, proportion)
+        return proportionalButton("Back", EventHandler { UIGlobals.defocus(); UIGlobals.refresh() }, proportion)
     }
 
     fun <T: Describable> basicList(items: List<T>, onClick: (T) -> Unit, removeAction: ((T) -> Unit)?, width: Double, height: Double): ListView<T> {

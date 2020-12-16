@@ -12,7 +12,7 @@ import gamelogic.resources.ResourceTypes
 
 object CommonPetitionersLibrary {
 
-    val commonerNames = listOf("Peter Rook", "Daryen Miller", "Sulem Miller", "Emita Cooper")
+    val commonerNames = listOf("Peter Rook", "Daryen Miller", "Sulem Miller", "Ayren Cooper")
 
     fun testPetitioner(capital: Capital, game: Game): GameCharacter{
         val retval = GameCharacter("Frip", "assets/portraits/faceman.png", true, capital.location, game)
