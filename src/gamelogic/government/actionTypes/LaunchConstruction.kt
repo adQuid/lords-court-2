@@ -36,7 +36,7 @@ class LaunchConstruction: Action {
         val territory = (game.moduleOfType(TerritoryLogicModule.type) as TerritoryLogicModule).territoryById(terID)
 
         if(game.resourcesByCharacter(player).greaterThanOrEqualTo(construction.budget)){
-            game.addResourceForCharacter(player, construction.budget)
+            game.addResourceForCharacter(player, construction.budget.negative())
             territory.constructions.add(Construction(construction))
         } else {
             println("Attempting to create construction player cannot afford!")

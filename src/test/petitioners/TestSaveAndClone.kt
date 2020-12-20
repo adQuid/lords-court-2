@@ -10,6 +10,7 @@ import gamelogic.petitioners.PetitionersLogicModule
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.TerritoryMap
+import gamelogic.territory.mapobjects.StructureType
 import org.junit.Test
 
 class TestSaveAndClone {
@@ -47,6 +48,8 @@ class TestSaveAndClone {
 
     @Test
     fun test_save(){
+        StructureType.loadStructureTypes()
+
         val game = petitionerTestGame()
         val game2 = Game(game.saveString())
 

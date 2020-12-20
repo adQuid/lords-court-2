@@ -63,7 +63,7 @@ class PetitionersLogicModule: GameLogicModule {
 
             //add new petitioners
             if(game.isLive && petitionersByCapital[capital.terId]!!.filter { it.location == capital.location }.isEmpty()){
-                val toAdd = CommonPetitionersLibrary.charity(capital, game)
+                val toAdd = CommonPetitionersLibrary.buildMill(capital, game)
                 petitionersByCapital[capital.terId]!!.add(toAdd)
                 game.addPlayer(toAdd)
             }

@@ -8,6 +8,7 @@ import gamelogic.cookieworld.actionTypes.WasteTime
 import gamelogic.government.actionTypes.EnactLaw
 import gamelogic.government.actionTypes.GiveTerritory
 import gamelogic.government.actionTypes.LaunchConstruction
+import gamelogic.petitioners.SpecialAction
 import gamelogic.playerresources.GiveResource
 
 object GlobalActionTypeFactory {
@@ -21,7 +22,8 @@ object GlobalActionTypeFactory {
         EnactLaw.typeName to {map, game -> EnactLaw(map)},
         GiveTerritory.typeName to {map, game -> GiveTerritory(map["territory"] as Int, map["target"] as Int)},
         GiveResource.typeName to {map, game -> GiveResource(map["char"] as Int, map["resource"] as String, map["amount"] as Int)},
-        LaunchConstruction.typeName to { map, game -> LaunchConstruction(map)}
+        LaunchConstruction.typeName to { map, game -> LaunchConstruction(map)},
+        SpecialAction.typeName to {map, game -> SpecialAction(map)}
     )
 
     fun fromMap(map: Map<String, Any>, game: Game): Action {

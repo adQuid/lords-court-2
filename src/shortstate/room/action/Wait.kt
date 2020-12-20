@@ -18,7 +18,7 @@ class Wait: RoomAction() {
 
     override fun doAction(game: ShortStateGame, player: ShortStateCharacter) {
         println("$player waits")
-        if(game.sceneForPlayer(player)!!.conversation != null){
+        if(game.sceneForPlayer(player) != null && game.sceneForPlayer(player)!!.conversation != null){
             throw Exception("Character tried to wait in conversation!")
         }
         game.pass(player)

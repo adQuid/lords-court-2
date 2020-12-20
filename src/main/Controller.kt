@@ -6,6 +6,7 @@ import com.beust.klaxon.Klaxon
 import com.google.gson.Gson
 import game.Game
 import game.GameCharacter
+import gamelogic.petitioners.SpecialAction
 import gamelogic.territory.mapobjects.ShipType
 import gamelogic.territory.mapobjects.StructureType
 import javafx.application.Application
@@ -15,6 +16,7 @@ import shortstate.ShortStateCharacter
 import shortstate.ShortStateController
 import ui.MainUI
 import java.io.File
+import javax.swing.text.html.HTMLDocument
 
 
 class Controller {
@@ -172,6 +174,7 @@ class Controller {
     private fun setupRefData(){
         StructureType.loadStructureTypes()
         ShipType.loadShipTypes()
+        SpecialAction.loadActionTypes()
     }
 
 }
