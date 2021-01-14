@@ -5,7 +5,7 @@ import game.GameCharacter
 
 class GameCase {
     companion object{
-        val LOOKAHEAD = 120
+        val LOOKAHEAD = 720
     }
 
     val baseGame: Game

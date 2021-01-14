@@ -48,17 +48,17 @@ class TestTaxation {
 
         game.appendActionsForPlayer(game.players.first(), listOf(SetTaxRate(capitals.capitals.first().terId, 1.0)))
         game.endTurn()
-        assert(capitals.capitals.first().taxes[ResourceTypes.FLOUR_NAME] == 1.0)
+        assert(capitals.capitals.first().taxes[ResourceTypes.SEEDS_NAME] == 1.0)
     }
 
     @Test
     fun test_laffer_curve(){
-        val lowTaxResult = test_tax_rate(0.1)
-        val medTaxResult = test_tax_rate(0.3)
-        val highTaxResult = test_tax_rate(0.7)
+        val lowTaxResult = test_tax_rate(0.0)
+        val medTaxResult = test_tax_rate(0.1)
+        val highTaxResult = test_tax_rate(0.2)
         val maxTaxResult = test_tax_rate(1.0)
 
-        println("$lowTaxResult, $medTaxResult, $highTaxResult")
+        println("$lowTaxResult, $medTaxResult, $highTaxResult, $maxTaxResult")
         assert(medTaxResult > lowTaxResult)
         assert(medTaxResult > highTaxResult)
         assert(highTaxResult > maxTaxResult)
@@ -68,21 +68,25 @@ class TestTaxation {
         val game = capitalTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
-        ter.resources.set(ResourceTypes.SEEDS_NAME, 300)
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 200)
         ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
         ter.resources.set(ResourceTypes.FLOUR_NAME, 1000)
-        ter.resources.set(ResourceTypes.BREAD_NAME, 100)
-        ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 300)
+        ter.resources.set(ResourceTypes.BREAD_NAME, 0)
+        ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 200)
 
         val capitals = game.moduleOfType(GovernmentLogicModule.type)!! as GovernmentLogicModule
         val capital = capitals.capitals.first()
-        capital.taxes[ResourceTypes.FLOUR_NAME] = rate
+        capital.taxes[ResourceTypes.SEEDS_NAME] = rate
 
         for(i in 1..GameCase.LOOKAHEAD){
+            //println("seeds: ${ter.resources.get(ResourceTypes.SEEDS_NAME)}, flour: ${ter.resources.get(ResourceTypes.FLOUR_NAME)}, crops: ${ter.crops.sumBy { it.quantity }}")
             game.endTurn()
         }
 
-       return capital.resources.resources[ResourceTypes.FLOUR_NAME]!!
+        if(ter.resources.get(ResourceTypes.POPULATION_NAME) < 100){
+            println("people died at $rate")
+        }
+       return capital.resources.get(ResourceTypes.SEEDS_NAME)
     }
 
 }

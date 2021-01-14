@@ -1,9 +1,6 @@
 package shortstate.dialog.linetypes
 
-import aibrain.ConversationBrain
-import aibrain.Deal
-import aibrain.FinishedDeal
-import aibrain.UnfinishedDeal
+import aibrain.*
 import shortstate.Conversation
 import shortstate.dialog.Line
 import shortstate.dialog.LineBlock
@@ -16,6 +13,7 @@ import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
 import shortstate.dialog.GlobalLineTypeFactory
 import shortstate.room.Room
+import kotlin.math.abs
 
 class RequestAdviceForDeal: Line {
 
@@ -88,32 +86,38 @@ class RequestAdviceForDeal: Line {
         val badFactors = score.components().filter{it.value < 0}.sortedBy { it.value }.map { it.description() }
         val goodFactors = score.components().filter{it.value > 0}.sortedByDescending { it.value }.map { it.description() }
 
-        if(score.value() > 0){
+        if(badFactors.isEmpty() && goodFactors.isNotEmpty()){
             return SimpleLine(goodDealTemplate(goodFactors, badFactors))
-        } else if(score.value() < 0){
+        } else if(badFactors.isNotEmpty() && goodFactors.isEmpty()){
             return SimpleLine(badDealTemplate(goodFactors, badFactors))
         } else {
-            if(badFactors.size > 0 && goodFactors.size > 0){
-                return SimpleLine(mixedDealTemplate(goodFactors, badFactors))
+            if(badFactors.isNotEmpty() && goodFactors.isNotEmpty()){
+                return SimpleLine(mixedDealTemplate(score, goodFactors, badFactors))
             } else {
-                return SimpleLine(pointlessDealTemplate(goodFactors, badFactors))
+                return SimpleLine(pointlessDealTemplate())
             }
         }
     }
 
     private fun goodDealTemplate(goodFactors: List<String>, badFactors: List<String>): String{
-        return "I think this would be a good idea for you, and here's why: ${goodFactors.joinToString(", ")}"
+        return "I think this would be a good idea for you. ${goodFactors.joinToString(", ")}."
     }
 
     private fun badDealTemplate(goodFactors: List<String>, badFactors: List<String>): String{
         return "I think this would be a bad idea for you, and here's why: ${badFactors.joinToString(", ")}"
     }
 
-    private fun mixedDealTemplate(goodFactors: List<String>, badFactors: List<String>): String{
-        return "On the one hand I do see that ${goodFactors.joinToString(", and ")}, but keep in mind that, ${badFactors.joinToString(", and")}. These seem about equivalent to me."
+    private fun mixedDealTemplate(score: Score, goodFactors: List<String>, badFactors: List<String>): String{
+        if(score.value() > 0){
+            return "On the one hand I do see that ${goodFactors.joinToString(", and ")}, but keep in mind that, ${badFactors.joinToString(", and")}. Overall, this sounds like a good deal to me."
+        } else if (score.value() < 0){
+            return "On the one hand I do see that ${goodFactors.joinToString(", and ")}, but keep in mind that, ${badFactors.joinToString(", and")}. I don't think it's worth it."
+        } else {
+            return "On the one hand I do see that ${goodFactors.joinToString(", and ")}, but keep in mind that, ${badFactors.joinToString(", and")}. These seem about equivalent to me."
+        }
     }
 
-    private fun pointlessDealTemplate(goodFactors: List<String>, badFactors: List<String>): String{
+    private fun pointlessDealTemplate(): String{
         return "I don't see how this will make a difference"
     }
 }

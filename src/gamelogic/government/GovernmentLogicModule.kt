@@ -12,6 +12,7 @@ import shortstate.ShortStateCharacter
 import shortstate.dialog.DialogFormatter
 import shortstate.report.ReportFactory
 import shortstate.room.RoomActionMaker
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 class GovernmentLogicModule: GameLogicModule {
@@ -78,12 +79,11 @@ class GovernmentLogicModule: GameLogicModule {
 
             val totalExpectedHarvest = crops.sumBy { crop -> crop.quantity * crop.yield() }
 
-            if(taxRate * totalExpectedHarvest <= ter.resources.get(ResourceTypes.FLOUR_NAME)){
-                capital.resources.add(ResourceTypes.FLOUR_NAME, (taxRate * totalExpectedHarvest).roundToInt())
-                ter.resources.add(ResourceTypes.FLOUR_NAME, -(taxRate * totalExpectedHarvest).roundToInt())
-            } else if (game.isLive) {
-                println("They didn't have the taxes. What should we do here...")
-            }
+            val taxToCollect = min(taxRate * totalExpectedHarvest, ter.resources.get(ResourceTypes.FLOUR_NAME).toDouble())
+
+            /*capital.resources.add(ResourceTypes.FLOUR_NAME, taxToCollect.roundToInt())
+            ter.resources.add(ResourceTypes.FLOUR_NAME, -taxToCollect.roundToInt())*/
+
 
         }
     }
@@ -100,14 +100,14 @@ class GovernmentLogicModule: GameLogicModule {
 
         capitals.forEach {
             if(countOfCaptial(it.terId) == perspective){
-                val flourGained = it.resources.get(ResourceTypes.FLOUR_NAME)
-                retval.add("Flour Gained", {value -> "our stockpile will ${DialogFormatter.gainOrLose(value)} flour"}, flourGained.toDouble())
+                val flourGained = it.resources.get(ResourceTypes.SEEDS_NAME)
+                retval.add("Seeds Gained", {value -> "our stockpile will ${DialogFormatter.gainOrLose(value)} grain"}, flourGained.toDouble())
 
                 val gold = it.resources.get(ResourceTypes.GOLD_NAME)
                 retval.add("Gold Change", {value -> "our treasury will ${DialogFormatter.gainOrLose(value)} gold"}, gold.toDouble())
 
                 val population = it.territory!!.resources.get(ResourceTypes.POPULATION_NAME)
-                retval.add("", {value -> "Population will change by ${population}"}, population.toDouble() * 4.0)
+                retval.add("Pop Change", {value -> "we will ${DialogFormatter.gainOrLose(value/4.0)} people"}, population.toDouble() * 4.0)
 
                 val newCrops = it.territory!!.crops.sumBy { crop -> crop.quantity }
                 retval.add("New Crops", {value -> "${DialogFormatter.moreOrLess(value)} crops will be planted"}, newCrops.toDouble())

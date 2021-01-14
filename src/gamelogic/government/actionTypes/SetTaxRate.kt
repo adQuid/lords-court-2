@@ -41,7 +41,7 @@ class SetTaxRate: Action {
     override fun doAction(game: Game, player: GameCharacter){
         val logic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
-        logic.capitalById(terId).taxes[ResourceTypes.FLOUR_NAME] = amount
+        logic.capitalById(terId).taxes[ResourceTypes.SEEDS_NAME] = amount
     }
 
     override fun tooltip(perspective: ShortStateCharacter): String {

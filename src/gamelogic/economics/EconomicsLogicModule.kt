@@ -12,7 +12,6 @@ import gamelogic.territory.Crop
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
 import gamelogic.territory.mapobjects.Structure
-import kotlin.math.min
 
 class EconomicsLogicModule: GameLogicModule {
     companion object {
@@ -20,7 +19,7 @@ class EconomicsLogicModule: GameLogicModule {
 
         val LABOR_NAME = "labor"
 
-        val industries = listOf(CropIndustry, ConstructionIndustry)
+        val industries = listOf(CropIndustry, ConstructionIndustry, ShoreFishingIndustry)
     }
 
     override val type = EconomicsLogicModule.type
@@ -57,10 +56,21 @@ class EconomicsLogicModule: GameLogicModule {
             }
         }
 
-        val laborByTerritory = territoryLogic.territories().associate { ter -> ter to ter.resources[ResourceTypes.POPULATION_NAME]!! }.toMutableMap()
+        /*val laborByTerritory = territoryLogic.territories().associate { ter -> ter to ter.resources[ResourceTypes.POPULATION_NAME]!! }.toMutableMap()
         laborByTerritory.forEach {territory ->
             industries.forEach {
                 industry -> laborByTerritory[territory.key] = industry.run(territory.key, game, territory.value)
+            }
+        }*/
+
+        territoryLogic.territories().forEach {ter ->
+            var laborAvailable = ter.resources[ResourceTypes.POPULATION_NAME]!!
+            industries.forEach {industry ->
+                val laborLeft = industry.run(ter, game, laborAvailable)
+                if(laborLeft < 0 ){
+                    error("total labor went negative")
+                }
+                laborAvailable = laborLeft
             }
         }
 

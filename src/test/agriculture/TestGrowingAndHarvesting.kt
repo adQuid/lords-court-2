@@ -121,27 +121,27 @@ class TestGrowingAndHarvesting {
         ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
         ter.resources.set(ResourceTypes.FLOUR_NAME, 1000)
 
-        for(i in 1..100){
+        for(i in 1..500){
             game.endTurn()
-            println("seeds: ${ter.resources.get(ResourceTypes.SEEDS_NAME)}, flour: ${ter.resources.get(ResourceTypes.FLOUR_NAME)}")
+            println("seeds: ${ter.resources.get(ResourceTypes.SEEDS_NAME)}, flour: ${ter.resources.get(ResourceTypes.FLOUR_NAME)}, fish: ${ter.resources.get(ResourceTypes.FISH_NAME)}")
             assert(ter.resources.get(ResourceTypes.FLOUR_NAME) > 0)
             assert(ter.resources.get(ResourceTypes.POPULATION_NAME) >= 100)
         }
     }
 
     @Test
-    fun testPopulationInstabilityWith150Seeds(){
+    fun testPopulationInstabilityWith100Seeds(){
         val game = agroTestGame()
 
         val ter = TerritoryLogicModule.getTerritoryLogicModule(game).map.territories.first()
         ter.resources.set(ResourceTypes.ARABLE_LAND_NAME, 200) //200 land should be enough to support 100 population
-        ter.resources.set(ResourceTypes.SEEDS_NAME, 150)
+        ter.resources.set(ResourceTypes.SEEDS_NAME, 100)
         ter.resources.set(ResourceTypes.POPULATION_NAME, 100)
         ter.resources.set(ResourceTypes.FLOUR_NAME, 1000)
 
-        for(i in 1..100){
+        for(i in 1..500){
             game.endTurn()
-            println("seeds: ${ter.resources.get(ResourceTypes.SEEDS_NAME)}, flour: ${ter.resources.get(ResourceTypes.FLOUR_NAME)}")
+            println("seeds: ${ter.resources.get(ResourceTypes.SEEDS_NAME)}, flour: ${ter.resources.get(ResourceTypes.FLOUR_NAME)}, fish: ${ter.resources.get(ResourceTypes.FISH_NAME)}")
         }
         assert(ter.resources.get(ResourceTypes.POPULATION_NAME) < 100)
     }

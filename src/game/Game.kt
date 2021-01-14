@@ -235,6 +235,11 @@ class Game {
         return gameLogicModules.filter { it.type == type }.first()
     }
 
+    //honestly, I don't like that this is EVER used
+    fun hasModuleOfType(type: String): Boolean{
+        return gameLogicModules.filter { it.type == type }.isNotEmpty()
+    }
+
     fun reportFromMap(saveString: Map<String, Any>): Report {
         return gameLogicModules.map { module -> module.reportFromSaveString(saveString, this) }
             .filterNotNull()

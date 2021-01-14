@@ -70,7 +70,7 @@ class Score {
         }
 
         override fun toString(): String {
-            return description()
+            return description(value)
         }
 
         fun description(): String {

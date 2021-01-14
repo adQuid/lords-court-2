@@ -1,6 +1,7 @@
 package test.ai
 
 import aibrain.ForecastBrain
+import aibrain.Score
 import org.junit.Test
 import test.fixtures.*
 

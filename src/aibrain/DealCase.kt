@@ -2,6 +2,7 @@ package aibrain
 
 import game.GameCharacter
 import gamelogic.government.GovernmentLogicModule
+import gamelogic.resources.ResourceTypes
 import gamelogic.resources.Resources
 import gamelogic.territory.Territory
 import gamelogic.territory.TerritoryLogicModule
