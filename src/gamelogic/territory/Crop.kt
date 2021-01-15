@@ -44,7 +44,7 @@ class Crop {
     }
 
     fun yield(): Int {
-        return 8
+        return 9
     }
 
 }

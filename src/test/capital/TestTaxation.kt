@@ -54,8 +54,8 @@ class TestTaxation {
     @Test
     fun test_laffer_curve(){
         val lowTaxResult = test_tax_rate(0.0)
-        val medTaxResult = test_tax_rate(0.1)
-        val highTaxResult = test_tax_rate(0.2)
+        val medTaxResult = test_tax_rate(0.3)
+        val highTaxResult = test_tax_rate(0.7)
         val maxTaxResult = test_tax_rate(1.0)
 
         println("$lowTaxResult, $medTaxResult, $highTaxResult, $maxTaxResult")

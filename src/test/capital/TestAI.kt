@@ -38,7 +38,7 @@ class TestAI {
 
             govModule.capitals.forEach {
                 if(testGame.players[0].titles.filter { title -> title is Count && title.capital == it}.isNotEmpty()){
-                    assert(it.taxes.get(ResourceTypes.SEEDS_NAME)!! > 0.2)
+                    assert(it.taxes.get(ResourceTypes.SEEDS_NAME)!! > 0.0)
                 }
             }
         }.doit()
