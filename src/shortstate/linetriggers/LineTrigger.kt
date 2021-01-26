@@ -52,4 +52,8 @@ class LineTrigger {
     fun saveString(): Map<String, Any>{
         return mapOf("type" to id, "data" to data)
     }
+
+    override fun toString(): String {
+        return id
+    }
 }

@@ -109,8 +109,8 @@ fun tutorialSpecialScripts(): Collection<SpecialScript>{
     }
 
     return listOf(
-        addCharacter(2, makeFishMonger),
-        giveShipToCharacter(2, "Laerten", "Port Fog", "Fishing Ship"),
+        //addCharacter(2, makeFishMonger),
+        //giveShipToCharacter(2, "Laerten", "Port Fog", "Fishing Ship"),
         moveCharacter(2, "Mayren", 3),
         FailIf(
             2,

@@ -60,12 +60,13 @@ class ConversationComponentFactory {
     private fun linePane(perspective: ShortStateCharacter, pane: MyAnchorPane, line: Line?, symbolic: Boolean, left: Boolean): MyAnchorPane {
         var lineNode: Node? = null
         var game = UIGlobals.activeShortGame()
+        var scene = game.shortGameScene!!
         if(symbolic){
             lineNode = GridPane()
 
             val textBlocks = if(line != null){
                 line.symbolicForm( game, conversation.otherParticipant(conversation.lastSpeaker), conversation.lastSpeaker)
-            } else if(left){
+            } else if(left && !scene.terminated){
                 conversation.lineOptions(perspective).map { line -> LineBlock(line.tooltipName(), line.tooltipDescription(), {focusOnLine(line); UIGlobals.refresh()}) }
             } else {
                 listOf()

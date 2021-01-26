@@ -17,6 +17,6 @@ class FarewellAdvocate: ConversationAdvocate {
     }
 
     override fun line(game: Game, target: ShortStateCharacter): Line {
-        return AbandonConversation()
+        return Farewell()
     }
 }

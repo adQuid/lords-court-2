@@ -31,7 +31,7 @@ class LawsView: Displayable {
         val pane = GridPane()
 
         val taxesPane = GridPane()
-        taxesPane.add(UtilityComponentFactory.shortProportionalLabel("Income Tax (Flour): "+capital.taxes[ResourceTypes.FLOUR_NAME], 2.0), 0, 0)
+        taxesPane.add(UtilityComponentFactory.shortProportionalLabel("Harvest Tax: "+capital.taxes[ResourceTypes.SEEDS_NAME], 2.0), 0, 0)
         taxesPane.add(UtilityComponentFactory.proportionalButton("Change", EventHandler { makeWritFromAction(perspective!!) },0.25),1,0)
         pane.add(taxesPane,0,0)
 
@@ -48,7 +48,7 @@ class LawsView: Displayable {
     }
 
     private fun makeWritFromAction(perspective: ShortStateCharacter){
-        val newAction = SetTaxRate(terId, GovernmentLogicModule.capitalById(UIGlobals.activeGame(), terId).taxes[ResourceTypes.FLOUR_NAME]!!)
+        val newAction = SetTaxRate(terId, GovernmentLogicModule.capitalById(UIGlobals.activeGame(), terId).taxes[ResourceTypes.SEEDS_NAME]!!)
         val newDeal = UnfinishedDeal(mapOf(perspective.player to setOf(newAction)))
 
         UIGlobals.focusOn(WritConstructor(newDeal))

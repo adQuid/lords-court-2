@@ -18,6 +18,8 @@ import gamelogic.petitioners.PetitionersLogicModule
 import gamelogic.resources.ResourceTypes
 import gamelogic.territory.mapobjects.Structure
 import gamelogic.territory.mapobjects.StructureType
+import scenario.tutorial.KairethAdvice.initialKairethAdvice
+import scenario.tutorial.KairethAdvice.initialKairethAdvicePreTitle
 
 object TutorialGameSetup {
 
@@ -65,6 +67,8 @@ object TutorialGameSetup {
         PC.specialLines.add(talkToDadTrigger1())
         PC.specialLines.add(talkToDadTrigger2())
         PC.specialLines.add(talkToDadTrigger3())
+        PC.specialLines.add(initialKairethAdvice())
+        PC.specialLines.add(initialKairethAdvicePreTitle())
         game.addPlayer(PC)
 
         val advisor = GameCharacter("Kaireth", "assets/portraits/Kaireth.png", true, pcCapital.location, game)

@@ -24,7 +24,7 @@ class Capital {
         this.territory = territory
         terId = territory.id
         location = Location(territory.x, territory.y)
-        taxes = mutableMapOf(ResourceTypes.FLOUR_NAME to 0.1)
+        taxes = mutableMapOf(ResourceTypes.SEEDS_NAME to 0.1)
         laws = mutableSetOf()
     }
 

@@ -11,6 +11,8 @@ import gamelogic.playerresources.GiveResource
 import gamelogic.playerresources.PlayerResourceTypes
 import gamelogic.resources.ResourceTypes
 import gamelogic.territory.TerritoryLogicModule
+import scenario.tutorial.KairethAdvice.initialKairethAdvice
+import scenario.tutorial.KairethAdvice.initialKairethAdvicePreTitle
 import scenario.tutorial.TutorialGameSetup.TUTORIAL_PLAYER_NAME
 import shortstate.ShortStateCharacter
 import shortstate.ShortStateGame
@@ -194,7 +196,7 @@ fun talkToDadTrigger3(): LineTrigger {
     "talktodad3",
     and(
         neverBeenCalled,
-        otherTriggerCalledByPlayer(talkToDadTrigger2()),
+        otherTriggerCalledByPlayer(talkToDadTrigger2().id),
         safeForNewTopic,
         talkingToSpecific("Mayren")
     ), replyWithTreeLine(
@@ -218,10 +220,11 @@ fun talkToDadTrigger3(): LineTrigger {
 fun talkToDadTrigger4(): LineTrigger {
     return LineTrigger(
     "talktodad4",
-    and(notStartingConvo, neverBeenCalled, safeForNewTopic, otherTriggerCalledByPlayer(talkToDadTrigger3())),
+    and(notStartingConvo, neverBeenCalled, safeForNewTopic, otherTriggerCalledByPlayer(talkToDadTrigger3().id)),
     grantStartingCounty()
-)
+    )
 }
+
 fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Line?, me: ShortStateCharacter, other: ShortStateCharacter?) -> Line {
     return {data, game, line, me, other ->
 
@@ -241,8 +244,8 @@ fun grantStartingCounty(): (data: MutableMap<String, Any>, game: Game, line: Lin
 fun adviseToTalkToDad(): LineTrigger {
     return LineTrigger(
     "talktodad",
-    and(neverBeenCalled, belowEnergy(800), otherTriggerNotCalledByPlayer(talkToDadTrigger1()), otherTriggerNotCalledByPlayer(
-        talkToDadTrigger2()
+    and(neverBeenCalled, belowEnergy(800), otherTriggerNotCalledByPlayer(talkToDadTrigger1().id), otherTriggerNotCalledByPlayer(
+        talkToDadTrigger2().id
     )),
     replyWithSimpleLine("Your father is back in town, and you don't know for how long. You should spend more time with him.")
 )
@@ -258,5 +261,7 @@ val TRIGGER_MAP = listOf(
     talkToDadTrigger1(),
     talkToDadTrigger2(),
     talkToDadTrigger3(),
-    talkToDadTrigger4()
+    talkToDadTrigger4(),
+    initialKairethAdvice(),
+    initialKairethAdvicePreTitle()
 ).map { it.id to it }.toMap().toMutableMap()
