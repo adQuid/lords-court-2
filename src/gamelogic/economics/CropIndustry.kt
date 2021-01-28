@@ -115,7 +115,7 @@ object CropIndustry: Industry {
                 territory.resources.addAll(resToAdd)
                 millLaborLeft -= laborToUse
 
-                if(toMill > 0){
+                if(toMill > 0 && laborToUse > 0){
                     structureToUse = economicsLogic.bestConversion(territory, listOf(LABOR_NAME), ResourceTypes.FLOUR_NAME)
                 } else {
                     structureToUse = null

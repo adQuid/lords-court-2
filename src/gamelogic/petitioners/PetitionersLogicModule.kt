@@ -54,18 +54,20 @@ class PetitionersLogicModule: GameLogicModule {
         val capitalLogic = game.moduleOfType(GovernmentLogicModule.type) as GovernmentLogicModule
 
         capitalLogic.capitals.forEach { capital ->
-            if(!petitionersByCapital.containsKey(capital.terId)){
-                petitionersByCapital[capital.terId] = mutableSetOf()
-            }
+            if(capitalLogic.countOfCaptial(capital.terId) != null){
+                if(!petitionersByCapital.containsKey(capital.terId)){
+                    petitionersByCapital[capital.terId] = mutableSetOf()
+                }
 
-            //move old petitioners away from the courts
-            petitionersByCapital[capital.terId]!!.forEach { it.location = bench }
+                //move old petitioners away from the courts
+                petitionersByCapital[capital.terId]!!.forEach { it.location = bench }
 
-            //add new petitioners
-            if(game.isLive && petitionersByCapital[capital.terId]!!.filter { it.location == capital.location }.isEmpty()){
-                val toAdd = CommonPetitionersLibrary.buildMill(capital, game)
-                petitionersByCapital[capital.terId]!!.add(toAdd)
-                game.addPlayer(toAdd)
+                //add new petitioners
+                if(game.isLive && petitionersByCapital[capital.terId]!!.filter { it.location == capital.location }.isEmpty()){
+                    val toAdd = CommonPetitionersLibrary.buildMill(capital, game)
+                    petitionersByCapital[capital.terId]!!.add(toAdd)
+                    game.addPlayer(toAdd)
+                }
             }
         }
     }

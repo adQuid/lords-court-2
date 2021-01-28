@@ -56,13 +56,6 @@ class EconomicsLogicModule: GameLogicModule {
             }
         }
 
-        /*val laborByTerritory = territoryLogic.territories().associate { ter -> ter to ter.resources[ResourceTypes.POPULATION_NAME]!! }.toMutableMap()
-        laborByTerritory.forEach {territory ->
-            industries.forEach {
-                industry -> laborByTerritory[territory.key] = industry.run(territory.key, game, territory.value)
-            }
-        }*/
-
         territoryLogic.territories().forEach {ter ->
             var laborAvailable = ter.resources[ResourceTypes.POPULATION_NAME]!!
             industries.forEach {industry ->
